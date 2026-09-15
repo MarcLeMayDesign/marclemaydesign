@@ -1,0 +1,126 @@
+/* marclemaydesign.com — shared site styles
+   Edit this file to change the look of every page at once.
+   The module has its own stylesheet in /module/css/. */
+
+:root{
+  --paper:#f0eee9;
+  --ink:#1a1a1a;
+  --ink-soft:#4a463f;
+  --ink-faint:#6b665e;
+  --rule:#d8d4cd;
+  --link:#3f7ea8;
+  --link-hover:#2c5c7c;
+  --tint:#eaf1f6;
+  --measure:34rem;
+}
+
+*{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font:400 1.0625rem/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;
+  text-wrap:pretty;
+}
+
+a{color:var(--link)}
+a:hover{color:var(--link-hover)}
+
+.wrap{
+  max-width:64rem;
+  margin:0 auto;
+  padding:2rem 1.5rem 4rem;
+}
+
+/* ---- header / nav ---- */
+
+.site-head{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem 2rem;
+  justify-content:space-between;
+  align-items:baseline;
+  padding-bottom:0.75rem;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:2.5rem;
+}
+
+.site-name{
+  font:700 1.0625rem/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;
+  letter-spacing:-0.01em;
+  text-decoration:none;
+  color:var(--ink);
+}
+
+.site-nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1.25rem;
+  font-size:0.9375rem;
+}
+
+.site-nav a{text-decoration:none}
+.site-nav a:hover{text-decoration:underline}
+.site-nav a[aria-current="page"]{color:var(--ink);font-weight:500}
+
+/* ---- type ---- */
+
+h1{
+  font:700 2.25rem/1.08 'Helvetica Neue',Helvetica,Arial,sans-serif;
+  letter-spacing:-0.02em;
+  margin:0 0 0.75rem;
+}
+
+h2{
+  font:700 1.25rem/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;
+  margin:2.5rem 0 0.5rem;
+}
+
+p{max-width:var(--measure);margin:0 0 1rem}
+
+.lede{
+  font-size:1.25rem;
+  line-height:1.45;
+  color:var(--ink-soft);
+  max-width:38rem;
+}
+
+.eyebrow{
+  font:500 0.8125rem/1 ui-monospace,'SFMono-Regular',Menlo,monospace;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  margin-bottom:0.75rem;
+}
+
+/* ---- placeholder marker: delete these rules once every page is real ---- */
+
+.stub{
+  border:1.5px dashed #b8b4ad;
+  border-radius:0.5rem;
+  padding:1rem 1.125rem;
+  max-width:var(--measure);
+  margin-top:2rem;
+  font-size:0.9375rem;
+  color:var(--ink-soft);
+  background:#f6f4f0;
+}
+
+.stub strong{color:var(--ink)}
+
+/* ---- footer ---- */
+
+.site-foot{
+  margin-top:4rem;
+  padding-top:0.75rem;
+  border-top:1px solid var(--rule);
+  font-size:0.875rem;
+  color:var(--ink-faint);
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.5rem 1.5rem;
+  justify-content:space-between;
+}

@@ -1,0 +1,58 @@
+marclemaydesign — repo scaffold
+================================
+
+This is the folder structure from Build Plan v4 §2.7, with a working
+placeholder page at every address. Setting it up now means no file ever has
+to move later — moving files breaks every link into them.
+
+
+WHAT TO DO
+----------
+
+1. Unzip this.
+
+2. Open the "site-scaffold" folder. Select EVERYTHING inside it
+   (not the folder itself — its contents).
+
+3. Drag it all into your marclemaydesign folder — the one GitHub Desktop
+   made, the one with the README in it.
+
+4. It will ask about replacing index.html. Say yes. Your "Hello" page has
+   done its job.
+
+5. Open GitHub Desktop. You'll see about a dozen files listed down the left.
+   Click a few and read the right-hand side, just to build the habit.
+
+6. Summary box, bottom left: "Repo structure"
+   Click "Commit to main", then "Push origin".
+
+7. Wait a minute, then open your .pages.dev link. You should see a real-looking
+   home page. Click Work / About / Contact in the nav — all three should work.
+   Then add /case-study/ to the end of the URL; that should work too.
+
+That's the structure done.
+
+
+ONE THING TO CHECK
+------------------
+
+The file called ".gitignore" starts with a dot, which means the Mac hides it.
+Press Shift-Command-Period in Finder to show hidden files and confirm it
+came across. If it didn't, it's not urgent — it only stops Mac clutter files
+being committed. Tell me and I'll send it another way.
+
+
+WHAT THESE PAGES ARE
+--------------------
+
+Deliberately plain, and they say so on the page. They exist so that:
+
+  - every URL in the plan already works and never needs to change
+  - you get four or five harmless commits of practice before it matters
+  - a broken link on launch day is impossible, because there are none
+
+Each page carries a dashed "Placeholder" box naming what replaces it and when.
+As each real page lands, that box goes.
+
+/css/site.css is the one stylesheet the whole site shares. It's commented and
+you can read it. Changing --paper or --link at the top changes every page.
