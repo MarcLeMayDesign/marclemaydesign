@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functional spec — scored components — Conscious Discipline at Home</title>
+<link rel="stylesheet" href="../../css/site.css">
+<link rel="stylesheet" href="../../css/case-study.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+body{margin:0;background:#f0eee9;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+a{color:#3f7ea8}a:hover{color:#2c5c7c}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <a class="site-name" href="../../">Marc LeMay</a>
+    <nav class="site-nav">
+      <a href="../../" aria-current="page">Work</a>
+      <a href="../../about/">About</a>
+      <a href="../../contact/">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <a class="doc-back" href="../">← Conscious Discipline at Home</a>
+    <p class="eyebrow">Working document</p>
+    <h1>Functional spec — scored components</h1>
+    <hr class="rule">
+    <p class="doc-note"><strong>What this was for:</strong> specifying how a written answer gets scored — matcher criteria, feedback branches, and what happens when scoring fails. It produced the composure cap on the case study: the rule that grays the other three criteria rather than ticking them. Written before the no-percentages decision, so where it sets an 80% pass bar or a numeric composure cap, that is the state it replaced — bands are what shipped.</p>
+
+    <div class="doc-body">
+<doc-page margin="0.85in">
+
+<div slot="header" style="display:flex;justify-content:space-between;align-items:baseline;font:400 12pt 'IBM Plex Mono',monospace;color:#5c574f;padding-bottom:6px;border-bottom:1px solid #d8d4cd">
+  <span>Conscious Discipline at Home · Functional Spec</span>
+  <span>AI-scored components · v1 · Sept 2026</span>
+</div>
+
+<div style="max-width:6.9in;margin:0 auto;color:#1a1a1a">
+
+<div style="font:500 12pt 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#6b665e">FUNCTIONAL SPECIFICATION</div>
+<h1 style="font:700 30pt/1.05 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:10px 0 0">AI-scored components</h1>
+<div style="font:400 14pt/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:12px">Conscious Discipline at Home — a module for parents and caregivers of kindergarten students. This document defines the behavior of every component where an AI reads, responds to, or scores what a parent writes.</div>
+
+<div style="border:1.5px solid #1a1a1a;border-radius:9px;padding:16px 18px;margin-top:22px">
+  <div style="font:500 12pt 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6b665e">HOW TO USE THIS</div>
+  <div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:8px">Wireframes say where things go. This says what they must do. Every requirement is numbered so it can be cited in a bug report or a build ticket. Prompt text in monospace blocks is meant to be pasted and tested, not paraphrased. Where a requirement says <strong>must not</strong>, treat it as a release blocker.</div>
+  <div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:9px;color:#4a463f">Companion documents: <em>Conscious Discipline Flow</em> (screen flow, screen ids referenced throughout) and <em>Next Steps</em> (project roadmap).</div>
+</div>
+
+<h2 style="font:700 17pt/1.15 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:34px 0 4px;padding-top:14px;border-top:2px solid #1a1a1a">1 · Decisions register</h2>
+<div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#6b665e;margin-bottom:14px">Settled. Changing any of these changes the spec below it.</div>
+
+<div style="display:grid;grid-template-columns:1.5fr 2.5fr;gap:1px;background:#d8d4cd;border:1px solid #d8d4cd;border-radius:8px;overflow:hidden;font-size:12pt">
+  <div style="background:#eaf1f6;padding:9px 12px;font:600 12pt 'IBM Plex Mono',monospace;color:#1a1a1a">DECISION</div>
+  <div style="background:#eaf1f6;padding:9px 12px;font:600 12pt 'IBM Plex Mono',monospace;color:#1a1a1a">RESOLUTION</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Quiz rubric</div>
+  <div style="background:#fff;padding:10px 12px">Right concept · would work with a 5-year-old · understands the why</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Role-play rubric</div>
+  <div style="background:#fff;padding:10px 12px">Composure · positive intent · assertiveness · connection before correction</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Weighting</div>
+  <div style="background:#fff;padding:10px 12px">2.5 each; a composure failure caps the scenario at 7.0</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Pass bar</div>
+  <div style="background:#fff;padding:10px 12px">80% on the quiz (64/80) and 80% across the three-scenario set (24/30)</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Retakes</div>
+  <div style="background:#fff;padding:10px 12px">Unlimited, fresh items drawn from a 40-item human-written bank</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Test-out</div>
+  <div style="background:#fff;padding:10px 12px">Free, unrecorded, routes to a reading list (4b). Draws from the same bank</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">AI child difficulty</div>
+  <div style="background:#fff;padding:10px 12px">Pushes back once, then responds to a competent parent move</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Data at rest</div>
+  <div style="background:#fff;padding:10px 12px">On the parent's device only. Server holds nothing readable</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Data in transit</div>
+  <div style="background:#fff;padding:10px 12px">Sent to the model for scoring, zero logging, no abuse monitoring</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Human review</div>
+  <div style="background:#fff;padding:10px 12px">None. Teacher sees completion status only, never content</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">AI disclosure</div>
+  <div style="background:#fff;padding:10px 12px">Named on the title screen (3a), before anything is typed</div>
+</div>
+
+<h2 style="font:700 17pt/1.15 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:34px 0 4px;padding-top:14px;border-top:2px solid #1a1a1a">2 · Short-answer quiz scoring</h2>
+<div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#6b665e;margin-bottom:16px">Screens 2d (question), 2e (feedback), 2f (results), 4b (test-out routing). Assesses LO 1.</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0 0 8px">2.1 The rubric</h3>
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:12px">Each answer scores out of 10, in half-points, across three equally weighted dimensions of 3.33 each, rounded to the nearest half.</div>
+
+<div style="display:flex;flex-direction:column;gap:9px;margin-bottom:16px">
+  <div style="border:1.5px solid #1a1a1a;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">A · Right concept</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:4px">Identifies the Conscious Discipline principle the situation calls for. Naming it in CD vocabulary is a bonus, not a requirement — a parent who describes composure correctly without using the word "composure" scores full marks here.</div>
+  </div>
+  <div style="border:1.5px solid #1a1a1a;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">B · Would work with a five-year-old</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:4px">Concrete and age-appropriate. Something a parent could say or do tonight. Abstract restatements of theory score low here even when the concept is right.</div>
+  </div>
+  <div style="border:1.5px solid #1a1a1a;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">C · Understands the why</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:4px">Shows awareness of what the move does — for the child's state, the parent's state, or the relationship. Distinguishes a parent following a script from one who could adapt it.</div>
+  </div>
+</div>
+
+<div style="border:1.5px dashed #b8b4ad;border-radius:8px;padding:13px 15px;margin-bottom:18px">
+  <div style="font:500 12pt 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6b665e">NOT SCORED</div>
+  <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:6px">Spelling, grammar, punctuation, length, formality, or whether the parent's household resembles the examples used in the content. <strong>The scorer must not</strong> reward longer answers; a precise two-sentence answer can score 10.</div>
+</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:22px 0 8px">2.2 Scoring prompt</h3>
+<div style="border:1.5px solid #1a1a1a;border-radius:8px;background:#faf9f7;padding:15px 16px;font:400 12pt/1.5 'IBM Plex Mono',monospace;white-space:pre-wrap;color:#1a1a1a">You are scoring one short answer from a
+parent taking a course on Conscious
+Discipline. Their child is in kindergarten.
+
+QUESTION: [[item.prompt]]
+IDEAL ANSWER (never shown to the parent):
+  [[item.model_answer]]
+CONCEPT UNDER TEST: [[item.concept]]
+PARENT'S ANSWER: [[learner_response]]
+
+Score three dimensions, each 0-3.33:
+
+A. Right concept — identifies the principle
+   this situation calls for. Correct substance
+   in the parent's own words scores full
+   marks; CD terminology is not required.
+B. Would work with a five-year-old —
+   concrete, age-appropriate, doable tonight.
+   Abstract theory restated scores low even
+   when it is correct.
+C. Understands the why — shows awareness of
+   what the move does to the child's state,
+   the parent's state, or the relationship.
+
+Do NOT consider spelling, grammar, length,
+or writing quality.
+Do NOT reward CD jargon over a plain
+description of the same idea.
+Do NOT penalise a household that looks
+different from the examples.
+
+Sum the three, round to nearest 0.5, 0-10.
+
+Then write feedback of 25-45 words, addressed
+to the parent as "you":
+- Name one specific thing their answer got
+  right, quoting or closely paraphrasing
+  their own words.
+- If below 8, name the single most useful
+  thing to add. One thing only.
+- Never say "great job", "nice work", or
+  similar. No exclamation marks.
+- Never imply anything about them as a
+  parent — only about this answer.
+
+Return JSON:
+{"score": number,
+ "dimensions": {"a": n, "b": n, "c": n},
+ "feedback": string,
+ "concept_missed": string|null}
+
+concept_missed: the section slug this answer
+suggests they should reread, or null if the
+answer scored 8 or above.</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:22px 0 8px">2.3 Worked examples</h3>
+<div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:12px">Item: <em>Your child is screaming because you turned off the tablet. What do you do first, and why?</em> Concept under test: composure.</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+  <div style="border:2px solid #1a1a1a;border-radius:9px;overflow:hidden">
+    <div style="background:#eaf1f6;padding:8px 14px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #1a1a1a">
+      <span style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">Band 9–10</span>
+      <span style="font:500 12pt 'IBM Plex Mono',monospace;color:#4a463f">A 3.3 · B 3.3 · C 3.3</span>
+    </div>
+    <div style="padding:12px 14px">
+      <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;font-style:italic;color:#4a463f">"Breathe first — three slow ones before I say anything. If I'm wound up too, there's nobody in the room who can think. Then I'd get down at his level and tell him he's really upset the tablet went off."</div>
+      <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#6b665e;margin-top:8px;padding-top:8px;border-top:1px dashed #d8d4cd"><strong>Why:</strong> Names composure without the word. Gives a concrete first action. Explains the mechanism — two dysregulated people can't solve anything.</div>
+    </div>
+  </div>
+
+  <div style="border:1.5px solid #1a1a1a;border-radius:9px;overflow:hidden">
+    <div style="background:#f4f2ee;padding:8px 14px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #d8d4cd">
+      <span style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">Band 6–7</span>
+      <span style="font:500 12pt 'IBM Plex Mono',monospace;color:#4a463f">A 3.3 · B 1.5 · C 1.7</span>
+    </div>
+    <div style="padding:12px 14px">
+      <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;font-style:italic;color:#4a463f">"Stay composed and regulate myself before responding to the behavior."</div>
+      <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#6b665e;margin-top:8px;padding-top:8px;border-top:1px dashed #d8d4cd"><strong>Why:</strong> Concept is right and the vocabulary is fluent — which is exactly the trap. Nothing here tells you what the parent would actually do, and nothing shows they know why it matters. Correct terminology must not carry an answer.</div>
+    </div>
+  </div>
+
+  <div style="border:1.5px solid #1a1a1a;border-radius:9px;overflow:hidden">
+    <div style="background:#f4f2ee;padding:8px 14px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #d8d4cd">
+      <span style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">Band 3–4</span>
+      <span style="font:500 12pt 'IBM Plex Mono',monospace;color:#4a463f">A 1.0 · B 2.0 · C 0.5</span>
+    </div>
+    <div style="padding:12px 14px">
+      <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;font-style:italic;color:#4a463f">"Tell him if he doesn't stop screaming he loses the tablet tomorrow as well."</div>
+      <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#6b665e;margin-top:8px;padding-top:8px;border-top:1px dashed #d8d4cd"><strong>Why:</strong> Concrete and doable, so B earns something. But it's consequence-first with no regulation step, and shows no awareness of the child's state. Feedback names the missing step; it does not tell the parent they were wrong to think of it.</div>
+    </div>
+  </div>
+</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:24px 0 8px">2.4 Item bank</h3>
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif">
+<strong>2.4.1</strong> Forty items, human-written, reviewed by a Conscious Discipline-trained SME before release.<br>
+<strong>2.4.2</strong> Every item carries: prompt, model answer, concept under test, and a section slug used for the 4b reading list.<br>
+<strong>2.4.3</strong> Coverage must be even across the three content sections — a minimum of twelve items per section — so any random draw of eight can assess all three.<br>
+<strong>2.4.4</strong> Each attempt draws eight items: three from Core Principles, three from Key Mindset Shifts, two from Philosophy &amp; Rationale.<br>
+<strong>2.4.5</strong> A retake must not repeat an item the parent has already seen until the bank is exhausted.<br>
+<strong>2.4.6</strong> The test-out (Lane B) draws from the same bank under the same rules, and its items are also excluded from the parent's next draw.
+</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:24px 0 8px">2.5 Results and routing</h3>
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif">
+<strong>2.5.1</strong> No running total, average, or per-question score appears while the quiz is in progress. The only progress indicator is "Question n of 8". All eight scores appear together on 2f.<br>
+<strong>2.5.2</strong> Pass is 64 of 80. Below that, 2f lists the sections the missed items map to and offers a retake with fresh items.<br>
+<strong>2.5.3</strong> Retakes are unlimited and unpenalised. The recorded result is the highest attempt.<br>
+<strong>2.5.4</strong> On the test-out path, no result is recorded at all — pass or fail — and 4b presents the same section mapping as a reading list rather than a score report.<br>
+<strong>2.5.5</strong> A parent may revise an answer before submitting the next question; the coach rescores with no penalty.
+</div>
+
+<h2 style="font:700 17pt/1.15 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:34px 0 4px;padding-top:14px;border-top:2px solid #1a1a1a">3 · The AI child</h2>
+<div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#6b665e;margin-bottom:16px">Screen 2g. The simulated child in each role-play. Not a scorer — a scene partner.</div>
+
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:14px">
+<strong>3.1</strong> The child is five years old, in kindergarten, and behaves like one: short sentences, concrete complaints, no insight into their own feelings, no vocabulary for them.<br>
+<strong>3.2</strong> <strong>Difficulty ceiling.</strong> The child pushes back exactly once against a competent parent move, then begins to settle. A second competent move resolves the scene. This is deliberately gentler than real life — see 3.6.<br>
+<strong>3.3</strong> Against an incompetent move — threats, shaming, escalation, or a limit with no connection — the child escalates once, then plateaus. The child must never escalate without limit, and must never be made to suffer for the parent's practice.<br>
+<strong>3.4</strong> The child must not deliver insight, name their own emotional state in adult terms, or thank the parent. A five-year-old does not say "I was feeling dysregulated."<br>
+<strong>3.5</strong> The child must never be scripted to say anything a parent could read as a judgment of them ("you're a bad mummy"). If a parent's input would realistically provoke that, the child withdraws instead.
+</div>
+
+
+
+<div style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;background:#eaf1f6;margin-bottom:16px">
+  <div style="font:500 12pt 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#4a463f">3.6 · THE HONESTY PROBLEM</div>
+  <div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:7px">A child who settles reliably teaches something false: that this always works within four turns. Real children do not. The debrief (2h) must therefore carry one line acknowledging it — that in practice the same move may need repeating across days, and that the parent's consistency is the variable, not the child's compliance. Without that line the module sets parents up to conclude Conscious Discipline failed the first time it doesn't work.</div>
+</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:22px 0 8px">3.7 Child prompt</h3>
+<div style="border:1.5px solid #1a1a1a;border-radius:8px;background:#faf9f7;padding:15px 16px;font:400 12pt/1.5 'IBM Plex Mono',monospace;white-space:pre-wrap;color:#1a1a1a">You are playing a five-year-old child in a
+practice scenario for parents. You are NOT an
+assistant. Never break character to explain,
+teach, or comment on the parent's technique.
+
+SCENARIO: [[scenario.setup]]
+YOUR STATE: [[scenario.child_state]]
+WHAT YOU WANT: [[scenario.child_want]]
+
+How to speak:
+- Five to twelve words per turn. Sometimes
+  just one.
+- Concrete complaints about the immediate
+  situation, never feelings described in
+  adult language.
+- Repetition, whining, bargaining, and going
+  quiet are all in range.
+
+How to respond:
+- If the parent connects before correcting,
+  soften slightly. Do not become agreeable
+  immediately.
+- If the parent gives a clear limit without
+  blame AFTER connecting, begin to comply.
+- If the parent threatens, shames, or
+  escalates, escalate ONCE, then plateau.
+  Never escalate twice.
+- Push back at most once against a good
+  move, then settle.
+
+Never:
+- Say anything that judges the parent.
+- Use words like calm, regulated, feelings,
+  upset-about, because-I.
+- Thank the parent or say what they did right.
+- Resolve in one turn, however good the
+  parent's first move is.</div>
+
+<div style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin-bottom:16px">
+  <div style="font:500 12pt 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#4a463f">3.8 · NARRATION AND CAPTIONS</div>
+  <div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:8px">
+  <strong>Scope.</strong> Narration voices <strong>the child's dialogue only.</strong> The scenario setup card and the coach panel stay text and are never read aloud. Voicing them would put identical words in the ear and on the screen at once — Mayer's redundancy effect — and the coach panel is referred back to while the parent composes, which reading aloud does not support.<br>
+  <strong>Defaults.</strong> Narration on, captions off. Modality favours hearing the child rather than reading them while watching the animation; captions off avoids doubling the same channel.<br>
+  <strong>Both are user-controlled, and accessibility outranks the redundancy penalty.</strong> Captions on with narration on is a fully supported state, not a degraded one — a deaf or hard-of-hearing parent needs it, and a parent working next to a sleeping child needs narration off entirely. Neither combination is discouraged in the interface.<br>
+  <strong>Persistence.</strong> Both settings are set once and hold — across all three scenarios and across sessions, carried in the same local store as depth-expander state. A parent must never re-enable captions at the top of scenario 2.<br>
+  <strong>Content requirement.</strong> Every line of child dialogue needs a caption string authored alongside it. Captions are not generated from audio at runtime; the text is the source and the voice is rendered from it.
+  </div>
+</div>
+
+<h2 style="font:700 17pt/1.15 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:34px 0 4px;padding-top:14px;border-top:2px solid #1a1a1a">4 · The coach and role-play scoring</h2>
+<div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#6b665e;margin-bottom:16px">Screens 2g (in-scene coaching), 2h (debrief and score), 4f (carry-forward line). Assesses LO 2 and LO 3.</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0 0 8px">4.1 Dimensions</h3>
+<div style="display:grid;grid-template-columns:1.4fr 2.4fr 0.7fr;gap:1px;background:#d8d4cd;border:1px solid #d8d4cd;border-radius:8px;overflow:hidden;font-size:12pt;margin-bottom:14px">
+  <div style="background:#eaf1f6;padding:9px 12px;font:600 12pt 'IBM Plex Mono',monospace">DIMENSION</div>
+  <div style="background:#eaf1f6;padding:9px 12px;font:600 12pt 'IBM Plex Mono',monospace">WHAT EARNS IT</div>
+  <div style="background:#eaf1f6;padding:9px 12px;font:600 12pt 'IBM Plex Mono',monospace">MAX</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Composure</div>
+  <div style="background:#fff;padding:10px 12px">Parent regulates themselves before acting on the child</div>
+  <div style="background:#fff;padding:10px 12px;font-family:'IBM Plex Mono',monospace">2.5</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Positive intent</div>
+  <div style="background:#fff;padding:10px 12px">Treats the behavior as a skill gap, not defiance or malice</div>
+  <div style="background:#fff;padding:10px 12px;font-family:'IBM Plex Mono',monospace">2.5</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Assertiveness</div>
+  <div style="background:#fff;padding:10px 12px">States a clear limit without blaming, pleading, or negotiating</div>
+  <div style="background:#fff;padding:10px 12px;font-family:'IBM Plex Mono',monospace">2.5</div>
+
+  <div style="background:#fff;padding:10px 12px;font-weight:700">Connection first</div>
+  <div style="background:#fff;padding:10px 12px">Order of operations — reaches the child before correcting them</div>
+  <div style="background:#fff;padding:10px 12px;font-family:'IBM Plex Mono',monospace">2.5</div>
+</div>
+
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:14px">
+<strong>4.1.1</strong> Half-points throughout. A scenario scores 0–10.<br>
+<strong>4.1.2</strong> <strong>Composure cap.</strong> Composure below 1.0 caps the whole scenario at 7.0 regardless of the other three. Composure is a precondition, not a component — the other moves do not work without it.<br>
+<strong>4.1.3</strong> The set of three scenarios passes at 24 of 30 (80%).<br>
+<strong>4.1.4</strong> A single weak scenario cannot fail the set on its own; two capped scenarios can. This is intended.
+</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:22px 0 8px">4.2 In-scene coaching (2g)</h3>
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:14px">
+<strong>4.2.1</strong> <strong>No numbers appear on screen during a scene.</strong> No per-turn points, no running total, no rubric fractions. Scoring happens silently and surfaces only in the debrief.<br>
+<strong>4.2.2</strong> The coach may name dimensions qualitatively — a chip reading "composure · keep working" is permitted; "composure 1.5/4" is not.<br>
+<strong>4.2.3</strong> Coach turns are 20–40 words, at most one per parent turn, and always name a specific move the parent made rather than a quality they possess.<br>
+<strong>4.2.4</strong> The coach must not tell the parent what to type next verbatim. It may point at what's missing ("he's out of fuel — name that first").<br>
+<strong>4.2.5</strong> Opening the reference drawer (4d) mid-scene is never penalised and is never mentioned by the coach.
+</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:22px 0 8px">4.3 Coach prompt</h3>
+<div style="border:1.5px solid #1a1a1a;border-radius:8px;background:#faf9f7;padding:15px 16px;font:400 12pt/1.5 'IBM Plex Mono',monospace;white-space:pre-wrap;color:#1a1a1a">You are a Conscious Discipline coach watching
+a parent practice with a simulated five-year-
+old. You speak to the parent, not the child.
+
+SCENARIO: [[scenario.setup]]
+TRANSCRIPT SO FAR: [[transcript]]
+PARENT'S LATEST TURN: [[parent_turn]]
+
+Score this turn silently on four dimensions,
+0-2.5 each: composure, positive_intent,
+assertiveness, connection_first.
+These scores are NOT shown to the parent now.
+Return them in the JSON for accumulation only.
+
+Then write ONE coaching message, 20-40 words:
+- Name a specific move the parent just made.
+  Quote their words if useful.
+- If something important is missing, name
+  that one thing.
+- Speak about the move, never about the
+  parent as a person.
+- No numbers, scores, fractions, percentages.
+- No "great job", "well done", "nice",
+  exclamation marks, or emoji.
+
+Return JSON:
+{"scores": {"composure": n,
+            "positive_intent": n,
+            "assertiveness": n,
+            "connection_first": n},
+ "coach_message": string,
+ "scene_should_end": boolean}
+
+Set scene_should_end true once the child has
+settled and the parent has stated a limit, or
+after 8 parent turns, whichever comes first.</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:22px 0 8px">4.4 The debrief (2h)</h3>
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:14px">
+<strong>4.4.1</strong> Shows the scenario score out of 10 and the four dimension scores. This is the first time the parent sees a number for this scene.<br>
+<strong>4.4.2</strong> If the composure cap applied, the debrief must say so explicitly and say why — not silently show a 7.<br>
+<strong>4.4.3</strong> Carries the honesty line from 3.6.<br>
+<strong>4.4.4</strong> Ends with the parent's own written improvement plan — free text, <strong>never scored</strong>, saved to the takeaways sheet. This is the LO 3 evidence and its value depends on it being unassessed.<br>
+<strong>4.4.5</strong> The plan prompt must ask for one specific thing to do differently, not a reflection on how the scenario felt.
+</div>
+
+<h3 style="font:700 13pt 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:22px 0 8px">4.5 The carry-forward line (4f)</h3>
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:12px">One sentence on the between-scenarios screen, naming what the parent did well in the scene they just finished. It is the only place a specific strength is named rather than scored.</div>
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:14px">
+<strong>4.5.1</strong> 12–20 words, second person, one sentence.<br>
+<strong>4.5.2</strong> Names a <em>move</em>, not a trait. "You named the feeling before the limit" — never "you're a patient parent".<br>
+<strong>4.5.3</strong> Must reference something the parent actually typed. If the coach cannot point to a specific turn, it does not generalise.<br>
+<strong>4.5.4</strong> <strong>Low scores still get one.</strong> Below the bar, the line names a real move and adds the next thing: "You stayed calm when he escalated — the limit is the next thing to work on."<br>
+<strong>4.5.5</strong> If nothing genuine exists, the line is omitted entirely and only the score shows. A false compliment costs more than a blank.<br>
+<strong>4.5.6</strong> A strength may repeat across scenarios if the parent genuinely repeated it — consistency is worth naming twice.<br>
+<strong>4.5.7</strong> Banned: "great job", "nice work", "well done", exclamation marks, emoji, and any sentence that would read identically after a different answer.
+</div>
+
+<h2 style="font:700 17pt/1.15 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:34px 0 4px;padding-top:14px;border-top:2px solid #1a1a1a">5 · Safety responses</h2>
+<div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#6b665e;margin-bottom:14px">Five situations. In all five the AI stops improvising and a scripted, human-written response takes over. <strong>No situation notifies a human</strong> — see section 6.</div>
+
+<div style="border:2px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin-bottom:16px">
+  <div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif"><strong>5.0 Detection is a classifier, not the scoring model.</strong> Every parent input is checked before it reaches the child or coach prompt. A trigger halts the scene, replaces the panel with the scripted response, and offers a way back. The scene is never scored on a triggered turn.</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+  <div style="border:1.5px solid #1a1a1a;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">5.1 Parent describes hitting or physical punishment</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:5px">Scripted response acknowledges without judgment, states plainly that Conscious Discipline offers a different route, and links the composure content. No score, no flag, no lecture. The parent can continue the scene.</div>
+  </div>
+  <div style="border:1.5px solid #1a1a1a;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">5.2 Disclosure suggesting harm to the child</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:5px">Scene halts. Scripted panel with local and national support resources, written by a school counselor, plus a plain statement that the module cannot help with this and nobody has been told. Practice can resume or the parent can exit with progress saved.</div>
+  </div>
+  <div style="border:1.5px solid #1a1a1a;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">5.3 Abusive input toward the AI child</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:5px">The child does not respond in character. A brief scripted line notes that the scene has stopped and offers a restart. Treated as a boundary, not a moral failure; no record is kept.</div>
+  </div>
+  <div style="border:1.5px solid #1a1a1a;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">5.4 Out-of-scope advice request</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:5px">Diagnosis, medication, custody, school placement, developmental concerns. The coach says plainly that it can't help with that, names who can (teacher, pediatrician, school counselor), and returns to the scene. It must not attempt a partial answer.</div>
+  </div>
+  <div style="border:1.5px solid #1a1a1a;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">5.5 Parent in crisis</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:5px">Same handling as 5.2, with adult-facing resources. The module exits practice mode rather than coaching through it.</div>
+  </div>
+</div>
+
+<div style="border:1.5px dashed #b8b4ad;border-radius:8px;padding:13px 15px;margin-bottom:8px">
+  <div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif"><strong>5.6</strong> All five scripts are written by a human — a school counselor for 5.2 and 5.5 — reviewed before release, and stored as fixed strings. <strong>The model must not generate safety copy at runtime.</strong></div>
+</div>
+
+<h2 style="font:700 17pt/1.15 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:34px 0 4px;padding-top:14px;border-top:2px solid #1a1a1a">6 · Privacy, consent and data</h2>
+<div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#6b665e;margin-bottom:14px">The parent is typing about their child's worst moments into software their school sent them. Everything here follows from that.</div>
+
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:14px">
+<strong>6.1</strong> Answers, transcripts and plans are stored on the parent's own device. The server holds no readable copy.<br>
+<strong>6.2</strong> Text is transmitted to the model to be scored — it cannot be scored otherwise. The vendor contract must specify zero retention and no training use. <strong>Nothing is logged, including for abuse monitoring.</strong><br>
+<strong>6.3</strong> No human ever reads what a parent writes. Not the teacher, not the district, not the vendor, not us.<br>
+<strong>6.4</strong> The teacher's view shows completion status only — started, completed, not started. No scores, no attempt counts, no content.<br>
+<strong>6.5</strong> <strong>Resume code.</strong> Device data may be synced encrypted, with a code the parent holds as the only key. The server cannot decrypt it. Losing the code means losing the data, permanently.<br>
+<strong>6.6</strong> The code may optionally be emailed at issue. The address is used for that one send and discarded — never stored, never used for reminders. Skipping email is a first-class option, not a nag.<br>
+<strong>6.7</strong> AI involvement is named on the title screen (3a), before the parent types anything.<br>
+<strong>6.8</strong> Nothing in this module is a mandated-reporting channel, and the consent screen says so in those words.
+</div>
+
+<div style="border:2px solid #1a1a1a;border-radius:9px;padding:16px 18px;background:#eaf1f6">
+  <div style="font:500 12pt 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#4a463f">6.9 · CONSENT SCREEN — DRAFT COPY FOR LEGAL REVIEW</div>
+  <div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:10px">
+    <strong>What happens to what you write here.</strong><br><br>
+    This module uses AI in two places: to score your written answers, and to play the child in the practice scenarios. Your words are sent to that AI to be read, and are not stored or kept by it afterwards.<br><br>
+    Everything you write stays on this device. Your school does not see your answers, your scores, or your plans — only whether you finished. No one at the school or the district reads any of this, including if you write something difficult.<br><br>
+    This is not a way to report a concern. If something at home needs help, the resources on the support page will point you somewhere real.
+  </div>
+  <div style="font:400 12pt/1.5 'IBM Plex Mono',monospace;color:#6b665e;margin-top:12px;padding-top:10px;border-top:1px dashed #b8b4ad">Draft. Requires district counsel review before release — particularly the final paragraph, which states a position on mandated reporting.</div>
+</div>
+
+<h2 style="font:700 17pt/1.15 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:34px 0 4px;padding-top:14px;border-top:2px solid #1a1a1a">7 · Failure paths</h2>
+
+<div style="font:400 12pt/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:14px">
+<strong>7.1</strong> Quiz failure offers a retake with fresh items and a mapped reading list. Unlimited attempts.<br>
+<strong>7.2</strong> Second consecutive quiz failure surfaces the content again — re-teach where it exists (7.4), the original section where it doesn't. No flag, no message implying concern about the parent.<br>
+<strong>7.3</strong> <strong>Composure dead-end.</strong> A parent whose scenarios keep capping at 7.0 cannot reach 80%. On a failed set, the module shows the composure content again and offers a fresh set of three scenarios. Unlimited. The parent who cannot pass is the parent this module exists for — the loop must never read as a verdict.<br>
+<strong>7.4</strong> <strong>Re-teach authoring is pilot-driven.</strong> Any concept missed by more than 30% of pilot participants gets a second explanation written, in a different mode from the original (worked example where the original was principle-first, and the reverse).<br>
+<strong>7.5</strong> Model unavailable: the parent can continue, answers are held on device, and scoring completes when service returns. Practice must never lose written work to an API failure.<br>
+<strong>7.6</strong> <strong>The <code style="font:500 11pt 'IBM Plex Mono',monospace">R</code> shortcut must not fire while the parent is typing.</strong> The reference drawer opens on a bare <code style="font:500 11pt 'IBM Plex Mono',monospace">R</code> keypress — no modifier, because every mnemonic modifier combination is claimed by the browser (⌘R reload, ⌘D bookmark, ⌘F find, ⌘K address bar). The handler must therefore ignore the key whenever focus is in a text input, textarea, or any contenteditable region — which is most of the module, since the quiz and every role-play turn are typed. Failing this, a parent mid-sentence loses the letter and gets an overlay instead. Also ignore it when any overlay is already open, and when a modifier key is held. The shortcut is never printed on the Reference pill; it is taught once, in the drawer's own footer, to a parent who has already found the drawer another way.
+</div>
+
+<h2 style="font:700 17pt/1.15 'Helvetica Neue',Helvetica,Arial,sans-serif;margin:34px 0 4px;padding-top:14px;border-top:2px solid #1a1a1a">8 · Still open</h2>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+  <div style="border:1.5px dashed #b8b4ad;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">Certificate of completion — stakeholders</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:4px">Nothing here carries credit. If the certificate stays it is a keepsake, and the district should say so deliberately rather than inherit it from a template.</div>
+  </div>
+  <div style="border:1.5px dashed #b8b4ad;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">Consent copy — district counsel</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:4px">6.9 states a position on mandated reporting. It must be confirmed by someone with the authority to state it.</div>
+  </div>
+  <div style="border:1.5px dashed #b8b4ad;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">Vendor selection — zero-retention requirement</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:4px">6.2 is a procurement constraint, not a preference. It narrows the platform shortlist in the Next Steps roadmap and should be applied there before evaluation.</div>
+  </div>
+  <div style="border:1.5px dashed #b8b4ad;border-radius:8px;padding:13px 15px">
+    <div style="font:700 12.5pt 'Helvetica Neue',Helvetica,Arial,sans-serif">Rubric calibration — before pilot</div>
+    <div style="font:400 12pt/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin-top:4px">Twenty sample answers per band, scored by the SME and by the model, compared. Section 2.3 is the format; the set doesn't exist yet. Without it the 80% bar is a guess.</div>
+  </div>
+</div>
+
+<div style="margin-top:30px;padding-top:14px;border-top:1.5px solid #1a1a1a;font:400 12pt/1.5 'IBM Plex Mono',monospace;color:#6b665e">End of specification · Screen ids refer to <em>Conscious Discipline Flow</em></div>
+
+</div>
+</doc-page>
+    </div>
+
+    <h2>The other working documents</h2>
+    <div class="doc-siblings">
+      <div><a href="../decision-record/">Design Decision Record</a></div>
+      <div><a href="../flow-board/">Flow board — 26 screens</a></div>
+      <div><a href="../visual-design/">Visual design board</a></div>
+    </div>
+  </main>
+
+  <footer class="site-foot">
+    <div class="foot-row">
+      <div class="foot-links">
+        <a class="foot-mail" href="mailto:marclemaydesign@gmail.com">marclemaydesign@gmail.com</a>
+        <a class="foot-label foot-in" href="https://www.linkedin.com/in/marc-lemay-3012383b9" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false" style="display:block"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<script src="../../js/doc-page.js"></script>
+</body>
+</html>

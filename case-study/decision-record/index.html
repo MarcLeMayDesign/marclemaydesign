@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Decision Record — Conscious Discipline at Home</title>
+<link rel="stylesheet" href="../../css/site.css">
+<link rel="stylesheet" href="../../css/case-study.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>doc-page:not(:defined){visibility:hidden}h1,h2,h3{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}.d{break-inside:avoid}a{color:#3f7ea8}a:hover{color:#2c5c7c}</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <a class="site-name" href="../../">Marc LeMay</a>
+    <nav class="site-nav">
+      <a href="../../" aria-current="page">Work</a>
+      <a href="../../about/">About</a>
+      <a href="../../contact/">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <a class="doc-back" href="../">← Conscious Discipline at Home</a>
+    <p class="eyebrow">Working document</p>
+    <h1>Design Decision Record</h1>
+    <hr class="rule">
+    <p class="doc-note"><strong>What this is:</strong> the running record of every design call on this module — what was decided, what it was decided against, and why. I kept it because the reasoning is the part that transfers; the screens are only where it landed.</p>
+
+    <div class="doc-body">
+<doc-page margin="0.85in">
+<div slot="footer" style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid #d8d4cd;font:400 9.5px 'IBM Plex Mono',monospace;color:#6b665e"><span>Conscious Discipline at Home — design decision record</span><span>Wireframe stage · September 2026</span></div>
+
+<h1 style="font-size:30px;line-height:1.12;margin:0 0 8px;color:#1a1a1a">Design decision record</h1>
+<p style="font:400 15px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 6px;max-width:6.1in">Conscious Discipline at Home — a self-paced module for parents of kindergarten children. This document records the design calls made during the wireframe stage: what was decided, what it was decided against, and why.</p>
+<p style="font:400 11px/1.6 'IBM Plex Mono',monospace;color:#6b665e;margin:0 0 20px;max-width:6.1in">WIREFLOW STAGE CLOSED SEPTEMBER 10, 2026 · DENSITY PASS SEPTEMBER 11 · VISUAL SYSTEM SETTLED SEPTEMBER 13 · 29 SCREENS · FLOW V3 · NAMING PASS SEPTEMBER 16 · NEXT: APPLY THE SYSTEM TO THE REMAINING 27 SCREENS</p>
+
+<div style="border-left:3px solid #1a1a1a;padding:2px 0 2px 14px;margin:0 0 26px;max-width:6.1in">
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">Decisions below are the designer's. Where an AI collaborator proposed an alternative, argued against a choice, or was overruled, that exchange is recorded in full — including the cases where the designer's first instinct was replaced and the cases where it stood.</p>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 4px;color:#1a1a1a">1 &nbsp;The problem this module has to solve</h2>
+<p style="font:400 13.5px/1.65 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 22px;max-width:6.1in">Parents are asked to reinforce a school's behavioral framework at home without being taught it. The module has 35 minutes, no instructor, and an audience who will most likely open it tired, at night, after a hard day with the child in question. Every decision below is downstream of that last fact.</p>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">2 &nbsp;The central decision — how help is offered</h2>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Help was split by urgency, not by topic</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> phrase help sits inline, directly above the answer field, as a strip the parent can collapse. Everything reference-like — definitions, module info, privacy — sits behind a <strong>?</strong> in the header.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Instead of:</strong> the original single "If You're Stuck" drawer with three tabs, which mixed a thing needed mid-crisis in one tap with things read once and never again.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Why:</strong> the two kinds of help have opposite urgency. Putting them behind one door means a parent mid-scenario walks past a glossary to reach the words they need. Four treatments were built and compared before this was chosen.</p>
+</div>
+
+<div class="d" style="border:1.5px dashed #b8b4ad;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Considered and rejected — one merged "Help" panel</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">This was the designer's opening instinct: combine the two surfaces, rank the contents with an accordion rather than tabs. Built in full before being set aside. Ranking would have solved the clutter, but merging hot and cold help puts a cold panel in a hot path every time it opens.</p>
+</div>
+
+<div class="d" style="border:1.5px dashed #b8b4ad;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Considered and rejected — a permanent help rail</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">The strongest pedagogical argument of the four: a parent who has to remember help exists, and go get it, mostly won't — especially the ones who need it. Permanent phrases would also have asserted that <em>using the words is the skill</em>, not a fallback. Rejected on cost: 268px of every scenario screen, permanently, and it would have required rewriting the scoring rubric to reward adaptation over recall.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">A tap previews; a second action commits</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> tapping a phrase card shows that phrase inside the answer box as a provisional line. The submit button is disabled while a preview is showing. A second action — "Use it", or simply typing — commits it as editable text.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Why:</strong> the designer's requirement was that tapping shouldn't be a commitment — a fidgety tap should be allowed to mean "show me that," not "I choose that." This buys that freedom with the cheapest available gesture, and shows the phrase in the parent's own sentence slot before they own it.</p>
+</div>
+
+<div class="d" style="border:1.5px dashed #b8b4ad;border-radius:9px;padding:14px 16px;margin:0 0 22px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Considered and rejected — drag-and-drop into the answer box</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">Proposed by the designer as the way to make a tap non-committal; argued against and withdrawn. Drag fights touch scrolling and the raised keyboard, is unusable by keyboard and screen reader, and needs a tap fallback anyway — meaning two interactions to build and document. It is still supported as an unadvertised shortcut, but nothing depends on discovering it.</p>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">3 &nbsp;Decisions about tone toward a struggling parent</h2>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Help never opens itself</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> the phrase strip is collapsed on the first scenario and never expands on its own. When the AI coach sees a miss, it offers the phrases <em>in words</em> — "there are three phrasings under Words to try, if you want them."</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Instead of:</strong> auto-expanding the panel on the first wrong answer, which had been the working proposal. A panel that springs open the moment you get something wrong is a correction, and it arrives at the exact moment a struggling parent is least able to hear one. An offer in the coach's voice does the same work without the flinch.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">No standing in the navigation</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> attempt history is one line on the results screen — "your strongest attempt is the one that counts" — and appears nowhere else.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Instead of:</strong> the sidebar, which was the designer's first pick and was reversed after discussion. A standing that lives in the navigation becomes a scoreboard visible on every screen, which quietly contradicts the module's most load-bearing promise: <em>nobody is grading you</em>.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Stopping is offered as neutrally as continuing</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Decided:</strong> each section ends with a band — not a screen — naming the boundary and the next section's length, with "Stop here" and "Section 2 →" given equal visual weight. The module neither urges a parent onward nor tells them to rest. It states where they are and lets them choose.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 22px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Provisional text stays fully legible</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">A preview was first drawn as grayed-out ghost text, which measured 2.19:1 against its background — on the one sentence a parent has to read before deciding. Provisional state is now carried by a tinted ground and an edge rule, with full-strength ink. You cannot judge a phrasing you can barely see.</p>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">4 &nbsp;Decisions about what to remove</h2>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">The school-to-home phrasing table was cut</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">It had been a planned tab for weeks and was never built — which was the tell. Phrasing already arrives in two better places: on the phrase cards themselves, and in the coach naming the school's wording against what the parent actually wrote. It now appears as an "At school:" line on individual cards, in context, rather than as a table nobody would open.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">No ambient "saved" indicator</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">Save reassurance is load-bearing at three moments only — on exit, on return, and on demand — and all three are covered by existing screens. A persistent header chip becomes wallpaper, stops being read at the one moment it matters, and lies if a save ever fails. A checkable timestamp inside the reference panel replaces it.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 22px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">A glossary was removed from beside the answer box</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">A row of clickable CD terms sat under the short-answer field as "Stuck? Use a term." It was vocabulary posing as help: a parent stuck at an answer box needs phrasing, not definitions. The terms moved to a calm reference screen, where each definition names the phrase card that puts it to work.</p>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">5 &nbsp;The density pass — a rule for borders</h2>
+<p style="font:400 13.5px/1.65 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 12px;max-width:6.1in">Reviewing the finished board before visual design, the screens read as crowded. Two causes were separated before anything was cut: the wireframe annotation layer, which does not survive into visual design, and the screen copy itself, which does. A toggle was added to the board to hide annotations, and the remaining density was treated as a content problem on the three heaviest screens — the objectives (2a), the results screen (2f), and the debrief (2h).</p>
+
+<div class="d" style="border:2px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">A border is earned, not default</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> an element gets a border only when it is interactive or needs attention. Everything else is separated by spacing and type weight. This carries forward into visual design as a standing rule, not a one-off cleanup.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Why:</strong> cutting words alone did not produce the breathing room the board needed — removing boxes did. On the results screen, eight identically bordered question rows made the eye scan all eight; with borders left only on the two answers needing attention, it lands on those two immediately. The same move gave the debrief its strongest gain: the field the parent has to write into is now the only bordered element on the screen.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Points were removed from the results screen</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Decided:</strong> the points tally was cut. A tally states in gradebook language what the per-criterion bands already say in plain words, and it pulls against <em>nobody is grading you</em>. The per-criterion bands remain, because they are diagnostic rather than a total. <em>Superseded:</em> this entry originally cut points while keeping a percentage and a pass bar; both were removed in turn by the no-percentages decision in §8.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Per-objective assessment tags became one line</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">Each of the three learning objectives carried its own "ASSESSED BY" tag. A parent does not need an assessment map per objective; a reviewer needs the mapping to exist. One line under the list gives the reviewer what they need and returns the screen to the parent. Objective copy dropped from 118 words to 61 — the trailing explanatory clauses were restating verbs that already carried the meaning.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 22px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Color on a heading replaced a colored rule</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0">In the debrief, "Strong" and "Work on" were marked by colored left rules. The words already name the distinction, so the rules were removed and the color moved into the "Strong" heading itself. Reviewed and accepted by the designer as sufficient. The risk noted at the time — that praise and correction would flatten into each other — did not materialise.</p>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">6 &nbsp;The visual system</h2>
+<p style="font:400 13.5px/1.65 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 12px;max-width:6.1in">The system was settled on two screens rather than a style sheet: the debrief (2h), which is almost entirely prose, and the live role-play (2g), which has a stage, two speakers, a coach panel and a live input. A treatment that held both was taken to be the system.</p>
+
+<div class="d" style="border:2px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Neither soft nor crisp — the compromise was built and chosen</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> soft geometry and one tinted field, with crisp restraint everywhere else. 14px radii on surfaces, inputs and the primary button; 10px on small controls; fully round pills. Color marks feedback rather than boxing it. The header keeps a hairline rule; the score keeps a blue field.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Instead of:</strong> either pure option. Two full renderings were compared side by side — soft grouped the debrief's three ideas without adding a line, but put a tinted box behind every piece of text; crisp was cleaner but pushed all the warmth onto the paper color. The call was that the tint is worth keeping for exactly one thing on a screen: the number. Everywhere else it was removed and the distinction carried by color.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Work Sans, semibold at 575</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> Work Sans throughout, loaded as a variable font. Headlines sit at 575 — between semibold and bold — after 700 read too emphatic and 500 too soft for a screen that tells a parent what they got wrong.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Instead of:</strong> Figtree, rejected as the most generic of the three — the house style of a lot of recent software; and Hanken Grotesk, which had more personality in the details but was not needed once the palette was carrying the warmth.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Colors are named by role, and every text color is a separate step</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> paper #FBF9F4, ink #25293C, action #1F6FAD, accent #2E86C8, constructive #8E3A57 with a #B06A87 tint step, muted ink #5F6272, muted warm #6E6759. Names state the job, not the hue.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Why:</strong> the palette originally carried one hue name — "clay" — among role names, and the inconsistency turned out to be hiding a real problem: the swatch was a fill color being used for text at a step that failed 4.5:1. Every color now exists at a text-safe step and, where needed, a separate tint step for fills and graphics. Tint steps are not permitted for type.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Constructive feedback is plum, not brown and not red</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Decided:</strong> #8E3A57. The original warm tan read as dull against the paper it sat on; a crimson step was tried and read close enough to a warning to be wrong for the one moment in the module where a parent is being corrected. Plum sits opposite the action blue on the wheel, so "Strong" and "Work on" read as a matched pair rather than two unrelated signals.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Surfaces are warm off-white; controls are lifted, not outlined</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> neutral surfaces are #FFFCF5 on the #FBF9F4 page. Controls — pills, the help button — carry a 1px soft shadow at 10% instead of a hairline outline.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Instead of:</strong> a sage-green neutral family, built and rejected in favour of off-white; and hairline outlines, which read as borders on elements the border rule says should not have them. Consequence accepted: a shadow implies pressable, so it cannot also be used on static surfaces. The coach panel, which is static, needed a left rule once the tint was gone.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 22px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">On the role-play screen, containers carry attribution</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> the child speaks from white on the tinted stage; the parent's own words appear in a blue-tinted bubble tucked right; the coach's words have no container at all, so they read as narration rather than a third speaker. The scenario setup is unboxed plain text under the header.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Also:</strong> the wireframe's per-competency assessment chips — "assertiveness ✓", "composure · keep working" — were dropped. The coach's sentences already name the same thing, and they now carry the color. This is the border rule applied to content: the chips were a second statement wearing a box. <em>Open:</em> whether a reviewer needs the competency mapping visible on the practice screen, as they did on the objectives screen.</p>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">6b &nbsp;The color pass — three colors, three jobs</h2>
+<p style="font:400 13.5px/1.65 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 12px;max-width:6.1in">Reviewing the built screens, the beige surface was doing two incompatible jobs: neutral container and emphasis. Because everything was beige, nothing read as emphasized. The fix separated the two and required one color the palette did not have.</p>
+
+<div class="d" style="border:2px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">A green was added, built as a sibling of the action blue</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> confirmed #2A6B4E, confirmed-deep #1E5239, confirmed-field #E4EDE6. The blue sits at roughly oklch(.52 .105 245); the green is oklch(.52 .095 155) — identical perceived lightness, marginally lower chroma so it never out-shouts the blue, hue rotated to 155°. Its field is mixed toward the same warm paper as the beige.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Why not a stock green:</strong> a system green reads as an OS alert and would have been the only color in the module not derived from the palette. Deriving it from the blue's own coordinates was the difference between a fourth color and a bolted-on one.</p>
+</div>
+
+<div class="d" style="border:2px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Three colors, three jobs — and beige demoted to furniture</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> blue carries learning — principles, phrases, anything being taught. Green confirms something the parent did. Plum marks what to try next time. Beige is container, quoted input and chrome only, and carries no verdict. One blue field per screen, maximum.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Consequence:</strong> "Nearly there" moved out of blue into neutral beige. It was previously a blue pill, which made the middle band read as a taught concept; and under the new rule it is the one band that should feel like neither a verdict nor a prize.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Also:</strong> in the per-criterion feedback rows the glyph now carries the verdict — green ✓, plum — while every label stays ink. Previously the ✓ was blue (verdict work done by the learning color) and the plum rows colored their labels too, which weighted the misses more heavily than the hits on a screen that is meant to do both evenly.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Green is never allowed near a total</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Constraint:</strong> green appears only after the parent has acted, and only against a named behavior — <em>you did this specific thing</em>. It is never decoration, never a heading color, never a container, and never attached to an overall standing. Green-for-good sits close to the grading semantics this module deliberately designed out; tying it to a named behavior is the only thing keeping it honest. If it ever appears beside a total, it has become a score with the numbers hidden.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Strokes came off the tinted fields; beige deepened one step</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> tinted fields carry no inset hairline. The color field alone is the container.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Consequences accepted:</strong> beige deepened from #F2EFE7 to #F0ECE1, because with no edge it was indistinguishable from the #FBF9F4 page; and the plum badge went solid, its 1.5px ring having been the last stroke on the screen. The tints are now load-bearing — every field must be dark enough to hold its own edge, which is a stricter constraint than the density pass imposed. Graphic placeholders keep their dashed stroke, because the stroke is what says "art goes here".</p>
+</div>
+
+<div class="d" style="border:2px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 22px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">Dark now means "the module is talking about you", not "Section 3"</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Decided:</strong> the #1C2030 ground marks summative moments — the bands, the section boundaries, the takeaways, the close. Light stays for teaching and for the working scenario flow. This replaces the earlier rule, which scoped dark to Section 3's practice frame.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 7px"><strong>Why:</strong> the old rule described where the dark appeared rather than what it meant, which is why it produced alternating grounds through the back third. The new line makes that stretch a single visual movement. Per-scenario feedback deliberately stays light — it is the working flow, and long reading on dark is worse.</p>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Consequence accepted:</strong> four fields now exist in two grounds — eight field values where there were four. On light: learning #E7EFF7 with #1F6FAD label and #17578A deep; confirmed #E4EDE6 with #2A6B4E and #1E5239; neutral #F0ECE1 with #63604F; not-yet #F3E7EC with #8E3A57 and #6E2B42. On dark: learning #1F3149 with #8FC0E6 label; confirmed #22392E with #8FCFA9 label and #D6E4DB body; neutral #2A2E3C with #A8ADBD label; not-yet #3A2A35 with #D79AB3 label and #F0DCE4 body. This is the kind of duplication that rots if it is not written down, which is why the whole table is here rather than half of it.</p>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">7 &nbsp;Scope and delivery calls</h2>
+<div style="font:400 13.5px/1.8 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;max-width:6.1in;margin-bottom:22px">
+<div><strong>Stated time changes; content stays.</strong> 37 minutes of material against a 25-minute promise — the promise was wrong, not the material.</div>
+<div><strong>Three sittings</strong>, broken as content plus knowledge check for the first two, the three role-plays as the third.</div>
+<div><strong>All three role-plays required.</strong> Practice is the point of the module.</div>
+<div><strong>Unlimited retakes, strongest attempt stands.</strong> No terminal "out of attempts" state exists, so none was designed.</div>
+<div><strong>Progress is browser-only</strong>, with a resume code for a second device. No accounts, no login chrome.</div>
+<div><strong>Desktop-first, phone works.</strong> The tightest screen in the module was wireframed at 375px before the desktop type scale was set.</div>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">8 &nbsp;How performance is reported</h2>
+<p style="font:400 13.5px/1.65 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0 0 12px;max-width:6.1in">Settled by elimination rather than preference. The module had drifted into showing a percentage per scenario and no total, which spares a parent nothing &mdash; it issues three grades and withholds the summary. The composure cap had already forced a non-numeric state onto the same screen, so the results screen was going to speak two languages regardless.</p>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">No percentages anywhere, and no overall score</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Decided:</strong> every scored surface reports a band &mdash; <strong>Strong / Nearly there / Not yet</strong> &mdash; alongside the criteria named individually in plain language. No number is shown on any screen, and the module ends without a total. <strong>Why:</strong> it is the only version that doesn't contradict "nobody is grading you", which is stated to the parent on the privacy card. <strong>Cost accepted:</strong> a portfolio reviewer expecting a conventional assessment may read bands as softer than percentages; the case study names the reasoning rather than leaving it to be inferred.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 12px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">The composure cap is enacted, never explained</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Problem:</strong> a parent who connects, states the limit and offers two choices but threatens a week-long consequence would see three ticks beside a failing result. With no explanation the likeliest read is that the scoring is broken &mdash; the exact injustice the free-text design exists to avoid. <strong>Rejected:</strong> a rules note on the screen, which teaches the scoring instead of the practice. <strong>Decided:</strong> when composure fails the band is "Not yet", the other three criteria appear grayed rather than ticked, and a single line says they only work from a calm voice. The rule is visible in behavior; the parent never reads a rubric.</p>
+</div>
+
+<div class="d" style="border:1.5px solid #1a1a1a;border-radius:9px;padding:14px 16px;margin:0 0 22px;max-width:6.1in">
+<h3 style="font-size:14.5px;margin:0 0 5px">The module ends on reflection, not on a result</h3>
+<p style="font:400 13px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;margin:0"><strong>Decided:</strong> the last scored screen is the third scenario's debrief. After it, SCR-304 shows the parent their own untrained answer beside the one they just wrote and asks a single question about composure &mdash; no band, no criteria, no number. <strong>Why:</strong> the comparison is the strongest moment the module has, and a score placed above it converts recognition into a grade.</p>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">9 &nbsp;Section 3 &mdash; practice design</h2>
+<div style="font:400 13.5px/1.8 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;max-width:6.1in;margin-bottom:22px">
+<div><strong>Scenario order follows rising stress</strong> &mdash; screen time, sibling conflict, the school-morning shoe crisis. Hardest-first was considered and rejected: the shoe scene is a callback to the baseline captured before the module begins, and that payoff only exists if it comes last.</div>
+<div><strong>Scenario one was made harder instead.</strong> A cold opening line &mdash; flat refusal rather than an angry outburst, since a wall is harder to stay composed against than a storm &mdash; a two-turn minimum even for a competent first answer, and longer branches when it goes badly.</div>
+<div><strong>Escalation ramps across the three:</strong> two turns, three, then four.</div>
+<div><strong>The criteria panel was cut from the practice screen.</strong> Listing the four criteria beside the answer field turned "say what you'd actually say" into a checklist to tick. The transcript now runs as a single centered column with the scene pinned above it.</div>
+<div><strong>The child's turns are tinted, the parent's are plain.</strong> Chat bubbles on both sides were built and rejected &mdash; they make a hard conversation read like texting.</div>
+<div><strong>The baseline is unscored and skippable.</strong> It says so on the screen before the parent types, and the skip is worded as a preference rather than a failure. A skipped baseline falls back to a general reflection prompt at the close.</div>
+<div><strong>Scenario three hints at the callback without naming it.</strong> Announcing it primes a performance; the recognition belongs at the end.</div>
+<div><strong>The child is never named.</strong> The baseline and scenario three both read &ldquo;Leo, 5&rdquo;; both now read &ldquo;your child,&rdquo; and the tinted turn in scenario three is labeled YOUR CHILD. A named child puts a stranger&rsquo;s family between the parent and their own morning, and the baseline only earns its answer if the parent is picturing the child they actually have.</div>
+<div><strong>A name marks whose family it is.</strong> Named children &mdash; Maya at the screen, the two siblings over the toy &mdash; are other people&rsquo;s, and the parent watches them. The unnamed child is always the parent&rsquo;s own, and the parent answers as themselves. Scenarios one and two keep their names for that reason; the baseline and its callback have none. The rule was noticed after the fact rather than designed, but it holds across all three scenarios and is worth keeping.</div>
+<div><strong>Two larger rewrites were proposed and rejected.</strong> Replacing scenario three with a fresh situation, and reframing it as another family&rsquo;s morning opening &ldquo;here&rsquo;s a different morning in someone else&rsquo;s house.&rdquo; The first removes the callback that the bookend reflection is built on; the second announces it, and states the opposite of what is true &mdash; it is the parent&rsquo;s own morning. Both were withdrawn on reading the two decisions above. The defect was the name, not the scenario.</div>
+<div><strong>No audio.</strong> The scenarios spec marks each child line for voicing; text-only is consistent with removing the narration toggle, and keeps the module usable in a room where a child is present.</div>
+<div><strong>The close is two screens</strong> &mdash; the reflection played back with the four criteria in plain language, then the phrase cards and the ways back in.</div>
+</div>
+
+<h2 style="font-size:18px;margin:0 0 10px;color:#1a1a1a">10 &nbsp;Open at the close of this stage</h2>
+<div style="font:400 13.5px/1.8 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4a463f;max-width:6.1in">
+<div>Whether the school needs completion records — both versions of the privacy card will be designed, and one chosen when they answer.</div>
+<div>Where the "what if my child is the one being hurt" panel belongs; it currently sits inside the reference panel, which a parent may never open.</div>
+<div>What the phrase strip does on a phone with the keyboard raised.</div>
+<div>Whether the competency mapping needs to stay visible on the practice screens, now that the assessment chips are gone.</div>
+<div>Body copy for principles 1&ndash;3 of section 1.</div>
+<div>Twenty-one of the twenty-four phrase cards, and the escalation phone number, are unwritten.</div>
+</div>
+</doc-page>
+    </div>
+
+    <h2>The other working documents</h2>
+    <div class="doc-siblings">
+      <div><a href="../functional-spec/">Functional spec — scored components</a></div>
+      <div><a href="../flow-board/">Flow board — 26 screens</a></div>
+      <div><a href="../visual-design/">Visual design board</a></div>
+    </div>
+  </main>
+
+  <footer class="site-foot">
+    <div class="foot-row">
+      <div class="foot-links">
+        <a class="foot-mail" href="mailto:marclemaydesign@gmail.com">marclemaydesign@gmail.com</a>
+        <a class="foot-label foot-in" href="https://www.linkedin.com/in/marc-lemay-3012383b9" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false" style="display:block"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<script src="../../js/doc-page.js"></script>
+</body>
+</html>

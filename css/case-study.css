@@ -1,0 +1,137 @@
+/* marclemaydesign.com — cream ground
+   Loaded AFTER site.css, by the case study and its working documents only.
+   Home, About and Contact stay on the plum ground in site.css.
+
+   Identity:
+     ground   cream          #f0eee9
+     ink      near-black     #1a1a1a
+     accent   terracotta     #8f4632   links
+     accent2  clay rule      #c4705a   the rule under the h1 only
+     muted    #6b665e                  captions, labels, secondary text
+
+   Citron never appears on cream — it measures about 1.5:1 and cannot
+   carry a link.
+*/
+
+:root{
+  --ground:#f0eee9;
+  --ground-hover:#f6f4f0;
+  --ink:#1a1a1a;
+  --ink-soft:#4a463f;
+  --ink-mid:#6b665e;
+  --ink-faint:#8a857c;
+  --rule:#d8d4cd;
+  --accent:#8f4632;
+  --clay:#c4705a;
+}
+
+a:hover{color:#190f1d}
+
+/* The rule is 320px on the case study and everything hanging off it;
+   Home and About keep the 420px in site.css. */
+.rule{max-width:320px}
+
+/* ---- working document pages ---- */
+
+/* The one-sentence note at the top of each document: what it was for, and
+   which case study decision it produced. */
+.doc-note{
+  max-width:60ch;
+  margin:0 0 clamp(24px,3.4vw,40px);
+  padding-left:1.5rem;
+  border-left:2px solid var(--rule);
+  font-size:clamp(15px,1.2vw,17px);
+  line-height:1.6;
+  color:var(--ink-soft);
+}
+
+.doc-note strong{color:var(--ink)}
+
+/* The document itself keeps its own internal typography — it is a working
+   file, not a portfolio page, and the note says so. This only sets it on
+   the cream ground and stops it fighting the page width. */
+.doc-body{
+  margin:0 0 clamp(32px,4.4vw,56px);
+}
+
+.doc-body doc-page:not(:defined){visibility:hidden}
+
+/* Sibling links at the foot of each document. Unfilled rows, so they sit
+   at 0 rather than hanging 5px left. */
+.doc-siblings{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));
+  gap:.75rem 1.5rem;
+  max-width:56rem;
+  margin:0;
+  padding-top:clamp(18px,2.4vw,26px);
+  border-top:1px solid var(--rule);
+}
+
+.doc-siblings > div{
+  padding-bottom:.75rem;
+  border-bottom:1px solid var(--rule);
+}
+
+.doc-siblings a{
+  font-weight:500;
+  color:var(--accent);
+  border-bottom:1px solid var(--accent);
+}
+
+.doc-siblings a:hover{color:#190f1d}
+
+.doc-siblings p{
+  margin:.25rem 0 0;
+  max-width:none;
+  font-size:14px;
+  line-height:1.5;
+  color:var(--ink-mid);
+}
+
+.doc-back{
+  display:block;
+  margin:0 0 clamp(18px,2.4vw,26px);
+  font:600 13px/1.2 var(--label);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+}
+
+.doc-back:hover{color:var(--accent)}
+
+/* Wide working boards (the flow board, the visual design board) are artboards,
+   not page layouts. They scroll on their own axis rather than being squeezed
+   into the measure. */
+.doc-board{
+  overflow-x:auto;
+  overflow-y:hidden;
+  border:1px solid var(--rule);
+  border-radius:6px;
+  background:#EDEAE3;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* The documents carry their own internal type; stop site.css reaching in. */
+.doc-body p{max-width:none;color:inherit;margin:revert}
+.doc-body h1,.doc-body h2,.doc-body h3{max-width:none;margin:revert;letter-spacing:normal}
+.doc-body a{color:inherit}
+.doc-body a:hover{color:inherit}
+
+/* doc-page is a print shell that normally owns the viewport: it floors at
+   8.5in + 48px of desk padding, paints its own grey desk, and reserves
+   100vh. Embedded in a site page all three fight the column, so the desk
+   becomes the cream ground and the paper is allowed to fit the measure. */
+.doc-body doc-page{
+  min-width:0;
+  padding-left:8px;
+  padding-right:8px;
+  min-height:0;
+  background:var(--ground);
+  display:block;
+}
+
+/* Boards are scaled to the column by js/fit-board.js, which sets overflow to
+   hidden once it has scaled. Until then the scroll axis stays available, so a
+   failed script clips nothing. */
+.doc-board > div{transform-origin:top left}
