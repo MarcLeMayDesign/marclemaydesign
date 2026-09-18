@@ -3,7 +3,7 @@
 THIS IS THE FOLDER YOU EDIT.
 
 Everything you'd realistically want to change after launch lives here as
-labelled data files:
+labeled data files:
 
   scenarios.js  — the role-play scenarios and the child's lines per branch
   phrases.js    — the 21 phrase cards, front and "At school:" line

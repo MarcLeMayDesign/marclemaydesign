@@ -1,17 +1,31 @@
 /* marclemaydesign.com — shared site styles
    Edit this file to change the look of every page at once.
-   The module has its own stylesheet in /module/css/. */
+   The module has its own stylesheet in /module/css/.
+
+   Identity (matches the home page):
+     ground   deep plum      #190f1d
+     ink      white on plum
+     accent   citron         #cbe45a   links, live markers
+     accent2  clay rule      #c4705a   the hero rule only
+     type     Public Sans    body + headlines
+              Karla          small uppercase labels only
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;800&family=Karla:wght@500;600&display=swap');
 
 :root{
-  --paper:#f0eee9;
-  --ink:#1a1a1a;
-  --ink-soft:#4a463f;
-  --ink-faint:#6b665e;
-  --rule:#d8d4cd;
-  --link:#3f7ea8;
-  --link-hover:#2c5c7c;
-  --tint:#eaf1f6;
-  --measure:34rem;
+  --ground:#190f1d;
+  --ground-hover:#1f1424;
+  --ink:#ffffff;
+  --ink-soft:#d6cbd9;
+  --ink-mid:#b79cbd;
+  --ink-faint:#9d86a3;
+  --rule:#35243a;
+  --accent:#cbe45a;
+  --clay:#c4705a;
+  --sans:'Public Sans',system-ui,-apple-system,sans-serif;
+  --label:'Karla',system-ui,sans-serif;
+  --measure:58ch;
 }
 
 *{box-sizing:border-box}
@@ -20,19 +34,23 @@ html{-webkit-text-size-adjust:100%}
 
 body{
   margin:0;
-  background:var(--paper);
+  background:var(--ground);
   color:var(--ink);
-  font:400 1.0625rem/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;
+  font:400 1.0625rem/1.6 var(--sans);
+  -webkit-font-smoothing:antialiased;
   text-wrap:pretty;
 }
 
-a{color:var(--link)}
-a:hover{color:var(--link-hover)}
+a{color:var(--ink);text-decoration:none}
+a:hover{color:var(--accent)}
+
+/* Body copy links need to look like links. */
+main p a,.disclaimer a{border-bottom:1px solid var(--accent)}
 
 .wrap{
-  max-width:64rem;
+  max-width:1180px;
   margin:0 auto;
-  padding:2rem 1.5rem 4rem;
+  padding:clamp(24px,5vw,72px) clamp(20px,5vw,72px) clamp(40px,6vw,88px);
 }
 
 /* ---- header / nav ---- */
@@ -40,73 +58,206 @@ a:hover{color:var(--link-hover)}
 .site-head{
   display:flex;
   flex-wrap:wrap;
-  gap:1rem 2rem;
+  gap:16px 24px;
   justify-content:space-between;
   align-items:baseline;
-  padding-bottom:0.75rem;
+  padding-bottom:0.875rem;
   border-bottom:1px solid var(--rule);
-  margin-bottom:2.5rem;
+  margin-bottom:clamp(28px,4.4vw,60px);
 }
 
 .site-name{
-  font:700 1.0625rem/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;
-  letter-spacing:-0.01em;
-  text-decoration:none;
+  font:600 14px/1.2 var(--label);
+  letter-spacing:.12em;
+  text-transform:uppercase;
   color:var(--ink);
 }
 
 .site-nav{
   display:flex;
   flex-wrap:wrap;
-  gap:1.25rem;
-  font-size:0.9375rem;
+  gap:8px clamp(18px,2.4vw,32px);
+  font:600 13px/1.2 var(--label);
+  letter-spacing:.12em;
+  text-transform:uppercase;
 }
 
-.site-nav a{text-decoration:none}
-.site-nav a:hover{text-decoration:underline}
-.site-nav a[aria-current="page"]{color:var(--ink);font-weight:500}
+.site-nav a{color:var(--ink-mid);padding:6px 0}
+.site-nav a:hover{color:var(--accent)}
+.site-nav a[aria-current="page"]{color:var(--ink)}
 
 /* ---- type ---- */
 
 h1{
-  font:700 2.25rem/1.08 'Helvetica Neue',Helvetica,Arial,sans-serif;
-  letter-spacing:-0.02em;
-  margin:0 0 0.75rem;
+  font:800 clamp(34px,6.4vw,92px)/.96 var(--sans);
+  letter-spacing:-.035em;
+  margin:0 0 0.5rem;
+  max-width:19ch;
+  text-wrap:balance;
 }
 
 h2{
-  font:700 1.25rem/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;
-  margin:2.5rem 0 0.5rem;
+  font:800 clamp(22px,2.6vw,34px)/1.1 var(--sans);
+  letter-spacing:-.025em;
+  margin:clamp(40px,5vw,72px) 0 0.75rem;
+  max-width:28ch;
+  text-wrap:balance;
 }
 
-p{max-width:var(--measure);margin:0 0 1rem}
+h3{
+  font:600 1.125rem/1.3 var(--sans);
+  margin:2rem 0 0.5rem;
+}
+
+p{max-width:var(--measure);margin:0 0 1rem;color:var(--ink-soft)}
 
 .lede{
-  font-size:1.25rem;
-  line-height:1.45;
+  font-size:clamp(16px,1.4vw,21px);
+  line-height:1.55;
   color:var(--ink-soft);
-  max-width:38rem;
 }
 
 .eyebrow{
-  font:500 0.8125rem/1 ui-monospace,'SFMono-Regular',Menlo,monospace;
-  letter-spacing:0.12em;
+  font:600 clamp(12px,1.3vw,15px)/1 var(--label);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+  margin:0 0 clamp(18px,2.6vw,28px);
+}
+
+/* The clay rule under the hero. Decorative; one per page at most. */
+.rule{
+  height:5px;
+  background:var(--clay);
+  max-width:420px;
+  margin:clamp(18px,2.4vw,30px) 0;
+  border:0;
+}
+
+/* ---- hero with portrait (home) ---- */
+
+.hero{
+  display:flex;
+  flex-wrap:wrap;
+  gap:clamp(28px,4.5vw,64px);
+  align-items:flex-start;
+}
+
+.hero-text{flex:1 1 440px;min-width:0}
+
+.hero-portrait{
+  flex:0 1 clamp(200px,27vw,340px);
+  min-width:180px;
+  margin-right:clamp(0px,3vw,56px);
+  /* Pushes the portrait down so the crown meets the h1 cap line: eyebrow
+     height + its bottom margin + ~0.1em of the headline. */
+  margin-top:clamp(30px,5.2vw,62px);
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.hero-portrait img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.greeting{
+  margin:-6px 0 0;
+  max-width:34ch;
+  font-size:clamp(15px,1.1vw,17px);
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+
+/* ---- work list (home) ----
+   A row is an <a> when the thing exists and a <div> when it doesn't.
+   Nothing unclickable ever gets a hover state. */
+
+.work-list{display:flex;flex-direction:column;margin-top:clamp(28px,4.4vw,60px)}
+
+.work-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:16px;
+  font:600 13px/1.2 var(--label);
+  letter-spacing:.12em;
   text-transform:uppercase;
   color:var(--ink-faint);
-  margin-bottom:0.75rem;
+  padding:0 14px 14px;
+  margin:0 -14px;
+  border-bottom:1px solid var(--rule);
 }
+
+.work-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px clamp(16px,3vw,48px);
+  align-items:baseline;
+  padding:clamp(20px,3vw,34px) 14px;
+  margin:0 -14px;
+  border-bottom:1px solid var(--rule);
+}
+
+a.work-row{transition:background .15s ease,box-shadow .15s ease}
+a.work-row:hover{background:var(--ground-hover);box-shadow:inset 3px 0 0 var(--accent)}
+a.work-row:hover .work-title{color:var(--ink)}
+a.work-row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+div.work-row{cursor:default}
+
+.work-num{
+  flex:0 0 auto;
+  font:600 13px/1.2 var(--label);
+  letter-spacing:.12em;
+  color:var(--ink-faint);
+}
+
+.work-body{flex:1 1 260px;min-width:0}
+
+.work-title{
+  display:block;
+  font:800 clamp(24px,3.4vw,46px)/1.05 var(--sans);
+  letter-spacing:-.025em;
+  text-wrap:balance;
+}
+
+.work-note{
+  display:block;
+  margin-top:10px;
+  font-size:clamp(15px,1.2vw,18px);
+  line-height:1.5;
+  color:var(--ink-soft);
+  max-width:54ch;
+}
+
+.work-tag{
+  flex:0 0 auto;
+  margin-left:auto;
+  font:600 12px/1.2 var(--label);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  white-space:nowrap;
+}
+
+/* Not-yet rows: quieter title, quieter body, neutral tag. */
+.work-row.pending .work-title{color:#e8dfea}
+.work-row.pending .work-note{color:var(--ink-mid)}
+.work-row.pending .work-tag{color:var(--ink-faint)}
 
 /* ---- placeholder marker: delete these rules once every page is real ---- */
 
 .stub{
-  border:1.5px dashed #b8b4ad;
+  border:1.5px dashed #4a3350;
   border-radius:0.5rem;
   padding:1rem 1.125rem;
   max-width:var(--measure);
   margin-top:2rem;
   font-size:0.9375rem;
-  color:var(--ink-soft);
-  background:#f6f4f0;
+  color:var(--ink-mid);
+  background:var(--ground-hover);
 }
 
 .stub strong{color:var(--ink)}
@@ -114,13 +265,140 @@ p{max-width:var(--measure);margin:0 0 1rem}
 /* ---- footer ---- */
 
 .site-foot{
-  margin-top:4rem;
-  padding-top:0.75rem;
-  border-top:1px solid var(--rule);
-  font-size:0.875rem;
-  color:var(--ink-faint);
+  display:flex;
+  flex-direction:column;
+  gap:clamp(18px,2.4vw,26px);
+  margin-top:clamp(28px,4.4vw,60px);
+  padding-top:22px;
+}
+
+.foot-row{
   display:flex;
   flex-wrap:wrap;
-  gap:0.5rem 1.5rem;
+  gap:clamp(14px,2.6vw,34px);
+  align-items:center;
   justify-content:space-between;
 }
+
+.foot-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px clamp(14px,2.6vw,34px);
+  align-items:center;
+}
+
+.foot-mail{
+  font-size:clamp(15px,1.3vw,18px);
+  font-weight:600;
+  border-bottom:2px solid var(--accent);
+  padding-bottom:2px;
+}
+
+.foot-label,.site-foot .foot-meta{
+  font:600 13px/1.2 var(--label);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+}
+
+.foot-links .foot-label{color:var(--ink-mid)}
+.foot-links .foot-label:hover{color:var(--accent)}
+
+.disclaimer{
+  margin:0;
+  max-width:78ch;
+  font-size:13.5px;
+  line-height:1.6;
+  color:var(--ink-faint);
+}
+
+.foot-in { display: flex; align-items: center; }
+
+/* ---- about page ---- */
+
+.about-h1{
+  font:800 clamp(30px,4.6vw,62px)/1 var(--sans);
+  letter-spacing:-.032em;
+  margin:0;
+  max-width:22ch;
+  text-wrap:balance;
+}
+
+.prose{
+  font:400 clamp(16px,1.35vw,20px)/1.6 var(--sans);
+  color:var(--ink-soft);
+  max-width:62ch;
+  margin:0 0 1.15em;
+  text-wrap:pretty;
+}
+.prose:last-child{margin-bottom:0}
+.prose-quiet{
+  font-size:clamp(15px,1.2vw,17px);
+  color:var(--ink-mid);
+  max-width:44ch;
+}
+
+.about-photo{
+  flex:0 1 clamp(220px,28vw,360px);
+  min-width:200px;
+  margin-top:clamp(30px,5.2vw,62px);
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.about-photo img{display:block;width:100%;height:auto}
+.photo-note{
+  margin:0;
+  font:400 clamp(14px,1.05vw,16px)/1.5 var(--sans);
+  color:var(--ink-faint);
+  text-wrap:pretty;
+}
+
+.panel{display:flex;flex-direction:column;margin-top:clamp(28px,4.4vw,60px)}
+
+.panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:16px;
+  font:600 13px/1.2 var(--label);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  padding-bottom:14px;
+  border-bottom:1px solid var(--rule);
+}
+
+.do-groups{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(20px,3vw,56px);
+  padding-top:clamp(18px,2.4vw,26px);
+}
+.do-group{min-width:0}
+@media (max-width:640px){
+  .do-groups{grid-template-columns:1fr}
+}
+.do-group ul{list-style:none;margin:0;padding:0}
+.do-group li{
+  font:400 clamp(16px,1.3vw,19px)/1.45 var(--sans);
+  color:var(--ink);
+  padding:clamp(13px,1.6vw,18px) 0;
+  border-bottom:1px solid var(--rule);
+}
+.do-label{
+  margin:0 0 4px;
+  font:600 12px/1.2 var(--label);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+}
+
+.two-col{
+  display:flex;
+  flex-wrap:wrap;
+  gap:clamp(20px,3.4vw,56px);
+  padding-top:clamp(18px,2.6vw,28px);
+}
+.two-col .prose{flex:1 1 380px;min-width:0}
+.two-col .prose-quiet{flex:1 1 280px}
