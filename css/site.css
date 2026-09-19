@@ -150,7 +150,7 @@ p{max-width:var(--measure);margin:0 0 1rem;color:var(--ink-soft)}
 .hero-text{flex:1 1 440px;min-width:0}
 
 .hero-portrait{
-  flex:0 1 clamp(200px,27vw,340px);
+  flex:0 1 clamp(200px,34vw,380px);
   min-width:180px;
   margin-right:clamp(0px,3vw,56px);
   /* Pushes the portrait down so the crown meets the h1 cap line: eyebrow
@@ -165,14 +165,6 @@ p{max-width:var(--measure);margin:0 0 1rem;color:var(--ink-soft)}
   display:block;
   width:100%;
   height:auto;
-}
-
-.greeting{
-  margin:-6px 0 0;
-  max-width:34ch;
-  font-size:clamp(15px,1.1vw,17px);
-  line-height:1.55;
-  color:var(--ink-soft);
 }
 
 /* ---- work list (home) ----
