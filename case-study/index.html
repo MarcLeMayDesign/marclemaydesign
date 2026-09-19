@@ -3,28 +3,412 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Conscious Discipline at Home — case study</title>
+<title>Conscious Discipline at Home &mdash; case study &mdash; Marc LeMay</title>
+<meta name="description" content="A self-paced module that teaches parents a de-escalation practice, then scores what they actually write. Design case study by Marc LeMay.">
 <link rel="stylesheet" href="../css/site.css">
+<link rel="stylesheet" href="../css/case-study.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&amp;display=swap">
 </head>
-<body>
+<body class="cs">
 <div class="wrap">
 
   <header class="site-head">
     <a class="site-name" href="../">Marc LeMay</a>
     <nav class="site-nav">
-      <a href="../" aria-current="page">Work</a>
+      <a href="../#work" aria-current="page">Work</a>
       <a href="../about/">About</a>
       <a href="../contact/">Contact</a>
     </nav>
   </header>
 
   <main>
-    <p class="eyebrow">Case study</p>
-    <h1>Conscious Discipline at Home</h1>
-    <p class="lede">A module that asks parents to type what they’d actually say, and responds to it.</p>
+    <p class="eyebrow">Case study &middot; Conscious Discipline at Home</p>
+    <h1 class="cs-h1">Parents don&rsquo;t need another lesson &mdash; they need somewhere safe to try it.</h1>
+    <hr class="rule">
+    <p class="lede">A self-paced module I researched, designed, and built: it teaches parents their school&rsquo;s discipline framework, then drops them into a real moment and responds to what they actually say.</p>
 
-    <div class="stub">
-      <strong>Placeholder.</strong> The biggest writing job — Fri 18 – Sat 19. Problem and audience, architecture diagram, the three long-form decisions, the tool-choice paragraph, then the module and screen capture, then the five PDFs, then the implementation gap.
+    <h2>Walk four screens</h2>
+    <p class="prose-quiet">Not screenshots. The same HTML the module ships, embedded here.</p>
+
+    <div class="screen-bar">
+      <div class="chips">
+        <button type="button" class="chip is-current" data-step="0" aria-pressed="true">Baseline</button>
+        <button type="button" class="chip" data-step="1" aria-pressed="false">Role-play, turn 2</button>
+        <button type="button" class="chip" data-step="2" aria-pressed="false">Coach response</button>
+        <button type="button" class="chip" data-step="3" aria-pressed="false">Bookend reflection</button>
+      </div>
+      <p class="screen-hint">Click a screen for full size</p>
+    </div>
+
+    <button type="button" class="screen-close" id="screen-close" hidden="hidden">Close</button>
+
+    <div class="screen-frame" id="screen-frame" role="button" tabindex="0" aria-label="Open this screen at full size">
+      <div class="screen-scale" id="screen-scale">
+        <div class="screen" data-step="0">
+      <div style="width:960px;height:640px;box-sizing:border-box;display:flex;flex-direction:column;background:#1C2030;border-radius:6px;overflow:hidden;font-family:'Work Sans',Helvetica,Arial,sans-serif">
+        <div style="height:60px;flex:none;box-sizing:border-box;padding:0 34px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #333A50">
+          <div style="font:600 15px 'Work Sans',sans-serif;color:#F4F1EA">Conscious Discipline at Home</div>
+          <div style="flex:1"></div>
+          <div style="width:26px;height:26px;flex:none;border-radius:10px;background:#272C3E;display:flex;align-items:center;justify-content:center;font:500 13px 'Work Sans',sans-serif;color:#C3C9D8">?</div>
+        </div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;padding:38px 34px 0">
+          <div style="width:100%;max-width:620px;display:flex;flex-direction:column">
+            <div style="font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#D79AB3">Before we start</div>
+            <div style="font:575 30px/1.16 'Work Sans',sans-serif;color:#F4F1EA;letter-spacing:-.012em;margin-top:6px">One morning, before we begin</div>
+            <div style="font:400 15.5px/1.6 'Work Sans',sans-serif;color:#C3C9D8;margin-top:16px">It's 7:40 in the morning and the bus comes in ten minutes. Your child is sitting in the hallway with one shoe on and the other kicked across the rug.</div>
+            <div style="font:400 17px/1.5 'Work Sans',sans-serif;color:#F4F1EA;margin-top:14px;padding:13px 17px;background:#3A2A35;border-radius:14px">"I'm NOT wearing these stupid shoes! They feel weird and I HATE them!"</div>
+            <div style="font:500 16px/1.5 'Work Sans',sans-serif;color:#F4F1EA;margin-top:22px">What would you say?</div>
+            <div style="margin-top:10px;min-height:96px;border-radius:14px;background:#272C3E;box-shadow:0 0 0 1px #3D4459;padding:14px 16px;font:400 15.5px/1.5 'Work Sans',sans-serif;color:#9BA3B8">Type what you'd actually say…</div>
+            <div style="font:400 13.5px/1.5 'Work Sans',sans-serif;color:#ADB4C6;margin-top:10px">Nothing here is scored and nobody else sees it. We'll come back to what you wrote at the end.</div>
+          </div>
+        </div>
+        <div style="flex:none;padding:0 34px 26px;display:flex;justify-content:center">
+          <div style="width:100%;max-width:620px;display:flex;align-items:center;gap:20px">
+            <div style="flex:none;padding:14px 30px;border-radius:14px;background:#2E86C8;color:#0F1420;font:600 14.5px 'Work Sans',sans-serif">Continue</div>
+            <div style="font:500 14px 'Work Sans',sans-serif;color:#8FC0E6">I'd rather start with the module</div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="screen" data-step="1" hidden="hidden">
+      <div style="width:960px;height:640px;box-sizing:border-box;display:flex;flex-direction:column;background:#FBF9F4;border-radius:6px;overflow:hidden;font-family:'Work Sans',Helvetica,Arial,sans-serif">
+        <div style="height:60px;flex:none;box-sizing:border-box;padding:0 34px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #E2DCCE">
+          <div style="font:600 15px 'Work Sans',sans-serif;color:#25293C">Try It Out</div>
+          <div style="font:400 15px 'Work Sans',sans-serif;color:#A39C8A">·</div>
+          <div style="font:400 15px 'Work Sans',sans-serif;color:#5F6272">practicing in a real moment</div>
+          <div style="flex:1"></div>
+          <div style="font:500 12px 'Work Sans',sans-serif;color:#5F6272">Scenario 1 of 3</div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:20px;height:5px;border-radius:3px;background:#1F6FAD"></div>
+            <div style="width:20px;height:5px;border-radius:3px;background:#DAD4C6"></div>
+            <div style="width:20px;height:5px;border-radius:3px;background:#DAD4C6"></div>
+          </div>
+          <div style="width:26px;height:26px;flex:none;border-radius:10px;background:#FFFCF5;box-shadow:0 1px 2px rgba(60,52,32,.10),0 0 0 .5px rgba(60,52,32,.06);display:flex;align-items:center;justify-content:center;font:500 13px 'Work Sans',sans-serif;color:#5F6272">?</div>
+        </div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;padding:24px 34px 0">
+          <div style="width:100%;max-width:620px;display:flex;flex-direction:column;min-height:0">
+            <div style="font:400 14px/1.55 'Work Sans',sans-serif;color:#5F6272;padding-bottom:16px;border-bottom:1px solid #E2DCCE">5:30 PM, dinner is ready, and the timer you set five minutes ago has just gone off. Maya, 5, is on the couch with the tablet.</div>
+            <div style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:16px;padding:18px 0 4px">
+              <div style="align-self:flex-start;max-width:82%;background:#F3E7EC;border-radius:14px;padding:13px 17px">
+                <div style="font:500 10px 'Work Sans',sans-serif;letter-spacing:.11em;color:#8E3A57">MAYA</div>
+                <div style="font:400 16.5px/1.5 'Work Sans',sans-serif;color:#25293C;margin-top:4px">Five more minutes. FIVE MORE MINUTES. I'm almost done!</div>
+              </div>
+              <div>
+                <div style="font:500 10px 'Work Sans',sans-serif;letter-spacing:.11em;color:#1F6FAD">YOU</div>
+                <div style="font:400 16.5px/1.5 'Work Sans',sans-serif;color:#25293C;margin-top:4px">I know it's really hard to stop in the middle of something good.</div>
+                <div style="font:400 13.5px/1.5 'Work Sans',sans-serif;color:#5F6272;margin-top:7px;padding-left:13px;box-shadow:inset 2px 0 0 #9FC3DF">You named what she was feeling before you named the rule — that's connection before correction. She hasn't moved yet, though, and the limit still needs saying.</div>
+              </div>
+              <div style="align-self:flex-start;max-width:82%;background:#F3E7EC;border-radius:14px;padding:13px 17px">
+                <div style="font:500 10px 'Work Sans',sans-serif;letter-spacing:.11em;color:#8E3A57">MAYA</div>
+                <div style="font:400 16.5px/1.5 'Work Sans',sans-serif;color:#25293C;margin-top:4px">So then I can finish it. You said it's hard, so let me finish it.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="flex:none;padding:10px 34px 22px;display:flex;justify-content:center">
+          <div style="width:100%;max-width:620px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex">
+              <div style="display:inline-flex;align-items:center;gap:8px;background:#FFFCF5;border-radius:999px;padding:7px 15px;box-shadow:0 1px 2px rgba(60,52,32,.10),0 0 0 .5px rgba(60,52,32,.06)">
+                <span style="font:500 13px 'Work Sans',sans-serif;color:#25293C">Words to try</span>
+                <span style="font:400 13px 'Work Sans',sans-serif;color:#A39C8A">·</span>
+                <span style="font:500 13px 'Work Sans',sans-serif;color:#5F6272">3</span>
+                <span style="font:400 13px 'Work Sans',sans-serif;color:#5F6272">⌄</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:stretch">
+              <div style="flex:1;min-height:70px;border-radius:14px;background:#FFFCF5;box-shadow:0 1px 2px rgba(60,52,32,.10),0 0 0 1px #DAD4C6;padding:13px 16px;font:400 15.5px/1.5 'Work Sans',sans-serif;color:#5F6272">Type what you'd say next…</div>
+              <div style="flex:none;align-self:flex-end;padding:14px 26px;border-radius:14px;background:#1F6FAD;color:#fff;font:600 14.5px 'Work Sans',sans-serif">Say it</div>
+            </div>
+            <div style="font:400 13px/1.5 'Work Sans',sans-serif;color:#5F6272">There's no single right answer. Say it the way you'd actually say it.</div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="screen" data-step="2" hidden="hidden">
+      <div style="width:960px;height:640px;box-sizing:border-box;display:flex;flex-direction:column;background:#FBF9F4;border-radius:6px;overflow:hidden;font-family:'Work Sans',Helvetica,Arial,sans-serif">
+        <div style="height:60px;flex:none;box-sizing:border-box;padding:0 34px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #E2DCCE">
+          <div style="font:600 15px 'Work Sans',sans-serif;color:#25293C">Test Your Knowledge</div>
+          <div style="flex:1"></div>
+          <div style="font:500 12px 'Work Sans',sans-serif;color:#5F6272">Question 1 of 4</div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:20px;height:5px;border-radius:3px;background:#1F6FAD"></div>
+            <div style="width:20px;height:5px;border-radius:3px;background:#DAD4C6"></div>
+            <div style="width:20px;height:5px;border-radius:3px;background:#DAD4C6"></div>
+            <div style="width:20px;height:5px;border-radius:3px;background:#DAD4C6"></div>
+          </div>
+          <div style="width:26px;height:26px;flex:none;border-radius:10px;background:#FFFCF5;box-shadow:0 1px 2px rgba(60,52,32,.10),0 0 0 .5px rgba(60,52,32,.06);display:flex;align-items:center;justify-content:center;font:500 13px 'Work Sans',sans-serif;color:#5F6272">?</div>
+        </div>
+        <div style="flex:1;min-height:0;padding:22px 34px 0;display:flex;flex-direction:column;align-items:center">
+          <div style="width:100%;max-width:660px;display:flex;flex-direction:column;gap:13px;min-height:0">
+            <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+              <div style="font:575 26px/1.2 'Work Sans',sans-serif;color:#25293C;letter-spacing:-.01em">You started with yourself</div>
+              <div style="font:500 12px 'Work Sans',sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#63604F;background:#F0ECE1;border-radius:999px;padding:5px 13px">Nearly there</div>
+            </div>
+            <div>
+              <div style="font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#5F6272">What you wrote</div>
+              <div style="font:400 15.5px/1.55 'Work Sans',sans-serif;color:#25293C;margin-top:7px;padding:14px 16px;background:#FFFCF5;border-radius:14px;box-shadow:0 1px 2px rgba(60,52,32,.10)">He's been holding it together all afternoon and he's run out. Honestly the thing I'd have to deal with first is me — I was about to say that because of the woman behind us.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <div style="display:grid;grid-template-columns:22px minmax(0,1fr);gap:13px;align-items:baseline;padding:9px 0;border-bottom:1px solid #E9E3D6">
+                <div style="font:500 14px 'Work Sans',sans-serif;color:#1F6FAD">✓</div>
+                <div style="font:400 15px/1.5 'Work Sans',sans-serif;color:#25293C">You read the outburst as running out of capacity, not as a choice</div>
+              </div>
+              <div style="display:grid;grid-template-columns:22px minmax(0,1fr);gap:13px;align-items:baseline;padding:9px 0;border-bottom:1px solid #E9E3D6">
+                <div style="font:500 14px 'Work Sans',sans-serif;color:#1F6FAD">✓</div>
+                <div style="font:400 15px/1.5 'Work Sans',sans-serif;color:#25293C">You named your own state as the first thing to manage</div>
+              </div>
+              <div style="display:grid;grid-template-columns:22px minmax(0,1fr);gap:13px;align-items:baseline;padding:9px 0">
+                <div style="font:500 14px 'Work Sans',sans-serif;color:#8E3A57">—</div>
+                <div style="font:400 15px/1.5 'Work Sans',sans-serif;color:#8E3A57">You didn't say that a consequence wouldn't land while he's shouting</div>
+              </div>
+            </div>
+            <div style="background:#E7EFF7;border-radius:14px;padding:15px 18px">
+              <div style="font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1F6FAD">One way to say it</div>
+              <div style="font:400 15px/1.55 'Work Sans',sans-serif;color:#3B3E4C;margin-top:6px">The chocolate bar is the trigger, not the reason — he's run out of capacity, and a consequence won't land while he's shouting. The first thing to handle is my own state: I'm reacting to being watched, not to him.</div>
+            </div>
+          </div>
+        </div>
+        <div style="flex:none;padding:28px 34px 26px;display:flex;justify-content:center">
+          <div style="width:100%;max-width:660px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+            <div style="flex:none;padding:14px 28px;border-radius:14px;background:#1F6FAD;color:#fff;font:600 14.5px 'Work Sans',sans-serif">Next question</div>
+            <div style="font:500 14px 'Work Sans',sans-serif;color:#1F6FAD">I think my answer covered this</div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="screen" data-step="3" hidden="hidden">
+      <div style="width:960px;height:640px;box-sizing:border-box;display:flex;flex-direction:column;background:#1C2030;border-radius:6px;overflow:hidden;font-family:'Work Sans',Helvetica,Arial,sans-serif">
+        <div style="height:60px;flex:none;box-sizing:border-box;padding:0 34px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #333A50">
+          <div style="font:600 15px 'Work Sans',sans-serif;color:#F4F1EA">Try It Out</div>
+          <div style="font:400 15px 'Work Sans',sans-serif;color:#7C8499">·</div>
+          <div style="font:400 15px 'Work Sans',sans-serif;color:#ADB4C6">the same morning, twice</div>
+          <div style="flex:1"></div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:20px;height:5px;border-radius:3px;background:#2E86C8"></div>
+            <div style="width:20px;height:5px;border-radius:3px;background:#2E86C8"></div>
+            <div style="width:20px;height:5px;border-radius:3px;background:#2E86C8"></div>
+          </div>
+          <div style="width:26px;height:26px;flex:none;border-radius:10px;background:#272C3E;display:flex;align-items:center;justify-content:center;font:500 13px 'Work Sans',sans-serif;color:#C3C9D8">?</div>
+        </div>
+        <div style="flex:1;min-height:0;padding:30px 34px 0;display:flex;flex-direction:column;gap:20px">
+          <div>
+            <div style="font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8FC0E6">7:40 in the morning</div>
+            <div style="font:575 29px/1.16 'Work Sans',sans-serif;color:#F4F1EA;letter-spacing:-.012em;margin-top:6px">Where you started, where you are</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;min-height:0">
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <div style="font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#D79AB3">Before the module</div>
+              <div style="flex:1;background:#3A2A35;border-radius:14px;padding:16px 18px;font:400 15.5px/1.55 'Work Sans',sans-serif;color:#EFE6EA">"I'd probably tell him we don't have time for this and just put them on him myself. Then feel awful about it in the car."</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <div style="font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8FC0E6">Just now</div>
+              <div style="flex:1;background:#23344A;border-radius:14px;padding:16px 18px;font:400 15.5px/1.55 'Work Sans',sans-serif;color:#E4EDF5">"I can see those shoes feel wrong right now. I'm going to take a breath. Shoes keep your feet safe at school — do you want the left one first, or should I help with the heel?"</div>
+            </div>
+          </div>
+          <div>
+            <div style="font:500 15.5px/1.5 'Work Sans',sans-serif;color:#F4F1EA">Looking at those two side by side — what changed in how you handled your own composure?</div>
+            <div style="margin-top:10px;min-height:74px;border-radius:14px;background:#272C3E;box-shadow:0 0 0 1px #3D4459;padding:13px 16px;font:400 15.5px/1.5 'Work Sans',sans-serif;color:#9BA3B8">Whatever comes to mind…</div>
+          </div>
+        </div>
+        <div style="flex:none;padding:16px 34px 24px;display:flex;align-items:center;gap:20px">
+          <div style="flex:none;padding:14px 30px;border-radius:14px;background:#2E86C8;color:#0F1420;font:600 14.5px 'Work Sans',sans-serif">Finish the module</div>
+          <div style="font:400 13.5px 'Work Sans',sans-serif;color:#ADB4C6">This is yours to keep — it appears again on the next screen.</div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-nav">
+      <div class="screen-buttons">
+        <button type="button" class="stepbtn" id="screen-prev">&larr; Back</button>
+        <button type="button" class="stepbtn" id="screen-next">Next &rarr;</button>
+      </div>
+      <div class="step-captions">
+      <p class="step-caption" data-step="0">Unscored, skippable, and deliberately before any teaching. Whatever the parent writes here is the only thing their final answer gets compared to.</p>
+      <p class="step-caption" data-step="1" hidden="hidden">Mid-scenario. The child answers what the parent actually wrote, the coach note sits inline under their line, and the phrase help stays collapsed until asked for.</p>
+      <p class="step-caption" data-step="2" hidden="hidden">A written answer scored against named criteria. Their own words are quoted back first; the model answer appears only after they have committed to theirs.</p>
+      <p class="step-caption" data-step="3" hidden="hidden">The first answer and the last, side by side, with no verdict attached. The ground is dark for the same reason it was on the baseline screen: the module is talking about the parent, not teaching them.</p>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div>
+        <p class="fact-label">My role</p>
+        <p class="fact-text">Research, architecture, scenario writing, assessment design, UX, visual design, and the build. No client, no brief &mdash; I&rsquo;m the parent this was written for.</p>
+      </div>
+      <div>
+        <p class="fact-label">Scope</p>
+        <p class="fact-text">3 sections &middot; 35&ndash;40 minutes, resumable at any point.</p>
+      </div>
+      <div>
+        <p class="fact-label">Built with</p>
+        <p class="fact-text">HTML, CSS, JavaScript &mdash; the screens above are the real thing. Rise 360 for the reference section, Rive for concept animation.</p>
+      </div>
+    </div>
+
+    <h2>The problem</h2>
+    <p>My child&rsquo;s school trains its staff in a discipline framework, and sent the parents a one-page PDF. The parents I know read it and agreed with it. But the first time we need any of it, it&rsquo;s 7:40 in the morning, there&rsquo;s a shoe across the hallway, and the bus is coming.</p>
+    <p>So the module is built around one bet: trying the words is not the same as reading them. A parent who has typed their own sentence and had it answered starts from a different place than a parent who has only read the handout.</p>
+
+    <h2>How it&rsquo;s built</h2>
+    <div class="sections">
+      <div class="section-card">
+        <p class="fact-label">Section 1</p>
+        <h3 class="card-title">Learn</h3>
+        <p class="card-text">Four principles, each opened by the old frame it replaces.</p>
+      </div>
+      <div class="section-card">
+        <p class="fact-label">Section 2</p>
+        <h3 class="card-title">Test your knowledge</h3>
+        <p class="card-text">Four written scenarios, each needing more than one principle.</p>
+      </div>
+      <div class="section-card">
+        <p class="fact-label">Section 3</p>
+        <h3 class="card-title">Try it out</h3>
+        <p class="card-text">Three multi-turn role-plays that escalate: two turns, three, then four.</p>
+      </div>
+    </div>
+    <p>Before any screen got styled, a wireframe audit triaged 41 items into settled, blocking, and open; seven blockers closed.</p>
+    <p>An unscored baseline sits before section 1 and its reflection after section 3, so the comparison is self-referenced: the parent measures against their own first answer, not a model answer and not a number. Attempting the moment before being taught it is also what makes the teaching land.</p>
+
+    <h2>Six decisions, and what I rejected</h2>
+    <p>Every one of these had a defensible alternative.</p>
+
+    <div class="decisions">
+      <div class="decision">
+        <div>
+          <p class="dec-tag">Assessment</p>
+          <h3 class="dec-title">No item maps to a single principle</h3>
+          <p class="dec-did">The knowledge check is four written scenarios &mdash; supermarket, forced apology, the thing you said, the skeptical grandparent &mdash; each needing more than one principle at once.</p>
+        </div>
+        <div class="dec-instead">
+          <p class="dec-instead-label">Instead of</p>
+          <p class="dec-rejected">One item per principle</p>
+          <p class="dec-why">Mapping one item to one principle teaches the module&rsquo;s own shape instead of the material: parents learn that the fourth principle was about limits, and answer from the table of contents rather than from the situation in front of them. Real moments never arrive labeled with which principle applies.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div>
+          <p class="dec-tag">Assessment</p>
+          <h3 class="dec-title">No percentages anywhere</h3>
+          <p class="dec-did">Every result is a band &mdash; Strong, Nearly there, Not yet &mdash; with the criteria named in plain sentences. There is no overall score at module end.</p>
+        </div>
+        <div class="dec-instead">
+          <p class="dec-instead-label">Instead of</p>
+          <p class="dec-rejected">Per-scenario percentages with no total</p>
+          <p class="dec-why">The incoherent middle: precise enough to invite arithmetic, incomplete enough that the arithmetic is meaningless. And a parent who scores 62% on staying calm with their own child has been handed a number about their parenting. The bands survived because they can be said out loud without that.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div>
+          <p class="dec-tag">Assessment</p>
+          <h3 class="dec-title">The composure cap is never explained as a rule</h3>
+          <p class="dec-did">If the parent loses their composure, the band is Not yet and the other three criteria go gray rather than ticked, under one line: they only work from a calm voice.</p>
+        </div>
+        <div class="dec-instead">
+          <p class="dec-instead-label">Instead of</p>
+          <p class="dec-rejected">Showing three ticks and a failing result</p>
+          <p class="dec-why">Accurate, and it feels unfair &mdash; I did three of the four things and you failed me. Naming the rule up front (&ldquo;composure gates everything&rdquo;) would have been worse: parents would then read every calm reply as gaming the gate.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div>
+          <p class="dec-tag">Help</p>
+          <h3 class="dec-title">Hot help inline, cold help in one panel</h3>
+          <p class="dec-did">Phrase suggestions live in a collapsed strip directly above the answer field. Everything read once &mdash; glossary, save state, privacy &mdash; lives in a single panel behind a ? key.</p>
+        </div>
+        <div class="dec-instead">
+          <p class="dec-instead-label">Instead of</p>
+          <p class="dec-rejected">One unified Help drawer; or a permanent reference rail</p>
+          <p class="dec-why">Merging them puts a calm reference panel in a hot path every time the parent needs three words fast. The permanent rail had the best case on paper &mdash; always visible, nothing to learn &mdash; but it costs 268px, and at 375px that leaves no room for the answer it exists to support. A third option &mdash; dragging phrase cards into the field &mdash; died on the detail: it fights touch scroll and the raised keyboard, is unusable by keyboard and screen reader, and needs a tap fallback anyway, so you ship two interactions.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div>
+          <p class="dec-tag">Help</p>
+          <h3 class="dec-title">The strip never opens itself</h3>
+          <p class="dec-did">Collapsed by default. When the coach sees a miss it offers the phrases in words &mdash; &ldquo;there are three phrasings under Words to try, if you want them&rdquo; &mdash; and remembers the parent&rsquo;s choice after they open it once.</p>
+        </div>
+        <div class="dec-instead">
+          <p class="dec-instead-label">Instead of</p>
+          <p class="dec-rejected">Auto-expanding on a wrong answer</p>
+          <p class="dec-why">A panel that springs open the moment you get something wrong is a correction, and it arrives exactly when a struggling parent is least able to hear one. Said as an offer, the help is still right there, and the parent decides whether to take it.</p>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div>
+          <p class="dec-tag">Visual</p>
+          <h3 class="dec-title">Dark ground means the module is talking about you</h3>
+          <p class="dec-did">Three colors carry meaning and nothing else: blue for emphasis while teaching, green only to confirm something the parent got right, plum for developmental feedback. Dark screens are reserved for the reflective moments &mdash; baseline, reflection, close.</p>
+        </div>
+        <div class="dec-instead">
+          <p class="dec-instead-label">Instead of</p>
+          <p class="dec-rejected">Dark as a section marker</p>
+          <p class="dec-why">Using dark to mean &ldquo;you are in section 3&rdquo; made it decoration. It told the parent where they were, which the header already does. Tying it to a mode of address means the shift in ground is doing work no label could. Tinted fields also lost their strokes: once tint carries meaning, a border around it is a second, competing signal.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="after-decisions">The decisions above about tone and stakes are the oldest part of this practice. Asking someone to try a thing they expect to be bad at, and keeping them willing to try it again, is what I was doing in a classroom long before I built any of this.</p>
+
+    <figure class="pullquote">
+      <blockquote>&ldquo;I&rsquo;ve come to understand that learning is never just about mastering what&rsquo;s written in books. What meant even more to me was the sense of warmth I felt in Dr. LeMay&rsquo;s class &mdash; it truly made FSU feel like a home away from home.&rdquo;</blockquote>
+      <figcaption>Student evaluation, Florida State University, Fall 2025</figcaption>
+    </figure>
+
+    <h2>What this transfers to</h2>
+    <p>Parenting is the subject matter, not the design problem. The design problem was scoring what someone wrote, in a domain where being told you got it wrong stings.</p>
+    <ul class="transfers">
+      <li><strong>Free-text scenario design.</strong> Writing prompts that can&rsquo;t be answered by pattern-matching the last screen, with matcher criteria and per-branch feedback for each.</li>
+      <li><strong>Branching feedback that names criteria, not scores.</strong> Including the case where one criterion cancels the other three.</li>
+      <li><strong>Behavior change over recall.</strong> A baseline captured before instruction and shown back after.</li>
+      <li><strong>Help design under load.</strong> Separating reference a learner reads once from support they need mid-task, in one tap.</li>
+      <li><strong>Low-stakes assessment in a high-stakes emotional context.</strong> Same problem as compliance, feedback, and difficult-conversation training.</li>
+    </ul>
+
+    <h2>How it gets tested</h2>
+    <p>No learner has used this yet. The module goes live in mid-October, and what follows is the plan &mdash; written before the results exist, so it can&rsquo;t be written to fit them.</p>
+    <div class="plan">
+      <div class="plan-row">
+        <p class="plan-when">Oct 14&ndash;24</p>
+        <p class="plan-what"><strong>Eight parents, unmoderated, think-aloud on three.</strong> The question is completion, not satisfaction: does anyone finish all three role-plays in one sitting when told it&rsquo;s three?</p>
+      </div>
+      <div class="plan-row">
+        <p class="plan-when">Ongoing</p>
+        <p class="plan-what"><strong>Read the free-text answers against the matcher.</strong> Every answer the matcher called wrong that a human would call right is a content bug. The &ldquo;I think my answer covered this&rdquo; link exists to collect them.</p>
+      </div>
+      <div class="plan-row">
+        <p class="plan-when">+30 days</p>
+        <p class="plan-what"><strong>One question, by email: did you use any of it?</strong> This is the only row that tests the module&rsquo;s actual bet, and it&rsquo;s the weakest instrument on the page: self-report, thirty days out. Short of putting a researcher in someone&rsquo;s hallway, it&rsquo;s what I have. With a second cohort I&rsquo;d replace it with an unannounced fourth role-play.</p>
+      </div>
+      <div class="plan-row plan-last">
+        <p class="plan-when">Before that</p>
+        <p class="plan-what"><strong>Subject-matter review.</strong> A practitioner reads the four principles for substance before any parent sees them. Plain-language paraphrase is a copyright position, not a guarantee of accuracy.</p>
+      </div>
+    </div>
+
+    <h2>The working documents</h2>
+    <div class="doc-siblings">
+      <div><a href="decision-record/">Design Decision Record</a><p>The alternatives, the reasoning, and the two I lost.</p></div>
+      <div><a href="functional-spec/">Functional spec &mdash; scored components</a><p>Matcher criteria, feedback branches, failure behavior.</p></div>
+      <div><a href="flow-board/">Flow board &mdash; 26 screens</a><p>Every screen in parent-journey order, gaps marked as gaps.</p></div>
+      <div><a href="visual-design/">Visual design board</a><p>Type scale, the three-color system, the light/dark rule.</p></div>
+    </div>
+
+    <div class="closing">
+      <h2>What I&rsquo;m looking for</h2>
+      <p>A team where a design that isn&rsquo;t landing gets fixed in weeks. If you&rsquo;re hiring for instructional or learning experience design, I&rsquo;d like to hear about it &mdash; and I&rsquo;m glad to walk through any decision on this page in more detail.</p>
+      <div class="closing-links">
+        <a class="closing-mail" href="mailto:marclemaydesign@gmail.com">marclemaydesign@gmail.com</a>
+        <a class="closing-label" href="../resume.pdf">Resume (PDF)</a>
+        <a class="closing-label" href="../contact/">Contact form</a>
+      </div>
     </div>
   </main>
 
@@ -32,12 +416,14 @@
     <div class="foot-row">
       <div class="foot-links">
         <a class="foot-mail" href="mailto:marclemaydesign@gmail.com">marclemaydesign@gmail.com</a>
+        <a class="foot-label" href="../resume.pdf">Resume (PDF)</a>
         <a class="foot-label foot-in" href="https://www.linkedin.com/in/marclemaydesign" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false" style="display:block"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
       </div>
     </div>
-    <p class="disclaimer">Conscious Discipline at Home is an independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.</p>
+    <p class="disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance. The framework taught here is described in plain language from widely published general ideas; no proprietary phrasing, scripts, or program terminology is reproduced.</p>
   </footer>
 
 </div>
+<script src="../js/screens.js" defer="defer"></script>
 </body>
 </html>

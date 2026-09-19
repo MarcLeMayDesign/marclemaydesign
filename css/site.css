@@ -30,6 +30,10 @@
 
 *{box-sizing:border-box}
 
+/* A class selector beats the UA [hidden] rule, so any flex/grid element
+   toggled with the hidden attribute would stay visible without this. */
+[hidden]{display:none !important}
+
 html{-webkit-text-size-adjust:100%}
 
 body{
@@ -129,7 +133,7 @@ p{max-width:var(--measure);margin:0 0 1rem;color:var(--ink-soft)}
 .rule{
   height:5px;
   background:var(--clay);
-  max-width:420px;
+  width:min(420px,60%);
   margin:clamp(18px,2.4vw,30px) 0;
   border:0;
 }
@@ -402,3 +406,131 @@ div.work-row{cursor:default}
 }
 .two-col .prose{flex:1 1 380px;min-width:0}
 .two-col .prose-quiet{flex:1 1 280px}
+
+
+/* ---- contact page ---- */
+
+.rule-contact{width:min(320px,60%)}
+
+.contact-form{
+  display:flex;
+  flex-direction:column;
+  gap:clamp(13px,1.5vw,17px);
+  max-width:36rem;
+  /* Filled boxes hang 5px left; the labels push back to flush. See CLAUDE.md. */
+  margin-left:-5px;
+}
+
+.field{display:flex;flex-direction:column;gap:5px}
+
+.field label{
+  margin-left:5px;
+  font:600 12px/1.2 var(--label);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+}
+
+.field label .optional{
+  font:400 13px/1.2 var(--sans);
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--ink-faint);
+}
+
+.field input,.field textarea{
+  width:100%;
+  min-height:46px;
+  padding:10px 14px;
+  background:#241630;
+  border:1px solid #3d2a44;
+  border-radius:4px;
+  color:var(--ink);
+  font:400 17px/1.4 var(--sans);
+}
+
+.field textarea{line-height:1.55;resize:vertical;min-height:116px}
+
+.field input::placeholder,.field textarea::placeholder{color:var(--ink-faint)}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+
+.gotcha{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+.form-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px 22px}
+
+.send{
+  min-height:50px;
+  padding:13px 30px;
+  background:var(--accent);
+  color:var(--ground);
+  border:0;
+  border-radius:4px;
+  font:600 14px/1.2 var(--label);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.send:hover{background:#d8ee78}
+.send[disabled]{cursor:default;opacity:.7}
+
+.form-error{
+  margin:0;
+  flex:1 1 240px;
+  min-width:0;
+  font-size:15px;
+  line-height:1.5;
+  color:#f0b9a8;
+  max-width:none;
+}
+
+.sent{
+  max-width:36rem;
+  border-left:5px solid var(--accent);
+  padding:4px 0 4px 20px;
+}
+.sent h2{
+  font:800 clamp(20px,2vw,26px)/1.25 var(--sans);
+  letter-spacing:-.02em;
+  margin:0 0 8px;
+  max-width:none;
+}
+.sent p{margin:0;font-size:17px;line-height:1.6;color:var(--ink-soft)}
+
+.contact-aside{
+  flex:0 1 clamp(240px,26vw,330px);
+  min-width:220px;
+  margin-top:clamp(30px,5.2vw,74px);
+  display:flex;
+  flex-direction:column;
+  gap:clamp(22px,2.8vw,32px);
+}
+
+.aside-block p{max-width:none}
+
+.aside-label{
+  margin:0 0 12px;
+  font:600 12px/1.2 var(--label);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+  padding-bottom:12px;
+  border-bottom:1px solid var(--rule);
+}
+
+.aside-text{margin:0;font-size:17px;line-height:1.55;color:var(--ink-soft)}
+
+.aside-links{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+
+.aside-mail{
+  font-size:17px;
+  font-weight:600;
+  border-bottom:2px solid var(--accent);
+  padding-bottom:2px;
+}
+
+.aside-in{
+  font-size:17px;
+  color:var(--ink-soft);
+  border-bottom:1px solid #563a5e;
+  padding-bottom:2px;
+}
