@@ -3,41 +3,288 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Conscious Discipline at Home — module</title>
-<link rel="stylesheet" href="../css/site.css">
+<title>Conscious Discipline at Home</title>
+<meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/module.css">
 </head>
 <body>
-<div class="wrap">
 
-  <header class="site-head">
-    <a class="site-name" href="../">Marc LeMay</a>
-    <nav class="site-nav">
-      <a href="../" aria-current="page">Work</a>
-      <a href="../about/">About</a>
-      <a href="../contact/">Contact</a>
-    </nav>
+<div class="app" id="app" data-theme="dark">
+
+  <header class="mod-head">
+    <button class="head-name head-home" id="headName" type="button" title="Back to the start">Conscious Discipline at Home</button>
+    <span class="head-dot" id="headDot" hidden>&middot;</span>
+    <span class="head-sub" id="headSub" hidden></span>
+    <span class="head-gap"></span>
+    <span class="head-status" id="headStatus"></span>
+    <span class="head-prog" id="headProg" hidden></span>
+    <button class="head-about" id="aboutBtn" type="button" title="About this Module" aria-label="About this module">?</button>
   </header>
 
-  <main>
-    <p class="eyebrow">Module</p>
-    <h1>Conscious Discipline at Home</h1>
-    <p class="lede">The working module.</p>
+  <div class="resume" id="resumeStrip" hidden>
+    <p>You were partway through. Your answers are still here.</p>
+    <button class="btn" id="resumeGo" type="button">Pick up where I left off</button>
+    <button class="btn btn-quiet" id="resumeAgain" type="button">Start again</button>
+  </div>
 
-    <div class="stub">
-      <strong>Placeholder.</strong> Shell built Mon 21 – Wed 23; complete 14 Oct. This file gets replaced wholesale — don’t invest anything in it. Its stylesheet and scripts live in /module/css/ and /module/js/; the copy you’ll edit lives in /module/content/.
-    </div>
+  <main class="stage" id="stage">
+
+    <!-- Step 1 ships the spine: seven labeled screens a parent can walk.
+         Section 1's real content lands in Step 2 and replaces each
+         placeholder block below. Header behavior, progress, save, resume
+         and the panel are finished here. -->
+
+    <!-- SCR-100 and SCR-101 are one moment across two screens: the question,
+         then the parent's own answer read back. The 7:40 morning opens the
+         module and is paid off three times later — the shoe capstone, its
+         feedback, and the two bookend reflections. -->
+
+    <section class="screen" id="scr-099" data-theme="dark" hidden>
+      <p class="eyebrow plum">For parents of kindergarteners</p>
+      <h1 class="screen-title">Conscious Discipline at Home</h1>
+      <p class="screen-body">The approach your child&rsquo;s teacher uses in the classroom, designed to help you implement and reinforce it at home. You will learn core principles of the practice and get a chance to practice putting them into action.</p>
+      <p class="screen-body">About forty minutes, in as many sittings as you like. Nothing is graded, nothing is reported to the school, and it remembers where you stopped.</p>
+      <nav class="lenses" aria-label="The three sections">
+        <a class="lens" href="#scr-102">
+          <span class="row"><span class="name">1 &middot; Learn</span><span class="mark">10 min</span></span>
+          <span class="blurb">Four lenses on a hard moment.</span>
+        </a>
+        <a class="lens" href="#scr-107">
+          <span class="row"><span class="name">2 &middot; Test Your Knowledge</span><span class="mark">10 min</span></span>
+          <span class="blurb">Four situations, answered in your own words.</span>
+        </a>
+        <a class="lens" href="#scr-107">
+          <span class="row"><span class="name">3 &middot; Try It Out</span><span class="mark">20 min</span></span>
+          <span class="blurb">Three conversations you practice out loud.</span>
+        </a>
+      </nav>
+      <p class="gate">All three are open from the start. If the situations show an idea hasn&rsquo;t landed yet, the module says which one and points you back to it.</p>
+      <p class="door-note">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.</p>
+    </section>
+
+    <section class="screen" id="scr-100" data-theme="dark" hidden>
+      <p class="eyebrow plum">Before we start</p>
+      <h1 class="screen-title">One morning, before we begin</h1>
+      <p class="screen-body">It is 7:40 in the morning and the bus comes in ten minutes. Your child is sitting in the hallway with one shoe on and the other kicked across the rug.</p>
+      <p class="screen-body"><strong>&ldquo;I&rsquo;m NOT wearing these stupid shoes! They feel weird and I HATE them!&rdquo;</strong></p>
+      <div class="placeholder">
+        <span class="tag">STEP 2 &middot; SCR-100</span>
+        <span class="what">&ldquo;What would you say?&rdquo; and its text field</span>
+        <span class="why">Unscored, and the only thing the final answer gets compared to.</span>
+      </div>
+      <div>
+        <button class="door" id="skipBaseline" type="button" aria-disabled="true">I&rsquo;d rather start with the module &rarr;</button>
+        <p class="door-note">Leaves the baseline unanswered rather than pretending it was skipped past; SCR-304 then falls back to a general reflection prompt. Live with the text field.</p>
+      </div>
+    </section>
+
+    <section class="screen" id="scr-101" data-theme="dark" hidden>
+      <p class="eyebrow plum">There are no right answers yet</p>
+      <h1 class="screen-title">Keep that in mind</h1>
+      <p class="screen-body">Hold on to what you wrote. What follows is about why mornings like it happen, and what small shifts change the outcome. You will see your answer again at the very end.</p>
+      <div class="placeholder">
+        <span class="tag">STEP 2 &middot; SCR-101</span>
+        <span class="what">Their own answer, read back to them</span>
+        <span class="why">Quoted verbatim from SCR-100 &mdash; the same string SCR-304 puts beside their final answer.</span>
+      </div>
+      <div>
+        <button class="door" id="hardMoment" type="button" aria-disabled="true">I&rsquo;m in a hard moment right now &rarr;</button>
+        <p class="door-note">Goes straight to the phrase cards &mdash; words to use in the next ten minutes &mdash; and keeps a way back into Section 1 for later. Live once the cards land.</p>
+      </div>
+    </section>
+
+    <section class="screen" id="scr-102" data-section="learn" data-status="Overview" hidden>
+      <p class="eyebrow">Section 1 of 3</p>
+      <h1 class="screen-title">What you will be doing</h1>
+      <p class="screen-body">Four ideas, then four situations to think through, then three conversations to practice out loud. Thirty-five to forty minutes in total, and it remembers where you stopped.</p>
+      <p class="screen-body">These four lenses are the ones your child&rsquo;s safekeepers use every day in the classroom. There is nothing to memorize, and no order you have to take them in.</p>
+      <nav class="lenses" id="lenses" aria-label="The four lenses">
+        <a class="lens" href="#scr-103" data-lens="scr-103">
+          <span class="row"><span class="name">State comes before skill</span><span class="mark">2 min</span></span>
+          <span class="blurb">An upset brain can&rsquo;t listen, and that includes yours.</span>
+        </a>
+        <a class="lens" href="#scr-104" data-lens="scr-104">
+          <span class="row"><span class="name">Connection before correction</span><span class="mark">2 min</span></span>
+          <span class="blurb">Empathy is what lets a limit actually land.</span>
+        </a>
+        <a class="lens" href="#scr-105" data-lens="scr-105">
+          <span class="row"><span class="name">Look beneath the behavior</span><span class="mark">2 min</span></span>
+          <span class="blurb">What you see is the signal, not the cause.</span>
+        </a>
+        <a class="lens" href="#scr-106" data-lens="scr-106">
+          <span class="row"><span class="name">Discipline is teaching</span><span class="mark">2 min</span></span>
+          <span class="blurb">Stopping a behavior and teaching a skill are two different jobs.</span>
+        </a>
+      </nav>
+      <p class="gate" id="lensGate">Take them in any order. You&rsquo;ll want all four before Test Your Knowledge.</p>
+    </section>
+
+    <section class="screen" id="scr-103" data-section="learn" data-status="Principle 1 of 4" data-steps="4" data-step="1" hidden>
+      <p class="eyebrow">Principle 1</p>
+      <h1 class="screen-title">State before skill</h1>
+      <p class="screen-body">Under stress the brain drops a level, and each level can do less than the one above it. You have the same three, and yours moves first.</p>
+      <div class="levels" id="levels">
+        <div class="sides">
+          <button class="side" type="button" data-side="child" aria-pressed="true">Where they are</button>
+          <button class="side" type="button" data-side="parent" aria-pressed="false">Where you are</button>
+        </div>
+        <p class="sides-note">The same three levels, written twice.</p>
+        <div class="play-row">
+          <button class="btn-play" type="button" id="levelsPlay">Watch a drop, and the way back</button>
+          <p class="play-caption" id="levelsCaption" aria-live="polite"></p>
+        </div>
+        <div class="ladder">
+          <div class="rail">
+            <span class="rail-down">STRESS <b>&#9660;</b></span>
+            <span class="rail-up"><b>&#9650;</b> SUPPORT</span>
+          </div>
+          <div class="tiers">
+            <div class="tier" data-lvl="2">
+              <p class="tier-head"><span class="tier-name">Ready to think</span><span class="cap"><i class="on"></i><i class="on"></i><i class="on"></i></span></p>
+              <p class="tier-shows">Can hear you, can weigh two options.</p>
+              <p class="tier-qa"><span class="k k-asks">ASKS</span><em class="tier-asks">&ldquo;What do I do about this?&rdquo;</em><span class="k k-needs">NEEDS</span><span class="tier-needs">Teaching lands here &mdash; two choices, a plan, a repair.</span></p>
+            </div>
+            <div class="tier" data-lvl="1">
+              <p class="tier-head"><span class="tier-name">Upset</span><span class="cap"><i class="on"></i><i class="on"></i><i></i></span></p>
+              <p class="tier-shows">Shows in the words &mdash; yelling, blaming, &ldquo;you never.&rdquo;</p>
+              <p class="tier-qa"><span class="k k-asks">ASKS</span><em class="tier-asks">&ldquo;Do you still love me?&rdquo;</em><span class="k k-needs">NEEDS</span><span class="tier-needs">Connection. Name the feeling before you name anything else.</span></p>
+            </div>
+            <div class="tier" data-lvl="0">
+              <p class="tier-head"><span class="tier-name">Overwhelmed</span><span class="cap"><i class="on"></i><i></i><i></i></span></p>
+              <p class="tier-shows">Shows in the body &mdash; hitting, bolting, going rigid.</p>
+              <p class="tier-qa"><span class="k k-asks">ASKS</span><em class="tier-asks">&ldquo;Am I safe?&rdquo;</em><span class="k k-needs">NEEDS</span><span class="tier-needs">Safety. Fewer words, slower voice, no questions or choices yet.</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="screen" id="scr-104" data-section="learn" data-status="Principle 2 of 4" data-steps="4" data-step="2" hidden>
+      <p class="eyebrow">Principle 2</p>
+      <h1 class="screen-title">Connection before correction</h1>
+      <p class="screen-body">Naming what a child feels is not agreeing with what they want. It is the thing that makes the limit hearable.</p>
+      <div class="placeholder">
+        <span class="tag">STEP 2 &middot; SCR-104</span>
+        <span class="what">The two-step formula</span>
+        <span class="why">Name the feeling, then hold the limit &mdash; worked through on one example.</span>
+      </div>
+    </section>
+    <section class="screen" id="scr-105" data-section="learn" data-status="Principle 3 of 4" data-steps="4" data-step="3" hidden>
+      <p class="eyebrow">Principle 3</p>
+      <h1 class="screen-title">Look beneath the behavior</h1>
+      <p class="screen-body">What you can see is the smallest part of what is happening. The behavior is above the waterline; the need is underneath it.</p>
+      <div class="berg" id="berg">
+        <div class="sides">
+          <button class="side" type="button" data-case="a" aria-pressed="true">The shoes</button>
+          <button class="side" type="button" data-case="b" aria-pressed="false">The little brother</button>
+        </div>
+        <p class="sides-note">Two moments, the same shape underneath.</p>
+        <div class="berg-box">
+          <div class="berg-top">
+            <p class="berg-eyebrow">WHAT YOU SEE</p>
+            <p class="berg-surface" id="bergSurface">She screams that she will not put her shoes on.</p>
+          </div>
+          <p class="berg-line"><span>THE WATERLINE</span><i></i><em>tap each layer</em></p>
+          <div class="berg-deep">
+            <button class="layer" type="button" data-layer="0" aria-expanded="false">
+              <span class="layer-head"><span class="layer-name">The feeling underneath</span><span class="layer-cue">LOOK</span></span>
+              <span class="layer-body"><span class="layer-text">She has been holding it together all morning and has nothing left to hold it with.</span></span>
+            </button>
+            <button class="layer" type="button" data-layer="1" aria-expanded="false">
+              <span class="layer-head"><span class="layer-name">The unmet need</span><span class="layer-cue">LOOK</span></span>
+              <span class="layer-body"><span class="layer-text">She wants some say in a morning that has already been decided for her.</span></span>
+            </button>
+            <button class="layer" type="button" data-layer="2" aria-expanded="false">
+              <span class="layer-head"><span class="layer-name">The missing skill</span><span class="layer-cue">LOOK</span></span>
+              <span class="layer-body"><span class="layer-text">She cannot yet stop one thing and start another without help doing it.</span></span>
+            </button>
+            <div class="berg-upshot" id="bergUpshot" hidden><p><strong>So what changes?</strong> <span id="bergUpshotText">Not &ldquo;stop screaming and put your shoes on&rdquo; &mdash; but &ldquo;these ones or those ones?&rdquo;, offered before the shouting starts.</span></p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="screen" id="scr-106" data-section="learn" data-status="Principle 4 of 4" data-steps="4" data-step="4" hidden>
+      <p class="eyebrow">Principle 4</p>
+      <h1 class="screen-title">Discipline is teaching, not punishing</h1>
+      <p class="screen-body">When a child misbehaves it is natural to ask how to stop it right now. Stopping a behavior and teaching a skill are different jobs, and only one of them changes next week.</p>
+      <div class="placeholder">
+        <span class="tag">STEP 2 &middot; SCR-106</span>
+        <span class="what">Old frame / the shift, key concept block, two-framings interactive</span>
+        <span class="why">Copy already written on the visual design board.</span>
+      </div>
+    </section>
+
+    <section class="screen" id="scr-107" data-section="learn" data-status="Section close" data-theme="dark" hidden>
+      <p class="eyebrow">End of section 1</p>
+      <h1 class="screen-title">That is the whole of the thinking.</h1>
+      <p class="screen-body">The rest of the module is you using it. Next comes Test Your Knowledge &mdash; four situations, in any order, about ten minutes. This is a reasonable place to stop; your place is saved either way.</p>
+      <p class="gate" id="closeGate"></p>
+      <div class="placeholder">
+        <span class="tag">STEP 2 &middot; SCR-107</span>
+        <span class="what">The section-close band</span>
+        <span class="why">Stopping and continuing get equal weight. No badge, no certificate.</span>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="site-foot">
-    <div class="foot-row">
-      <div class="foot-links">
-        <a class="foot-mail" href="mailto:marclemaydesign@gmail.com">marclemaydesign@gmail.com</a>
-        <a class="foot-label foot-in" href="https://www.linkedin.com/in/marclemaydesign" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false" style="display:block"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
-      </div>
-    </div>
-    <p class="disclaimer">Conscious Discipline at Home is an independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.</p>
-  </footer>
+  <nav class="mod-foot">
+    <button class="btn btn-quiet" id="navBack" type="button">Back</button>
+    <span class="gap"></span>
+    <button class="btn" id="navNext" type="button">Next</button>
+  </nav>
 
 </div>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" hidden>
+  <div class="panel-head">
+    <h2 id="panelTitle">About &amp; reference</h2>
+    <span class="saved" id="panelSaved"></span>
+    <span class="gap"></span>
+    <button class="panel-x" id="panelX" type="button" aria-label="Close">&times;</button>
+  </div>
+
+  <div class="card">
+    <h3>Your place is saved.</h3>
+    <p>This module remembers where you are and everything you have written. As long as you use the same device and browser, you can close the module and come back to it. Nothing is sent anywhere: the scoring runs on your own computer, so what you type never leaves it, and nothing is reported to the school.</p>
+    <p class="sub">Using a different device?</p>
+    <p>Copy this code and paste it into the module on your phone or laptop to pick up where you left off.</p>
+    <div class="code" id="resumeCode"></div>
+    <div class="row">
+      <button class="btn" id="codeCopy" type="button">Copy code</button>
+      <button class="btn btn-quiet" id="codeMail" type="button">Email it to me</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>What the words mean</h3>
+    <p>Ten words the school uses, in plain English first &mdash; each one paired with a phrase you can actually say.</p>
+    <p class="note">The glossary opens from here once the practice section is built.</p>
+  </div>
+
+  <div class="card">
+    <h3>Nobody is grading you</h3>
+    <p>There is no pass mark and no report. You can retake anything as many times as you like, and your best answer is the one that stands.</p>
+  </div>
+
+  <div class="card">
+    <h3>&ldquo;But what if my child is the one being hurt?&rdquo;</h3>
+    <p>Everything here is about teaching a skill over time. It is not about leaving a child unprotected in the moment. If someone is being hurt you stop it first, physically if you have to, and the teaching happens afterward, when everybody is calm. That order is not a compromise; it is the sequence.</p>
+  </div>
+
+  <div class="panel-foot">
+    <p class="keys">Press <strong>?</strong> for this panel. Press <strong>R</strong> for words to try, once you are practicing.</p>
+    <p class="disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.</p>
+  </div>
+</div>
+
+<script src="content/strings.js"></script>
+<script src="js/state.js"></script>
+<script src="js/haptics.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
