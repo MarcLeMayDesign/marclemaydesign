@@ -37,12 +37,13 @@ window.CDAH_STRINGS = {
   /* The End of Section 2 band. Written once, shown twice: on the dark
      close after the last quiz item (SCR-209), and on the light Section 3
      intro a parent sees when they jump straight to Try It Out from the
-     title screen (SCR-300). Edit here and both change. The eyebrow is the
-     one line that differs. */
+     title screen (SCR-300). Edit here and both change. The eyebrow and the
+     title differ: a direct arrival hasn't done the thinking part. */
   close2: {
     eyebrowClose: "End of section 2",
     eyebrowIntro: "Section 3 of 3",
     title: "That\u2019s the thinking part done",
+    titleIntro: "What would you say?",
     body: "Next is Try It Out \u2014 three real moments where you write what you\u2019d actually say. It takes about fifteen minutes, and it\u2019s the part worth doing when you\u2019re not rushing.",
     go: "Start Try It Out",
     stop: "Stop here for now",

@@ -205,7 +205,7 @@
     var intro = sec.getAttribute('data-band') === 'intro';
     var note = q('[data-band-note]');
     q('[data-band-eyebrow]').textContent = intro ? C2.eyebrowIntro : C2.eyebrowClose;
-    q('[data-band-title]').textContent = C2.title || '';
+    q('[data-band-title]').textContent = (intro && C2.titleIntro) || C2.title || '';
     q('[data-band-body]').textContent = C2.body || '';
     q('[data-band-go]').textContent = C2.go || '';
     q('[data-band-stop]').textContent = C2.stop || '';

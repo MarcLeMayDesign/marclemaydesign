@@ -93,6 +93,9 @@
     var log     = section.querySelector('[data-rp-log]');
     var compose = section.querySelector('[data-rp-compose]');
     var field   = section.querySelector('[data-rp-field]');
+    /* The guidance shows on the first turn only; after the parent's first
+       line it has been read, and repeating it every turn is noise. */
+    var FIRST_PH = field ? field.placeholder : '';
     var say     = section.querySelector('[data-rp-say]');
     var safety  = section.querySelector('[data-rp-safety]');
     var result  = section.querySelector('[data-rp-result]');
@@ -135,7 +138,7 @@
       log.innerHTML = '';
       addChild(scene.opening);
       if (rail) rail.to(String(run.level));
-      if (field) field.value = '';
+      if (field) { field.value = ''; field.placeholder = FIRST_PH; }
       compose.hidden = false;
       if (safety) safety.hidden = true;
       result.hidden = true;
@@ -195,6 +198,7 @@
       if (rail) rail.to(String(run.level));
       place();
       field.value = '';
+      field.placeholder = '';
 
       var stage = document.getElementById('stage');
       if (stage) stage.scrollTop = stage.scrollHeight;

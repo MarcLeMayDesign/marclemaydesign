@@ -67,6 +67,10 @@
    kept, and used only if this list is emptied. */
 window.CDAH_COACH_LINES = [
   'Don\u2019t forget, you\u2019re practicing here. Some days? This stuff just doesn\u2019t land. That\u2019s not about you, that\u2019s parenting. Keep at it, keep breathing, and be kind to yourself as well.',
+  'You\u2019re building new muscles here. Some days, the method will fall flat, and that has nothing to do with your skills as a parent. Kids have off days, and so do we. Keep showing up, remember that composure always comes first, and turn that compassion back on yourself every time.',
+  'Remember, you\u2019re here to learn, not to prove anything. Parenting is messy and complex, and it\u2019s normal to feel overwhelmed, even angry. You\u2019re not always gonna get it right, but keep going, and be kind to yourself while you figure this out.',
+  'We have our bad days too. We get short-tempered, we get overwhelmed. Don\u2019t beat yourself up over that, that\u2019s just being a parent. When things don\u2019t work, try telling yourself \u2018Hey, it didn\u2019t work that time, but I\u2019m doing okay. I\u2019ll try again next time.\u2019 A process like this is about learning, not reaching for arbitrary goals.',
+  'When things don\u2019t seem to work, remember: you\u2019re not alone in this. Your child is hearing the same language, working through the same techniques, at school five days a week. The burden isn\u2019t all on you. You\u2019re part of a community now that puts empathy first, and that means being kind to yourself as well.'
 ];
 
 window.CDAH_QUIZ = {
