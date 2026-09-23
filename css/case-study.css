@@ -516,3 +516,23 @@ a:hover{color:#190f1d}
    section break; the text inside keeps its own measure. */
 .ow .carries{max-width:none}
 .ow .site-foot{margin-top:clamp(18px,2.2vw,30px)}
+
+/* ---- Rise write-up: reuses Other Work's annotated rows ---- */
+
+/* Editor screenshots are 1.63:1, not 16:9 — let the image set the frame. */
+.rise .slide-frame{aspect-ratio:auto}
+.rise .slide-frame img{height:auto}
+
+.rise-links{display:flex;flex-wrap:wrap;gap:.875rem 2rem}
+
+.rise-open{
+  font:600 14px/1 var(--label);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  border-bottom:2px solid var(--clay);
+  padding-bottom:3px;
+}
+.rise-open:hover{color:#190f1d}
+
+.rise .site-foot .disclaimer{max-width:60ch;margin:0 0 1rem}

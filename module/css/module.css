@@ -2,7 +2,8 @@
    Not site.css. The module is its own surface and shares nothing with the
    portfolio pages around it.
 
-   Ground      #FBF9F4   warm off-white, every screen but the bookends
+   Ground      #FAFBFC   cool near-white paper, every screen but the bookends
+   Desk        #E2E7ED   the light surround the page sits on (body)
    Bookend     #1C2030   SCR-101, SCR-304 and the dark reflective screens
    Ink         #25293C   headings
    Body        #3B3E4C   running text
@@ -10,14 +11,14 @@
    Action      #1F6FAD   the one blue: links, buttons, live markers
    Plum        #8E3A57   small uppercase labels only
    Tint        #E7EFF7   key-concept blocks and the provisional band
-   Hairline    #E2DCCE   rules and borders on the warm ground
+   Hairline    #DEE3E9   rules and borders on the ground
    Radius      14px      everything soft except rules
    Type        Work Sans throughout
 */
 
 :root{
-  --ground:#FBF9F4;
-  --surface:#FFFCF5;
+  --ground:#FAFBFC;
+  --surface:#F1F4F7;
   --bookend:#1C2030;
   --bookend-surface:#272C3E;
   --bookend-ink:#F4F1EA;
@@ -28,8 +29,8 @@
   --action:#1F6FAD;
   --action-dim:#9FC3DF;
   --plum:#8E3A57;
-  --tint:#E7EFF7;
-  --hair:#E2DCCE;
+  --tint:#DFEAF5;
+  --hair:#DEE3E9;
   --r:14px;
   --head-h:60px;
 }
@@ -39,7 +40,7 @@
 html,body{margin:0;padding:0}
 
 body{
-  background:#EDEAE3;
+  background:#E2E7ED;
   color:var(--body);
   font-family:'Work Sans',system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;
@@ -65,7 +66,7 @@ a:hover{color:#17578A}
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  box-shadow:0 2px 14px rgba(60,52,32,.10);
+  box-shadow:0 3px 18px rgba(36,48,64,.13);
 }
 
 @media (min-width:1000px){
@@ -90,14 +91,17 @@ a:hover{color:#17578A}
   background:var(--ground);
 }
 
+/* The reset and the hover live on .head-home, further down. Nothing belongs
+   here but type and color — a second hover rule on .head-name outranks
+   .head-home:hover and silently replaces it. */
 .head-name{font-weight:600;font-size:15px;color:var(--ink);white-space:nowrap}
-.head-dot{color:#A39C8A}
+.head-dot{color:#9AA3AE}
 .head-sub{font-size:15px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .head-gap{flex:1}
 .head-status{font-weight:500;font-size:12px;color:var(--muted);white-space:nowrap}
 
 .head-prog{display:flex;align-items:center;gap:6px}
-.head-prog i{width:20px;height:5px;border-radius:3px;background:#DCD6C7;display:block}
+.head-prog i{width:20px;height:5px;border-radius:3px;background:#D3DAE2;display:block}
 .head-prog i.on{background:var(--action)}
 .head-prog i.done{background:var(--action-dim)}
 
@@ -215,15 +219,15 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
   color:#fff;
 }
 .btn:hover{background:#17578A}
-.btn[disabled]{background:#DCD6C7;color:#8A8474;cursor:default}
+.btn[disabled]{background:#DDE2E8;color:#868E98;cursor:default}
 
 .btn-quiet{
   background:transparent;
   color:var(--action);
-  box-shadow:inset 0 0 0 1.5px #C9C2B1;
+  box-shadow:inset 0 0 0 1.5px #C3CBD4;
 }
 .btn-quiet:hover{background:var(--tint);color:#17578A}
-.btn-quiet[disabled]{background:transparent;color:#A39C8A;box-shadow:inset 0 0 0 1.5px #E2DCCE}
+.btn-quiet[disabled]{background:transparent;color:#9AA3AE;box-shadow:inset 0 0 0 1.5px #E0E5EB}
 
 .app[data-theme="dark"] .btn{background:#2E86C8;color:#0F1420}
 .app[data-theme="dark"] .btn-quiet{background:transparent;color:#C3C9D8;box-shadow:inset 0 0 0 1.5px #3A4158}
@@ -317,7 +321,7 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .resume .btn{min-height:44px;padding:10px 16px;font-size:14px}
 .app[data-theme="dark"] .resume .btn{background:var(--action);color:#fff}
 .app[data-theme="dark"] .resume .btn:hover{background:#17578A}
-.app[data-theme="dark"] .resume .btn-quiet{background:transparent;color:var(--action);box-shadow:inset 0 0 0 1.5px #C9C2B1}
+.app[data-theme="dark"] .resume .btn-quiet{background:transparent;color:var(--action);box-shadow:inset 0 0 0 1.5px #C3CBD4}
 .app[data-theme="dark"] .resume .btn-quiet:hover{background:#DCE8F3;color:#17578A}
 
 /* ---- phone ---- */
@@ -474,6 +478,278 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .btn-play:hover{opacity:.86}
 .btn-play:focus-visible{outline:2px solid var(--action);outline-offset:2px}
 .play-caption{font-size:14px;line-height:1.4;color:var(--ink);margin:0;flex:1 1 300px;min-height:20px;text-wrap:pretty}
+
+/* ---- SCR-100 the baseline, SCR-101 the read-back ---------------------- *
+   Both sit on the dark bookend. The field is generous on purpose: a parent
+   who writes two words has still answered, and one who writes a paragraph
+   should not feel the box fighting them. No character count — counting is
+   the first thing that makes an unscored answer feel scored. */
+
+.baseline{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.baseline-q{font-weight:600;font-size:17px;color:var(--bookend-ink)}
+.baseline-note{font-size:13.5px;line-height:1.5;color:var(--bookend-soft);margin:0;max-width:56ch}
+.baseline-in{
+  font:400 15px/1.55 'Work Sans',system-ui,sans-serif;
+  color:var(--bookend-ink);
+  background:var(--bookend-surface);
+  border:1.5px solid #3A4158;border-radius:11px;
+  padding:12px 14px;resize:vertical;min-height:96px;width:100%;
+  box-sizing:border-box;
+}
+.baseline-in::placeholder{color:#8891A8}
+.baseline-in:focus-visible{outline:2px solid #2E86C8;outline-offset:1px;border-color:#2E86C8}
+.baseline-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.baseline-state{font-size:13.5px;color:var(--bookend-soft)}
+
+/* The read-back is the parent's own sentence, so it gets quote treatment and
+   the plum rule rather than a card: it is their voice inside the module, not
+   a component of it. */
+.readback{margin:2px 0 0;padding:0 0 0 16px;border-left:3px solid var(--plum)}
+.readback[hidden]{display:none}
+.readback-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:#D79AB3;margin:0 0 6px}
+.readback-q{
+  font-weight:400;font-size:18px;line-height:1.5;color:var(--bookend-ink);
+  margin:0;max-width:54ch;text-wrap:pretty;white-space:pre-wrap;
+}
+
+/* ---- the principle "at home" pair ------------------------------------ *
+   Under the graphic on every principle screen, drawn from
+   content/principles.js. Two labeled rows, not two cards: it is one idea in
+   two moves, and cards would make them feel like separate items. */
+
+/* The body wrapper has to re-establish the screen's own rhythm: .screen is a
+   flex column with gap:22px, so before the paragraphs were wrapped they were
+   flex children and spaced by it. p.screen-body carries margin:0 by design,
+   so a plain block wrapper collapses two paragraphs into one. Same gap value
+   as .screen, not a new one. */
+[data-prin-body]{display:flex;flex-direction:column;gap:22px}
+
+.prin-home{
+  display:flex;flex-direction:column;gap:10px;
+  border-top:1px solid var(--hair);padding-top:14px;margin-top:2px;
+}
+.prin-home[hidden]{display:none}
+.home-row{display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:baseline;margin:0}
+.home-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum)}
+.home-row:last-child .home-k{color:var(--action)}
+.home-t{font-size:14.5px;line-height:1.55;color:var(--body);text-wrap:pretty}
+
+@media (max-width:420px){
+  .home-row{grid-template-columns:1fr;gap:3px}
+}
+
+/* ---- SCR-201 · the quiz item ------------------------------------------ *
+   Two panes in one screen, swapped: ask and result. Both are flex columns
+   re-establishing .screen's 22px rhythm — a wrapper inside .screen inherits
+   nothing, which is the lesson from the principle-body collapse. */
+
+.qz-ask,.qz-result{display:flex;flex-direction:column;gap:22px}
+.qz-ask[hidden],.qz-result[hidden]{display:none}
+
+.qz-field{
+  font:400 15.5px/1.55 'Work Sans',system-ui,sans-serif;
+  color:var(--ink);background:var(--surface);
+  border:1px solid #D5DCE4;border-radius:var(--r);
+  padding:15px 17px;resize:vertical;min-height:104px;width:100%;
+  box-sizing:border-box;box-shadow:0 1px 2px rgba(60,52,32,.10);
+}
+/* The guidance lives in the placeholder rather than under the box: it is
+   advice for someone who has not written yet, and once their answer is in
+   the field it has been taken or ignored either way. It also means a parent
+   returning from the result screen sees their own words where the
+   instruction used to be. --muted at 5.5:1 — the module's own secondary-text
+   value, and dark enough for the one piece of guidance a parent gets before
+   typing. */
+.qz-field::placeholder{color:var(--muted)}
+.qz-field:focus-visible{outline:2px solid var(--action);outline-offset:1px;border-color:var(--action)}
+.qz-acts{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+
+/* The result pane is denser than a reading screen: five blocks, and the
+   parent is scanning rather than reading. Its own gap, not .screen's. */
+.qz-result{gap:14px}
+.qz-verdict{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.qz-verdict h1.screen-title{max-width:none;flex:0 1 auto}
+
+/* Three bands, three treatments. Amber for the middle one is a deliberate
+   reversal of the original "neutral beige" decision (design record 6b):
+   beige was chosen so the middle band read as neither verdict nor prize,
+   and amber does read as a verdict — the traffic-light mapping is exactly
+   what makes it legible, and also what makes it a grade. Accepted anyway,
+   because a band a parent cannot see is worse than one that leans warm.
+
+   The guard: amber is used ONLY on the band pill, never on a criterion
+   glyph, a container, or anything cumulative. Green still may not appear
+   beside a total. To revert, restore #F0ECE1 / #63604F on this one rule. */
+.qz-band{
+  font:500 12px 'Work Sans',sans-serif;letter-spacing:.07em;text-transform:uppercase;
+  border-radius:999px;padding:5px 13px;white-space:nowrap;
+}
+.qz-band[data-band="strong"]{background:#E4EEE5;color:#2F6B47}
+.qz-band[data-band="nearly"]{background:#FBEFD6;color:#8A5A0B}
+.qz-band[data-band="notyet"]{background:#F3E6EB;color:var(--plum)}
+
+.qz-k{
+  font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 7px;
+}
+.qz-k-blue{color:#17578A}
+.qz-block{display:block}
+/* Same box as the answer field — same padding plus its 1px border, same
+   type — so on submit the field can slide up into this position and the
+   text inside does not reflow on the way (js/quiz.js, moveAnswer). */
+.qz-wrote{
+  position:relative;
+  font-size:15.5px;line-height:1.55;color:var(--ink);margin:0;
+  padding:16px 18px;background:var(--surface);border-radius:var(--r);
+  box-shadow:0 1px 2px rgba(60,52,32,.10);white-space:pre-wrap;text-wrap:pretty;
+}
+
+/* Anything the module quotes — the parent's own answer, a line to say, the
+   coach — gets quotation marks. The opening mark hangs into the padding so
+   the first letter keeps its place; the text does not shift to make room. */
+.qz-wrote::before,.qz-say-line::before,.coach-t::before{content:"\201C";position:absolute;left:-.48em}
+.qz-wrote::after,.qz-say-line::after,.coach-t::after{content:"\201D"}
+.qz-wrote::before{left:calc(18px - .48em);top:16px}
+.qz-say-line,.coach-t{position:relative}
+
+.qz-rows{display:flex;flex-direction:column;gap:11px}
+.qz-row{
+  display:grid;grid-template-columns:22px minmax(0,1fr);gap:13px;
+  align-items:baseline;margin:0;
+}
+.qz-g{font:500 14px 'Work Sans',sans-serif}
+.qz-row[data-passed="yes"] .qz-g{color:#2F6B47}
+.qz-row[data-passed="no"] .qz-g{color:var(--plum)}
+/* Every label stays ink. The glyph is the verdict; coloring the line too
+   weighted the misses more heavily than the hits on a screen meant to do
+   both evenly. */
+.qz-t{font-size:15px;line-height:1.5;color:var(--ink);text-wrap:pretty}
+
+.qz-model{background:var(--tint);border-radius:var(--r);padding:15px 18px}
+/* A sayable line, not a model paragraph: the lead sets the moment small and
+   quiet, the line itself is speech and gets the size. Nothing here is longer
+   than a parent could remember at a checkout. */
+.qz-say-lead{font-size:13.5px;line-height:1.5;color:#3E5A72;margin:0 0 6px}
+/* No min-height. The 56px kept from the drag-edit was the two-line height
+   from when this line was capped at 52ch; with the cap gone all four say
+   lines fit on one line, so it stabilized nothing and left 30px of blank
+   tint on the screen we were trimming. If height stability is wanted later
+   it belongs on .qz-model, measured, not on the text. */
+.qz-say-line{font-size:17px;line-height:1.5;color:var(--ink);margin:0;text-wrap:pretty}
+.qz-practice{
+  font-size:13.5px;line-height:1.55;color:var(--muted);margin:0;
+  max-width:58ch;text-wrap:pretty;
+}
+.qz-practice[hidden]{display:none}
+.qz-coach{font-size:15px;line-height:1.6;color:var(--body);margin:0;max-width:64ch;text-wrap:pretty}
+.qz-coach[hidden]{display:none}
+.qz-claimed{font-size:13.5px;line-height:1.5;color:var(--muted);margin:0;max-width:52ch}
+.qz-claimed[hidden]{display:none}
+
+/* ---- SCN-301 · the role-play ----------------------------------------- *
+   Transcript treatment B: the child in a plum-tinted bubble on the left,
+   the parent unboxed, the coach's note under the parent's line. The rail
+   is the pose prototype's, 168px, fed by the child's level. */
+.rp-play{display:flex;flex-direction:column;gap:22px}
+.rp-play[hidden]{display:none}
+.rp-head{display:flex;flex-direction:column;gap:12px}
+.rp-body{display:grid;grid-template-columns:168px minmax(0,1fr);gap:26px;align-items:start}
+/* Not sticky: js/roleplay.js place() translates the figure down to sit
+   beside Maya's latest line. */
+.rp-rail{width:168px;height:252px;will-change:transform}
+.rp-rail > img{object-fit:contain}
+.rp-main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.rp-log{display:flex;flex-direction:column;gap:16px}
+.rp-child{align-self:flex-start;max-width:78%;background:#F3E7EC;border-radius:14px;padding:13px 17px}
+.rp-who{font:500 10px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.11em;margin:0}
+.rp-who-child{color:var(--plum)}
+.rp-who-you{color:var(--action)}
+.rp-line{font-size:16.5px;line-height:1.5;color:var(--ink);margin:4px 0 0;max-width:46ch;text-wrap:pretty;white-space:pre-wrap}
+.rp-note{font-size:13.5px;line-height:1.5;color:var(--muted);margin:7px 0 0;padding-left:13px;box-shadow:inset 2px 0 0 #9FC3DF;max-width:44ch;text-wrap:pretty}
+.rp-compose{display:flex;flex-direction:column;gap:12px}
+.rp-compose[hidden]{display:none}
+.rp-frame{font-size:15px;line-height:1.55;color:var(--ink);margin:0;background:#F3E7EC;border-radius:var(--r);padding:13px 16px;text-wrap:pretty}
+.rp-frame[hidden]{display:none}
+.qz-row[data-passed="muted"] .qz-g,.qz-row[data-passed="muted"] .qz-t{color:#8C949E}
+
+/* ---- the section boundary band (SCR-209 dark, SCR-300 light) ---------- *
+   One copy source (content/strings.js, close2), two grounds. Centered in
+   the stage as on the flow board, 560px measure. */
+.band-close{justify-content:center;align-items:center}
+.band-in{width:100%;max-width:560px;display:flex;flex-direction:column;gap:12px}
+.band-in h1.screen-title{margin:0}
+.band-acts{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.band-note{font-size:13px;line-height:1.5;color:var(--muted);margin:4px 0 0}
+.app[data-theme="dark"] .band-note{color:#9BA3B8}
+
+/* On a phone the rail shrinks rather than disappearing: the child's face
+   changing when your tone does is the point of the scene. */
+@media (max-width:600px){
+  .rp-body{grid-template-columns:76px minmax(0,1fr);gap:14px}
+  .rp-rail{width:76px;height:114px}
+  .rp-child{max-width:100%}
+}
+
+/* ---- the safety reply ------------------------------------------------ *
+   In the coach's voice and slot. Deliberately no tint, no border, no color
+   of its own: a parent who has just written something hard should not see
+   the interface flinch. Same type as the coach line, one step larger. */
+.safety{display:flex;flex-direction:column;gap:18px}
+.safety[hidden]{display:none}
+.safety-t{font-size:16.5px;line-height:1.6;color:var(--ink);margin:0;max-width:60ch;text-wrap:pretty}
+.safety-t:focus{outline:none}
+.app[data-theme="dark"] .safety-t{color:var(--bookend-ink)}
+.safety-link{
+  font:500 17px 'Work Sans',sans-serif;color:var(--action);
+  text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;
+  display:inline-flex;align-items:center;min-height:44px;
+}
+.safety-link:hover{color:#17578A}
+.app[data-theme="dark"] .safety-link{color:#7FB6E0}
+.app[data-theme="dark"] .safety-link:hover{color:#A8CEEC}
+
+/* ---- "Coach says" ------------------------------------------------------ *
+   The one place the coach has a face. Not yet only, never on a safety
+   reply. A quiet surface, not a callout: no border, no accent stripe, and
+   the figure is small enough to read as a signature rather than a mascot. */
+.coach-says{
+  display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px;align-items:center;
+  background:var(--surface);border-radius:var(--r);padding:14px 18px 14px 14px;
+}
+.coach-says[hidden]{display:none}
+.coach-fig{width:56px;height:auto;display:block}
+.coach-txt{display:flex;flex-direction:column;gap:4px}
+.coach-k{font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.coach-t{font-size:15px;line-height:1.55;color:var(--ink);margin:0;text-wrap:pretty}
+
+/* Screen-reader only. The quiz rows use it to say the verdict as a word
+   without printing it beside the line. */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* A text button, for the quiet second action beside a filled one. It is NOT
+   a .btn variant — these two carry only this class, because .btn:hover paints
+   a filled blue background and any variant of it inherits the pill.
+
+   Hover is a soft band behind the words rather than a filled shape: the
+   gradient is sized to the text, not to the 44px hit area, so the highlight
+   hugs the copy and the tap target stays full height. */
+.btn-link{
+  background:none;border:0;padding:0;
+  font:500 14px 'Work Sans',sans-serif;color:var(--action);cursor:pointer;
+  min-height:44px;
+  border-radius:4px;
+}
+.btn-link:hover{
+  color:#17578A;
+  background:linear-gradient(var(--tint),var(--tint)) center/100% 1.75em no-repeat;
+}
+.btn-link:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.btn-link[hidden]{display:none}
+.app[data-theme="dark"] .btn-link{color:#7FB6E0}
+.app[data-theme="dark"] .btn-link:hover{
+  color:#A8CEEC;
+  background:linear-gradient(#2E3549,#2E3549) center/100% 1.75em no-repeat;
+}
 
 /* ---- SCR-105 the iceberg --------------------------------------------- *
    Closed by default on purpose: the principle is that you have to look, so

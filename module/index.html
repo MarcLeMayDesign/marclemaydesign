@@ -51,11 +51,11 @@
           <span class="row"><span class="name">1 &middot; Learn</span><span class="mark">10 min</span></span>
           <span class="blurb">Four lenses on a hard moment.</span>
         </a>
-        <a class="lens" href="#scr-107">
+        <a class="lens" href="#scr-201">
           <span class="row"><span class="name">2 &middot; Test Your Knowledge</span><span class="mark">10 min</span></span>
           <span class="blurb">Four situations, answered in your own words.</span>
         </a>
-        <a class="lens" href="#scr-107">
+        <a class="lens" href="#scr-300">
           <span class="row"><span class="name">3 &middot; Try It Out</span><span class="mark">20 min</span></span>
           <span class="blurb">Three conversations you practice out loud.</span>
         </a>
@@ -69,10 +69,15 @@
       <h1 class="screen-title">One morning, before we begin</h1>
       <p class="screen-body">It is 7:40 in the morning and the bus comes in ten minutes. Your child is sitting in the hallway with one shoe on and the other kicked across the rug.</p>
       <p class="screen-body"><strong>&ldquo;I&rsquo;m NOT wearing these stupid shoes! They feel weird and I HATE them!&rdquo;</strong></p>
-      <div class="placeholder">
-        <span class="tag">STEP 2 &middot; SCR-100</span>
-        <span class="what">&ldquo;What would you say?&rdquo; and its text field</span>
-        <span class="why">Unscored, and the only thing the final answer gets compared to.</span>
+      <div class="baseline" id="baseline">
+        <label class="baseline-q" for="baselineText">What would you say?</label>
+        <p class="baseline-note">Nothing here is scored. It is kept so you can read it again at the end, beside what you would say by then.</p>
+        <textarea class="baseline-in" id="baselineText" rows="4" placeholder="In your own words, out loud if you like."></textarea>
+        <div class="baseline-row">
+          <button class="btn" id="baselineKeep" type="button">Keep this</button>
+          <span class="baseline-state" id="baselineState" aria-live="polite"></span>
+        </div>
+        <div class="safety" id="baselineSafety" hidden></div>
       </div>
       <div>
         <button class="door" id="skipBaseline" type="button" aria-disabled="true">I&rsquo;d rather start with the module &rarr;</button>
@@ -84,11 +89,10 @@
       <p class="eyebrow plum">There are no right answers yet</p>
       <h1 class="screen-title">Keep that in mind</h1>
       <p class="screen-body">Hold on to what you wrote. What follows is about why mornings like it happen, and what small shifts change the outcome. You will see your answer again at the very end.</p>
-      <div class="placeholder">
-        <span class="tag">STEP 2 &middot; SCR-101</span>
-        <span class="what">Their own answer, read back to them</span>
-        <span class="why">Quoted verbatim from SCR-100 &mdash; the same string SCR-304 puts beside their final answer.</span>
-      </div>
+      <figure class="readback" id="readback" hidden>
+        <figcaption class="readback-k">WHAT YOU SAID</figcaption>
+        <blockquote class="readback-q" id="readbackText"></blockquote>
+      </figure>
       <div>
         <button class="door" id="hardMoment" type="button" aria-disabled="true">I&rsquo;m in a hard moment right now &rarr;</button>
         <p class="door-note">Goes straight to the phrase cards &mdash; words to use in the next ten minutes &mdash; and keeps a way back into Section 1 for later. Live once the cards land.</p>
@@ -121,10 +125,10 @@
       <p class="gate" id="lensGate">Take them in any order. You&rsquo;ll want all four before Test Your Knowledge.</p>
     </section>
 
-    <section class="screen" id="scr-103" data-section="learn" data-status="Principle 1 of 4" data-steps="4" data-step="1" hidden>
-      <p class="eyebrow">Principle 1</p>
-      <h1 class="screen-title">State before skill</h1>
-      <p class="screen-body">Under stress the brain drops a level, and each level can do less than the one above it. You have the same three, and yours moves first.</p>
+    <section class="screen" id="scr-103" data-section="learn" data-status="Principle 1 of 4" data-steps="4" data-step="1" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow>Principle 1</p>
+      <h1 class="screen-title" data-prin-title>State before skill</h1>
+      <div data-prin-body><p class="screen-body">Under stress the brain drops a level, and each level can do less than the one above it. You have the same three, and yours moves first.</p></div>
       <div class="levels" id="levels">
         <div class="sides">
           <button class="side" type="button" data-side="child" aria-pressed="true">Where they are</button>
@@ -159,21 +163,23 @@
           </div>
         </div>
       </div>
+      <div class="prin-home" data-prin-home hidden></div>
     </section>
-    <section class="screen" id="scr-104" data-section="learn" data-status="Principle 2 of 4" data-steps="4" data-step="2" hidden>
-      <p class="eyebrow">Principle 2</p>
-      <h1 class="screen-title">Connection before correction</h1>
-      <p class="screen-body">Naming what a child feels is not agreeing with what they want. It is the thing that makes the limit hearable.</p>
+    <section class="screen" id="scr-104" data-section="learn" data-status="Principle 2 of 4" data-steps="4" data-step="2" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow>Principle 2</p>
+      <h1 class="screen-title" data-prin-title>Connection before correction</h1>
+      <div data-prin-body><p class="screen-body">Naming what a child feels is not agreeing with what they want. It is the thing that makes the limit hearable.</p></div>
       <div class="placeholder">
         <span class="tag">STEP 2 &middot; SCR-104</span>
         <span class="what">The two-step formula</span>
         <span class="why">Name the feeling, then hold the limit &mdash; worked through on one example.</span>
       </div>
+      <div class="prin-home" data-prin-home hidden></div>
     </section>
-    <section class="screen" id="scr-105" data-section="learn" data-status="Principle 3 of 4" data-steps="4" data-step="3" hidden>
-      <p class="eyebrow">Principle 3</p>
-      <h1 class="screen-title">Look beneath the behavior</h1>
-      <p class="screen-body">What you can see is the smallest part of what is happening. The behavior is above the waterline; the need is underneath it.</p>
+    <section class="screen" id="scr-105" data-section="learn" data-status="Principle 3 of 4" data-steps="4" data-step="3" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow>Principle 3</p>
+      <h1 class="screen-title" data-prin-title>Look beneath the behavior</h1>
+      <div data-prin-body><p class="screen-body">What you can see is the smallest part of what is happening. The behavior is above the waterline; the need is underneath it.</p></div>
       <div class="berg" id="berg">
         <div class="sides">
           <button class="side" type="button" data-case="a" aria-pressed="true">The shoes</button>
@@ -203,16 +209,18 @@
           </div>
         </div>
       </div>
+      <div class="prin-home" data-prin-home hidden></div>
     </section>
-    <section class="screen" id="scr-106" data-section="learn" data-status="Principle 4 of 4" data-steps="4" data-step="4" hidden>
-      <p class="eyebrow">Principle 4</p>
-      <h1 class="screen-title">Discipline is teaching, not punishing</h1>
-      <p class="screen-body">When a child misbehaves it is natural to ask how to stop it right now. Stopping a behavior and teaching a skill are different jobs, and only one of them changes next week.</p>
+    <section class="screen" id="scr-106" data-section="learn" data-status="Principle 4 of 4" data-steps="4" data-step="4" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow>Principle 4</p>
+      <h1 class="screen-title" data-prin-title>Discipline is teaching, not punishing</h1>
+      <div data-prin-body><p class="screen-body">When a child misbehaves it is natural to ask how to stop it right now. Stopping a behavior and teaching a skill are different jobs, and only one of them changes next week.</p></div>
       <div class="placeholder">
         <span class="tag">STEP 2 &middot; SCR-106</span>
         <span class="what">Old frame / the shift, key concept block, two-framings interactive</span>
         <span class="why">Copy already written on the visual design board.</span>
       </div>
+      <div class="prin-home" data-prin-home hidden></div>
     </section>
 
     <section class="screen" id="scr-107" data-section="learn" data-status="Section close" data-theme="dark" hidden>
@@ -225,6 +233,143 @@
         <span class="what">The section-close band</span>
         <span class="why">Stopping and continuing get equal weight. No badge, no certificate.</span>
       </div>
+    </section>
+
+    <section class="screen" id="scr-201" data-section="check" data-status="Question 1 of 4" data-steps="4" data-step="1" data-quiz="qz-201" hidden>
+
+      <div class="qz-ask" data-qz-ask>
+        <p class="eyebrow">In your own words</p>
+        <p class="screen-body" data-qz-setup></p>
+        <h1 class="screen-title" data-qz-ask-q></h1>
+        <textarea class="qz-field" data-qz-field rows="4" aria-label="Your answer" placeholder="A sentence or two is plenty — write it the way you would explain it to a friend."></textarea>
+        <div class="qz-acts">
+          <button class="btn" data-qz-submit type="button">Check my answer</button>
+          <button class="btn-link" data-qz-skip type="button">Skip this one</button>
+        </div>
+      </div>
+
+      <div class="safety" data-qz-safety hidden></div>
+
+      <div class="qz-result" data-qz-result hidden>
+        <div class="qz-verdict">
+          <h1 class="screen-title" data-qz-head></h1>
+          <span class="qz-band" data-qz-band></span>
+        </div>
+
+        <div class="qz-block">
+          <p class="qz-k sr">What you wrote</p>
+          <p class="qz-wrote" data-qz-wrote></p>
+        </div>
+
+        <div class="qz-rows" data-qz-rows></div>
+
+        <div class="qz-model">
+          <p class="qz-k qz-k-blue" data-qz-say-k>One thing you could say</p>
+          <p class="qz-say-lead" data-qz-say-lead></p>
+          <p class="qz-say-line" data-qz-say-line></p>
+        </div>
+
+        <p class="qz-coach" data-qz-coach></p>
+
+        <aside class="coach-says" data-qz-practice hidden>
+          <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-qz-practice-t></p>
+          </div>
+        </aside>
+
+        <div class="qz-acts">
+          <button class="btn btn-quiet" data-qz-again type="button">Back to the question</button>
+          <button class="btn-link" data-qz-claim type="button" hidden>I think my answer covered this</button>
+        </div>
+        <p class="qz-claimed" data-qz-claimed hidden>Taken at your word. Nobody is grading you — and the wording that tripped this is worth telling Marc about.</p>
+      </div>
+
+    </section>
+
+    <!-- The End of Section 2 band, twice, from one copy source
+         (content/strings.js close2). SCR-209 is the dark close reached by
+         Next. SCR-300 is the same band on the light ground, reachable ONLY
+         from the title screen's Try It Out link: Next and Back step over it
+         (data-direct-only), because a parent arriving from Section 2 has
+         just read it. -->
+    <section class="screen band-close" id="scr-209" data-section="check" data-status="Section close" data-theme="dark" data-band="close" hidden>
+      <div class="band-in">
+        <p class="eyebrow" data-band-eyebrow></p>
+        <h1 class="screen-title" data-band-title></h1>
+        <p class="screen-body" data-band-body></p>
+        <div class="band-acts">
+          <button class="btn" data-band-go type="button"></button>
+          <button class="btn-link" data-band-stop type="button"></button>
+        </div>
+        <p class="band-note" data-band-note aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="screen band-close" id="scr-300" data-section="practice" data-status="Before you start" data-band="intro" data-direct-only hidden>
+      <div class="band-in">
+        <p class="eyebrow" data-band-eyebrow></p>
+        <h1 class="screen-title" data-band-title></h1>
+        <p class="screen-body" data-band-body></p>
+        <div class="band-acts">
+          <button class="btn" data-band-go type="button"></button>
+          <button class="btn-link" data-band-stop type="button"></button>
+        </div>
+        <p class="band-note" data-band-note aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="screen" id="scn-301" data-section="practice" data-status="Scenario 1 of 3" data-steps="3" data-step="1" data-scene="scn-301" hidden>
+
+      <div class="rp-play" data-rp-play>
+        <div class="rp-head">
+          <p class="eyebrow">Scenario 1 &middot; Screen time</p>
+          <h1 class="screen-title">It&rsquo;s time to stop</h1>
+          <p class="screen-body">After dinner. Maya has been on the tablet for forty minutes, and it is time to stop. Say what you would actually say &mdash; there&rsquo;s no single right answer.</p>
+        </div>
+
+        <div class="rp-body">
+          <div class="rp-rail xfade" data-rp-rail aria-hidden="true">
+            <img data-xfade="0" data-on="no" src="assets/img/pose-overwhelmed.png" alt="" width="168" height="252">
+            <img data-xfade="1" data-on="yes" src="assets/img/pose-upset.png" alt="" width="168" height="252">
+            <img data-xfade="2" data-on="no" src="assets/img/pose-ready.png" alt="" width="168" height="252">
+            <img data-xfade="3" data-on="no" src="assets/img/pose-contented.png" alt="" width="168" height="252" style="transform:scale(0.981)">
+          </div>
+          <div class="rp-main">
+            <div class="rp-log" data-rp-log aria-live="polite"></div>
+            <div class="safety" data-rp-safety hidden></div>
+            <div class="rp-compose" data-rp-compose>
+              <textarea class="qz-field" data-rp-field rows="3" aria-label="What you say to Maya" placeholder="What would you say to her? Write it the way you&rsquo;d say it out loud."></textarea>
+              <div class="qz-acts">
+                <button class="btn" data-rp-say type="button">Say it</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qz-result" data-rp-result hidden>
+        <div class="qz-verdict">
+          <h1 class="screen-title" data-rp-head></h1>
+          <span class="qz-band" data-rp-band></span>
+        </div>
+        <p class="qz-coach" data-rp-body></p>
+        <p class="rp-frame" data-rp-frame hidden></p>
+        <div class="qz-rows" data-rp-rows></div>
+        <aside class="coach-says" data-rp-coach hidden>
+          <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-rp-coach-t></p>
+          </div>
+        </aside>
+        <div class="qz-acts">
+          <button class="btn btn-quiet" data-rp-again type="button">Try this one again</button>
+        </div>
+        <p class="qz-claimed">Your strongest attempt is the one that counts.</p>
+      </div>
+
     </section>
 
   </main>
@@ -257,6 +402,11 @@
       <button class="btn" id="codeCopy" type="button">Copy code</button>
       <button class="btn btn-quiet" id="codeMail" type="button">Email it to me</button>
     </div>
+    <p class="sub">Want a fresh start?</p>
+    <p>This clears everything you have written on this device. It cannot be undone.</p>
+    <div class="row">
+      <button class="btn btn-quiet" id="panelRestart" type="button">Start again</button>
+    </div>
   </div>
 
   <div class="card">
@@ -270,7 +420,7 @@
     <p>There is no pass mark and no report. You can retake anything as many times as you like, and your best answer is the one that stands.</p>
   </div>
 
-  <div class="card">
+  <div class="card" id="panelHurt">
     <h3>&ldquo;But what if my child is the one being hurt?&rdquo;</h3>
     <p>Everything here is about teaching a skill over time. It is not about leaving a child unprotected in the moment. If someone is being hurt you stop it first, physically if you have to, and the teaching happens afterward, when everybody is calm. That order is not a compromise; it is the sequence.</p>
   </div>
@@ -282,9 +432,18 @@
 </div>
 
 <script src="content/strings.js"></script>
+<script src="content/principles.js"></script>
+<script src="content/quiz.js"></script>
+<script src="content/safety.js"></script>
+<script src="content/scenarios.js"></script>
 <script src="js/state.js"></script>
 <script src="js/haptics.js"></script>
 <script src="js/fx.js"></script>
+<script src="js/principles.js"></script>
+<script src="js/safety.js"></script>
+<script src="js/matcher.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/roleplay.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

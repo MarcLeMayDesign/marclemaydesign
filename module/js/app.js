@@ -64,7 +64,15 @@
       history.replaceState(null, '', '#' + id);
     }
 
-    var h = el.querySelector('h1');
+    /* The first h1 that is actually on screen. Screens with swapped panes —
+       the quiz's ask and result — carry two, and focusing the hidden one
+       silently drops focus to the body. */
+    var hs = el.querySelectorAll('h1');
+    var h = null;
+    for (var q = 0; q < hs.length; q++) {
+      if (hs[q].offsetParent !== null) { h = hs[q]; break; }
+    }
+    if (!h) h = hs[0] || null;
     if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
     stage.scrollTop = 0;
     /* After focus and the scroll reset, so the fade is not fighting either. */
@@ -164,7 +172,10 @@
   }
 
   function go(delta) {
+    /* Screens marked data-direct-only are doors, not stops: linear nav
+       steps over them in both directions. */
     var i = indexOf(current) + delta;
+    while (i >= 0 && i < ids.length && screens[i].hasAttribute('data-direct-only')) i += delta;
     if (i < 0 || i >= ids.length) return;
     show(ids[i]);
   }
@@ -185,6 +196,27 @@
     if (id && id !== current && indexOf(id) !== -1) show(id);
   });
 
+  /* ---- the End of Section 2 band (SCR-209, SCR-300) --------------------- */
+
+  var bands = stage.querySelectorAll('[data-band]');
+  var C2 = T.close2 || {};
+  for (var b = 0; b < bands.length; b++) (function (sec) {
+    var q = function (s) { return sec.querySelector(s); };
+    var intro = sec.getAttribute('data-band') === 'intro';
+    var note = q('[data-band-note]');
+    q('[data-band-eyebrow]').textContent = intro ? C2.eyebrowIntro : C2.eyebrowClose;
+    q('[data-band-title]').textContent = C2.title || '';
+    q('[data-band-body]').textContent = C2.body || '';
+    q('[data-band-go]').textContent = C2.go || '';
+    q('[data-band-stop]').textContent = C2.stop || '';
+    note.textContent = C2.note || '';
+    q('[data-band-go]').addEventListener('click', function () { H.tap(); show('scn-301'); });
+    /* Stopping is already true — show() saved this screen. The button
+       only says so, with the same weight as going on. */
+    q('[data-band-stop]').addEventListener('click', function () { note.textContent = C2.stopped || C2.note || ''; });
+    window.addEventListener('hashchange', function () { note.textContent = C2.note || ''; });
+  })(bands[b]);
+
   /* ---- the panel ------------------------------------------------------- */
 
   function relTime(ms) {
@@ -204,6 +236,9 @@
     elSaved.textContent = at ? (T.panel.savedPrefix + ' ' + relTime(at)) : '';
   }
 
+  /* Exposed for the safety check's SR-2, which opens the panel at one card. */
+  window.CDAH_OPEN_PANEL = function () { openPanel(); };
+
   function openPanel() {
     lastFocus = document.activeElement;
     paintSaved();
@@ -215,6 +250,7 @@
   }
 
   function closePanel() {
+    if (typeof disarm === 'function') disarm();
     panel.hidden = true;
     scrim.hidden = true;
     document.removeEventListener('keydown', trap, true);
@@ -288,24 +324,178 @@
     var hash = location.hash.slice(1);
     var saved = S.get().screen;
 
-    if (hash && indexOf(hash) !== -1) { show(hash); return; }
+    /* The hash is the module's own bookkeeping, not a deep link: show()
+       replaceStates it on every navigation. So on a reload the hash is
+       nearly always the saved screen, and honoring it here silently
+       teleported the parent past the resume offer — which is also why the
+       offer became unreachable once a hash existed at all.
 
-    if (saved && indexOf(saved) !== -1 && saved !== ids[0] && S.hasProgress()) {
+       A hash that MATCHES the saved screen is therefore treated as our own
+       and falls through to the offer below. A hash that differs is someone
+       arriving at a specific screen deliberately (a shared link, a typed
+       URL, the reference panel) and is still honored. */
+    if (hash && indexOf(hash) !== -1 && hash !== saved) { show(hash); return; }
+
+    /* Gated on progress alone. The old gate also required saved !== ids[0],
+       and the title screen is easy to reach (Back from SCR-100, the header
+       title) — so a parent with real progress who last stood on the title
+       lost the offer for good, and with it the strip's Start again. */
+    var target = resumeTarget();
+    if (target && S.hasProgress()) {
       /* Do not silently teleport them. Show the first screen with an offer. */
       show(ids[0], { silent: true });
       resume.hidden = false;
-      btnResume.addEventListener('click', function () { H.tap(); show(saved); });
-      btnAgain.addEventListener('click', function () { S.restart(); resume.hidden = true; show(ids[0]); });
+      btnResume.addEventListener('click', function () { H.tap(); show(resumeTarget() || ids[0]); });
+      btnAgain.addEventListener('click', restartAll);
       return;
     }
 
     show(ids[0]);
   }
 
+  /* Where "Pick up where I left off" goes: the last screen reached, unless
+     that was the title — then the furthest screen in the visited list that
+     isn't. Resolved at click time, not closed over at boot. */
+  function resumeTarget() {
+    var st = S.get();
+    if (st.screen && st.screen !== ids[0] && indexOf(st.screen) !== -1) return st.screen;
+    var v = st.visited || [];
+    for (var i = v.length - 1; i >= 0; i--) {
+      if (v[i] !== ids[0] && indexOf(v[i]) !== -1) return v[i];
+    }
+    return null;
+  }
+
+  /* One restart, two doors: the resume strip and the panel. No haptic on
+     either — a buzz confirming a deletion reads as approval. */
+  function restartAll() {
+    S.restart();
+    /* Every screen that holds a typed value clears itself off this. */
+    document.dispatchEvent(new CustomEvent('cdah:restart'));
+    resume.hidden = true;
+    show(ids[0]);
+  }
+
+  /* The panel's Start again. The strip's is answered by being on the title
+     screen with an offer in front of you; this one is reachable from any
+     screen mid-module, so it asks once more before it clears anything. */
+  var btnPanelAgain = document.getElementById('panelRestart');
+  var panelAgainTimer = null;
+  if (btnPanelAgain) {
+    var panelAgainLabel = btnPanelAgain.textContent;
+    btnPanelAgain.addEventListener('click', function () {
+      if (btnPanelAgain.getAttribute('data-armed') !== 'yes') {
+        btnPanelAgain.setAttribute('data-armed', 'yes');
+        btnPanelAgain.textContent = 'Tap again to clear everything';
+        clearTimeout(panelAgainTimer);
+        panelAgainTimer = setTimeout(disarm, 5000);
+        return;
+      }
+      disarm();
+      closePanel();
+      restartAll();
+    });
+  }
+  function disarm() {
+    if (!btnPanelAgain) return;
+    clearTimeout(panelAgainTimer);
+    btnPanelAgain.removeAttribute('data-armed');
+    btnPanelAgain.textContent = panelAgainLabel;
+  }
+
   S.onChange(function () { if (!panel.hidden) paintSaved(); });
   setInterval(function () { if (!panel.hidden) paintSaved(); }, 30000);
 
   boot();
+})();
+
+
+/* ===== SCR-100 the baseline, SCR-101 the read-back =====================
+   One closure, two screens, because they are one moment: the answer and the
+   answer read back. Own closure for the same reason as the graphics — if
+   this throws, navigation still works.
+
+   The baseline is stored under the item id 'baseline'. It is deliberately
+   passed to S.answer with no band: it is the one answer in the module that
+   is never scored, and giving it a band would put it in state.best where the
+   results screen would find it.
+
+   Saving is explicit rather than on every keystroke. A parent typing into a
+   box that silently saves has no moment of having finished, and SCR-101's
+   whole job is to hand that sentence back as something they committed to. */
+
+(function () {
+  'use strict';
+  var S = window.CDAH_STATE;
+  var H = window.CDAH_HAPTICS;
+
+  var field = document.getElementById('baselineText');
+  var keep  = document.getElementById('baselineKeep');
+  var note  = document.getElementById('baselineState');
+  var bSafe = document.getElementById('baselineSafety');
+  var back  = document.getElementById('readback');
+  var backT = document.getElementById('readbackText');
+
+  function saved() {
+    var a = S.get().answers;
+    return (a && typeof a.baseline === 'string') ? a.baseline : '';
+  }
+
+  /* SCR-101 with nothing to quote says nothing at all — no empty quote
+     frame, no "you didn't answer." A parent who skipped the field gets a
+     screen that simply reads as its own paragraph, which is also what
+     package G's skip door will need. */
+  function paintReadback() {
+    if (!back || !backT) return;
+    var text = saved().replace(/\s+$/, '');
+    if (!text) { back.hidden = true; backT.textContent = ''; return; }
+    backT.textContent = '\u201C' + text + '\u201D';
+    back.hidden = false;
+  }
+
+  if (field) {
+    field.value = saved();
+    if (note && field.value) note.textContent = 'Kept.';
+    field.addEventListener('input', function () {
+      /* The confirmation is about the stored sentence, so it clears the
+         moment the box stops matching what is stored. */
+      if (note) note.textContent = (field.value === saved()) ? 'Kept.' : '';
+    });
+  }
+
+  if (keep && field) {
+    keep.addEventListener('click', function () {
+      var text = field.value.replace(/\s+$/, '');
+      if (!text) { if (note) note.textContent = 'Nothing to keep yet.'; field.focus(); return; }
+      /* The baseline is where a parent is most likely to write something
+         true about their own week. Checked first; on a fire, nothing kept. */
+      if (window.CDAH_SAFETY && bSafe) {
+        var sr = window.CDAH_SAFETY.check(text, { context: 'baseline' });
+        if (sr) {
+          if (note) note.textContent = '';
+          window.CDAH_SAFETY.render(bSafe, sr, function () { bSafe.hidden = true; field.focus(); });
+          return;
+        }
+      }
+      if (bSafe) bSafe.hidden = true;
+      S.answer('baseline', text);
+      H.tap();
+      if (note) note.textContent = 'Kept.';
+      paintReadback();
+    });
+  }
+
+  document.addEventListener('cdah:restart', function () {
+    if (field) field.value = '';
+    if (note) note.textContent = '';
+    if (bSafe) bSafe.hidden = true;
+    paintReadback();
+  });
+
+  paintReadback();
+  /* The router owns navigation; this only needs to know a screen changed.
+     Cheaper and less coupled than reaching into show(). */
+  window.addEventListener('hashchange', paintReadback);
 })();
 
 

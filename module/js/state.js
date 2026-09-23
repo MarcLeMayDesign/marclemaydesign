@@ -13,7 +13,9 @@
     answers: {},         // { itemId: "what they typed" }
     bands: {},           // { itemId: "strong" | "nearly" | "notyet" }
     best: {},            // { itemId: band } — best stands
+    claims: {},          // { itemId: true } — "I think my answer covered this"
     stripOpen: false,    // Words to try: remembered once they open it
+    coach: { given: {}, next: 0 }, // { itemId: line index }, next line to hand out
     savedAt: null        // ms epoch of last write
   };
 
@@ -72,6 +74,19 @@
         if (prev === undefined || rank[band] > rank[prev]) state.best[itemId] = band;
       }
       write();
+    },
+
+    /* The coach line for one item. First ask assigns the next line in the
+       list and remembers it; every later ask returns the same one. */
+    coachLine: function (itemId, lines) {
+      if (!lines || !lines.length) return '';
+      var c = state.coach || (state.coach = { given: {}, next: 0 });
+      if (!(itemId in c.given)) {
+        c.given[itemId] = c.next % lines.length;
+        c.next = c.next + 1;
+        write();
+      }
+      return lines[c.given[itemId] % lines.length] || '';
     },
 
     onChange: function (fn) { listeners.push(fn); },
