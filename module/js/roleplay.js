@@ -139,6 +139,7 @@
       addChild(scene.opening);
       if (rail) rail.to(String(run.level));
       if (field) { field.value = ''; field.placeholder = FIRST_PH; }
+      if (say) say.disabled = false;
       compose.hidden = false;
       if (safety) safety.hidden = true;
       result.hidden = true;
@@ -149,7 +150,7 @@
     }
 
     function addChild(text) {
-      var b = el('div', 'rp-child');
+      var b = el('div', 'rp-child rp-in');
       b.appendChild(el('p', 'rp-who rp-who-child', scene.child.toUpperCase()));
       b.appendChild(el('p', 'rp-line', text));
       log.appendChild(b);
@@ -157,7 +158,7 @@
     }
 
     function addParent(text, note) {
-      var b = el('div', 'rp-you');
+      var b = el('div', 'rp-you rp-in');
       b.appendChild(el('p', 'rp-who rp-who-you', 'YOU'));
       b.appendChild(el('p', 'rp-line', text));
       if (note) b.appendChild(el('p', 'rp-note', note));
@@ -192,19 +193,57 @@
       run.turns++;
       H.tap();
 
-      addParent(raw, r.note);
-      if (r.child) addChild(r.child);
-      /* Pose and position change together: one gesture, not two. */
-      if (rail) rail.to(String(run.level));
-      place();
+      /* Paced like texting: your line goes up, the log scrolls to it, Maya
+         is seen typing, then her reply lands and the log scrolls again. The
+         wait scales a little with her reply's length. Say it is held while
+         she types so a second line cannot overtake her answer; the field
+         keeps focus so the phone keyboard stays up. */
+      var token = run;
       field.value = '';
       field.placeholder = '';
+      say.disabled = true;
+      addParent(raw, r.note);
+      toBottom();
+      var quick = FX && FX.reduced();
+      var dots = null;
+      setTimeout(function () {
+        if (run !== token) return;
+        dots = typing();
+        toBottom();
+      }, quick ? 0 : 350);
+      var wait = quick ? 500 : 900 + Math.min(900, (r.child || '').length * 14);
+      setTimeout(function () {
+        if (run !== token) return;
+        if (dots) dots.remove();
+        if (r.child) addChild(r.child);
+        /* Pose and position change together: one gesture, not two. */
+        if (rail) rail.to(String(run.level));
+        place();
+        toBottom();
+        say.disabled = false;
+        if (run.level === 3 || run.turns >= scene.maxTurns) finish();
+        else field.focus({ preventScroll: true });
+      }, wait);
+      field.focus({ preventScroll: true });
+    }
 
+    function typing() {
+      var b = el('div', 'rp-child rp-typing');
+      b.setAttribute('aria-label', scene.child + ' is typing');
+      b.appendChild(el('p', 'rp-who rp-who-child', scene.child.toUpperCase()));
+      var d = el('p', 'rp-dots');
+      for (var i = 0; i < 3; i++) d.appendChild(el('i'));
+      b.appendChild(d);
+      log.appendChild(b);
+      return b;
+    }
+
+    function toBottom() {
       var stage = document.getElementById('stage');
-      if (stage) stage.scrollTop = stage.scrollHeight;
-
-      if (run.level === 3 || run.turns >= scene.maxTurns) finish();
-      else field.focus();
+      if (!stage) return;
+      var top = stage.scrollHeight;
+      if (stage.scrollTo && !(FX && FX.reduced())) stage.scrollTo({ top: top, behavior: 'smooth' });
+      else stage.scrollTop = top;
     }
 
     function finish() {

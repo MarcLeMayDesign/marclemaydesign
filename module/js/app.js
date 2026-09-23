@@ -500,6 +500,23 @@
   /* The router owns navigation; this only needs to know a screen changed.
      Cheaper and less coupled than reaching into show(). */
   window.addEventListener('hashchange', paintReadback);
+
+  /* Keyboard up on a phone: hide the footer while a text field has focus.
+     The short delay on blur covers tapping a button beside the field, which
+     blurs it for a moment before focus returns. */
+  if (window.matchMedia && matchMedia('(pointer: coarse)').matches) {
+    var kbT = null;
+    var isField = function (t) { return t && (t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && /^(text|search|email)?$/.test(t.type || ''))); };
+    document.addEventListener('focusin', function (e) {
+      if (!isField(e.target)) return;
+      clearTimeout(kbT); document.getElementById('app').setAttribute('data-kb', 'open');
+    });
+    document.addEventListener('focusout', function (e) {
+      if (!isField(e.target)) return;
+      clearTimeout(kbT);
+      kbT = setTimeout(function () { if (!isField(document.activeElement)) document.getElementById('app').removeAttribute('data-kb'); }, 250);
+    });
+  }
 })();
 
 

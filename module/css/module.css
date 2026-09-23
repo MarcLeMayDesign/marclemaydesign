@@ -667,6 +667,16 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .rp-line{font-size:16.5px;line-height:1.5;color:var(--ink);margin:4px 0 0;max-width:46ch;text-wrap:pretty;white-space:pre-wrap}
 .rp-note{font-size:13.5px;line-height:1.5;color:var(--muted);margin:7px 0 0;padding-left:13px;box-shadow:inset 2px 0 0 #9FC3DF;max-width:44ch;text-wrap:pretty}
 .rp-compose{display:flex;flex-direction:column;gap:12px}
+.rp-in{animation:rp-in .28s cubic-bezier(.2,.7,.3,1) both}
+@keyframes rp-in{from{opacity:0;transform:translateY(8px)}}
+.rp-dots{display:flex;gap:5px;margin:9px 0 3px;height:8px;align-items:center}
+.rp-dots i{width:7px;height:7px;border-radius:50%;background:#A4627C;opacity:.35;animation:rp-dot 1.1s infinite ease-in-out}
+.rp-dots i:nth-child(2){animation-delay:.15s}
+.rp-dots i:nth-child(3){animation-delay:.3s}
+@keyframes rp-dot{30%{opacity:1;transform:translateY(-2px)}60%{opacity:.35;transform:none}}
+/* Phone keyboard up: the Back/Next bar steps aside so the conversation and
+   Say it keep the room. Set by js/app.js on touch devices only. */
+.app[data-kb="open"] .mod-foot{display:none}
 .rp-compose[hidden]{display:none}
 .rp-frame{font-size:15px;line-height:1.55;color:var(--ink);margin:0;background:#F3E7EC;border-radius:var(--r);padding:13px 16px;text-wrap:pretty}
 .rp-frame[hidden]{display:none}
