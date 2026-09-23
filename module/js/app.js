@@ -60,8 +60,12 @@
 
     if (!opts || !opts.silent) S.reached(id);
     paintLenses();
+    /* Each move is a history entry, so the phone's Back button steps back
+       through screens like the module's own Back. Load and resume replace
+       instead, so Back from the first screen still leaves the module. */
     if (location.hash.slice(1) !== id) {
-      history.replaceState(null, '', '#' + id);
+      if (opts && opts.replace) history.replaceState(null, '', '#' + id);
+      else history.pushState(null, '', '#' + id);
     }
 
     /* The first h1 that is actually on screen. Screens with swapped panes —
@@ -334,7 +338,7 @@
        and falls through to the offer below. A hash that differs is someone
        arriving at a specific screen deliberately (a shared link, a typed
        URL, the reference panel) and is still honored. */
-    if (hash && indexOf(hash) !== -1 && hash !== saved) { show(hash); return; }
+    if (hash && indexOf(hash) !== -1 && hash !== saved) { show(hash, { replace: true }); return; }
 
     /* Gated on progress alone. The old gate also required saved !== ids[0],
        and the title screen is easy to reach (Back from SCR-100, the header
@@ -343,14 +347,14 @@
     var target = resumeTarget();
     if (target && S.hasProgress()) {
       /* Do not silently teleport them. Show the first screen with an offer. */
-      show(ids[0], { silent: true });
+      show(ids[0], { silent: true, replace: true });
       resume.hidden = false;
       btnResume.addEventListener('click', function () { H.tap(); show(resumeTarget() || ids[0]); });
       btnAgain.addEventListener('click', restartAll);
       return;
     }
 
-    show(ids[0]);
+    show(ids[0], { replace: true });
   }
 
   /* Where "Pick up where I left off" goes: the last screen reached, unless
@@ -373,7 +377,7 @@
     /* Every screen that holds a typed value clears itself off this. */
     document.dispatchEvent(new CustomEvent('cdah:restart'));
     resume.hidden = true;
-    show(ids[0]);
+    show(ids[0], { replace: true });
   }
 
   /* The panel's Start again. The strip's is answered by being on the title
