@@ -681,7 +681,7 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .wt[hidden],.wt-cards[hidden],[data-wt-use][hidden]{display:none}
 .wt-pill{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:transparent;box-shadow:inset 0 0 0 1.5px #C3CBD4;color:var(--action);font:600 13.5px/1 'Work Sans',sans-serif;cursor:pointer}
 .wt-pill:hover{box-shadow:inset 0 0 0 1.5px var(--action-dim)}
-.wt-pill svg{transition:transform .2s ease}
+.wt-pill svg{transition:transform .3s cubic-bezier(.2,.7,.2,1)}
 .wt-pill[aria-expanded="true"] svg{transform:rotate(180deg)}
 .wt-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px}
 .wt-card{display:flex;flex-direction:column;gap:5px;text-align:left;min-height:44px;padding:12px 14px;border:1px solid var(--hair);border-radius:var(--r);background:#fff;color:var(--ink);font:inherit;cursor:pointer}
@@ -931,8 +931,8 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .qz-field[data-prov]{scrollbar-gutter:stable}
 .qz-ghost em{font-style:italic}
 .qz-ghost[hidden]{display:none}
-.wt-prov{margin:0 0 -4px;font:500 12px/1.3 'Work Sans',sans-serif;color:var(--muted)}
-.wt-prov[hidden]{display:none}
+.wt-prov{margin:0;align-self:center;flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:500 12px/1.3 'Work Sans',sans-serif;color:var(--muted);text-wrap:pretty}
+.wt-prov[hidden],.rp-side[hidden]{display:none}
 
 @media (max-width:600px){
   .screen[data-scene]{padding-bottom:0}
@@ -953,5 +953,10 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
   .wt-cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;margin:0 -18px;padding:0 18px 2px;scroll-padding:0 18px;scrollbar-width:none}
   .wt-cards::-webkit-scrollbar{display:none}
   .wt-card{flex:0 0 76%;scroll-snap-align:start}
+  /* Phone: the label must fit beside Use it and Say it, or the row wraps,
+     the compose bar grows and the cards jump mid double-tap. The italic
+     already says preview, so the lead-in goes. */
+  .wt-prov-lead{display:none}
+  .rp-acts:has(.wt-prov:not([hidden])){flex-wrap:nowrap}
   .rp-side{gap:14px}
 }

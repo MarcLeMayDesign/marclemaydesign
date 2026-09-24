@@ -131,12 +131,29 @@
     var prov = null;    // the Words to try card being previewed, or null
     var draft = '';     // what the parent had typed before a preview
     var provLbl = section.querySelector('[data-wt-prov]');
+    /* The label takes Back/Start over's place in the button row while a
+       preview is up. Above the field it grew the sticky compose bar, which
+       pushed the cards up mid double-tap so the second tap missed. */
+    var sideEl  = section.querySelector('.rp-side');
+    function showLbl(on) { if (provLbl) provLbl.hidden = !on; if (sideEl) sideEl.hidden = on; }
     /* Touch-first devices keep with a double-tap. Mouse-first ones keep with
        Enter (Return on a Mac): double-click was unreliable on a draggable
        card and gave no feedback between the two clicks. */
     var fine = !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
+    /* The label names one way to keep: the gesture. Use it is a visible
+       button and says so itself; Enter is what a keyboard user already
+       tries on a focused card, so it works without being taught. The word
+       follows the layout as well as the pointer, so a phone-width frame on
+       a desktop (the Flow board) says what a phone says. */
     var dblWord = section.querySelector('[data-wt-dbl]');
-    if (dblWord && fine) dblWord.textContent = /Mac/i.test(navigator.platform || navigator.userAgent) ? 'press Return' : 'press Enter';
+    function setDblWord() {
+      if (!dblWord) return;
+      var phone = matchMedia('(max-width:600px)').matches;
+      /* At phone width the "Preview ·" lead-in is hidden, so the word leads. */
+      dblWord.textContent = phone ? 'Double-tap' : fine ? 'double-click' : 'double-tap';
+    }
+    setDblWord();
+    if (window.matchMedia) { var mq = matchMedia('(max-width:600px)'); if (mq.addEventListener) mq.addEventListener('change', setDblWord); }
     /* A textarea can only style all of its text at once, so the preview is
        drawn by a mirror layer: the parent's own words upright, only the
        previewed phrase in italic. The real text goes transparent underneath
@@ -204,8 +221,32 @@
     function setStrip(open, remember) {
       if (!pill) return;
       pill.setAttribute('aria-expanded', open ? 'true' : 'false');
-      cards.hidden = !open;
       if (!open) clearPreview(true);
+      slide(open);
+    }
+
+    /* The cards open and close like a drawer: height and fade together,
+       300ms open, 240ms close. Reduce Motion gets the plain show/hide. */
+    var drawer = null;
+    function slide(open) {
+      if (drawer) { drawer.cancel(); drawer = null; }
+      var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (still || !cards.animate) { cards.hidden = !open; return; }
+      var wasHidden = cards.hidden;
+      cards.hidden = false;
+      var h = cards.scrollHeight;
+      var shut = { height: '0px', marginTop: '-10px', opacity: 0 };
+      var full = { height: h + 'px', marginTop: '0px', opacity: 1 };
+      if (open && !wasHidden) return;
+      if (!open && wasHidden) { cards.hidden = true; return; }
+      cards.style.overflowY = 'hidden';
+      drawer = cards.animate(open ? [shut, full] : [full, shut],
+        { duration: open ? 300 : 240, easing: open ? 'cubic-bezier(.2,.7,.2,1)' : 'cubic-bezier(.4,0,.8,.4)' });
+      drawer.onfinish = function () {
+        drawer = null;
+        cards.style.overflowY = '';
+        if (!open) cards.hidden = true;
+      };
     }
 
     /* Cards build on what is already in the field: a phrase goes after it,
@@ -223,7 +264,7 @@
       field.value = join(draft, words[i].say);
       field.setAttribute('data-prov', '');
       drawGhost(draft, words[i].say);
-      if (provLbl) { provLbl.hidden = false; field.setAttribute('aria-describedby', provLbl.id); }
+      if (provLbl) { showLbl(true); field.setAttribute('aria-describedby', provLbl.id); }
       for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', k === i ? 'true' : 'false');
       if (useBtn) useBtn.hidden = false;
       syncSay();
@@ -235,7 +276,7 @@
       if (restore) field.value = draft;
       field.removeAttribute('data-prov');
       hideGhost();
-      if (provLbl) { provLbl.hidden = true; field.removeAttribute('aria-describedby'); }
+      if (provLbl) { showLbl(false); field.removeAttribute('aria-describedby'); }
       for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', 'false');
       if (useBtn) useBtn.hidden = true;
       syncSay();
@@ -243,9 +284,13 @@
 
     function commit() {
       clearPreview(false);
-      field.focus();
-      var n = field.value.length;
-      try { field.setSelectionRange(n, n); } catch (e) {}
+      /* On a phone the keyboard stays down: the parent keeps reading with the
+         cards open, and taps the field when they want to type. */
+      if (fine) {
+        field.focus();
+        var n = field.value.length;
+        try { field.setSelectionRange(n, n); } catch (e) {}
+      }
     }
 
     if (strip && words.length) {
@@ -260,15 +305,18 @@
            for speech; the phrase goes into the field without them. */
         c.appendChild(el('span', 'wt-say', '\u201C' + w.say + '\u201D'));
         /* Touch: a quick second tap on the same card keeps it, same as Use
-           it; a slow one takes the preview back off. Mouse: a second click
-           only takes it off. Space (a click with detail 0) is one tap that
+           it; a slow one takes the preview back off. Same for a mouse
+           double-click. Space (a click with detail 0) is one tap that
            previews and never takes it back off; Enter is handled below. */
         c.addEventListener('click', function (e) {
           if (busy) return;
           if (e.detail === 0) { if (prov !== i) keepBottom(function () { preview(i); }); return; }
           var now = Date.now();
           keepBottom(function () {
-            if (!fine && prov === i && lastCard === i && now - lastTap < 400) { lastTap = 0; commit(); return; }
+            /* Two quick taps on the same card keep it, whatever state it
+               was in: the first tap on a previewed card clears it, the
+               second puts it back and keeps it. */
+            if (lastCard === i && now - lastTap < 500) { lastTap = 0; if (prov !== i) preview(i); commit(); return; }
             lastTap = now; lastCard = i;
             if (prov === i) clearPreview(true); else preview(i);
           });
@@ -373,7 +421,7 @@
       if (resetBtn) resetBtn.hidden = true;
       prov = null; draft = '';
       if (field) { field.removeAttribute('data-prov'); field.removeAttribute('aria-describedby'); }
-      if (provLbl) provLbl.hidden = true;
+      showLbl(false);
       hideGhost();
       for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', 'false');
       if (useBtn) useBtn.hidden = true;
@@ -515,9 +563,11 @@
         busy = false; syncSay();
         if (strip && words.length && run.level < 3) { strip.hidden = false; toBottom(); }
         if (run.level === 3 || run.turns >= scene.maxTurns) finish();
-        else field.focus({ preventScroll: true });
+        else if (fine) field.focus({ preventScroll: true });
       }, wait);
-      field.focus({ preventScroll: true });
+      /* Say it on a phone drops the keyboard, and it stays down through
+         Maya's reply: the conversation gets the screen back to read. */
+      if (fine) field.focus({ preventScroll: true }); else field.blur();
     }
 
     function typing(lv) {
