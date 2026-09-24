@@ -76,6 +76,11 @@ a:hover{color:#17578A}
 
 @media (max-width:999px){
   .app{border-radius:0;box-shadow:none}
+  /* Nothing may widen the page past the screen: a few stray pixels (a
+     full-bleed row, 100vw) let a phone zoom out and push the header's
+     buttons to the edge. clip, not hidden, so sticky still works. */
+  html,body{overflow-x:clip;max-width:100%}
+  .app{overflow-x:clip}
 }
 
 /* ---- header ---- */
@@ -340,7 +345,7 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
   .mod-foot{padding:12px 18px}
   .btn{flex:1 1 auto}
   .resume{padding:12px 18px}
-  .panel{border-radius:var(--r) var(--r) 0 0;top:auto;bottom:0;left:0;transform:none;width:100vw;max-height:88vh}
+  .panel{border-radius:var(--r) var(--r) 0 0;top:auto;bottom:0;left:0;right:0;transform:none;width:auto;max-height:88vh}
 }
 
 @media (prefers-reduced-motion:reduce){
