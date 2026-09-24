@@ -306,8 +306,8 @@
       return;
     }
     if (e.key === 'r' || e.key === 'R') {
-      /* R toggles the Words to try strip. The strip arrives with the
-         role-plays; until then the key is reserved and does nothing. */
+      /* R toggles the Words to try strip on the scene that is showing
+         (js/roleplay.js). Off a scene it does nothing. */
       if (window.CDAH_STRIP && window.CDAH_STRIP.toggle) { e.preventDefault(); window.CDAH_STRIP.toggle(); }
       return;
     }

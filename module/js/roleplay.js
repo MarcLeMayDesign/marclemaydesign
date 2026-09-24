@@ -63,7 +63,7 @@
   /* The state machine, as a lookup. Connection before correction is
      enforced here: at the emotional level a limit, even with choices,
      does not move her until she has felt heard. */
-  function step(level, h) {
+  function step(level, h, run) {
     if (h.fail) return { to: Math.max(0, level - 1), key: 'fail' };
     if (level === 0) return (h.connect || h.words <= 10) ? { to: 1, key: 'calm' } : { to: 0, key: 'still' };
     if (level === 1) {
@@ -71,7 +71,9 @@
       if (h.limit) return { to: 1, key: 'limitOnly' };
       return { to: 1, key: 'none' };
     }
-    if (h.limit && h.choices) return { to: 3, key: 'both' };
+    /* At ready, the limit and the choices can arrive in separate lines:
+       what she heard on an earlier turn at this level still holds. */
+    if ((h.limit || run.limit) && (h.choices || run.choices)) return { to: 3, key: 'both' };
     if (h.limit) return { to: 2, key: 'limitOnly' };
     if (h.choices) return { to: 2, key: 'choicesOnly' };
     return { to: 2, key: 'connectAgain' };
@@ -102,9 +104,117 @@
     var railEl  = section.querySelector('[data-rp-rail]');
     var body    = section.querySelector('.rp-body');
     var rail    = FX && FX.layers(railEl);
+    var pose    = FX && FX.layers(result.querySelector('[data-rp-pose]'));
     var railY   = 0;
 
     var run;
+    var busy = false;   // Maya is typing
+    var prov = null;    // the Words to try card being previewed, or null
+    var draft = '';     // what the parent had typed before a preview
+
+    /* ---- Words to try --------------------------------------------------
+       Collapsed by default so the parent tries in their own words first; it
+       remembers their open/closed choice per device and never opens itself.
+       Tap a card: the phrase previews in the field on the tinted band, and
+       Say it waits. Use it (or typing into it) makes it theirs to edit and
+       send. Tap another card to swap, the same card to put their own text
+       back. Cards can also be dragged into the field; nothing depends on it. */
+    var strip  = section.querySelector('[data-wt]');
+    var pill   = section.querySelector('[data-wt-toggle]');
+    var cards  = section.querySelector('[data-wt-cards]');
+    var useBtn = section.querySelector('[data-wt-use]');
+    var words  = scene.words || [];
+    var cardEls = [];
+
+    function syncSay() { if (say) say.disabled = busy || prov !== null; }
+
+    function stripOpen() { return !!(pill && pill.getAttribute('aria-expanded') === 'true'); }
+
+    function setStrip(open, remember) {
+      if (!pill) return;
+      pill.setAttribute('aria-expanded', open ? 'true' : 'false');
+      cards.hidden = !open;
+      if (!open) clearPreview(true);
+      if (remember) S.set({ stripOpen: open });
+    }
+
+    /* Cards build on what is already in the field: a phrase goes after it,
+       never over it, with the joining punctuation a sentence needs. The
+       parent can reorder by hand; appending is the predictable default. */
+    function join(base, add) {
+      var t = (base || '').replace(/\s+$/, '');
+      if (!t) return add;
+      return t + (/[.!?\u2026,;:\u201D"')]$/.test(t) ? ' ' : '. ') + add;
+    }
+
+    function preview(i) {
+      if (prov === null) draft = field.value;
+      prov = i;
+      field.value = join(draft, words[i].say);
+      field.setAttribute('data-prov', '');
+      for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', k === i ? 'true' : 'false');
+      if (useBtn) useBtn.hidden = false;
+      syncSay();
+    }
+
+    function clearPreview(restore) {
+      if (prov === null) return;
+      prov = null;
+      if (restore) field.value = draft;
+      field.removeAttribute('data-prov');
+      for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', 'false');
+      if (useBtn) useBtn.hidden = true;
+      syncSay();
+    }
+
+    function commit() {
+      clearPreview(false);
+      field.focus();
+      var n = field.value.length;
+      try { field.setSelectionRange(n, n); } catch (e) {}
+    }
+
+    if (strip && words.length) {
+      section.querySelector('[data-wt-count]').textContent = words.length;
+      words.forEach(function (w, i) {
+        var c = el('button', 'wt-card');
+        c.type = 'button';
+        c.setAttribute('aria-pressed', 'false');
+        c.draggable = true;
+        c.appendChild(el('span', 'wt-what', w.what));
+        /* Said words carry quotation marks on the card, the module's rule
+           for speech; the phrase goes into the field without them. */
+        c.appendChild(el('span', 'wt-say', '\u201C' + w.say + '\u201D'));
+        c.addEventListener('click', function () {
+          if (busy) return;
+          if (prov === i) clearPreview(true); else preview(i);
+        });
+        c.addEventListener('dragstart', function (e) {
+          clearPreview(true);
+          e.dataTransfer.setData('text/plain', w.say);
+        });
+        cards.appendChild(c);
+        cardEls.push(c);
+      });
+      pill.addEventListener('click', function () { setStrip(!stripOpen(), true); });
+      if (useBtn) useBtn.addEventListener('click', commit);
+      field.addEventListener('input', function () { if (prov !== null) clearPreview(false); });
+      /* A dropped card lands after the text, not wherever the pointer
+         happens to be, same as a tapped one. */
+      field.addEventListener('dragover', function (e) { if (!busy) e.preventDefault(); });
+      field.addEventListener('drop', function (e) {
+        var text = e.dataTransfer && e.dataTransfer.getData('text/plain');
+        if (!text || busy) return;
+        e.preventDefault();
+        if (prov !== null) clearPreview(true);
+        field.value = join(field.value, text);
+        commit();
+      });
+      setStrip(!!S.get().stripOpen, false);
+      strip.hidden = true;
+    } else if (strip) {
+      strip.hidden = true;
+    }
 
     /* Maya travels down beside the transcript and sits next to her latest
        line, crossfading to the new pose on the way. Same motion as the quiz
@@ -141,12 +251,20 @@
 
     function reset() {
       run = { level: scene.start, turns: 0, fail: false, connect: false, limit: false,
-              choices: false, lines: [] };
+              choices: false, lines: [], used: [] };
       log.innerHTML = '';
       addChild(scene.opening);
       if (rail) rail.to(String(run.level));
       if (field) { field.value = ''; field.placeholder = FIRST_PH; }
-      if (say) say.disabled = false;
+      busy = false;
+      /* Words to try waits until she has answered once: the first line is
+         the parent's own. */
+      if (strip) strip.hidden = true;
+      prov = null; draft = '';
+      if (field) field.removeAttribute('data-prov');
+      for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', 'false');
+      if (useBtn) useBtn.hidden = true;
+      syncSay();
       hold(false);
       compose.hidden = false;
       if (safety) safety.hidden = true;
@@ -177,7 +295,7 @@
     function turn() {
       /* Cmd/Ctrl+Enter reaches here without the button, so the typing hold
          has to be checked here too. */
-      if (say.disabled) return;
+      if (busy || prov !== null) return;
       var raw = (field.value || '').replace(/\s+$/, '');
       if (!raw) { field.focus(); return; }
 
@@ -193,18 +311,40 @@
       }
 
       var h = score(scene, raw);
+      /* Words to try phrases sent exactly as the card gave them. Any edit
+         inside a phrase breaks the match, and that is the rule: an edited
+         phrase is the parent's own words. Counted as phrases, not lines, so
+         two cards stacked in one line count twice. */
+      for (var wi = 0; wi < words.length; wi++) {
+        var at = raw.indexOf(words[wi].say);
+        while (at !== -1) { run.used.push(wi); at = raw.indexOf(words[wi].say, at + 1); }
+      }
+      /* A limit or choices said before she has felt heard don't land, so
+         they don't count yet: that row reads "said too early" rather than a
+         tick. This keeps the rows and the band telling the same story. */
+      var ready = run.level >= 2;
+      var s = step(run.level, h, run);
       if (h.fail) run.fail = true;
-      if (h.connect) run.connect = true;
-      if (h.limit) run.limit = true;
-      if (h.choices) run.choices = true;
-
-      var s = step(run.level, h);
+      else {
+        if (h.connect) run.connect = true;
+        if (h.limit) { if (ready) run.limit = true; else run.limitEarly = true; }
+        if (h.choices) { if (ready) run.choices = true; else run.choicesEarly = true; }
+      }
       var rk = run.level + ':' + s.key;
       var r = scene.replies[rk] || {};
       /* The same state twice in a row would repeat her line word for word,
          which reads as a glitch. The second time she uses the 'again' line. */
       var line = (rk === run.lastKey && r.again) ? r.again : r.child;
       run.lastKey = rk;
+      /* A miss, with the strip closed: the coach offers the phrases in words,
+         once per scene, instead of springing the panel open. */
+      var note = r.note;
+      var good = s.key === 'connect' || s.key === 'both' || s.key === 'calm';
+      if (!good && words.length && !stripOpen() && !run.offered) {
+        run.offered = true;
+        note = (note ? note + ' ' : '') + 'There are ' + ['', 'one phrasing', 'two phrasings', 'three phrasings', 'four phrasings'][Math.min(words.length, 4)] +
+          ' under Words to try, if you want ' + (words.length === 1 ? 'it' : 'them') + '.';
+      }
       run.level = s.to;
       run.turns++;
       H.tap();
@@ -217,8 +357,8 @@
       var token = run;
       field.value = '';
       field.placeholder = '';
-      say.disabled = true;
-      addParent(raw, r.note);
+      busy = true; syncSay();
+      addParent(raw, note);
       toBottom();
       var dots = null;
       setTimeout(function () {
@@ -237,7 +377,8 @@
         if (rail) rail.to(String(run.level));
         place();
         toBottom();
-        say.disabled = false;
+        busy = false; syncSay();
+        if (strip && words.length && run.level < 3) strip.hidden = false;
         if (run.level === 3 || run.turns >= scene.maxTurns) finish();
         else field.focus({ preventScroll: true });
       }, wait);
@@ -283,7 +424,10 @@
          that is Nearly there, not Strong. */
       var band = cap ? 'notyet'
         : (missed === 0 ? (run.level === 3 ? 'strong' : 'nearly') : missed === 1 ? 'nearly' : 'notyet');
-      var copy = cap ? scene.results.composure : scene.results[band];
+      /* Strong on two or more card phrases sent as written: same band and
+         ticks, but the coach hands the words back (Decision Record §3). */
+      var variant = (band === 'strong' && run.used.length >= 2 && scene.results.cards) ? 'cards' : band;
+      var copy = cap ? scene.results.composure : scene.results[variant];
 
       S.answer(id, run.lines.join('\n'), band);
 
@@ -291,10 +435,34 @@
       var token = run;
       /* Her last reply is her reaction to your last line, so it stays up long
          enough to read before the result replaces the scene. */
-      setTimeout(function () { if (run === token) paintResult(band, cap, copy); }, 2800);
+      setTimeout(function () { if (run === token) paintResult(band, cap, copy, variant); }, 2800);
     }
 
-    function paintResult(band, cap, copy) {
+    function paintResult(band, cap, copy, variant) {
+      /* Thinking for Not yet, Neutral for Nearly there, Happy for a Strong
+         on the cards, Celebratory for a Strong in their own words. */
+      if (pose) pose.to(variant);
+
+      var cardsBox = result.querySelector('[data-rp-cards]');
+      if (cardsBox) {
+        var list = cardsBox.querySelector('[data-rp-used]');
+        list.innerHTML = '';
+        if (variant === 'cards') {
+          cardsBox.querySelector('[data-rp-cards-t]').textContent = copy.coach || '';
+          var seen = {};
+          for (var u = 0; u < run.used.length; u++) {
+            var wi = run.used[u];
+            if (seen[wi]) continue;
+            seen[wi] = true;
+            var li = el('li');
+            li.appendChild(el('span', 'rp-used-what', words[wi].what));
+            li.appendChild(el('span', 'rp-used-say', '\u201C' + words[wi].say + '\u201D'));
+            list.appendChild(li);
+          }
+        }
+        cardsBox.hidden = variant !== 'cards';
+      }
+
       result.querySelector('[data-rp-head]').textContent = copy.head || '';
       var pill = result.querySelector('[data-rp-band]');
       pill.textContent = M.BANDS[band];
@@ -327,11 +495,12 @@
           t.appendChild(sr);
           t.appendChild(document.createTextNode(row.name));
         } else {
+          var early = !passed && run[k + 'Early'] && row.early;
           p.setAttribute('data-passed', passed ? 'yes' : 'no');
           g.textContent = passed ? '\u2713' : '\u2014';
           sr.textContent = passed ? 'Covered. ' : 'Not yet. ';
           t.appendChild(sr);
-          t.appendChild(document.createTextNode(passed ? row.hit : row.miss));
+          t.appendChild(document.createTextNode(passed ? row.hit : early ? row.early : row.miss));
         }
         p.appendChild(g); p.appendChild(t);
         rows.appendChild(p);
@@ -357,6 +526,14 @@
       hd.focus({ preventScroll: true });
     }
 
+    /* A resize or rotation reflows the transcript, so Maya is re-seated
+       beside her latest line, without the travel animation. */
+    var rz = 0;
+    window.addEventListener('resize', function () {
+      clearTimeout(rz);
+      rz = setTimeout(function () { if (!play.hidden) place(true); }, 120);
+    });
+
     say.addEventListener('click', turn);
     field.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); turn(); }
@@ -365,9 +542,27 @@
       reset(); field.focus();
     });
     document.addEventListener('cdah:restart', reset);
+    if (strip && words.length) {
+      STRIPS.push({ section: section, toggle: function () {
+        var open = !stripOpen();
+        setStrip(open, true);
+        if (open && cardEls[0]) cardEls[0].focus();
+        else if (pill) pill.focus();
+      } });
+    }
 
     reset();
   }
+
+  var STRIPS = [];
+  /* R toggles the strip on whichever scene is showing (js/app.js). */
+  window.CDAH_STRIP = { toggle: function () {
+    for (var i = 0; i < STRIPS.length; i++) {
+      var sec = STRIPS[i].section;
+      var st = sec.querySelector('[data-wt]');
+      if (!sec.hidden && !sec.querySelector('[data-rp-play]').hidden && st && !st.hidden) { STRIPS[i].toggle(); return; }
+    }
+  } };
 
   var scenes = document.querySelectorAll('[data-scene]');
   for (var i = 0; i < scenes.length; i++) build(scenes[i]);

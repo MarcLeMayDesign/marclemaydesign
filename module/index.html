@@ -7,7 +7,7 @@
 <meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/module.css?v=20260924c">
+<link rel="stylesheet" href="css/module.css?v=20260924g">
 </head>
 <body>
 
@@ -340,9 +340,14 @@
             <div class="rp-log" data-rp-log aria-live="polite"></div>
             <div class="safety" data-rp-safety hidden></div>
             <div class="rp-compose" data-rp-compose>
+              <div class="wt" data-wt>
+                <button class="wt-pill" type="button" data-wt-toggle aria-expanded="false" aria-controls="wt-scn-301">Words to try <span aria-hidden="true">&middot;</span> <span data-wt-count>3</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                <div class="wt-cards" id="wt-scn-301" data-wt-cards hidden></div>
+              </div>
               <textarea class="qz-field" data-rp-field rows="3" aria-label="What you say to Maya" placeholder="What would you say to her? Write it the way you&rsquo;d say it out loud."></textarea>
               <div class="qz-acts">
                 <button class="btn" data-rp-say type="button">Say it</button>
+                <button class="btn btn-quiet" data-wt-use type="button" hidden>Use it</button>
               </div>
             </div>
           </div>
@@ -350,15 +355,29 @@
       </div>
 
       <div class="qz-result" data-rp-result hidden>
-        <div class="qz-verdict">
-          <h1 class="screen-title" data-rp-head></h1>
-          <span class="qz-band" data-rp-band></span>
+        <div class="rp-verdict">
+          <div class="rp-pose xfade" data-rp-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="cards" data-on="no" src="assets/img/coach-happy.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
+          <div class="qz-verdict">
+            <h1 class="screen-title" data-rp-head></h1>
+            <span class="qz-band" data-rp-band></span>
+          </div>
         </div>
         <p class="qz-coach" data-rp-body></p>
         <p class="rp-frame" data-rp-frame hidden></p>
         <div class="qz-rows" data-rp-rows></div>
-        <aside class="coach-says" data-rp-coach hidden>
-          <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+        <aside class="coach-says coach-says-bare" data-rp-cards hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-rp-cards-t></p>
+            <ul class="rp-used" data-rp-used></ul>
+          </div>
+        </aside>
+        <aside class="coach-says coach-says-bare" data-rp-coach hidden>
           <div class="coach-txt">
             <p class="coach-k">Coach says</p>
             <p class="coach-t" data-rp-coach-t></p>
@@ -431,19 +450,20 @@
   </div>
 </div>
 
-<script src="content/strings.js?v=20260924c"></script>
-<script src="content/principles.js?v=20260924c"></script>
-<script src="content/quiz.js?v=20260924c"></script>
-<script src="content/safety.js?v=20260924c"></script>
-<script src="content/scenarios.js?v=20260924c"></script>
-<script src="js/state.js?v=20260924c"></script>
-<script src="js/haptics.js?v=20260924c"></script>
-<script src="js/fx.js?v=20260924c"></script>
-<script src="js/principles.js?v=20260924c"></script>
-<script src="js/safety.js?v=20260924c"></script>
-<script src="js/matcher.js?v=20260924c"></script>
-<script src="js/quiz.js?v=20260924c"></script>
-<script src="js/roleplay.js?v=20260924c"></script>
-<script src="js/app.js?v=20260924c"></script>
+<script src="content/strings.js?v=20260924g"></script>
+<script src="content/principles.js?v=20260924g"></script>
+<script src="content/quiz.js?v=20260924g"></script>
+<script src="content/safety.js?v=20260924g"></script>
+<script src="content/scenarios.js?v=20260924g"></script>
+<script src="js/board.js?v=20260924g"></script>
+<script src="js/state.js?v=20260924g"></script>
+<script src="js/haptics.js?v=20260924g"></script>
+<script src="js/fx.js?v=20260924g"></script>
+<script src="js/principles.js?v=20260924g"></script>
+<script src="js/safety.js?v=20260924g"></script>
+<script src="js/matcher.js?v=20260924g"></script>
+<script src="js/quiz.js?v=20260924g"></script>
+<script src="js/roleplay.js?v=20260924g"></script>
+<script src="js/app.js?v=20260924g"></script>
 </body>
 </html>

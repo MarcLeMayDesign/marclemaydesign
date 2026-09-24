@@ -17,6 +17,7 @@
               (a word of three or more letters in capitals, or "!!").
    replies    keyed "level:what happened". Her line, then the coach's note.
               The note names the move and never a number.
+   words      the Words to try strip. It appears after her first reply.
    results    the end screen. Composure failing replaces everything else:
               one row to start with, the other three greyed out.
 
@@ -68,6 +69,16 @@ window.CDAH_SCENES = {
       }
     },
 
+    /* Words to try: the strip above the answer field. One phrase per move,
+       in the order they work. `what` is the small label, `say` is the line
+       that goes into the field. Each `say` is checked against the accept
+       lists above, so using one really does count. */
+    words: [
+      { what: 'Name the feeling first', say: 'It\u2019s really hard to stop when you\u2019re almost done.' },  // NEW
+      { what: 'Say the limit plainly',  say: 'The tablet is going off now. It\u2019s time for bath.' },        // NEW
+      { what: 'Give two ways to move',  say: 'You can pause it or save it. You pick.' }                        // NEW
+    ],
+
     replies: {
       '1:fail':        { child: '(she throws herself face-down on the couch) NO! You\u2019re so MEAN!',
                          again: '(face still in the cushion) Go AWAY.',  // NEW
@@ -104,6 +115,12 @@ window.CDAH_SCENES = {
     results: {
       strong:    { head: 'She stopped, and nobody lost',                             // NEW
                    body: 'You named the feeling, said the limit plainly, and gave her two ways to move inside it \u2014 without your voice going up.' },
+      /* Strong, reached mostly on the Words to try cards sent as written (two
+         or more phrases). Same band, same ticks. The Coach names what each
+         phrase did and asks for the parent's own words: the cards show the
+         move, the parent's own words show they can make it. */
+      cards:     { head: 'She stopped, and nobody lost',
+                   coach: 'Those were my words, and they worked. Now try it again in your own \u2014 yours are the ones you\u2019ll have at bath time.' }, // NEW
       nearly:    { head: 'You stayed with her' },
       notyet:    { head: 'She\u2019s still in the middle of it',                     // NEW
                    body: 'The scene ended with her still stuck. Start with the first row below that isn\u2019t ticked \u2014 the others build on it.' },
@@ -121,9 +138,11 @@ window.CDAH_SCENES = {
                    name: 'Connecting before correcting' },
       limit:     { hit: 'You said the limit out loud.',
                    miss: 'The limit didn\u2019t get said. Understanding without a limit reads to a five-year-old as a yes.',
+                   early: 'You said the limit, but before she felt heard, so it didn\u2019t land yet.',  // NEW
                    name: 'Saying the limit clearly' },
       choices:   { hit: 'You gave her two ways to move.',
                    miss: 'No two choices offered. Two acceptable ways to stop let her do it without losing.',
+                   early: 'You offered choices, but before she felt heard, so she couldn\u2019t use them yet.',  // NEW
                    name: 'Offering two choices' }
     }
   }

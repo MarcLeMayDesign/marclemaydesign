@@ -19,7 +19,17 @@
     savedAt: null        // ms epoch of last write
   };
 
+  /* Board mode (js/board.js, ?board only): memory only, never storage, so a
+     Flow board frame cannot touch the parent's saved progress. */
+  var BOARD = window.CDAH_BOARD;
+
   function read() {
+    if (BOARD) {
+      var b = clone(BLANK);
+      var seed = BOARD.seed || {};
+      for (var sk in seed) b[sk] = seed[sk];
+      return b;
+    }
     try {
       var raw = window.localStorage.getItem(KEY);
       if (!raw) return clone(BLANK);
@@ -40,6 +50,7 @@
 
   function write() {
     state.savedAt = Date.now();
+    if (BOARD) { for (var j = 0; j < listeners.length; j++) listeners[j](state); return; }
     try {
       window.localStorage.setItem(KEY, JSON.stringify(state));
     } catch (e) {

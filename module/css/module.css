@@ -667,6 +667,23 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .rp-line{font-size:16.5px;line-height:1.5;color:var(--ink);margin:4px 0 0;max-width:46ch;text-wrap:pretty;white-space:pre-wrap}
 .rp-note{font-size:13.5px;line-height:1.5;color:var(--muted);margin:7px 0 0;padding-left:13px;box-shadow:inset 2px 0 0 #9FC3DF;max-width:44ch;text-wrap:pretty}
 .rp-compose{display:flex;flex-direction:column;gap:12px}
+/* ---- Words to try ----
+   The pill is the same object in both states; only the chevron turns. A
+   previewed phrase sits on the tint with the blue edge rule, at full ink:
+   the provisional state is carried by ground, never by graying the words. */
+.wt{display:flex;flex-direction:column;gap:10px}
+.wt[hidden],.wt-cards[hidden],[data-wt-use][hidden]{display:none}
+.wt-pill{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:transparent;box-shadow:inset 0 0 0 1.5px #C3CBD4;color:var(--action);font:600 13.5px/1 'Work Sans',sans-serif;cursor:pointer}
+.wt-pill:hover{box-shadow:inset 0 0 0 1.5px var(--action-dim)}
+.wt-pill svg{transition:transform .2s ease}
+.wt-pill[aria-expanded="true"] svg{transform:rotate(180deg)}
+.wt-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px}
+.wt-card{display:flex;flex-direction:column;gap:5px;text-align:left;min-height:44px;padding:12px 14px;border:1px solid var(--hair);border-radius:var(--r);background:#fff;color:var(--ink);font:inherit;cursor:pointer}
+.wt-card:hover{border-color:#B9C6D3}
+.wt-card[aria-pressed="true"]{background:var(--tint);border-color:var(--action);box-shadow:inset 3px 0 0 var(--action)}
+.wt-what{font:600 11px/1.3 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
+.wt-say{font-size:14.5px;line-height:1.45;color:var(--ink);text-wrap:pretty}
+.qz-field[data-prov]{background:var(--tint);border-color:var(--action);box-shadow:inset 3px 0 0 var(--action)}
 .rp-in{animation:rp-in .45s cubic-bezier(.2,.7,.3,1) both}
 @keyframes rp-in{from{opacity:0;transform:translateY(14px)}}
 .rp-dots{display:flex;gap:5px;margin:9px 0 3px;height:8px;align-items:center}
@@ -833,4 +850,20 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
   /* The rail stays on phones: once the tiers stack, the up/down
      relationship is the least obvious and the cue matters most. */
   .ladder{grid-template-columns:26px minmax(0,1fr);gap:0 9px}
+}
+
+/* ---- SCN result · the coach beside the verdict ------------------------ *
+   One pose per band, the same four-layer crossfade as Maya's rail. Sits on
+   the verdict's left, feet on the line the pill sits on. The Coach Says box
+   below drops its small figure: one coach on the screen, not two. */
+.rp-verdict{display:grid;grid-template-columns:84px minmax(0,1fr);gap:18px;align-items:end}
+.rp-pose{width:84px;height:126px}
+.coach-says-bare{grid-template-columns:minmax(0,1fr);padding:14px 18px}
+.rp-used{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.rp-used li{display:flex;flex-direction:column;gap:2px}
+.rp-used-what{font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rp-used-say{font-size:15px;line-height:1.5;color:var(--ink)}
+@media (max-width:600px){
+  .rp-verdict{grid-template-columns:64px minmax(0,1fr);gap:14px}
+  .rp-pose{width:64px;height:96px}
 }
