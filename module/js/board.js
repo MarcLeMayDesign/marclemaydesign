@@ -13,11 +13,29 @@
   if (!q.has('board')) return;
 
   var fx = q.get('fx') || '';
+  /* Board frames render off-screen and lazily, where a Web Animation can
+     stay pending forever and freeze Maya mid-move. With no animate(), the
+     rail takes its instant path, which is the end state the board needs. */
+  Element.prototype.animate = null;
+  /* Smooth scrolls are throttled in off-screen frames and never finish, so
+     board frames scroll instantly. */
+  var realScrollTo = Element.prototype.scrollTo;
+  Element.prototype.scrollTo = function (a, b2) {
+    if (a && typeof a === 'object') { if (a.top != null) this.scrollTop = a.top; if (a.left != null) this.scrollLeft = a.left; return; }
+    return realScrollTo.call(this, a, b2);
+  };
   var realTimeout = window.setTimeout.bind(window);
   window.setTimeout = function (fn, ms) {
     var a = Array.prototype.slice.call(arguments, 2);
     return realTimeout.apply(window, [fn, Math.round((ms || 0) * 0.05)].concat(a));
   };
+
+  /* Board frames never depend on animation timing. */
+  document.addEventListener('DOMContentLoaded', function () {
+    var st = document.createElement('style');
+    st.textContent = '.rp-in{animation:none!important}';
+    document.head.appendChild(st);
+  });
 
   var BASELINE = 'Put your shoe on, we\u2019re going to miss the bus. I don\u2019t have time for this today.';
   window.CDAH_BOARD = {

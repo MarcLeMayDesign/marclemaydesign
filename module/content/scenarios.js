@@ -32,6 +32,9 @@ window.CDAH_SCENES = {
     maxTurns: 3,
     opening: 'Five more minutes. FIVE MORE MINUTES. I\u2019m almost done!',
     child: 'Maya',
+    /* The field's placeholder on the parent's final reply, so the end of the
+       scene never arrives as a surprise. */
+    lastPrompt: 'Your last reply.',  // NEW
 
     criteria: {
       composure: {

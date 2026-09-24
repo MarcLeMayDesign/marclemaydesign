@@ -106,15 +106,73 @@
     var rail    = FX && FX.layers(railEl);
     var pose    = FX && FX.layers(result.querySelector('[data-rp-pose]'));
     var railY   = 0;
+    /* Desktop: the result's Coach is as tall as his feedback, so his width
+       follows the text's height (2:3). CSS can't size a flex item's width
+       from its stretched height, so it is set here and on resize. */
+    var poseEl = result.querySelector('[data-rp-pose]');
+    var fbTxt  = result.querySelector('.rp-fb-txt');
+    function sizePose() {
+      if (!poseEl || !fbTxt || result.hidden) return;
+      if (window.matchMedia('(max-width:600px)').matches) { poseEl.style.width = ''; return; }
+      var hgt = Math.max(180, Math.min(504, fbTxt.offsetHeight));
+      poseEl.style.width = Math.round(hgt * 2 / 3) + 'px';
+    }
+    if (window.ResizeObserver && fbTxt) new ResizeObserver(sizePose).observe(fbTxt);
+    window.addEventListener('resize', sizePose);
+
+    var backBtn = section.querySelector('[data-rp-back]');
+    var resetBtn = section.querySelector('[data-rp-reset]');
+    /* Her face at each level, for the phone's chat layout: every bubble
+       keeps the face she had when she said it. */
+    var FACES = ['overwhelmed', 'upset', 'ready', 'contented'];
 
     var run;
     var busy = false;   // Maya is typing
     var prov = null;    // the Words to try card being previewed, or null
     var draft = '';     // what the parent had typed before a preview
+    var provLbl = section.querySelector('[data-wt-prov]');
+    /* Touch-first devices keep with a double-tap. Mouse-first ones keep with
+       Enter (Return on a Mac): double-click was unreliable on a draggable
+       card and gave no feedback between the two clicks. */
+    var fine = !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
+    var dblWord = section.querySelector('[data-wt-dbl]');
+    if (dblWord && fine) dblWord.textContent = /Mac/i.test(navigator.platform || navigator.userAgent) ? 'press Return' : 'press Enter';
+    /* A textarea can only style all of its text at once, so the preview is
+       drawn by a mirror layer: the parent's own words upright, only the
+       previewed phrase in italic. The real text goes transparent underneath
+       (caret stays), and the mirror goes away the moment the preview ends. */
+    var ghost = null;
+    if (field) {
+      var wrap = document.createElement('div');
+      wrap.className = 'qz-fieldwrap';
+      field.parentNode.insertBefore(wrap, field);
+      wrap.appendChild(field);
+      ghost = document.createElement('div');
+      ghost.className = 'qz-field qz-ghost';
+      ghost.setAttribute('aria-hidden', 'true');
+      ghost.hidden = true;
+      wrap.appendChild(ghost);
+      field.addEventListener('scroll', function () { ghost.scrollTop = field.scrollTop; });
+    }
+    function drawGhost(base, add) {
+      if (!ghost) return;
+      var full = join(base, add);
+      var head = full.slice(0, full.length - add.length);
+      ghost.textContent = '';
+      ghost.appendChild(document.createTextNode(head));
+      var em = document.createElement('em');
+      em.textContent = add;
+      ghost.appendChild(em);
+      ghost.appendChild(document.createTextNode('\u200b'));
+      ghost.hidden = false;
+      ghost.scrollTop = field.scrollTop;
+    }
+    function hideGhost() { if (ghost) { ghost.hidden = true; ghost.textContent = ''; } }
 
     /* ---- Words to try --------------------------------------------------
-       Collapsed by default so the parent tries in their own words first; it
-       remembers their open/closed choice per device and never opens itself.
+       Collapsed at the start of every conversation so the parent tries in
+       their own words first, and it never opens itself. (It used to remember
+       being opened, per device; a returning tester then met it open.)
        Tap a card: the phrase previews in the field on the tinted band, and
        Say it waits. Use it (or typing into it) makes it theirs to edit and
        send. Tap another card to swap, the same card to put their own text
@@ -125,8 +183,21 @@
     var useBtn = section.querySelector('[data-wt-use]');
     var words  = scene.words || [];
     var cardEls = [];
+    var lastTap = 0, lastCard = -1;
 
     function syncSay() { if (say) say.disabled = busy || prov !== null; }
+
+    /* The compose area is pinned to the bottom on a phone, so when it grows
+       (the strip opens, a preview lengthens the field) it grows up over her
+       latest line. These changes come from a parent working in the compose
+       area, not rereading, so the stage is anchored to the bottom every time
+       and instantly (a smooth scroll still running from her reply would
+       otherwise lose the race). */
+    function keepBottom(change) {
+      change();
+      var stage = document.getElementById('stage');
+      if (stage) stage.scrollTop = stage.scrollHeight;
+    }
 
     function stripOpen() { return !!(pill && pill.getAttribute('aria-expanded') === 'true'); }
 
@@ -135,7 +206,6 @@
       pill.setAttribute('aria-expanded', open ? 'true' : 'false');
       cards.hidden = !open;
       if (!open) clearPreview(true);
-      if (remember) S.set({ stripOpen: open });
     }
 
     /* Cards build on what is already in the field: a phrase goes after it,
@@ -152,6 +222,8 @@
       prov = i;
       field.value = join(draft, words[i].say);
       field.setAttribute('data-prov', '');
+      drawGhost(draft, words[i].say);
+      if (provLbl) { provLbl.hidden = false; field.setAttribute('aria-describedby', provLbl.id); }
       for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', k === i ? 'true' : 'false');
       if (useBtn) useBtn.hidden = false;
       syncSay();
@@ -162,6 +234,8 @@
       prov = null;
       if (restore) field.value = draft;
       field.removeAttribute('data-prov');
+      hideGhost();
+      if (provLbl) { provLbl.hidden = true; field.removeAttribute('aria-describedby'); }
       for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', 'false');
       if (useBtn) useBtn.hidden = true;
       syncSay();
@@ -185,9 +259,19 @@
         /* Said words carry quotation marks on the card, the module's rule
            for speech; the phrase goes into the field without them. */
         c.appendChild(el('span', 'wt-say', '\u201C' + w.say + '\u201D'));
-        c.addEventListener('click', function () {
+        /* Touch: a quick second tap on the same card keeps it, same as Use
+           it; a slow one takes the preview back off. Mouse: a second click
+           only takes it off. Space (a click with detail 0) is one tap that
+           previews and never takes it back off; Enter is handled below. */
+        c.addEventListener('click', function (e) {
           if (busy) return;
-          if (prov === i) clearPreview(true); else preview(i);
+          if (e.detail === 0) { if (prov !== i) keepBottom(function () { preview(i); }); return; }
+          var now = Date.now();
+          keepBottom(function () {
+            if (!fine && prov === i && lastCard === i && now - lastTap < 400) { lastTap = 0; commit(); return; }
+            lastTap = now; lastCard = i;
+            if (prov === i) clearPreview(true); else preview(i);
+          });
         });
         c.addEventListener('dragstart', function (e) {
           clearPreview(true);
@@ -196,8 +280,30 @@
         cards.appendChild(c);
         cardEls.push(c);
       });
-      pill.addEventListener('click', function () { setStrip(!stripOpen(), true); });
-      if (useBtn) useBtn.addEventListener('click', commit);
+      pill.addEventListener('click', function () { keepBottom(function () { setStrip(!stripOpen(), true); }); });
+      if (useBtn) useBtn.addEventListener('click', function () { keepBottom(commit); });
+      /* Enter keeps a preview from anywhere in the scene: on a card, in the
+         field, or with focus nowhere in particular. On a card not yet
+         previewed it previews first. Other buttons keep their own Enter. */
+      /* On the document, not the section: Safari doesn't focus a clicked
+         button, so after a mouse click focus is on the page body. */
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' || e.shiftKey || e.metaKey || e.ctrlKey || e.altKey || e.isComposing || busy) return;
+        if (!section.getClientRects().length) return;
+        var t = e.target;
+        if (t !== document.body && !section.contains(t)) return;
+        var card = t.closest && t.closest('.wt-card');
+        if (card) {
+          e.preventDefault();
+          var ci = cardEls.indexOf(card);
+          keepBottom(function () { if (prov === ci) commit(); else preview(ci); });
+          return;
+        }
+        if (prov === null) return;
+        if (t.closest && t.closest('button,a,summary,select,input') && t !== field) return;
+        e.preventDefault();
+        keepBottom(commit);
+      });
       field.addEventListener('input', function () { if (prov !== null) clearPreview(false); });
       /* A dropped card lands after the text, not wherever the pointer
          happens to be, same as a tapped one. */
@@ -210,7 +316,7 @@
         field.value = join(field.value, text);
         commit();
       });
-      setStrip(!!S.get().stripOpen, false);
+      setStrip(false, false);
       strip.hidden = true;
     } else if (strip) {
       strip.hidden = true;
@@ -225,16 +331,20 @@
        zeroed the fade. */
     function place(instant) {
       if (!railEl || !body) return;
+      /* Phone chat layout: no rail, her face rides on each bubble instead. */
+      if (!railEl.offsetWidth) { body.style.minHeight = ''; railY = 0; railEl.style.transform = ''; return; }
       var kids = log.querySelectorAll('.rp-child');
       var last = kids[kids.length - 1];
-      /* Her new bubble is still rising (rp-in starts 14px low), so take its
-         current lift out of the measurement or she lands short. */
-      var lift = 0;
-      if (last && window.DOMMatrix) {
-        var tf = getComputedStyle(last).transform;
-        if (tf && tf !== 'none') lift = new DOMMatrix(tf).m42;
-      }
-      var to = last ? Math.max(0, Math.round(last.getBoundingClientRect().top - lift - body.getBoundingClientRect().top)) : 0;
+      /* Measured in layout offsets, which ignore the rp-in rise (a
+         transform), so there is no animation timing to correct for.
+         Seat her so her mouth meets the tail's tip (3px above the bubble's
+         foot), not her head at the bubble's top: a one-line reply and a
+         three-line one both point at the mouth. Measured on the 168x252
+         rail from pose-ready.png. */
+      var MOUTH = 85, TIP = 3;
+      /* .rp-body is position:relative, so it is the bubble's offsetParent. */
+      var foot = last ? last.offsetTop + last.offsetHeight : 0;
+      var to = last ? Math.max(0, Math.round(foot - TIP - MOUTH)) : 0;
       body.style.minHeight = (to + railEl.offsetHeight) + 'px';
       var from = railY;
       railY = to;
@@ -253,15 +363,18 @@
       run = { level: scene.start, turns: 0, fail: false, connect: false, limit: false,
               choices: false, lines: [], used: [] };
       log.innerHTML = '';
-      addChild(scene.opening);
+      addChild(scene.opening, run.level);
       if (rail) rail.to(String(run.level));
       if (field) { field.value = ''; field.placeholder = FIRST_PH; }
       busy = false;
       /* Words to try waits until she has answered once: the first line is
          the parent's own. */
-      if (strip) strip.hidden = true;
+      if (strip) { strip.hidden = true; setStrip(false, false); }
+      if (resetBtn) resetBtn.hidden = true;
       prov = null; draft = '';
-      if (field) field.removeAttribute('data-prov');
+      if (field) { field.removeAttribute('data-prov'); field.removeAttribute('aria-describedby'); }
+      if (provLbl) provLbl.hidden = true;
+      hideGhost();
       for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', 'false');
       if (useBtn) useBtn.hidden = true;
       syncSay();
@@ -275,11 +388,30 @@
       if (body) body.style.minHeight = '';
     }
 
-    function addChild(text) {
+    function face(lv) {
+      var f = el('img', 'rp-face');
+      f.src = 'assets/img/face-' + FACES[Math.max(0, Math.min(3, lv))] + '.png';
+      f.alt = ''; f.width = 34; f.height = 34;
+      return f;
+    }
+
+    /* Only her newest bubble carries the tail on desktop: it is the one
+       beside her, so it points at her mouth. */
+    function latest(b) {
+      var old = log.querySelectorAll('.rp-child.is-latest');
+      for (var i = 0; i < old.length; i++) old[i].classList.remove('is-latest');
+      b.classList.add('is-latest');
+    }
+
+    function addChild(text, lv) {
       var b = el('div', 'rp-child rp-in');
-      b.appendChild(el('p', 'rp-who rp-who-child', scene.child.toUpperCase()));
-      b.appendChild(el('p', 'rp-line', text));
+      b.appendChild(face(lv));
+      var bub = el('div', 'rp-bub');
+      bub.appendChild(el('p', 'rp-who rp-who-child', scene.child.toUpperCase()));
+      bub.appendChild(el('p', 'rp-line', text));
+      b.appendChild(bub);
       log.appendChild(b);
+      latest(b);
       run.lines.push(scene.child + ': ' + text);
     }
 
@@ -345,8 +477,10 @@
         note = (note ? note + ' ' : '') + 'There are ' + ['', 'one phrasing', 'two phrasings', 'three phrasings', 'four phrasings'][Math.min(words.length, 4)] +
           ' under Words to try, if you want ' + (words.length === 1 ? 'it' : 'them') + '.';
       }
+      var fromLevel = run.level;
       run.level = s.to;
       run.turns++;
+      if (resetBtn) resetBtn.hidden = false;
       H.tap();
 
       /* Paced like texting: your line goes up, the log scrolls to it, Maya
@@ -363,7 +497,7 @@
       var dots = null;
       setTimeout(function () {
         if (run !== token) return;
-        dots = typing();
+        dots = typing(fromLevel);
         toBottom();
       }, 350);
       /* Timing is not motion: Reduce Motion keeps the same pace, it only
@@ -372,27 +506,32 @@
       setTimeout(function () {
         if (run !== token) return;
         if (dots) dots.remove();
-        if (line) addChild(line);
+        if (line) addChild(line, run.level);
+        if (run.turns === scene.maxTurns - 1 && scene.lastPrompt) field.placeholder = scene.lastPrompt;
         /* Pose and position change together: one gesture, not two. */
         if (rail) rail.to(String(run.level));
         place();
         toBottom();
         busy = false; syncSay();
-        if (strip && words.length && run.level < 3) strip.hidden = false;
+        if (strip && words.length && run.level < 3) { strip.hidden = false; toBottom(); }
         if (run.level === 3 || run.turns >= scene.maxTurns) finish();
         else field.focus({ preventScroll: true });
       }, wait);
       field.focus({ preventScroll: true });
     }
 
-    function typing() {
+    function typing(lv) {
       var b = el('div', 'rp-child rp-typing');
       b.setAttribute('aria-label', scene.child + ' is typing');
-      b.appendChild(el('p', 'rp-who rp-who-child', scene.child.toUpperCase()));
+      b.appendChild(face(lv));
+      var bub = el('div', 'rp-bub');
+      bub.appendChild(el('p', 'rp-who rp-who-child', scene.child.toUpperCase()));
       var d = el('p', 'rp-dots');
       for (var i = 0; i < 3; i++) d.appendChild(el('i'));
-      b.appendChild(d);
+      bub.appendChild(d);
+      b.appendChild(bub);
       log.appendChild(b);
+      latest(b);
       return b;
     }
 
@@ -518,6 +657,7 @@
 
       play.hidden = true;
       result.hidden = false;
+      sizePose();
       hold(false);
       var stage = document.getElementById('stage');
       if (stage) stage.scrollTop = 0;
@@ -534,7 +674,38 @@
       rz = setTimeout(function () { if (!play.hidden) place(true); }, 120);
     });
 
+    /* Say it with the phone keyboard up. The tap blurred the field first,
+       the keyboard dropped, the layout jumped and the tap was lost, so it
+       took two. Now the touch is handled at touchend, before the blur, and
+       on desktop mousedown keeps focus in the field. A drag that started on
+       the button (a scroll) is ignored. */
+    var tx = null;
+    say.addEventListener('touchstart', function (e) {
+      var t = e.touches[0]; tx = { x: t.clientX, y: t.clientY };
+    }, { passive: true });
+    say.addEventListener('touchend', function (e) {
+      var t = e.changedTouches[0];
+      var moved = !tx || Math.abs(t.clientX - tx.x) > 10 || Math.abs(t.clientY - tx.y) > 10;
+      tx = null;
+      if (moved || say.disabled) return;
+      e.preventDefault();
+      turn();
+    });
+    say.addEventListener('mousedown', function (e) { if (document.activeElement === field) e.preventDefault(); });
     say.addEventListener('click', turn);
+
+    /* The scene has no footer: Back goes to the Try It Out intro, and
+       Start over clears this conversation. It shows once there is
+       something to clear. */
+    if (backBtn) backBtn.addEventListener('click', function () {
+      var to = backBtn.getAttribute('data-to');
+      if (to) location.hash = to;
+    });
+    if (resetBtn) resetBtn.addEventListener('click', function () {
+      reset();
+      var stage = document.getElementById('stage');
+      if (stage) stage.scrollTop = 0;
+    });
     field.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); turn(); }
     });
