@@ -338,8 +338,15 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 /* ---- phone ---- */
 
 @media (max-width:640px){
-  .mod-head{padding:0 18px;gap:8px}
+  .mod-head{padding:0 18px;gap:6px}
   .head-sub,.head-status{display:none}
+  /* The header row overflowed on phones: name (nowrap, ~230px) + progress
+     (up to ~150px in Sections 1-2) + ? did not fit 339px, so the ? was pushed
+     past the edge (and clipped). Now the progress segments shrink, and the
+     name takes an ellipsis only if it still doesn't fit. */
+  .head-home{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}
+  .head-prog{flex:0 1 auto;min-width:0;gap:3px;margin-left:4px}
+  .head-prog i{width:9px;flex:0 1 9px;min-width:5px}
   .screen{padding:22px 18px;gap:18px}
   h1.screen-title{font-size:25px;max-width:none}
   .mod-foot{padding:12px 18px}
