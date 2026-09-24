@@ -70,24 +70,32 @@ window.CDAH_SCENES = {
 
     replies: {
       '1:fail':        { child: '(she throws herself face-down on the couch) NO! You\u2019re so MEAN!',
+                         again: '(face still in the cushion) Go AWAY.',  // NEW
                          note: 'She heard the heat, not the words.' },               // NEW
       '1:none':        { child: 'Five more minutes! Please please please!',
+                         again: '(louder) Please! Just FIVE!',  // NEW
                          note: 'Nothing here names what she\u2019s feeling yet.' },   // NEW
       '1:limitOnly':   { child: 'But I\u2019m ALMOST DONE. Just five minutes!',
+                         again: 'You\u2019re not even listening to me!',  // NEW
                          note: 'The limit is clear, but it arrived before she felt heard.' }, // NEW
       '1:connect':     { child: 'So then I can finish it. You said it\u2019s hard, so let me finish it.',
                          note: 'You named what she was feeling before you named the rule.' },
       '2:fail':        { child: '(her voice goes up) You ALWAYS do this!',
+                         again: '(arms crossed) I\u2019m not talking to you.',  // NEW
                          note: 'You had her, and then the heat came back into it.' },  // NEW
       '2:connectAgain':{ child: 'Yeah. So I can finish it, right?',
+                         again: 'Mm-hm. But I can finish, right?',  // NEW
                          note: 'She knows you understand. Now she needs to hear what happens next.' }, // NEW
       '2:limitOnly':   { child: 'But it\u2019s not fair. I\u2019m almost done.',
+                         again: '(quieter) It\u2019s still not fair.',  // NEW
                          note: 'The limit is said. Nothing in it gives her a way to move.' }, // NEW
       '2:choicesOnly': { child: 'Okay, I pick\u2026 five more minutes!',
+                         again: 'I choose\u2026 not stopping!',  // NEW
                          note: 'Choices without the limit said out loud turn into a negotiation.' }, // NEW
       '2:both':        { child: 'Fine. I\u2019m pausing it. Can I finish it after?',
                          note: 'Two real choices inside one limit. She stopped, and she didn\u2019t lose.' },
       '0:still':       { child: '(she turns away from you)',
+                         again: '(she pulls a cushion over her head)',  // NEW
                          note: 'She\u2019s in her body right now. Low, slow and short is the whole job.' }, // NEW
       '0:calm':        { child: '(still face-down, quieter) \u2026I was almost done.',
                          note: 'Your calm reached her before any words did.' }        // NEW

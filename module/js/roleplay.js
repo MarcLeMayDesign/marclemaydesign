@@ -117,8 +117,8 @@
       if (!railEl || !body) return;
       var kids = log.querySelectorAll('.rp-child');
       var last = kids[kids.length - 1];
-      /* Her new bubble is still rising (rp-in starts 8px low), so take its
-         current lift out of the measurement or she lands 8px short. */
+      /* Her new bubble is still rising (rp-in starts 14px low), so take its
+         current lift out of the measurement or she lands short. */
       var lift = 0;
       if (last && window.DOMMatrix) {
         var tf = getComputedStyle(last).transform;
@@ -198,7 +198,12 @@
       if (h.choices) run.choices = true;
 
       var s = step(run.level, h);
-      var r = scene.replies[run.level + ':' + s.key] || {};
+      var rk = run.level + ':' + s.key;
+      var r = scene.replies[rk] || {};
+      /* The same state twice in a row would repeat her line word for word,
+         which reads as a glitch. The second time she uses the 'again' line. */
+      var line = (rk === run.lastKey && r.again) ? r.again : r.child;
+      run.lastKey = rk;
       run.level = s.to;
       run.turns++;
       H.tap();
@@ -214,18 +219,19 @@
       say.disabled = true;
       addParent(raw, r.note);
       toBottom();
-      var quick = FX && FX.reduced();
       var dots = null;
       setTimeout(function () {
         if (run !== token) return;
         dots = typing();
         toBottom();
-      }, quick ? 0 : 350);
-      var wait = quick ? 500 : 900 + Math.min(900, (r.child || '').length * 14);
+      }, 350);
+      /* Timing is not motion: Reduce Motion keeps the same pace, it only
+         drops the slides and smooth scrolls. */
+      var wait = 900 + Math.min(900, (line || '').length * 14);
       setTimeout(function () {
         if (run !== token) return;
         if (dots) dots.remove();
-        if (r.child) addChild(r.child);
+        if (line) addChild(line);
         /* Pose and position change together: one gesture, not two. */
         if (rail) rail.to(String(run.level));
         place();
@@ -271,7 +277,9 @@
 
       /* Let the last reply land before the result replaces the scene. */
       var token = run;
-      setTimeout(function () { if (run === token) paintResult(band, cap, copy); }, FX && FX.reduced() ? 0 : 1400);
+      /* Her last reply is her reaction to your last line, so it stays up long
+         enough to read before the result replaces the scene. */
+      setTimeout(function () { if (run === token) paintResult(band, cap, copy); }, 2800);
     }
 
     function paintResult(band, cap, copy) {
