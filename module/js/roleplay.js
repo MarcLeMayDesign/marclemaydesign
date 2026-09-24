@@ -147,6 +147,7 @@
       if (rail) rail.to(String(run.level));
       if (field) { field.value = ''; field.placeholder = FIRST_PH; }
       if (say) say.disabled = false;
+      hold(false);
       compose.hidden = false;
       if (safety) safety.hidden = true;
       result.hidden = true;
@@ -262,7 +263,18 @@
       else stage.scrollTop = top;
     }
 
+    /* Between her last reply and the result the footer stays hidden, or it
+       reappears first and looks like the way on. Cleared by the result or a
+       restart. */
+    function hold(on) {
+      var app = document.getElementById('app');
+      if (!app) return;
+      if (on) app.setAttribute('data-rp-ending', '');
+      else app.removeAttribute('data-rp-ending');
+    }
+
     function finish() {
+      hold(true);
       compose.hidden = true;
       var cap = run.fail;
       var missed = (run.connect ? 0 : 1) + (run.limit ? 0 : 1) + (run.choices ? 0 : 1);
@@ -337,6 +349,7 @@
 
       play.hidden = true;
       result.hidden = false;
+      hold(false);
       var stage = document.getElementById('stage');
       if (stage) stage.scrollTop = 0;
       var hd = result.querySelector('[data-rp-head]');

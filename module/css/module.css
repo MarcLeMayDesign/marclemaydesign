@@ -687,6 +687,7 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 /* Phone keyboard up: the Back/Next bar steps aside so the conversation and
    Say it keep the room. Set by js/app.js on touch devices only. */
 .app[data-kb="open"] .mod-foot{display:none}
+.app[data-rp-ending] .mod-foot{display:none}
 .rp-compose[hidden]{display:none}
 .rp-frame{font-size:15px;line-height:1.55;color:var(--ink);margin:0;background:#F3E7EC;border-radius:var(--r);padding:13px 16px;text-wrap:pretty}
 .rp-frame[hidden]{display:none}
