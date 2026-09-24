@@ -117,7 +117,14 @@
       if (!railEl || !body) return;
       var kids = log.querySelectorAll('.rp-child');
       var last = kids[kids.length - 1];
-      var to = last ? Math.max(0, Math.round(last.getBoundingClientRect().top - body.getBoundingClientRect().top)) : 0;
+      /* Her new bubble is still rising (rp-in starts 8px low), so take its
+         current lift out of the measurement or she lands 8px short. */
+      var lift = 0;
+      if (last && window.DOMMatrix) {
+        var tf = getComputedStyle(last).transform;
+        if (tf && tf !== 'none') lift = new DOMMatrix(tf).m42;
+      }
+      var to = last ? Math.max(0, Math.round(last.getBoundingClientRect().top - lift - body.getBoundingClientRect().top)) : 0;
       body.style.minHeight = (to + railEl.offsetHeight) + 'px';
       var from = railY;
       railY = to;
@@ -167,6 +174,9 @@
     }
 
     function turn() {
+      /* Cmd/Ctrl+Enter reaches here without the button, so the typing hold
+         has to be checked here too. */
+      if (say.disabled) return;
       var raw = (field.value || '').replace(/\s+$/, '');
       if (!raw) { field.focus(); return; }
 
@@ -260,7 +270,8 @@
       S.answer(id, run.lines.join('\n'), band);
 
       /* Let the last reply land before the result replaces the scene. */
-      setTimeout(function () { paintResult(band, cap, copy); }, FX && FX.reduced() ? 0 : 1400);
+      var token = run;
+      setTimeout(function () { if (run === token) paintResult(band, cap, copy); }, FX && FX.reduced() ? 0 : 1400);
     }
 
     function paintResult(band, cap, copy) {
