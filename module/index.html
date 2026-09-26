@@ -7,7 +7,7 @@
 <meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/module.css?v=20260924p">
+<link rel="stylesheet" href="css/module.css?v=20260926b">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
   <header class="mod-head">
     <button class="head-name head-home" id="headName" type="button" title="Back to the start">Conscious Discipline at Home</button>
     <span class="head-dot" id="headDot" hidden>&middot;</span>
-    <span class="head-sub" id="headSub" hidden></span>
+    <button class="head-sub head-home" id="headSub" type="button" hidden></button>
     <span class="head-gap"></span>
     <span class="head-status" id="headStatus"></span>
     <span class="head-prog" id="headProg" hidden></span>
@@ -41,28 +41,34 @@
          module and is paid off three times later — the shoe capstone, its
          feedback, and the two bookend reflections. -->
 
-    <section class="screen" id="scr-099" data-theme="dark" hidden>
-      <p class="eyebrow plum">For parents of kindergarteners</p>
-      <h1 class="screen-title">Conscious Discipline at Home</h1>
-      <p class="screen-body">The approach your child&rsquo;s teacher uses in the classroom, designed to help you implement and reinforce it at home. You will learn core principles of the practice and get a chance to practice putting them into action.</p>
-      <p class="screen-body">About forty minutes, in as many sittings as you like. Nothing is graded, nothing is reported to the school, and it remembers where you stopped.</p>
-      <nav class="lenses" aria-label="The three sections">
-        <a class="lens" href="#scr-102">
-          <span class="row"><span class="name">1 &middot; Learn</span><span class="mark">10 min</span></span>
-          <span class="blurb">Four lenses on a hard moment.</span>
-        </a>
-        <a class="lens" href="#scr-201">
-          <span class="row"><span class="name">2 &middot; Test Your Knowledge</span><span class="mark">10 min</span></span>
-          <span class="blurb">Four situations, answered in your own words.</span>
-        </a>
-        <a class="lens" href="#scr-300">
-          <span class="row"><span class="name">3 &middot; Try It Out</span><span class="mark">20 min</span></span>
-          <span class="blurb">Three conversations you practice out loud.</span>
-        </a>
-      </nav>
-      <p class="gate">All three are open from the start. If the situations show an idea hasn&rsquo;t landed yet, the module says which one and points you back to it.</p>
-      <p class="door-note">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.</p>
+    <!-- COVER (NEW 26 Sept). The first thing a fresh device shows: title,
+         Begin, and the way in for a parent who started somewhere else. No
+         footer nav here; Begin is the one way forward. Copy is Claude's
+         draft for Marc's pass. -->
+    <section class="screen cover" id="scr-000" data-theme="dark" hidden>
+      <div class="cover-grid">
+        <div class="cover-text">
+          <p class="eyebrow plum">For parents of kindergarteners</p>
+          <h1 class="cover-title">Conscious Discipline at Home</h1>
+          <p class="screen-body">About forty minutes, in as many sittings as you like. What you write stays on this device.</p>
+          <div class="cover-go"><button class="btn cover-begin" id="coverBegin" type="button">Begin module</button></div>
+          <details class="cover-restore" id="coverRestore">
+            <summary>Started on another device?</summary>
+            <form class="cover-form" id="coverForm" novalidate>
+              <label for="coverCode">On your other device, open About &amp; reference (the ? button) and copy your code. Paste it here.</label>
+              <div class="cover-field">
+                <input id="coverCode" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                <button class="btn btn-quiet" id="coverRestoreGo" type="submit">Restore</button>
+              </div>
+              <p class="cover-note" id="coverNote" aria-live="polite"></p>
+            </form>
+          </details>
+        </div>
+        <figure class="cover-art"><img src="assets/img/scene-sitting-dark.png" width="668" height="680" alt="A parent and child sitting cross-legged on the floor. The child is telling a story with both hands up; the parent is smiling and listening."></figure>
+      </div>
+      <p class="cover-disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.</p>
     </section>
+
 
     <section class="screen" id="scr-100" data-theme="dark" hidden>
       <p class="eyebrow plum">Before we start</p>
@@ -80,8 +86,8 @@
         <div class="safety" id="baselineSafety" hidden></div>
       </div>
       <div>
-        <button class="door" id="skipBaseline" type="button" aria-disabled="true">I&rsquo;d rather start with the module &rarr;</button>
-        <p class="door-note">Leaves the baseline unanswered rather than pretending it was skipped past; SCR-304 then falls back to a general reflection prompt. Live with the text field.</p>
+        <!-- Live 26 Sept: goes to the title (SCR-099), baseline left unanswered; SCR-304 falls back to a general reflection prompt. -->
+        <button class="door" id="skipBaseline" type="button">I&rsquo;d rather start with the module &rarr;</button>
       </div>
     </section>
 
@@ -99,45 +105,110 @@
       </div>
     </section>
 
-    <section class="screen" id="scr-102" data-section="learn" data-status="Overview" hidden>
-      <p class="eyebrow">Section 1 of 3</p>
-      <h1 class="screen-title">What you will be doing</h1>
-      <p class="screen-body">Four ideas, then four situations to think through, then three conversations to practice out loud. Thirty-five to forty minutes in total, and it remembers where you stopped.</p>
-      <p class="screen-body">These four lenses are the ones your child&rsquo;s safekeepers use every day in the classroom. There is nothing to memorize, and no order you have to take them in.</p>
-      <nav class="lenses" id="lenses" aria-label="The four lenses">
-        <a class="lens" href="#scr-103" data-lens="scr-103">
-          <span class="row"><span class="name">State comes before skill</span><span class="mark">2 min</span></span>
-          <span class="blurb">An upset brain can&rsquo;t listen, and that includes yours.</span>
+    <!-- Trimmed 26 Sept: the audience line, the time line and the disclaimer
+         now live on COVER (and the disclaimer in the About panel). -->
+    <section class="screen" id="scr-099" data-theme="dark" hidden>
+      <h1 class="screen-title">Conscious Discipline at Home</h1>
+      <p class="screen-body">The approach your child&rsquo;s teacher uses in the classroom, designed to help you implement and reinforce it at home. You will learn core principles of the practice and get a chance to practice putting them into action.</p>
+      <p class="screen-body">Nothing is graded, and nothing is reported to the school.</p>
+      <nav class="lenses" aria-label="The three sections">
+        <a class="lens" href="#scr-110">
+          <span class="row"><span class="name">1 &middot; Learn</span><span class="mark">10 min</span></span>
+          <span class="blurb">How to read a hard moment, then five moves for it.</span>
         </a>
-        <a class="lens" href="#scr-104" data-lens="scr-104">
-          <span class="row"><span class="name">Connection before correction</span><span class="mark">2 min</span></span>
-          <span class="blurb">Empathy is what lets a limit actually land.</span>
+        <a class="lens" href="#scr-201">
+          <span class="row"><span class="name">2 &middot; Test Your Knowledge</span><span class="mark">10 min</span></span>
+          <span class="blurb">Four situations, answered in your own words.</span>
         </a>
-        <a class="lens" href="#scr-105" data-lens="scr-105">
-          <span class="row"><span class="name">Look beneath the behavior</span><span class="mark">2 min</span></span>
-          <span class="blurb">What you see is the signal, not the cause.</span>
-        </a>
-        <a class="lens" href="#scr-106" data-lens="scr-106">
-          <span class="row"><span class="name">Discipline is teaching</span><span class="mark">2 min</span></span>
-          <span class="blurb">Stopping a behavior and teaching a skill are two different jobs.</span>
+        <a class="lens" href="#scr-300">
+          <span class="row"><span class="name">3 &middot; Try It Out</span><span class="mark">20 min</span></span>
+          <span class="blurb">Three conversations you practice out loud.</span>
         </a>
       </nav>
-      <p class="gate" id="lensGate">Take them in any order. You&rsquo;ll want all four before Test Your Knowledge.</p>
+      <p class="gate">All three are open from the start. If the situations show an idea hasn&rsquo;t landed yet, the module says which one and points you back to it.</p>
     </section>
 
-    <section class="screen" id="scr-103" data-section="learn" data-status="Principle 1 of 4" data-steps="4" data-step="1" data-principle hidden>
-      <p class="eyebrow" data-prin-eyebrow>Principle 1</p>
-      <h1 class="screen-title" data-prin-title>State before skill</h1>
-      <div data-prin-body><p class="screen-body">Under stress the brain drops a level, and each level can do less than the one above it. You have the same three, and yours moves first.</p></div>
-      <div class="levels" id="levels">
+    <!-- Section 1, revised 25 Sept: two paths. ASSESS reads the moment (four
+         screens), ACT turns the reading into five named moves. The Act titles
+         are the same names the phrase cards and the feedback rows use, so what
+         is taught here is what Try It Out listens for. Copy marked NEW in
+         content/principles.js is Claude's draft for Marc's copy pass. -->
+
+    <section class="screen" id="scr-110" data-section="learn" data-status="Overview" hidden>
+      <p class="eyebrow">Section 1 of 3</p>
+      <h1 class="screen-title">Assess, then Act</h1>
+      <p class="screen-body">Assess is how to read a hard moment: what is happening in your child&rsquo;s brain, and in yours. Act is what to do about it, in five moves.</p>
+      <nav class="lenses paths" id="lenses" aria-label="The two parts of Learn">
+        <a class="lens path" href="#scr-111" data-lens-set="scr-111 scr-112 scr-113 scr-114">
+          <span class="row"><span class="name">Assess</span><span class="path-tag">Start here</span><span class="mark">4 screens</span></span>
+          <span class="blurb">How to read a hard moment before you respond to it.</span>
+          <span class="path-list">
+            <span data-lens-item="scr-111">Three brain states</span>
+            <span data-lens-item="scr-112">The drop, and the way back</span>
+            <span data-lens-item="scr-113">Look beneath the behavior</span>
+            <span data-lens-item="scr-114">Four shifts in how you see it</span>
+          </span>
+        </a>
+        <a class="lens path" href="#scr-121" data-lens-set="scr-121 scr-122 scr-123 scr-124 scr-125">
+          <span class="row"><span class="name">Act</span><span class="mark">5 screens</span></span>
+          <span class="blurb">Five moves, in order. Try It Out listens for them by name.</span>
+          <span class="path-list">
+            <span data-lens-item="scr-121">Composure</span>
+            <span data-lens-item="scr-122">Name the Feeling</span>
+            <span data-lens-item="scr-123">Breathe Together</span>
+            <span data-lens-item="scr-124">State the Limit</span>
+            <span data-lens-item="scr-125">Give Two Options</span>
+          </span>
+        </a>
+      </nav>
+      <p class="gate" id="lensGate">Start with Assess to get the full picture. After that, go back to either part whenever you like.</p>
+    </section>
+
+    <section class="screen" id="scr-111" data-section="learn" data-status="Assess 1 of 4" data-steps="4" data-step="1" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow></p>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <div class="levels" data-levels>
         <div class="sides">
           <button class="side" type="button" data-side="child" aria-pressed="true">Where they are</button>
           <button class="side" type="button" data-side="parent" aria-pressed="false">Where you are</button>
         </div>
-        <p class="sides-note">The same three levels, written twice.</p>
+        <p class="sides-note">The same three states, written twice.</p>
+        <div class="ladder">
+          <div class="rail">
+            <span class="rail-down">STRESS <b>&#9660;</b></span>
+            <span class="rail-up"><b>&#9650;</b> SUPPORT</span>
+          </div>
+          <div class="tiers">
+            <div class="tier" data-lvl="2">
+              <p class="tier-head"><span class="tier-name">Ready to think</span><span class="cap"><i class="on"></i><i class="on"></i><i class="on"></i></span></p>
+              <p class="tier-shows">Can hear you, can weigh two options.</p>
+              <p class="tier-qa"><span class="k k-asks">ASKS</span><em class="tier-asks">&ldquo;What do I do about this?&rdquo;</em><span class="k k-needs">NEEDS</span><span class="tier-needs">Teaching lands here &mdash; two choices, a plan, a repair.</span></p>
+            </div>
+            <div class="tier" data-lvl="1">
+              <p class="tier-head"><span class="tier-name">Upset</span><span class="cap"><i class="on"></i><i class="on"></i><i></i></span></p>
+              <p class="tier-shows">Shows in the words &mdash; yelling, blaming, &ldquo;you never.&rdquo;</p>
+              <p class="tier-qa"><span class="k k-asks">ASKS</span><em class="tier-asks">&ldquo;Do you still love me?&rdquo;</em><span class="k k-needs">NEEDS</span><span class="tier-needs">Connection. Name the feeling before you name anything else.</span></p>
+            </div>
+            <div class="tier" data-lvl="0">
+              <p class="tier-head"><span class="tier-name">Overwhelmed</span><span class="cap"><i class="on"></i><i></i><i></i></span></p>
+              <p class="tier-shows">Shows in the body &mdash; hitting, bolting, going rigid.</p>
+              <p class="tier-qa"><span class="k k-asks">ASKS</span><em class="tier-asks">&ldquo;Am I safe?&rdquo;</em><span class="k k-needs">NEEDS</span><span class="tier-needs">Safety. Fewer words, slower voice, no questions or choices yet.</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen" id="scr-112" data-section="learn" data-status="Assess 2 of 4" data-steps="4" data-step="2" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow></p>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <div class="levels" data-levels>
         <div class="play-row">
-          <button class="btn-play" type="button" id="levelsPlay">Watch a drop, and the way back</button>
-          <p class="play-caption" id="levelsCaption" aria-live="polite"></p>
+          <button class="btn-play" type="button" data-levels-play>Watch a drop, and the way back</button>
+          <p class="play-caption" data-levels-caption aria-live="polite"></p>
         </div>
         <div class="ladder">
           <div class="rail">
@@ -165,21 +236,11 @@
       </div>
       <div class="prin-home" data-prin-home hidden></div>
     </section>
-    <section class="screen" id="scr-104" data-section="learn" data-status="Principle 2 of 4" data-steps="4" data-step="2" data-principle hidden>
-      <p class="eyebrow" data-prin-eyebrow>Principle 2</p>
-      <h1 class="screen-title" data-prin-title>Connection before correction</h1>
-      <div data-prin-body><p class="screen-body">Naming what a child feels is not agreeing with what they want. It is the thing that makes the limit hearable.</p></div>
-      <div class="placeholder">
-        <span class="tag">STEP 2 &middot; SCR-104</span>
-        <span class="what">The two-step formula</span>
-        <span class="why">Name the feeling, then hold the limit &mdash; worked through on one example.</span>
-      </div>
-      <div class="prin-home" data-prin-home hidden></div>
-    </section>
-    <section class="screen" id="scr-105" data-section="learn" data-status="Principle 3 of 4" data-steps="4" data-step="3" data-principle hidden>
-      <p class="eyebrow" data-prin-eyebrow>Principle 3</p>
-      <h1 class="screen-title" data-prin-title>Look beneath the behavior</h1>
-      <div data-prin-body><p class="screen-body">What you can see is the smallest part of what is happening. The behavior is above the waterline; the need is underneath it.</p></div>
+
+    <section class="screen" id="scr-113" data-section="learn" data-status="Assess 3 of 4" data-steps="4" data-step="3" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow></p>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
       <div class="berg" id="berg">
         <div class="sides">
           <button class="side" type="button" data-case="a" aria-pressed="true">The shoes</button>
@@ -211,28 +272,161 @@
       </div>
       <div class="prin-home" data-prin-home hidden></div>
     </section>
-    <section class="screen" id="scr-106" data-section="learn" data-status="Principle 4 of 4" data-steps="4" data-step="4" data-principle hidden>
-      <p class="eyebrow" data-prin-eyebrow>Principle 4</p>
-      <h1 class="screen-title" data-prin-title>Discipline is teaching, not punishing</h1>
-      <div data-prin-body><p class="screen-body">When a child misbehaves it is natural to ask how to stop it right now. Stopping a behavior and teaching a skill are different jobs, and only one of them changes next week.</p></div>
-      <div class="placeholder">
-        <span class="tag">STEP 2 &middot; SCR-106</span>
-        <span class="what">Old frame / the shift, key concept block, two-framings interactive</span>
-        <span class="why">Copy already written on the visual design board.</span>
+
+    <section class="screen" id="scr-114" data-section="learn" data-status="Assess 4 of 4" data-steps="4" data-step="4" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow></p>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <div class="shifts" data-shifts>
+        <button class="shift" type="button" aria-expanded="false">
+          <span class="shift-old"><span class="shift-k">THE OLD FRAME</span><span class="shift-t">&ldquo;He needs to calm down right now so I can explain why that was wrong.&rdquo;</span></span>
+          <span class="shift-new"><span class="shift-k">THE SHIFT</span><span class="shift-t">&ldquo;One of us has to be calm before any of this works, and it has to be me first.&rdquo;</span></span>
+          <span class="shift-cue">SHIFT IT</span>
+        </button>
+        <button class="shift" type="button" aria-expanded="false">
+          <span class="shift-old"><span class="shift-k">THE OLD FRAME</span><span class="shift-t">&ldquo;If I name her feelings, I&rsquo;m giving in and letting her win.&rdquo;</span></span>
+          <span class="shift-new"><span class="shift-k">THE SHIFT</span><span class="shift-t">&ldquo;She can&rsquo;t hear the limit until she knows I understood her. The limit doesn&rsquo;t move either way.&rdquo;</span></span>
+          <span class="shift-cue">SHIFT IT</span>
+        </button>
+        <button class="shift" type="button" aria-expanded="false">
+          <span class="shift-old"><span class="shift-k">THE OLD FRAME</span><span class="shift-t">&ldquo;She&rsquo;s choosing to be difficult and push my buttons.&rdquo;</span></span>
+          <span class="shift-new"><span class="shift-k">THE SHIFT</span><span class="shift-t">&ldquo;What&rsquo;s really going on here, and how can I help with the problem underneath?&rdquo;</span></span>
+          <span class="shift-cue">SHIFT IT</span>
+        </button>
+        <button class="shift" type="button" aria-expanded="false">
+          <span class="shift-old"><span class="shift-k">THE OLD FRAME</span><span class="shift-t">&ldquo;How do I stop this behavior right now?&rdquo;</span></span>
+          <span class="shift-new"><span class="shift-k">THE SHIFT</span><span class="shift-t">&ldquo;What skill is my child missing, and how do I teach it?&rdquo;</span></span>
+          <span class="shift-cue">SHIFT IT</span>
+        </button>
+        <p class="shifts-note">Tap each one to shift it.</p>
       </div>
       <div class="prin-home" data-prin-home hidden></div>
     </section>
 
-    <section class="screen" id="scr-107" data-section="learn" data-status="Section close" data-theme="dark" hidden>
-      <p class="eyebrow">End of section 1</p>
-      <h1 class="screen-title">That is the whole of the thinking.</h1>
-      <p class="screen-body">The rest of the module is you using it. Next comes Test Your Knowledge &mdash; four situations, in any order, about ten minutes. This is a reasonable place to stop; your place is saved either way.</p>
-      <p class="gate" id="closeGate"></p>
-      <div class="placeholder">
-        <span class="tag">STEP 2 &middot; SCR-107</span>
-        <span class="what">The section-close band</span>
-        <span class="why">Stopping and continuing get equal weight. No badge, no certificate.</span>
+    <section class="screen" id="scr-121" data-section="learn" data-status="Act 1 of 5" data-steps="5" data-step="1" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow></p>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <div class="act-split">
+        <ol class="act-steps">
+          <li><span><strong>Notice it.</strong> Your jaw, your shoulders, your voice. Pick the one that goes first in you.</span></li>
+          <li><span><strong>Stop talking.</strong> Nothing said from the bottom state lands the way you mean it.</span></li>
+          <li><span><strong>One breath before the next word.</strong> Then choose the sentence, instead of letting it choose you.</span></li>
+        </ol>
+        <div class="placeholder act-fig">
+          <span class="tag">PARENT FIGURE</span>
+          <span class="what">To come</span>
+          <span class="why">The parent, drawn to match Maya and the Coach.</span>
+        </div>
       </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen" id="scr-122" data-section="learn" data-status="Act 2 of 5" data-steps="5" data-step="2" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow></p>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <div class="contrast">
+        <p class="contrast-k">She&rsquo;s at <strong>Upset</strong>: yelling about the shoes. Two ways to answer her.</p>
+        <div class="ct-row" data-kind="correct">
+          <img class="ct-fig" src="assets/img/pose-overwhelmed.png" alt="" width="72" height="108">
+          <div class="ct-txt">
+            <p class="ct-k">Correct first</p>
+            <p class="ct-say">&ldquo;Stop yelling and put your shoes on. We&rsquo;re going to be late.&rdquo;</p>
+            <p class="ct-then">She drops to <strong>Overwhelmed</strong>. Now it&rsquo;s her body talking, and nothing you say next can reach her.</p>
+          </div>
+        </div>
+        <div class="ct-row" data-kind="connect">
+          <img class="ct-fig" src="assets/img/pose-ready.png" alt="" width="72" height="108">
+          <div class="ct-txt">
+            <p class="ct-k">Connect first</p>
+            <p class="ct-say">&ldquo;Those shoes feel really wrong today.&rdquo;</p>
+            <p class="ct-then">She comes up to <strong>Ready to think</strong>. The shoes still go on, but now she can hear you say so.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-seen">
+        <p class="card-seen-k">You&rsquo;ll see this card again in Try It Out</p>
+        <div class="wt-card card-static" data-card-what="Name the feeling"><span class="wt-what">Name the feeling</span><span class="wt-say"></span></div>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen" id="scr-123" data-section="learn" data-status="Act 3 of 5" data-steps="5" data-step="3" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow></p>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <div class="breathe" data-breathe>
+        <img class="br-scene" src="assets/img/scene-breathing.png" width="480" height="549" alt="A parent kneels beside their child. Both have their hands on their bellies and are breathing out slowly together.">
+        <div class="br-ring" data-br-ring aria-hidden="true"><span class="br-dot"></span></div>
+        <div class="br-side">
+          <button class="btn-play" type="button" data-br-go>Try one now, three breaths</button>
+          <p class="play-caption" data-br-cap aria-live="polite">In through the nose while the circle grows, out slowly while it shrinks.</p>
+        </div>
+      </div>
+      <p class="act-aside">There&rsquo;s no card for this one in Try It Out. It&rsquo;s something you do rather than something you say, so it isn&rsquo;t scored. It still counts.</p>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen" id="scr-124" data-section="learn" data-status="Act 4 of 5" data-steps="5" data-step="4" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow></p>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <ul class="act-rules">
+        <li><strong>Say what happens, not what she did wrong.</strong> &ldquo;The shoes go on before the bus,&rdquo; not &ldquo;You&rsquo;re being ridiculous.&rdquo;</li>
+        <li><strong>Tell, don&rsquo;t ask.</strong> &ldquo;Can you put your shoes on?&rdquo; invites a no you&rsquo;ll have to overrule.</li>
+        <li><strong>Say it once.</strong> Repeating it turns the limit into an argument.</li>
+      </ul>
+      <div class="card-seen">
+        <p class="card-seen-k">You&rsquo;ll see this card again in Try It Out</p>
+        <div class="wt-card card-static" data-card-what="State the limit"><span class="wt-what">State the limit</span><span class="wt-say"></span></div>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen" id="scr-125" data-section="learn" data-status="Act 5 of 5" data-steps="5" data-step="5" data-principle hidden>
+      <p class="eyebrow" data-prin-eyebrow></p>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <ul class="act-rules">
+        <li><strong>Both have to be fine with you.</strong> If one of them isn&rsquo;t, it isn&rsquo;t a choice.</li>
+        <li><strong>Wait for Ready to think.</strong> An overwhelmed child can&rsquo;t weigh two things. Name the feeling first.</li>
+        <li><strong>Keep them small.</strong> This or that. Now, or after one more minute.</li>
+      </ul>
+      <div class="card-seen">
+        <p class="card-seen-k">You&rsquo;ll see this card again in Try It Out</p>
+        <div class="wt-card card-static" data-card-what="Give two options"><span class="wt-what">Give two options</span><span class="wt-say"></span></div>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen" id="scr-130" data-section="learn" data-status="Section close" data-theme="dark" hidden>
+      <p class="eyebrow">End of section 1</p>
+      <h1 class="screen-title">Assess, then Act</h1>
+      <p class="screen-body">Assess is how you read the moment. Act is what you do in it. Test Your Knowledge and Try It Out both listen for the five Act moves, by these names.</p>
+      <div class="sum-cols">
+        <div class="sum-col">
+          <p class="sum-k">ASSESS</p>
+          <a href="#scr-111">Three brain states</a>
+          <a href="#scr-112">The drop, and the way back</a>
+          <a href="#scr-113">Look beneath the behavior</a>
+          <a href="#scr-114">Four shifts in how you see it</a>
+        </div>
+        <div class="sum-col">
+          <p class="sum-k">ACT</p>
+          <a href="#scr-121"><b>1</b> Composure</a>
+          <a href="#scr-122"><b>2</b> Name the Feeling</a>
+          <a href="#scr-123"><b>3</b> Breathe Together</a>
+          <a href="#scr-124"><b>4</b> State the Limit</a>
+          <a href="#scr-125"><b>5</b> Give Two Options</a>
+        </div>
+      </div>
+      <p class="gate" id="closeGate" hidden></p>
+      <div class="band-acts">
+        <a class="btn" href="#scr-201">Go on to Test Your Knowledge</a>
+        <a class="btn-link" href="#scr-099">Back to the start</a>
+      </div>
+      <p class="gate">A reasonable place to stop, too. Your place is saved either way.</p>
     </section>
 
     <section class="screen" id="scr-201" data-section="check" data-status="Question 1 of 4" data-steps="4" data-step="1" data-quiz="qz-201" hidden>
@@ -423,10 +617,14 @@
     <h3>Your place is saved.</h3>
     <p>This module remembers where you are and everything you have written. As long as you use the same device and browser, you can close the module and come back to it. Nothing is sent anywhere: the scoring runs on your own computer, so what you type never leaves it, and nothing is reported to the school.</p>
     <p class="sub">Using a different device?</p>
-    <p>Copy this code and paste it into the module on your phone or laptop to pick up where you left off.</p>
-    <div class="code" id="resumeCode"></div>
+    <!-- NEW 26 Sept: the code now has somewhere to go (COVER), and the email sends a link. -->
+    <p>Email yourself a link and open it on your phone or laptop. Or copy this code and paste it on the module&rsquo;s first screen, under &ldquo;Started on another device?&rdquo;</p>
+    <div class="code-row">
+      <div class="code" id="resumeCode"></div>
+      <button class="code-copy" id="codeCopy" type="button" aria-label="Copy code"><svg class="i-copy" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="6" y="6" width="9" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"></rect><path d="M12 3.5V3a1.5 1.5 0 0 0-1.5-1.5h-6A1.5 1.5 0 0 0 3 3v7.5A1.5 1.5 0 0 0 4.5 12H5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><svg class="i-done" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    </div>
+    <p class="code-status" id="codeStatus" aria-live="polite"></p>
     <div class="row">
-      <button class="btn" id="codeCopy" type="button">Copy code</button>
       <button class="btn btn-quiet" id="codeMail" type="button">Email it to me</button>
     </div>
     <p class="sub">Want a fresh start?</p>
@@ -458,20 +656,20 @@
   </div>
 </div>
 
-<script src="content/strings.js?v=20260924p"></script>
-<script src="content/principles.js?v=20260924p"></script>
-<script src="content/quiz.js?v=20260924p"></script>
-<script src="content/safety.js?v=20260924p"></script>
-<script src="content/scenarios.js?v=20260924p"></script>
-<script src="js/board.js?v=20260924p"></script>
-<script src="js/state.js?v=20260924p"></script>
-<script src="js/haptics.js?v=20260924p"></script>
-<script src="js/fx.js?v=20260924p"></script>
-<script src="js/principles.js?v=20260924p"></script>
-<script src="js/safety.js?v=20260924p"></script>
-<script src="js/matcher.js?v=20260924p"></script>
-<script src="js/quiz.js?v=20260924p"></script>
-<script src="js/roleplay.js?v=20260924p"></script>
-<script src="js/app.js?v=20260924p"></script>
+<script src="content/strings.js?v=20260926b"></script>
+<script src="content/principles.js?v=20260926b"></script>
+<script src="content/quiz.js?v=20260926b"></script>
+<script src="content/safety.js?v=20260926b"></script>
+<script src="content/scenarios.js?v=20260926b"></script>
+<script src="js/board.js?v=20260926b"></script>
+<script src="js/state.js?v=20260926b"></script>
+<script src="js/haptics.js?v=20260926b"></script>
+<script src="js/fx.js?v=20260926b"></script>
+<script src="js/principles.js?v=20260926b"></script>
+<script src="js/safety.js?v=20260926b"></script>
+<script src="js/matcher.js?v=20260926b"></script>
+<script src="js/quiz.js?v=20260926b"></script>
+<script src="js/roleplay.js?v=20260926b"></script>
+<script src="js/app.js?v=20260926b"></script>
 </body>
 </html>

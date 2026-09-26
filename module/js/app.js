@@ -18,6 +18,8 @@
   var elName   = document.getElementById('headName');
   var elDot    = document.getElementById('headDot');
   var elSub    = document.getElementById('headSub');
+  /* The section name in the header goes to that section's opening screen. */
+  var SECTION_HOME = { learn: 'scr-110', check: 'scr-201', practice: 'scr-300' };
   var elStatus = document.getElementById('headStatus');
   var elProg   = document.getElementById('headProg');
   var btnAbout = document.getElementById('aboutBtn');
@@ -36,6 +38,12 @@
 
   var current = null;
   var lastFocus = null;
+  /* Back is literally back, as in a browser: the screens this parent
+     actually came through, not the previous screen in document order.
+     Choosing the third lens from the overview and pressing Back returns
+     to the overview, not to the end of the second lens. */
+  var trail = [];
+  var codeNow = '';
 
   /* ---- router ---------------------------------------------------------- */
 
@@ -49,6 +57,9 @@
        buttons — and it carries a destructive control, so it does not sit
        above the content once the parent has moved on by any route. */
     if (current !== null) resume.hidden = true;
+    if (opts && opts.pop) { /* trail already popped by the caller */ }
+    else if (opts && opts.replace) { if (trail.length) trail[trail.length - 1] = id; else trail.push(id); }
+    else if (trail[trail.length - 1] !== id) trail.push(id);
     current = id;
 
     for (var n = 0; n < screens.length; n++) screens[n].hidden = (screens[n].id !== id);
@@ -86,9 +97,13 @@
   function paintHeader(el) {
     var key = el.getAttribute('data-section');
     var sec = key && T.sections[key];
-    var home = el.id !== 'scr-099';
+    var home = el.id !== 'scr-099' && el.id !== ids[0];
     elName.disabled = !home;
     elName.setAttribute('aria-label', home ? 'Back to the start of the module' : 'Conscious Discipline at Home');
+    var secHome = key && SECTION_HOME[key];
+    elSub.disabled = !secHome || el.id === secHome;
+    elSub.setAttribute('data-go', secHome || '');
+    elSub.setAttribute('aria-label', sec ? ('Back to the start of ' + sec.name) : '');
     if (sec) {
       elName.textContent = T.productName;
       elSub.textContent = sec.name;
@@ -117,59 +132,61 @@
     elProg.hidden = steps === 0;
   }
 
-  /* The four principles are parallel lenses, so SCR-102 is a chooser rather
-     than a corridor. Read state comes from the same visited list the resume
-     strip uses — nothing new is stored. The gate is stated, never enforced:
-     a parent who wants the quiz first can have it. */
+  /* Learn is two paths, Assess and Act, and SCR-110 is a chooser between
+     them. Each path card lists its screens and ticks the ones read. Read state
+     comes from the same visited list the resume strip uses: nothing new is
+     stored. The advice to start with Assess is stated, never enforced. */
 
-  var LENSES = ['scr-103', 'scr-104', 'scr-105', 'scr-106'];
+  var ASSESS = ['scr-111', 'scr-112', 'scr-113', 'scr-114'];
+  var ACT    = ['scr-121', 'scr-122', 'scr-123', 'scr-124', 'scr-125'];
+  var LEARN  = ASSESS.concat(ACT);
 
-  function lensesLeft() {
+  function countRead(list) {
     var seen = S.get().visited || [];
-    var left = 0;
-    for (var i = 0; i < LENSES.length; i++) {
-      if (seen.indexOf(LENSES[i]) === -1) left++;
-    }
-    return left;
+    var n = 0;
+    for (var i = 0; i < list.length; i++) if (seen.indexOf(list[i]) !== -1) n++;
+    return n;
   }
 
   function paintLenses() {
-    var nav = document.getElementById('lenses');
-    if (nav) {
-      var seen = S.get().visited || [];
-      var cards = nav.querySelectorAll('.lens');
-      for (var i = 0; i < cards.length; i++) {
-        var read = seen.indexOf(cards[i].getAttribute('data-lens')) !== -1;
-        cards[i].setAttribute('data-read', read ? 'yes' : 'no');
-        cards[i].querySelector('.mark').textContent = read ? 'read \u2713' : '2 min';
+    var seen = S.get().visited || [];
+    var cards = document.querySelectorAll('[data-lens-set]');
+    for (var i = 0; i < cards.length; i++) {
+      var set = cards[i].getAttribute('data-lens-set').split(' ');
+      var n = countRead(set);
+      cards[i].setAttribute('data-read', n === set.length ? 'yes' : 'no');
+      cards[i].querySelector('.mark').textContent = n === set.length ? 'read \u2713'
+        : n === 0 ? set.length + ' screens' : n + ' of ' + set.length + ' read';
+      var items = cards[i].querySelectorAll('[data-lens-item]');
+      for (var j = 0; j < items.length; j++) {
+        items[j].setAttribute('data-read', seen.indexOf(items[j].getAttribute('data-lens-item')) !== -1 ? 'yes' : 'no');
       }
-      var gate = document.getElementById('lensGate');
-      var left = lensesLeft();
-      if (gate) {
-        gate.textContent = left === 0
-          ? 'All four read. Test Your Knowledge is four situations, in any order.'
-          : left === 4
-            ? 'Take them in any order. You\u2019ll want all four before Test Your Knowledge.'
-            : left === 1
-              ? 'One still to read. Take it whenever \u2014 you\u2019ll want all four before Test Your Knowledge.'
-              : left + ' still to read. Take them in any order; you\u2019ll want all four before Test Your Knowledge.';
-      }
+    }
+
+    var gate = document.getElementById('lensGate');
+    if (gate) {
+      var a = countRead(ASSESS), c = countRead(ACT);
+      gate.textContent = a + c === LEARN.length
+        ? 'Both parts read. Test Your Knowledge is next: four situations, in any order.'
+        : a + c === 0
+          ? 'Start with Assess to get the full picture. After that, go back to either part whenever you like.'
+          : a === ASSESS.length
+            ? 'Assess is done. Act is next: five moves, about a minute each.'
+            : (LEARN.length - a - c) + ' screens still to read, in either part.';
     }
 
     var closeGate = document.getElementById('closeGate');
     if (closeGate) {
-      var n = lensesLeft();
-      closeGate.textContent = n === 0
-        ? ''
-        : n === 1
-          ? 'One lens is still unread. It is on the overview screen if you want it first.'
-          : n + ' of the four lenses are still unread. They are on the overview screen if you want them first.';
-      closeGate.hidden = n === 0;
+      var left = LEARN.length - countRead(LEARN);
+      closeGate.textContent = left === 0 ? ''
+        : left === 1 ? 'One screen is still unread. It\u2019s ticked off on the Learn overview if you want to find it.'
+        : left + ' screens are still unread. The Learn overview shows which.';
+      closeGate.hidden = left === 0;
     }
   }
 
   function paintNav(i) {
-    btnBack.disabled = i === 0;
+    btnBack.disabled = i === 0 && trail.length < 2;
     btnNext.disabled = i === ids.length - 1;
     btnBack.textContent = T.nav.back;
     btnNext.textContent = T.nav.next;
@@ -192,12 +209,27 @@
     if (current !== 'scr-099') show('scr-099');
   });
 
-  btnBack.addEventListener('click', function () { go(-1); });
+  elSub.addEventListener('click', function () {
+    var to = elSub.getAttribute('data-go');
+    if (to && to !== current) show(to);
+  });
+
+  /* With somewhere to go back to, Back is the browser's back, and the
+     hashchange below lands the screen. Arriving cold (a reload, a shared
+     link), there is no trail yet, so it falls back to the previous screen. */
+  function back() {
+    if (trail.length > 1) history.back();
+    else go(-1);
+  }
+
+  btnBack.addEventListener('click', back);
   btnNext.addEventListener('click', function () { go(1); });
 
   window.addEventListener('hashchange', function () {
     var id = location.hash.slice(1);
-    if (id && id !== current && indexOf(id) !== -1) show(id);
+    if (!id || id === current || indexOf(id) === -1) return;
+    if (trail.length > 1 && trail[trail.length - 2] === id) { trail.pop(); show(id, { pop: true }); }
+    else show(id);
   });
 
   /* ---- the End of Section 2 band (SCR-209, SCR-300) --------------------- */
@@ -246,7 +278,9 @@
   function openPanel() {
     lastFocus = document.activeElement;
     paintSaved();
-    elCode.textContent = S.code();
+    codeNow = '';
+    elCode.textContent = '\u2026';
+    S.codeAsync().then(function (c) { codeNow = c; elCode.textContent = c; });
     scrim.hidden = false;
     panel.hidden = false;
     btnX.focus();
@@ -275,22 +309,44 @@
   scrim.addEventListener('click', closePanel);
 
   document.getElementById('codeCopy').addEventListener('click', function () {
-    var btn = this, was = btn.textContent;
+    var btn = this, st = document.getElementById('codeStatus');
     H.tap();
-    var done = function () { btn.textContent = T.panel.save.copied; setTimeout(function () { btn.textContent = was; }, 1600); };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(S.code()).then(done, done);
-    } else {
+    var done = function () {
+      btn.classList.add('is-done'); st.textContent = T.panel.save.copied;
+      setTimeout(function () { btn.classList.remove('is-done'); st.textContent = ''; }, 1600);
+    };
+    var text = codeNow || S.code();
+    /* Clipboard API first; the old execCommand path second; if both are
+       blocked, select the code and say so, rather than claiming success. */
+    var legacy = function () {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      panel.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (x) {}
+      panel.removeChild(ta);
+      if (ok) { done(); return; }
       var r = document.createRange(); r.selectNodeContents(elCode);
       var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
-      done();
-    }
+      st.textContent = 'Couldn\u2019t copy automatically. The code is selected: copy it by hand.';
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, legacy);
+    } else legacy();
   });
 
   document.getElementById('codeMail').addEventListener('click', function () {
-    var subject = 'Conscious Discipline at Home — my resume code';
-    var body = 'Paste this code into the module on your other device:\n\n' + S.code() + '\n';
-    window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    /* A link, not a code: tapped on the other device, it opens the module
+       with the code already in the COVER's restore box. */
+    S.codeAsync().then(function (c) {
+      /* href minus the hash: location.origin is "null" on file://. */
+      var link = location.href.split('#')[0] + '#resume=' + c;
+      var subject = 'Conscious Discipline at Home: my place in the module';
+      var body = 'Open this link on your other device to pick up where you left off:\n\n' + link + '\n';
+      var a = document.createElement('a');
+      a.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      a.target = '_top'; a.rel = 'noopener';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    });
   });
 
   /* ---- keyboard -------------------------------------------------------- */
@@ -313,9 +369,51 @@
     }
     if (panel.hidden) {
       if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
-      if (e.key === 'ArrowLeft')  { e.preventDefault(); go(-1); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); back(); }
     }
   });
+
+  /* ---- COVER: begin, or restore from another device -------------------- */
+
+  var cvMore  = document.getElementById('coverRestore');
+  var cvForm  = document.getElementById('coverForm');
+  var cvField = document.getElementById('coverCode');
+  var cvGo    = document.getElementById('coverRestoreGo');
+  var cvNote  = document.getElementById('coverNote');
+  var REPLACES = ' This replaces what is saved on this device.';
+
+  function coverNote(text, isErr) {
+    cvNote.textContent = text;
+    cvNote.classList.toggle('is-err', !!isErr);
+  }
+
+  document.getElementById('coverBegin').addEventListener('click', function () { H.tap(); go(1); });
+  document.getElementById('skipBaseline').addEventListener('click', function () { H.tap(); show('scr-099'); });
+
+  cvMore.addEventListener('toggle', function () {
+    if (cvMore.open && !cvNote.textContent) coverNote(S.hasProgress() ? REPLACES.trim() : '');
+  });
+
+  cvForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!cvField.value.trim()) { coverNote('Paste your code first.', true); cvField.focus(); return; }
+    cvGo.disabled = true;
+    S.applyCodeAsync(cvField.value).then(function (ok) {
+      cvGo.disabled = false;
+      if (!ok) { coverNote('That code didn\u2019t work. Check that you copied all of it.', true); cvField.focus(); return; }
+      /* Reload, so every screen reads the restored answers from scratch,
+         and land straight on their place instead of the offer. */
+      try { sessionStorage.setItem('cdah.restored', '1'); } catch (x) {}
+      history.replaceState(null, '', location.pathname + location.search);
+      location.reload();
+    });
+  });
+
+  function offerLinkCode(code) {
+    cvMore.open = true;
+    cvField.value = code;
+    coverNote('Your link brought your place from the other device. Tap Restore to use it.' + (S.hasProgress() ? REPLACES : ''));
+  }
 
   /* ---- returning parent ------------------------------------------------ */
 
@@ -327,6 +425,21 @@
 
     var hash = location.hash.slice(1);
     var saved = S.get().screen;
+
+    /* Just restored from a code: go straight to their place. */
+    var restored = false;
+    try { restored = sessionStorage.getItem('cdah.restored') === '1'; sessionStorage.removeItem('cdah.restored'); } catch (x) {}
+    if (restored) { show(resumeTarget() || ids[0], { replace: true }); return; }
+
+    /* Arrived by an emailed resume link: the COVER, with the code waiting.
+       Nothing is applied until they tap Restore. */
+    if (hash.indexOf('resume=') === 0) {
+      var linkCode = decodeURIComponent(hash.slice(7));
+      history.replaceState(null, '', location.pathname + location.search);
+      show(ids[0], { silent: true, replace: true });
+      offerLinkCode(linkCode);
+      return;
+    }
 
     /* The hash is the module's own bookkeeping, not a deep link: show()
        replaceStates it on every navigation. So on a reload the hash is
@@ -377,6 +490,7 @@
     /* Every screen that holds a typed value clears itself off this. */
     document.dispatchEvent(new CustomEvent('cdah:restart'));
     resume.hidden = true;
+    trail = [];
     show(ids[0], { replace: true });
   }
 
@@ -528,8 +642,12 @@
 
 (function () {
   'use strict';
-  var root = document.getElementById('levels');
-  if (!root) return;
+  var roots = document.querySelectorAll('[data-levels]');
+  for (var r = 0; r < roots.length; r++) levels(roots[r]);
+
+  /* Assess 1 carries the child / parent toggle, Assess 2 the play sequence.
+     Same ladder, so one function; each part is optional. */
+  function levels(root) {
 
   var COPY = {
     child: [
@@ -557,8 +675,8 @@
   var tiers   = root.querySelector('.tiers');
   var rows    = root.querySelectorAll('.tier');
   var sides   = root.querySelectorAll('.side');
-  var btn     = document.getElementById('levelsPlay');
-  var caption = document.getElementById('levelsCaption');
+  var btn     = root.querySelector('[data-levels-play]');
+  var caption = root.querySelector('[data-levels-caption]');
   var timers  = [];
   var playing = false;
 
@@ -600,8 +718,8 @@
     clear();
     playing = false;
     highlight(null);
-    caption.textContent = '';
-    btn.textContent = 'Watch a drop, and the way back';
+    if (caption) caption.textContent = '';
+    if (btn) btn.textContent = 'Watch a drop, and the way back';
   }
 
   function start() {
@@ -630,7 +748,8 @@
     });
   }
 
-  btn.addEventListener('click', function () { if (playing) stop(); else start(); });
+  if (btn) btn.addEventListener('click', function () { if (playing) stop(); else start(); });
+  }
 })();
 
 
@@ -713,4 +832,83 @@
   for (var k = 0; k < picks.length; k++) {
     picks[k].addEventListener('click', function () { paintCase(this.getAttribute('data-case')); });
   }
+})();
+
+
+/* ===== SCR-114 · the four shifts =======================================
+   Old frame first, shift on tap: the parent does the shifting. */
+
+(function () {
+  'use strict';
+  var items = document.querySelectorAll('[data-shifts] .shift');
+  for (var i = 0; i < items.length; i++) {
+    items[i].addEventListener('click', function () {
+      var open = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', open ? 'false' : 'true');
+      this.querySelector('.shift-cue').textContent = open ? 'SHIFT IT' : 'BACK';
+    });
+  }
+})();
+
+
+/* ===== Acts 2, 4, 5 · the card seen again ==============================
+   The card's words come from the scene data, so the Learn screen and the
+   Words to try strip can never drift apart. */
+
+(function () {
+  'use strict';
+  var scene = window.CDAH_SCENES && window.CDAH_SCENES['scn-301'];
+  var words = (scene && scene.words) || [];
+  var hosts = document.querySelectorAll('[data-card-what]');
+  for (var i = 0; i < hosts.length; i++) {
+    var what = hosts[i].getAttribute('data-card-what').toLowerCase();
+    for (var j = 0; j < words.length; j++) {
+      if (String(words[j].what).toLowerCase() === what) {
+        hosts[i].querySelector('.wt-say').innerHTML = words[j].say;
+      }
+    }
+  }
+})();
+
+
+/* ===== SCR-123 · breathe together ======================================
+   Three slow breaths, paced by a circle. In for 4s, out for 6s: a longer
+   out-breath is the calming half. Reduced motion keeps the pacing in words
+   and drops the growing circle. */
+
+(function () {
+  'use strict';
+  var root = document.querySelector('[data-breathe]');
+  if (!root) return;
+  var ring = root.querySelector('[data-br-ring]');
+  var btn  = root.querySelector('[data-br-go]');
+  var cap  = root.querySelector('[data-br-cap]');
+  var idle = cap.textContent;
+  var timers = [], running = false;
+  var IN = 4000, OUT = 6000, N = 3;
+
+  function clear() { for (var i = 0; i < timers.length; i++) clearTimeout(timers[i]); timers = []; }
+  function stop(done) {
+    clear(); running = false;
+    ring.removeAttribute('data-phase');
+    btn.textContent = done ? 'Again' : 'Try one now, three breaths';
+    cap.textContent = done ? 'That\u2019s three. It works the same with her beside you.' : idle;
+  }
+  function start() {
+    clear(); running = true;
+    btn.textContent = 'Stop';
+    var t = 0;
+    for (var k = 0; k < N; k++) {
+      (function (k) {
+        timers.push(setTimeout(function () { ring.setAttribute('data-phase', 'in'); cap.textContent = 'Breathe in\u2026 (' + (k + 1) + ' of ' + N + ')'; }, t));
+        t += IN;
+        timers.push(setTimeout(function () { ring.setAttribute('data-phase', 'out'); cap.textContent = 'And slowly out\u2026'; }, t));
+        t += OUT;
+      })(k);
+    }
+    timers.push(setTimeout(function () { stop(true); }, t));
+  }
+  btn.addEventListener('click', function () { if (running) stop(false); else start(); });
+  /* Leaving the screen stops the count. */
+  window.addEventListener('hashchange', function () { if (running) stop(false); });
 })();

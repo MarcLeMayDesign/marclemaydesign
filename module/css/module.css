@@ -3,7 +3,6 @@
    portfolio pages around it.
 
    Ground      #FAFBFC   cool near-white paper, every screen but the bookends
-   Desk        #E2E7ED   the light surround the page sits on (body)
    Bookend     #1C2030   SCR-101, SCR-304 and the dark reflective screens
    Ink         #25293C   headings
    Body        #3B3E4C   running text
@@ -40,7 +39,7 @@
 html,body{margin:0;padding:0}
 
 body{
-  background:#E2E7ED;
+  background:var(--ground);
   color:var(--body);
   font-family:'Work Sans',system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;
@@ -52,30 +51,22 @@ a{color:var(--action)}
 a:hover{color:#17578A}
 
 /* ---- the frame ----
-   960x640 is the design frame. On a desktop it sits centered with air around
-   it; on a phone it is the whole viewport and the radius goes away. */
+   The module is the page (decided 25 Sept; it was a 960px card on a gray
+   desk). The chrome runs full width; on a desktop the content keeps the old
+   card's 960px column, centered. Whatever hosts the module — the site, an
+   LMS player, the case study — supplies any frame it wants. */
 
 .app{
   width:100%;
-  max-width:960px;
   height:100vh;
   height:100svh;
-  margin:0 auto;
   background:var(--ground);
-  border-radius:6px;
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  box-shadow:0 3px 18px rgba(36,48,64,.13);
-}
-
-@media (min-width:1000px){
-  body{padding:24px 0}
-  .app{height:calc(100vh - 48px);height:calc(100svh - 48px)}
 }
 
 @media (max-width:999px){
-  .app{border-radius:0;box-shadow:none}
   /* Nothing may widen the page past the screen: a few stray pixels (a
      full-bleed row, 100vw) let a phone zoom out and push the header's
      buttons to the edge. clip, not hidden, so sticky still works. */
@@ -120,7 +111,10 @@ a:hover{color:#17578A}
   font:600 13px/1 'Work Sans',sans-serif;
   cursor:pointer;
 }
-.head-about:hover{color:var(--action)}
+@media (hover:hover){
+  .head-about:hover{color:var(--action);background:var(--tint)}
+  .app[data-theme="dark"] .head-about:hover{background:#3E4661;color:var(--bookend-ink)}
+}
 
 /* Dark screens take the header with them. */
 .app[data-theme="dark"]{background:var(--bookend)}
@@ -267,7 +261,15 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 }
 .panel[hidden]{display:none}
 
-.panel-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+/* Sticky, so the title and the X stay in reach however far the drawer is
+   scrolled. The negative margins pull it to the panel's edges so content
+   passes under it rather than showing through the padding. */
+.panel-head{
+  display:flex;align-items:baseline;gap:12px;
+  position:sticky;top:-22px;z-index:2;
+  margin:-22px -24px 16px;padding:22px 24px 12px;
+  background:var(--ground);box-shadow:0 1px 0 var(--hair);
+}
 .panel-head h2{font-weight:575;font-size:21px;line-height:1.15;color:var(--ink);margin:0}
 .panel-head .saved{font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .panel-head .gap{flex:1}
@@ -304,10 +306,26 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
   background:var(--tint);
   border-radius:9px;
   padding:9px 11px;
-  margin:8px 0 10px;
-  word-break:break-all;
+  margin:0;
+  flex:1 1 auto;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   user-select:all;
 }
+/* The code grows with everything the parent writes, so the box shows one
+   line and the copy button carries the whole thing. */
+.code-row{display:flex;align-items:center;gap:8px;margin:8px 0 4px}
+.code-copy{
+  flex:0 0 44px;width:44px;height:44px;border:0;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  background:transparent;color:var(--action);cursor:pointer;
+  box-shadow:inset 0 0 0 1.5px #C3CBD4;
+}
+.code-copy:hover{background:var(--tint);color:#17578A}
+.code-copy:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.code-copy .i-done{display:none}
+.code-copy.is-done .i-copy{display:none}
+.code-copy.is-done .i-done{display:block}
+.code-status{margin:0 0 10px;min-height:1.4em;font-size:12.5px;color:var(--muted)}
 
 .row{display:flex;flex-wrap:wrap;gap:10px}
 .row .btn{min-height:44px;padding:11px 16px;font-size:14px}
@@ -318,6 +336,43 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 }
 .panel-foot .keys{margin:0 0 6px}
 .panel-foot .disclaimer{margin:0}
+
+/* ---- COVER (scr-000) ---- */
+
+.cover{gap:24px}
+.app:has(#scr-000:not([hidden])) .mod-head{display:none}
+.cover-grid{margin:auto 0;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:40px;align-items:center}
+.cover-text{display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.cover-title{font-weight:600;font-size:clamp(48px,8.4vw,92px);line-height:.98;letter-spacing:-.032em;color:var(--bookend-ink);margin:0;max-width:10ch;text-wrap:balance}
+.cover-art{margin:0}
+/* Black line on transparent disappears on the bookend ground, so the dark
+   version carries a die-cut edge of the module's paper (#F4F1EA), baked into
+   scene-sitting-dark.png: a cut-out laid on the page, not a window. */
+.cover-art img{display:block;width:100%;max-width:400px;height:auto;margin:0 auto}
+.cover-go{margin-top:4px}
+.cover-begin{min-height:52px;padding:14px 30px;font-size:16px}
+.cover-restore summary{cursor:pointer;list-style:none;font-size:14px;color:#8EC3EA;display:inline-flex;align-items:center;gap:8px;min-height:44px}
+.cover-restore summary::-webkit-details-marker{display:none}
+.cover-restore summary::after{content:"";width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .15s}
+.cover-restore[open] summary::after{transform:translateY(1px) rotate(-135deg)}
+.cover-restore summary:hover{color:var(--bookend-ink)}
+.cover-form{display:flex;flex-direction:column;gap:8px;max-width:440px}
+.cover-form label{font-size:13.5px;line-height:1.5;color:var(--bookend-soft);text-wrap:pretty}
+.cover-field{display:flex;gap:8px}
+.cover-field input{flex:1 1 auto;min-width:0;min-height:44px;border:0;border-radius:9px;background:var(--bookend-surface);box-shadow:inset 0 0 0 1.5px #3A4158;padding:0 12px;font:400 13px 'IBM Plex Mono',ui-monospace,monospace;color:var(--bookend-ink)}
+.cover-field input:focus{outline:2px solid #2E86C8;outline-offset:1px}
+.cover-field .btn{flex:none;min-height:44px;padding:10px 16px;font-size:14px}
+.cover-note{margin:0;min-height:1.5em;font-size:12.5px;line-height:1.5;color:var(--bookend-soft)}
+.cover-note.is-err{color:#D79AB3}
+.cover-disclaimer{margin:0;font-size:12px;line-height:1.5;color:#9AA2B8;max-width:62ch}
+.app:has(#scr-000:not([hidden])) .mod-foot{display:none}
+@media (max-width:760px){
+  .cover-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .cover-art{order:-1}
+  .cover-art img{max-width:240px}
+  .cover-go{align-self:stretch}
+  .cover-begin{width:100%}
+}
 
 /* ---- the resume strip (returning parent) ---- */
 
@@ -334,6 +389,17 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .app[data-theme="dark"] .resume .btn:hover{background:#17578A}
 .app[data-theme="dark"] .resume .btn-quiet{background:transparent;color:var(--action);box-shadow:inset 0 0 0 1.5px #C3CBD4}
 .app[data-theme="dark"] .resume .btn-quiet:hover{background:#DCE8F3;color:#17578A}
+
+/* ---- desktop: the content column (see "the frame") ---- */
+
+@media (min-width:1000px){
+  .mod-head,.mod-foot,.resume{
+    padding-left:max(34px,calc((100% - 960px) / 2 + 34px));
+    padding-right:max(34px,calc((100% - 960px) / 2 + 34px));
+  }
+  .screen{width:100%;max-width:960px;margin:0 auto;padding-top:52px;padding-bottom:52px}
+  h1.screen-title{font-size:36px}
+}
 
 /* ---- phone ---- */
 
@@ -424,6 +490,10 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .head-home:disabled{cursor:default;background:none}
 .app[data-theme="dark"] .head-home:hover{background:#272C3E}
 .app[data-theme="dark"] .head-home:focus-visible{outline-color:#8FC0E6}
+/* The section name keeps its text where the plain span had it: the hover
+   pad hangs out on both sides instead of pushing it right. */
+.head-sub.head-home{margin-right:-9px;min-width:0}
+.head-sub.head-home[hidden]{display:none}
 
 
 /* ---- SCR-103 the three levels ---------------------------------------- *
@@ -972,3 +1042,94 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
   .rp-acts:has(.wt-prov:not([hidden])){flex-wrap:nowrap}
   .rp-side{gap:14px}
 }
+
+
+/* ==== Section 1, revised (25 Sept): Assess, then Act ==================== */
+
+/* SCR-110. Two path cards; each lists its screens and ticks the read ones. */
+.paths{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.path{padding:16px 18px 18px}
+.path .name{font-size:18px;font-weight:600}
+.path-tag{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum);text-transform:uppercase;white-space:nowrap}
+.path-list{display:flex;flex-direction:column;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair)}
+.path-list > span{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:baseline;font-size:14px;line-height:1.4;color:var(--body)}
+.path-list > span::before{content:"";width:9px;height:9px;border-radius:50%;box-shadow:inset 0 0 0 1.5px #B9C2CE;transform:translateY(-1px)}
+.path-list > span[data-read="yes"]::before{content:"\2713";width:auto;height:auto;box-shadow:none;border-radius:0;font-size:13px;font-weight:600;color:var(--action);transform:none}
+
+/* Act 2, 4, 5: the phrase card, as the parent will meet it in Try It Out. */
+.card-seen{display:flex;flex-direction:column;gap:8px;max-width:420px}
+.card-seen-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin:0}
+.card-static{cursor:default}
+.card-static:hover{border-color:var(--hair)}
+
+/* SCR-114 the shifts. Old frame shows; tapping shifts it. */
+.shifts{display:flex;flex-direction:column;gap:10px}
+.shift{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:start;
+  text-align:left;font:inherit;cursor:pointer;
+  background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);padding:14px 16px;
+  transition:border-color .18s,background .18s;
+}
+.shift:hover{border-color:var(--action)}
+.shift:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.shift-old,.shift-new{display:flex;flex-direction:column;gap:3px;grid-column:1}
+.shift-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum)}
+.shift-t{font-size:15px;line-height:1.5;color:var(--body);text-wrap:pretty}
+.shift-new{display:none;padding-top:8px;border-top:1px solid var(--hair);margin-top:4px}
+.shift-new .shift-k{color:var(--action)}
+.shift-new .shift-t{color:var(--ink);font-weight:500}
+.shift-cue{grid-column:2;grid-row:1;font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--action);white-space:nowrap;padding-top:1px}
+.shift[aria-expanded="true"]{background:#fff;border-color:var(--action-dim)}
+.shift[aria-expanded="true"] .shift-new{display:flex}
+.shift[aria-expanded="true"] .shift-old .shift-t{color:var(--muted)}
+.shifts-note{font-size:13.5px;color:var(--muted);margin:0}
+
+/* Act 1: three steps beside the parent figure. */
+.act-split{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:24px;align-items:start}
+.act-fig{flex:none;min-height:225px;padding:16px}
+@media (max-width:600px){.act-split{grid-template-columns:1fr}.act-fig{min-height:140px}}
+.act-steps{margin:0;padding:0;list-style:none;counter-reset:st;display:flex;flex-direction:column;gap:12px}
+.act-steps li{counter-increment:st;display:grid;grid-template-columns:30px 1fr;gap:12px;font-size:15px;line-height:1.55;color:var(--body);text-wrap:pretty}
+.act-steps li::before{content:counter(st);width:30px;height:30px;border-radius:50%;background:var(--tint);color:var(--action);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center}
+.act-steps strong{color:var(--ink);font-weight:600}
+
+/* Acts 4 and 5: the short rules. */
+.act-rules{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;max-width:62ch}
+.act-rules li{font-size:15px;line-height:1.55;color:var(--body);padding-left:16px;box-shadow:inset 2px 0 0 var(--action-dim);text-wrap:pretty}
+.act-rules strong{color:var(--ink);font-weight:600}
+.act-aside{font-size:13.5px;line-height:1.5;color:var(--muted);margin:0;max-width:60ch;text-wrap:pretty}
+
+/* Act 2: correct first, connect first. The figure is the result. */
+.contrast{display:flex;flex-direction:column;gap:12px}
+.contrast-k{font-size:15px;line-height:1.5;color:var(--body);margin:0}
+.contrast-k strong,.ct-then strong{color:var(--ink);font-weight:600}
+.ct-row{display:grid;grid-template-columns:72px minmax(0,1fr);gap:18px;align-items:center;border-radius:var(--r);padding:12px 18px 12px 12px;background:var(--surface)}
+.ct-row[data-kind="connect"]{background:var(--tint)}
+.ct-fig{width:72px;height:108px;object-fit:contain}
+.ct-txt{display:flex;flex-direction:column;gap:4px}
+.ct-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;text-transform:uppercase;color:var(--plum);margin:0}
+.ct-row[data-kind="connect"] .ct-k{color:var(--action)}
+.ct-say{font-size:16px;line-height:1.45;color:var(--ink);font-weight:500;margin:0;text-wrap:pretty}
+.ct-then{font-size:14px;line-height:1.5;color:var(--body);margin:0;text-wrap:pretty}
+
+/* Act 3: the breathing circle. */
+.breathe{display:flex;gap:26px;align-items:center;flex-wrap:wrap;background:var(--surface);border-radius:16px;padding:20px 22px}
+.br-ring{width:120px;height:120px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1.5px var(--action-dim)}
+.br-dot{width:44px;height:44px;border-radius:50%;background:var(--action-dim);transition:transform 6s ease-in-out,background 1s}
+.br-ring[data-phase="in"] .br-dot{transform:scale(2.5);background:#8FB8DA;transition-duration:4s}
+.br-ring[data-phase="out"] .br-dot{transform:scale(1);transition-duration:6s}
+.br-side{display:flex;flex-direction:column;gap:12px;align-items:flex-start;flex:1 1 240px}
+.br-scene{flex:none;width:170px;height:auto;display:block}
+.br-side .play-caption{flex:none}
+@media (max-width:600px){.br-scene{width:150px;margin:0 auto}}
+@media (prefers-reduced-motion:reduce){.br-dot{transition:none!important}.br-ring[data-phase] .br-dot{transform:none}}
+
+/* SCR-130, on the dark ground. */
+.sum-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+.sum-col{display:flex;flex-direction:column;gap:2px;background:var(--bookend-surface);border-radius:var(--r);padding:16px 18px}
+.sum-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:#D79AB3;margin:0 0 6px}
+.sum-col a{display:flex;gap:10px;align-items:baseline;font-size:15px;line-height:1.4;color:var(--bookend-ink);text-decoration:none;padding:6px 0;border-radius:4px}
+.sum-col a:hover{color:#9FC9E8}
+.sum-col a b{font:500 12px 'IBM Plex Mono',ui-monospace,monospace;color:var(--bookend-soft);width:12px}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}
+a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-height:44px}

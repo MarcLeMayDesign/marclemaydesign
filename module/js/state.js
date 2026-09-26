@@ -62,6 +62,31 @@
     for (var i = 0; i < listeners.length; i++) listeners[i](state);
   }
 
+  function adopt(json) {
+    try {
+      var obj = JSON.parse(json);
+      if (!obj || obj.version !== 1) return false;
+      for (var k in BLANK) if (!(k in obj)) obj[k] = clone(BLANK[k]);
+      state = obj;
+      write();
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function b64url(u8) {
+    var s = '';
+    for (var i = 0; i < u8.length; i += 8192) s += String.fromCharCode.apply(null, u8.subarray(i, i + 8192));
+    return window.btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+
+  function unb64url(t) {
+    t = t.replace(/-/g, '+').replace(/_/g, '/');
+    while (t.length % 4) t += '=';
+    var b = window.atob(t), u = new Uint8Array(b.length);
+    for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i);
+    return u;
+  }
+
   var API = {
     get: function () { return state; },
 
@@ -120,13 +145,38 @@
     applyCode: function (code) {
       try {
         var b64 = String(code).replace(/[-\s]/g, '');
-        var json = decodeURIComponent(escape(window.atob(b64)));
-        var obj = JSON.parse(json);
-        if (!obj || obj.version !== 1) return false;
-        state = obj;
-        write();
-        return true;
+        return adopt(decodeURIComponent(escape(window.atob(b64))));
       } catch (e) { return false; }
+    },
+
+    /* v2 code (26 Sept): the same object, deflated and base64url, prefixed
+       "z". About half the length of v1, no dashes. Falls back to v1 where
+       CompressionStream is missing. v1 codes always start "eyJ", so the
+       prefix cannot collide, and old codes still restore. */
+    codeAsync: function () {
+      var json = JSON.stringify(state);
+      if (!window.CompressionStream) return Promise.resolve(API.code());
+      try {
+        var s = new Blob([json]).stream().pipeThrough(new CompressionStream('deflate-raw'));
+        return new Response(s).arrayBuffer()
+          .then(function (buf) { return 'z' + b64url(new Uint8Array(buf)); })
+          .catch(function () { return API.code(); });
+      } catch (e) { return Promise.resolve(API.code()); }
+    },
+
+    /* Takes a v1 code, a v2 code, or a whole resume link pasted by mistake. */
+    applyCodeAsync: function (raw) {
+      var code = String(raw || '').trim();
+      var m = code.match(/resume=([^&\s]+)/);
+      if (m) code = m[1];
+      code = code.replace(/\s/g, '');
+      if (!code) return Promise.resolve(false);
+      if (code.charAt(0) !== 'z') return Promise.resolve(API.applyCode(code));
+      if (!window.DecompressionStream) return Promise.resolve(false);
+      try {
+        var s = new Blob([unb64url(code.slice(1))]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+        return new Response(s).text().then(adopt).catch(function () { return false; });
+      } catch (e) { return Promise.resolve(false); }
     },
 
     restart: function () {

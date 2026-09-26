@@ -77,9 +77,9 @@ window.CDAH_SCENES = {
        that goes into the field. Each `say` is checked against the accept
        lists above, so using one really does count. */
     words: [
-      { what: 'Name the feeling first', say: 'It\u2019s really hard to stop when you\u2019re almost done.' },  // NEW
-      { what: 'Say the limit plainly',  say: 'The tablet is going off now. It\u2019s time for bath.' },        // NEW
-      { what: 'Give two ways to move',  say: 'You can pause it or save it. You pick.' }                        // NEW
+      { what: 'Name the feeling', say: 'It\u2019s really hard to stop when you\u2019re almost done.' },  // NEW
+      { what: 'State the limit',  say: 'The tablet is going off now. It\u2019s time for bath.' },        // NEW
+      { what: 'Give two options',  say: 'You can pause it or save it. You pick.' }                        // NEW
     ],
 
     replies: {
@@ -135,18 +135,18 @@ window.CDAH_SCENES = {
     rows: {
       composure: { hit: 'You kept your own composure \u2014 no threat, no raised voice, no bargaining the limit away.',
                    miss: 'Composure \u2014 start here next time. The other three only work from a calm voice.',
-                   name: 'Keeping your own composure' },
+                   name: 'Composure' },
       connect:   { hit: 'You connected before correcting.',
                    miss: 'Her feeling didn\u2019t get named before the rule.',
-                   name: 'Connecting before correcting' },
+                   name: 'Name the feeling' },
       limit:     { hit: 'You said the limit out loud.',
                    miss: 'The limit didn\u2019t get said. Understanding without a limit reads to a five-year-old as a yes.',
                    early: 'You said the limit, but before she felt heard, so it didn\u2019t land yet.',  // NEW
-                   name: 'Saying the limit clearly' },
+                   name: 'State the limit' },
       choices:   { hit: 'You gave her two ways to move.',
                    miss: 'No two choices offered. Two acceptable ways to stop let her do it without losing.',
                    early: 'You offered choices, but before she felt heard, so she couldn\u2019t use them yet.',  // NEW
-                   name: 'Offering two choices' }
+                   name: 'Give two options' }
     }
   }
 };

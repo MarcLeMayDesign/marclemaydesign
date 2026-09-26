@@ -1,4 +1,4 @@
-/* content/safety.js — the five safety responses.
+/* content/safety.js — the six safety responses.
    THIS IS A FILE YOU EDIT, and the one where a missing phrase matters most.
    Copy is final from "Safety Responses - Spec and Drafts" (20 Sept); edit the
    words there first, then here.
@@ -57,8 +57,9 @@ window.CDAH_SAFETY_DATA = {
          silent). grab / push / throw are left out on purpose: "I'd grab him
          and leave" is an ordinary checkout answer. */
       pattern: {
-        window: 4,
+        window: 8,
         subjects: ['i', 'id', 'ill', 'im', 'ive'],
+        others: ['he', 'she', 'they', 'you', 'we', 'hes', 'shes', 'theyre', 'youre', 'someone', 'somebody'],
         verbs: ['hit', 'hitting', 'slap', 'slapped', 'slapping', 'smack', 'smacked', 'smacking',
                 'spank', 'spanked', 'spanking', 'shake', 'shook', 'shaking', 'hurt', 'hurting',
                 'punch', 'punched', 'kick', 'kicked', 'beat', 'whack', 'whacked', 'swat', 'swatted'],
@@ -152,6 +153,38 @@ window.CDAH_SAFETY_DATA = {
       say: 'Setting the exercise aside for a moment. You matter here too, not only as somebody\u2019s parent. The 988 Suicide &amp; Crisis Lifeline is free, confidential, and answers texts as well as calls \u2014 <strong>988</strong>. If this was just a hard day talking rather than something more, that\u2019s all right too; the question is still below whenever you want it.',
       again: 'Still here, and 988 still answers \u2014 call or text, any time.',
       action: { label: 'Call or text 988', href: 'tel:988' } },
+
+    /* Harsh language. Not homeOnly: a parent swearing at the scripted
+       child in a role-play is exactly the moment this is for. Checked after
+       SR-1 to SR-4, so a disclosure that also swears gets the more serious
+       reply. Words, not substrings: "dick" will not fire inside "dickens". */
+    { id: 'SR-6',
+      phrases: ['fuck', 'fucks', 'fucking', 'fuckin', 'fucked', 'fucker', 'fuckers', 'motherfucker',
+                'motherfucking', 'fck', 'f ck', 'f cking', 'f cker', 'f king', 'fk', 'stfu', 'wtf', 'shut the f up',
+                'shit', 'shits', 'shitty', 'shithead', 'bullshit', 'piece of shit', 'little shit', 'sh t',
+                'cunt', 'cunts', 'dick', 'dickhead', 'bitch', 'bitches', 'bitchy', 'little bitch',
+                'asshole', 'assholes', 'arsehole', 'bastard', 'little bastard', 'goddamn', 'goddamnit',
+                'twat', 'prick', 'jackass', 'dumbass', 'retard', 'retarded',
+                'brat', 'brats', 'little brat', 'spoiled brat',
+                /* Name-calling: only after "you're" / "you're a", so "stupid shoes"
+                   and "that was dumb" stay clear. Apostrophes are dropped first. */
+                ...(function () {
+                  const words = ['stupid', 'idiot', 'dumb', 'moron', 'loser', 'brat', 'worthless', 'useless',
+                                 'pathetic', 'spoiled', 'crybaby', 'lazy', 'selfish', 'monster', 'nightmare',
+                                 'bad kid', 'bad boy', 'bad girl'];
+                  /* Bare "your" is left out: "your stupid shoes" is Maya's own line
+                     coming back, not name-calling. "ur" and "yur" alone do count. */
+                  const leads = ['youre', 'you are', 'u r', 'youre a', 'you are a', 'u r a', 'youre an', 'you are an',
+                                 'youre such a', 'you are such a', 'youre such an', 'you are such an'];
+                  ['your', 'ur', 'yur'].forEach(y => leads.push(y + ' a', y + ' an', y + ' such a', y + ' such an'));
+                  leads.push('ur', 'yur');
+                  const out = [];
+                  leads.forEach(l => words.forEach(w => out.push(l + ' ' + w)));
+                  return out;
+                })()],
+      say: 'Setting the exercise aside for a moment. Some of the words in your answer are ones that land hard on a child, even when they come out of a hard moment rather than a bad parent. If that\u2019s where more of your days end up than you\u2019d like, the National Parent Helpline is free and confidential, and it\u2019s there for ordinary hard weeks too: call or text <strong>1-855-427-2736</strong>. Nothing you type here leaves your device. The question is still below whenever you want it.',
+      again: 'The helpline is still there if you want it: <strong>1-855-427-2736</strong>, call or text. The question is below.',
+      action: { label: 'Call or text 1-855-427-2736', href: 'tel:18554272736' } },
 
     { id: 'SR-5',
       phrases: ['does this still apply', 'does this apply to', 'does this work for kids with',

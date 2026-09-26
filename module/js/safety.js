@@ -58,10 +58,14 @@
       var objOk = inList(next, p.objects) || inList(next2, p.objects);
       if (!objOk) continue;
       if (p.unless && inList(w[k + 2] || '', p.unless)) continue;
+      /* The nearest pronoun before the verb decides who is doing it, so
+         "I'd stay calm even if she wanted to hit him" stays silent while
+         "I'd yell at him and smack him" fires. */
       var from = Math.max(0, k - p.window), subj = false, neg = false;
-      for (var b = from; b < k; b++) {
-        if (inList(w[b], p.subjects)) subj = true;
+      for (var b = k - 1; b >= from; b--) {
         if (inList(w[b], p.negate)) neg = true;
+        if (inList(w[b], p.subjects)) { subj = true; break; }
+        if (p.others && inList(w[b], p.others)) break;
       }
       if (subj && !neg) return true;
     }
