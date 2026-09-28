@@ -847,6 +847,12 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .coach-txt{display:flex;flex-direction:column;gap:4px}
 .coach-k{font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
 .coach-t{font-size:15px;line-height:1.55;color:var(--ink);margin:0;text-wrap:pretty}
+/* Black-line Coach on the dark close: sits on paper so the line holds. */
+.coach-dark{background:#F4F1EA;margin-top:6px}
+.coach-dark .coach-k{color:var(--muted)}
+.coach-dark .coach-t{color:var(--ink)}
+.qz-hub{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.qz-hub .lens[data-read="yes"] .mark{color:var(--action)}
 
 /* Screen-reader only. The quiz rows use it to say the verdict as a word
    without printing it beside the line. */
@@ -877,53 +883,70 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
   background:linear-gradient(#2E3549,#2E3549) center/100% 1.75em no-repeat;
 }
 
-/* ---- SCR-105 the iceberg --------------------------------------------- *
-   Closed by default on purpose: the principle is that you have to look, so
-   the parent does the looking. Water deepens by layer; the upshot only
-   appears once all three are open. */
+/* ---- SCR-113 the iceberg, revised 27 Sept --------------------------- *
+   The drawn iceberg sits behind the layers, masked so it fades in from the
+   left: the words sit on its quiet side. Each closed layer has a veil over
+   its depth of the ice; REVEAL lifts it, so opening a layer shows more
+   iceberg as well as the words. Row and veil heights are the image's own
+   depths (the waterline is 23.9% down iceberg.png). The layers are buttons
+   with a divider, not boxes: the ice is the surface. */
 
-.berg{flex:1;display:flex;flex-direction:column}
-.berg-box{border:1px solid var(--hair);border-radius:16px;overflow:hidden;background:var(--surface)}
-.berg-top{padding:16px 18px 18px}
-.berg-eyebrow{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:var(--plum);margin:0 0 7px}
-.berg-surface{font-weight:500;font-size:19px;line-height:1.4;color:var(--ink);margin:0;text-wrap:pretty}
-.berg-line{
-  display:flex;align-items:center;gap:12px;margin:0;padding:8px 18px;
-  background:#EDF3F9;border-top:1px dashed var(--action-dim);
+.berg{display:flex;flex-direction:column}
+.berg .sides-note{margin:0 0 12px}
+.berg-box{position:relative;height:520px;border-radius:14px;overflow:hidden}
+.berg-water{position:absolute;left:0;right:0;top:23.9%;bottom:0;background:linear-gradient(#EDF4F9,#DCE8F2)}
+.berg-art{
+  position:absolute;left:calc(70% - 228px);top:0;width:455px;height:100%;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 47%,#000 100%);
+  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 47%,#000 100%);
 }
-.berg-line span{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:var(--action)}
-.berg-line i{flex:1;height:1px;background:var(--action-dim);display:block}
-.berg-line em{font-style:normal;font-size:12.5px;color:var(--muted)}
-.berg-deep{background:#EDF3F9;padding:4px 18px 18px;display:grid;gap:9px}
+.berg-art img{position:absolute;inset:0;width:100%;height:100%;display:block}
+.berg-veil{position:absolute;left:0;right:0;background:#E4EDF4;opacity:.62;transition:opacity .5s}
+.berg-veil[data-veil="0"]{top:23.9%;height:25.1%}
+.berg-veil[data-veil="1"]{top:49%;height:25%}
+.berg-veil[data-veil="2"]{top:74%;height:26%}
+.berg-veil[data-open="yes"]{opacity:0}
+.berg-line{position:absolute;left:0;width:calc(70% - 228px);top:23.9%;border-top:1.5px dashed #9FB6C8}
+.berg-top{position:absolute;left:4px;top:0;height:23.9%;width:420px;max-width:calc(100% - 8px);display:flex;flex-direction:column;justify-content:center}
+.berg-eyebrow{font:500 11px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:var(--muted);margin:0 0 4px}
+.berg-surface{font-weight:500;font-size:17px;line-height:1.4;color:var(--ink);margin:0;text-wrap:pretty}
 
 .layer{
-  text-align:left;width:100%;display:block;cursor:pointer;
-  border:1px solid #D6E4F0;border-radius:13px;padding:13px 15px;
-  font-family:'Work Sans',system-ui,sans-serif;
-  transition:background .2s,border-color .2s;
+  position:absolute;left:0;width:436px;max-width:100%;box-sizing:border-box;
+  background:transparent;border:0;border-bottom:1px solid rgba(31,111,173,.18);border-radius:0;
+  padding:12px 8px 12px 4px;text-align:left;cursor:pointer;font-family:inherit;
+  display:flex;flex-direction:column;justify-content:center;gap:6px;
 }
-.layer[data-layer="0"]{background:#E7EFF7}
-.layer[data-layer="1"]{background:#E2ECF5}
-.layer[data-layer="2"]{background:#D6E4F0}
-.layer:hover{border-color:var(--action)}
-.layer:focus-visible{outline:2px solid var(--action);outline-offset:2px}
-.layer[aria-expanded="true"]{background:var(--surface);border-color:var(--action)}
-.layer-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.layer[data-layer="0"]{top:23.9%;height:25.1%}
+.layer[data-layer="1"]{top:49%;height:25%}
+.layer[data-layer="2"]{top:74%;height:26%;border-bottom-color:transparent}
+.layer:focus-visible{outline:2px solid var(--action);outline-offset:-2px}
+.layer-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;width:100%}
 .layer-name{font-weight:600;font-size:16px;color:var(--ink)}
-/* Ink, not action blue: the layer backgrounds deepen by depth, so a single
-   blue cue slid from 4.6:1 to 4.1:1 on the lower layers. The button border
-   and hover carry the affordance; the cue only has to be readable. */
-.layer-cue{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--ink);flex:none}
-.layer-body{
-  display:block;overflow:hidden;max-height:0;opacity:0;margin-top:0;
-  transition:max-height .3s ease,opacity .25s ease,margin .3s ease;
-}
-.layer[aria-expanded="true"] .layer-body{max-height:200px;opacity:1;margin-top:7px}
-.layer-text{display:block;font-size:15.5px;line-height:1.5;color:var(--body);text-wrap:pretty}
+.layer-cue{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--action);flex:none}
+.layer:hover .layer-cue{text-decoration:underline;text-underline-offset:3px}
+.layer-text{display:block;font-size:14.5px;line-height:1.45;color:var(--ink);opacity:0;transition:opacity .35s;text-wrap:pretty}
+.layer[aria-expanded="true"] .layer-text{opacity:1}
 
-.berg-upshot p{
-  font-size:15.5px;line-height:1.55;margin:0;text-wrap:pretty;
-  background:var(--surface);border:1px solid var(--action-dim);border-radius:13px;padding:13px 15px;
+.berg-upshot{margin-top:18px}
+.berg-upshot[hidden]{display:none}
+.berg-upshot p{font-size:16px;line-height:1.55;margin:0;max-width:62ch;color:var(--ink);text-wrap:pretty}
+
+/* Phone: the iceberg slides right with a steeper fade, so the text lands on
+   its faint side and the reveal happens in the strong part (option 6c, 27
+   Sept). The box bleeds to the screen edges. */
+@media (max-width:640px){
+  .berg-box{height:640px;margin:0 -18px;border-radius:0}
+  .berg-art{
+    left:calc(94% - 280px);width:560px;
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.3) 42%,#000 72%);
+    mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.3) 42%,#000 72%);
+  }
+  .berg-line{display:none}
+  .berg-top{left:18px;width:230px}
+  .berg-surface{font-size:16px}
+  .layer{left:14px;width:250px;max-width:calc(100% - 28px);padding:12px 6px 12px 4px}
+  .layer-name{font-size:15.5px}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -1062,32 +1085,44 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .card-static{cursor:default}
 .card-static:hover{border-color:var(--hair)}
 
-/* SCR-114 the shifts. Old frame shows; tapping shifts it. */
-.shifts{display:flex;flex-direction:column;gap:10px}
+/* SCR-114 the shifts, revised 27 Sept. Each card pairs an old frame with a
+   Parent pose; the shift crossfades the pose and the words together. Both
+   texts share one fixed box, so the card never changes size. */
+.shifts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
 .shift{
-  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:start;
-  text-align:left;font:inherit;cursor:pointer;
-  background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);padding:14px 16px;
-  transition:border-color .18s,background .18s;
+  display:grid;grid-template-columns:84px minmax(0,1fr);gap:18px;align-items:center;
+  text-align:left;font:inherit;color:inherit;cursor:pointer;
+  background:#fff;border:1px solid #C3CBD4;border-radius:var(--r);padding:14px 18px 14px 14px;
+  transition:background .45s,border-color .45s;
 }
 .shift:hover{border-color:var(--action)}
 .shift:focus-visible{outline:2px solid var(--action);outline-offset:2px}
-.shift-old,.shift-new{display:flex;flex-direction:column;gap:3px;grid-column:1}
+.shift[aria-pressed="true"]{background:var(--tint);border-color:var(--action-dim)}
+.shift-fig{display:block;width:84px;height:150px}
+.shift .xfade > [data-xfade]{transition-duration:.6s}
+.shift-main{display:flex;flex-direction:column;gap:8px;height:150px;min-width:0}
+.shift-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .shift-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum)}
-.shift-t{font-size:15px;line-height:1.5;color:var(--body);text-wrap:pretty}
-.shift-new{display:none;padding-top:8px;border-top:1px solid var(--hair);margin-top:4px}
-.shift-new .shift-k{color:var(--action)}
-.shift-new .shift-t{color:var(--ink);font-weight:500}
-.shift-cue{grid-column:2;grid-row:1;font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--action);white-space:nowrap;padding-top:1px}
-.shift[aria-expanded="true"]{background:#fff;border-color:var(--action-dim)}
-.shift[aria-expanded="true"] .shift-new{display:flex}
-.shift[aria-expanded="true"] .shift-old .shift-t{color:var(--muted)}
+.shift[aria-pressed="true"] .shift-k{color:var(--action)}
+.shift-cue{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--action);white-space:nowrap}
+.shift-txt{position:relative;display:block;flex:1}
+.shift-t{position:absolute;inset:0;font-size:16.5px;line-height:1.45;color:var(--ink);transition:opacity .45s;text-wrap:pretty}
+.shift-new{opacity:0}
+.shift[aria-pressed="true"] .shift-old{opacity:0}
+.shift[aria-pressed="true"] .shift-new{opacity:1}
 .shifts-note{font-size:13.5px;color:var(--muted);margin:0}
+@media (max-width:860px){.shifts{grid-template-columns:minmax(0,1fr);gap:10px}}
+@media (max-width:640px){
+  .shift{grid-template-columns:62px minmax(0,1fr);gap:14px;padding:12px 14px 12px 10px}
+  .shift-fig{width:62px;height:111px}
+  .shift-main{height:132px;gap:6px}
+  .shift-t{font-size:15.5px;line-height:1.42}
+}
 
 /* Act 1: three steps beside the parent figure. */
 .act-split{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:24px;align-items:start}
-.act-fig{flex:none;min-height:225px;padding:16px}
-@media (max-width:600px){.act-split{grid-template-columns:1fr}.act-fig{min-height:140px}}
+.act-fig{flex:none;margin:0;width:150px;aspect-ratio:2/3}
+@media (max-width:600px){.act-split{grid-template-columns:1fr}.act-fig{width:110px;margin:0 auto}}
 .act-steps{margin:0;padding:0;list-style:none;counter-reset:st;display:flex;flex-direction:column;gap:12px}
 .act-steps li{counter-increment:st;display:grid;grid-template-columns:30px 1fr;gap:12px;font-size:15px;line-height:1.55;color:var(--body);text-wrap:pretty}
 .act-steps li::before{content:counter(st);width:30px;height:30px;border-radius:50%;background:var(--tint);color:var(--action);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center}
@@ -1133,3 +1168,197 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .sum-col a b{font:500 12px 'IBM Plex Mono',ui-monospace,monospace;color:var(--bookend-soft);width:12px}
 a.btn{text-decoration:none;display:inline-flex;align-items:center}
 a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+
+
+/* ---- Assess, revised 27 Sept -------------------------------------------- *
+   No eyebrows on the Assess screens: the header already says Learn and
+   "Assess 1 of 4". The title sits closer to the header, and on a wide
+   screen the intro paragraphs sit side by side, which roughly halves their
+   height without a measure longer than about 60 characters. */
+.prin-tight{gap:18px}
+.prin-tight .sides{margin:0}
+@media (min-width:1000px){.screen.prin-tight{padding-top:28px}}
+@media (min-width:761px){
+  .prin-tight [data-prin-body]{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 32px}
+  .prin-tight [data-prin-body] > p:only-child{grid-column:1 / -1;max-width:78ch}
+  .prin-tight [data-prin-body] p.screen-body{max-width:none}
+}
+@media (max-width:760px){.prin-tight [data-prin-body]{gap:10px}}
+
+.bs-dot{width:10px;height:10px;border-radius:50%;display:block;flex:none}
+.bs-dot[data-c="0"]{background:#A3506E}
+.bs-dot[data-c="1"]{background:#E1AC3F}
+.bs-dot[data-c="2"]{background:#5E9E6E}
+.bs-dot[data-c="all"]{background:conic-gradient(#A3506E 0 33%,#E1AC3F 0 66%,#5E9E6E 0)}
+.side[aria-pressed="true"] .bs-dot{box-shadow:0 0 0 1.5px #fff}
+.bs .xfade > [data-xfade],.drop .xfade > [data-xfade]{transition-duration:.6s}
+
+/* SCR-111. One figure, which the side toggle swaps (Maya or the Parent, in
+   the same spot), beside the brain. Maya stands at about two-thirds of the
+   Parent's height, feet on the same line. The caption box is fixed so the
+   page does not move as the text changes. */
+.bs{display:flex;flex-direction:column;gap:12px}
+.bs-stage{display:flex;justify-content:center;align-items:flex-end;gap:44px}
+.bs-fig{width:184px;height:330px;flex:none}
+.bs-fig > .bs-child{top:auto;bottom:0;left:16.3%;width:67.4%;height:68.2%}
+.bs-brain{width:352px;height:340px;flex:none}
+.bs-pills{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap}
+.bs-hint{font-size:13.5px;color:var(--muted);margin-right:4px}
+.bs-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;font-size:13.5px}
+.bs-cap{height:158px;box-sizing:border-box;background:var(--surface);border-radius:var(--r);padding:16px 20px;overflow:hidden}
+.bs-k{font:500 11px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:var(--muted);margin:0 0 5px;display:flex;align-items:center;gap:8px}
+.bs-head{font-size:19px;font-weight:600;color:var(--ink);margin:0 0 6px}
+.bs-body{font-size:15px;line-height:1.5;color:var(--body);margin:0 0 6px;text-wrap:pretty}
+.bs-ask{font-size:15px;line-height:1.5;color:var(--ink);margin:0}
+.bs-ask[hidden]{display:none}
+.bs-ask + .bs-ask{margin-top:3px}
+.bs-alias{font-weight:400;color:var(--muted)}
+.bs-ask .k,.dtier-ask .k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum);margin-right:8px}
+
+/* SCR-112. Play and the bar come first so the control is on screen before
+   any scrolling; the caption lives under the brain, at its width. */
+.drop{display:flex;flex-direction:column;gap:16px}
+.drop-play{display:flex;align-items:center;gap:14px;max-width:560px}
+.drop-play .btn-play{flex:none}
+.drop-bar{flex:1;display:flex;gap:4px}
+.drop-bar[hidden]{display:none}
+.drop-seg{flex:1;height:18px;border:0;background:none;padding:6px 0;cursor:pointer}
+.drop-seg span{display:block;height:6px;border-radius:3px;background:#D3DAE2;overflow:hidden}
+.drop-seg i{display:block;height:100%;width:0;background:var(--action)}
+.drop-seg:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.drop-grid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:32px;align-items:start}
+.drop-left{display:flex;flex-direction:column;gap:12px}
+.drop-brain{width:300px;height:290px}
+.drop-cap{height:96px;margin:0;font-size:17px;line-height:1.38;font-weight:500;color:var(--muted);text-wrap:pretty}
+.drop-cap[data-live]{color:var(--ink)}
+.drop-tiers{display:grid;gap:10px}
+.dtier{background:var(--surface);border-radius:var(--r);padding:18px 20px;transition:background .35s,opacity .35s}
+.drop-grid[data-running] .dtier{opacity:.4}
+.drop-grid[data-running] .dtier[data-live]{opacity:1;background:var(--tint)}
+.dtier-name{margin:0 0 8px;display:flex;align-items:center;gap:9px;font-weight:600;font-size:18.5px;color:var(--ink)}
+.dtier-name .bs-dot{width:12px;height:12px}
+.dtier-ask{margin:0;font-size:16px;line-height:1.45;color:var(--ink)}
+
+@media (max-width:760px){
+  .drop-grid{grid-template-columns:minmax(0,1fr);gap:16px}
+  .drop-brain{margin:0 auto}
+}
+/* Tablet: the body wraps to three lines, so the fixed box grows with it. */
+@media (min-width:641px) and (max-width:900px){.bs-cap{height:190px}}
+@media (max-width:640px){
+  .bs .sides .side{flex:1;min-height:44px}
+  .bs-stage{gap:10px}
+  .bs-fig{width:106px;height:190px}
+  .bs-brain{width:228px;height:221px}
+  .bs-pills{display:grid;grid-template-columns:1fr 1fr}
+  .bs-hint{grid-column:1 / -1;text-align:center;margin:0}
+  .bs-pill{min-height:44px;font-size:14px}
+  .bs-cap{height:268px;padding:14px 16px}
+  .bs-head{font-size:18px}
+  .drop-play .btn-play{min-height:44px}
+  .drop-seg{height:44px;padding:19px 0}
+  .drop-brain{width:250px;height:242px}
+  .drop-cap{height:72px}
+  .dtier{padding:13px 16px}
+  .dtier-name{font-size:17px;margin-bottom:5px}
+  .dtier-ask{font-size:15.5px}
+}
+@media (prefers-reduced-motion: reduce){
+  .bs .xfade > [data-xfade],.drop .xfade > [data-xfade],.shift .xfade > [data-xfade],
+  .dtier,.berg-veil,.layer-text,.shift,.shift-t{transition:none}
+}
+
+/* ---- Act, revised 28 Sept --------------------------------------------- *
+   No eyebrows (prin-tight, as Assess). Act 1's steps are buttons: each one
+   tapped moves the Parent a pose toward calm (tense, neutral, calm). Acts 4
+   and 5 put a Parent pose beside the rules, as Act 1 does. Act 2 uses Maya
+   from Assess 1. The figure stays beside the text on a phone too, so the
+   pose changes where the thumb is. */
+.act-split{grid-template-columns:minmax(0,1fr) 168px;gap:28px;align-items:center}
+.act-fig{width:168px;aspect-ratio:335/600;position:relative}
+.act-fig img{width:100%;height:100%;object-fit:contain;display:block}
+.act-steps{display:flex;flex-direction:column;gap:10px}
+.act-steps .bs-hint{margin:0}
+.act-step{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;align-items:start;text-align:left;font:inherit;font-size:15px;line-height:1.55;color:var(--body);background:transparent;border:1px solid var(--hair);border-radius:var(--r);padding:11px 14px;min-height:44px;cursor:pointer;text-wrap:pretty;transition:background .3s,border-color .3s}
+.act-step:hover{border-color:var(--action-dim)}
+.act-step strong{color:var(--ink);font-weight:600}
+.act-n{width:30px;height:30px;border-radius:50%;background:var(--tint);color:var(--action);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .3s,color .3s}
+.act-step[aria-pressed="true"]{background:var(--tint);border-color:var(--action-dim)}
+.act-step[aria-pressed="true"] .act-n{background:var(--action);color:#fff}
+.act-split .act-rules{max-width:none}
+.act-split:has(.act-rules){align-items:start}
+.ct-row{grid-template-columns:76px minmax(0,1fr)}
+.ct-fig{width:76px;height:138px}
+.breathe{display:grid;grid-template-columns:150px 120px minmax(0,1fr);gap:24px;align-items:center}
+.br-scene{width:150px}
+@media (max-width:640px){
+  .act-split{grid-template-columns:minmax(0,1fr) 88px;gap:14px}
+  .act-fig{width:88px;margin:0}
+  .act-step{padding:10px 12px;gap:10px;grid-template-columns:26px minmax(0,1fr)}
+  .act-n{width:26px;height:26px;font-size:13px}
+  .ct-row{grid-template-columns:62px minmax(0,1fr);gap:14px}
+  .ct-fig{width:62px;height:112px}
+  .breathe{grid-template-columns:120px minmax(0,1fr);gap:16px 18px;padding:16px}
+  .br-scene{width:120px;margin:0}
+  .br-ring{justify-self:center}
+  .br-side{grid-column:1 / -1}
+}
+
+/* Act, 28 Sept pass 2 [Marc]. The two-column intro stays on Act 3 only
+   (equal paragraphs); Acts 1, 2, 4, 5 read as one column at the width of
+   the content column beside the figure. Act 1's figure rises beside the
+   intro, so it can be taller. Act 3 loses its tint box: bigger scene,
+   bigger circle, the button and caption under the circle. Acts 4-5: the
+   rules are the content, so they get body-plus type. */
+@media (min-width:761px){
+  .prin-tight .act-body[data-prin-body]{display:flex;flex-direction:column;gap:10px;max-width:calc(100% - 196px)}
+  .prin-tight .act-body[data-prin-body] p.screen-body{max-width:none}
+}
+.act-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.act-col .act-body{max-width:none!important}
+.act-rise{grid-template-columns:minmax(0,1fr) 200px;align-items:end}
+.act-rise .act-fig{width:200px}
+.act-split .act-rules{gap:14px}
+.act-split .act-rules li{font-size:18px;line-height:1.5;padding-left:18px;box-shadow:inset 3px 0 0 var(--action-dim)}
+.breathe{display:grid;grid-template-columns:auto auto;justify-content:center;gap:48px;align-items:center;background:none;padding:4px 0;border-radius:0}
+.br-scene{width:260px}
+.br-col{display:flex;flex-direction:column;align-items:center;gap:16px}
+.br-ring{width:220px;height:220px;box-shadow:inset 0 0 0 2px var(--action-dim)}
+.br-dot{width:80px;height:80px}
+.br-side{flex:none;align-items:center;text-align:center;max-width:260px}
+.br-side .play-caption{min-height:3em;margin:0}
+@media (max-width:640px){
+  .act-rise{grid-template-columns:minmax(0,1fr) 88px}
+  .act-rise .act-fig{width:88px}
+  .act-split .act-rules li{font-size:16px}
+  .breathe{grid-template-columns:1fr 1fr;gap:12px;padding:0}
+  .br-scene{width:100%;max-width:170px;justify-self:center}
+  .br-ring{width:150px;height:150px}
+  .br-dot{width:54px;height:54px}
+  .br-col{display:contents}
+  .br-side{grid-column:1 / -1;justify-self:center}
+}
+
+/* Acts 4-5, option 1b (28 Sept, "Act 4-5 Mockups.dc.html"): the phrase
+   card is the hero, spoken by the Parent (a tail points at them), and the
+   three rules become captions under it. No interaction. */
+.hero-say{display:grid;grid-template-columns:130px minmax(0,1fr);gap:28px;align-items:end}
+.hero-fig{margin:0;width:130px}
+.hero-fig img{width:100%;height:auto;display:block}
+.hero-card{max-width:none;margin-bottom:24px}
+.hero-card .wt-card{position:relative;background:#fff;border:1.5px solid var(--action-dim);border-radius:18px;padding:22px 28px;gap:8px}
+.hero-card .wt-card::before{content:"";position:absolute;left:-11px;bottom:26px;width:20px;height:20px;background:#fff;border-left:1.5px solid var(--action-dim);border-bottom:1.5px solid var(--action-dim);transform:rotate(45deg)}
+.hero-card .wt-what{font:500 11px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--action)}
+.hero-card .wt-say{font-size:28px;line-height:1.3;font-weight:500;color:var(--ink);text-wrap:pretty}
+.hero-rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;max-width:none}
+.hero-rules li{display:flex;flex-direction:column;gap:6px;box-shadow:none;padding:12px 0 0;border-top:3px solid var(--action-dim);font-size:15px}
+.hero-rules strong{font-size:17px;line-height:1.35}
+@media (max-width:640px){
+  .hero-say{grid-template-columns:78px minmax(0,1fr);gap:16px}
+  .hero-fig{width:78px}
+  .hero-card{margin-bottom:12px}
+  .hero-card .wt-card{padding:16px 18px}
+  .hero-card .wt-card::before{left:-9px;bottom:18px;width:16px;height:16px}
+  .hero-card .wt-say{font-size:21px}
+  .hero-rules{grid-template-columns:1fr;gap:14px}
+}

@@ -19,7 +19,7 @@
   var elDot    = document.getElementById('headDot');
   var elSub    = document.getElementById('headSub');
   /* The section name in the header goes to that section's opening screen. */
-  var SECTION_HOME = { learn: 'scr-110', check: 'scr-201', practice: 'scr-300' };
+  var SECTION_HOME = { learn: 'scr-110', check: 'scr-200', practice: 'scr-300' };
   var elStatus = document.getElementById('headStatus');
   var elProg   = document.getElementById('headProg');
   var btnAbout = document.getElementById('aboutBtn');
@@ -71,6 +71,8 @@
 
     if (!opts || !opts.silent) S.reached(id);
     paintLenses();
+    paintQuizHub();
+    if (id === 'scr-209') paintSummary();
     /* Each move is a history entry, so the phone's Back button steps back
        through screens like the module's own Back. Load and resume replace
        instead, so Back from the first screen still leaves the module. */
@@ -92,6 +94,28 @@
     stage.scrollTop = 0;
     /* After focus and the scroll reset, so the fade is not fighting either. */
     FX.enter(el);
+    /* Act 1 (Composure), revised 28 Sept: the parent settles as the steps are
+       tapped (tense, then neutral at step 2, calm at step 3). Arriving resets. */
+    var af = el.querySelector('[data-act-fig]');
+    if (af) {
+      var lay = af._lay || (af._lay = FX.layers(af));
+      var btns = el.querySelectorAll('[data-act-steps] .act-step');
+      var setStep = function (n) {
+        for (var b = 0; b < btns.length; b++) btns[b].setAttribute('aria-pressed', b < n ? 'true' : 'false');
+        lay.to(n >= 3 ? '3' : n === 2 ? '2' : '0');
+      };
+      if (!af._wired) {
+        af._wired = true;
+        for (var b = 0; b < btns.length; b++) (function (n) {
+          btns[n - 1].addEventListener('click', function () {
+            var cur = 0;
+            for (var q = 0; q < btns.length; q++) if (btns[q].getAttribute('aria-pressed') === 'true') cur = q + 1;
+            setStep(cur === n ? n - 1 : n);
+          });
+        })(b + 1);
+      }
+      setStep(0);
+    }
   }
 
   function paintHeader(el) {
@@ -146,6 +170,30 @@
     var n = 0;
     for (var i = 0; i < list.length; i++) if (seen.indexOf(list[i]) !== -1) n++;
     return n;
+  }
+
+  /* TYK hub: a question is ticked once it has a band. Best band stands. */
+  var BAND_WORD = { strong: 'Strong', nearly: 'Nearly there', notyet: 'Not yet' };
+  function paintQuizHub() {
+    var cards = document.querySelectorAll('[data-qz-hub]');
+    if (!cards.length) return;
+    var best = S.get().best || {}, done = 0;
+    for (var i = 0; i < cards.length; i++) {
+      var b = best[cards[i].getAttribute('data-qz-hub')];
+      cards[i].setAttribute('data-read', b ? 'yes' : 'no');
+      cards[i].querySelector('.mark').textContent = b ? BAND_WORD[b] + ' \u2713' : '';
+      if (b) done++;
+    }
+    var g = document.getElementById('qzGate');
+    if (g) g.textContent = done === 0 ? 'Start with 1, or pick any. They take about two minutes each.'
+      : done === cards.length ? 'All four answered. Try It Out is next, or go back to any of them.'
+      : (cards.length - done) + (cards.length - done === 1 ? ' still to answer.' : ' still to answer, in any order.');
+  }
+
+  /* TYK summary: one of the "parenting is hard" lines, kept per parent. */
+  function paintSummary() {
+    var t = document.querySelector('[data-sum-coach-t]');
+    if (t && window.CDAH_COACH_LINES) t.textContent = S.coachLine('tyk-summary', window.CDAH_COACH_LINES);
   }
 
   function paintLenses() {
@@ -327,7 +375,8 @@
       if (ok) { done(); return; }
       var r = document.createRange(); r.selectNodeContents(elCode);
       var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
-      st.textContent = 'Couldn\u2019t copy automatically. The code is selected: copy it by hand.';
+      /* NEW 27 Sept [Marc's comment]: say how, on a computer and on a phone. */
+      st.textContent = 'Couldn\u2019t copy automatically, so the code is highlighted. Choose Edit \u2192 Copy in your browser, or press Ctrl+C (\u2318C on a Mac). On a phone, press and hold the code, then tap Copy.';
     };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done, legacy);
@@ -634,129 +683,176 @@
 })();
 
 
-/* ===== SCR-103 · the three levels ======================================
-   Kept in its own closure: the screen runner above does not need to know
-   this exists, and if it throws, navigation still works. The child copy is
-   in the HTML, so the screen reads correctly with JavaScript off; this only
-   swaps to the parent wording and runs the drop sequence. */
+/* ===== SCR-111 · three brain states ===================================
+   Revised 27 Sept. One brain, one figure, one caption box, and all three
+   answer to the same two choices: which side (the child or you) and which
+   state. The figure is Maya on "Where they are" and the Parent on "Where you
+   are", standing in the same spot, so the toggle visibly swaps who you are
+   reading. The caption box is a fixed size so nothing below it moves when
+   the text changes. Copy is in content/principles.js under scr-111.states. */
 
 (function () {
   'use strict';
-  var roots = document.querySelectorAll('[data-levels]');
-  for (var r = 0; r < roots.length; r++) levels(roots[r]);
+  var root = document.querySelector('[data-bstates]');
+  var P = window.CDAH_PRINCIPLES && window.CDAH_PRINCIPLES['scr-111'];
+  var D = P && P.states;
+  if (!root || !D) return;
+  var side = 'child', step = 'all';
+  var sides = root.querySelectorAll('[data-side]');
+  var pills = root.querySelectorAll('[data-step]');
+  var figs  = root.querySelectorAll('.bs-fig [data-xfade]');
+  var brain = root.querySelectorAll('.bs-brain [data-xfade]');
+  var elDot = root.querySelector('[data-bs-dot]');
+  var elK = root.querySelector('[data-bs-kicker]'), elH = root.querySelector('[data-bs-head]');
+  var elB = root.querySelector('[data-bs-body]'), elAskRow = root.querySelector('[data-bs-askrow]'), elAsk = root.querySelector('[data-bs-ask]');
+  var elNeedRow = root.querySelector('[data-bs-needrow]'), elNeed = root.querySelector('[data-bs-need]');
 
-  /* Assess 1 carries the child / parent toggle, Assess 2 the play sequence.
-     Same ladder, so one function; each part is optional. */
-  function levels(root) {
-
-  var COPY = {
-    child: [
-      ['Shows in the body \u2014 hitting, bolting, going rigid.', '\u201CAm I safe?\u201D', 'Safety. Fewer words, slower voice, no questions or choices yet.'],
-      ['Shows in the words \u2014 yelling, blaming, \u201Cyou never.\u201D', '\u201CDo you still love me?\u201D', 'Connection. Name the feeling before you name anything else.'],
-      ['Can hear you, can weigh two options.', '\u201CWhat do I do about this?\u201D', 'Teaching lands here \u2014 two choices, a plan, a repair.']
-    ],
-    parent: [
-      ['Shows in the body \u2014 tensed up, voice raised, the sentence you\u2019ll regret half out.', '\u201CAm I still in control here?\u201D', 'Stop talking. One breath before the next word \u2014 nothing from here lands the way you mean it.'],
-      ['Shows in the words \u2014 sarcasm, keeping score, \u201Cafter everything I do.\u201D', '\u201CDoes any of this get noticed?\u201D', 'Name it to yourself. You can be angry and still choose the next sentence.'],
-      ['You can hear them and still hold the line.', '\u201CWhat is my child missing here?\u201D', 'The only level teaching comes from. Get here first, even if it costs a minute.']
-    ]
-  };
-
-  var SEQ = [
-    [0,     2, 'Ready to think. This is the only level teaching lands on.'],
-    [1600,  1, 'Something goes wrong, and the brain drops a level. Now it runs on feeling, not reasoning.'],
-    [3400,  0, 'More stress, another drop. Now it is the body. No explanation reaches here.'],
-    [5200,  0, 'The way back up starts with what this level asks for \u2014 safety, not words.'],
-    [7000,  1, 'Safety lands, and it comes up a level. Now name the feeling.'],
-    [8800,  2, 'Back to ready. Only now does teaching work.'],
-    [11000, null, '']
-  ];
-
-  var tiers   = root.querySelector('.tiers');
-  var rows    = root.querySelectorAll('.tier');
-  var sides   = root.querySelectorAll('.side');
-  var btn     = root.querySelector('[data-levels-play]');
-  var caption = root.querySelector('[data-levels-caption]');
-  var timers  = [];
-  var playing = false;
-
-  function tierByLevel(n) {
-    for (var i = 0; i < rows.length; i++) {
-      if (rows[i].getAttribute('data-lvl') === String(n)) return rows[i];
+  function paint() {
+    var i, on;
+    for (i = 0; i < figs.length; i++) {
+      on = figs[i].getAttribute('data-who') === side && figs[i].getAttribute('data-lvl') === step;
+      figs[i].setAttribute('data-on', on ? 'yes' : 'no');
     }
-    return null;
-  }
-
-  function paintSide(which) {
-    var set = COPY[which];
-    for (var n = 0; n < 3; n++) {
-      var t = tierByLevel(n);
-      if (!t) continue;
-      t.querySelector('.tier-shows').textContent = set[n][0];
-      t.querySelector('.tier-asks').textContent  = set[n][1];
-      t.querySelector('.tier-needs').textContent = set[n][2];
-    }
-    for (var i = 0; i < sides.length; i++) {
-      sides[i].setAttribute('aria-pressed', sides[i].getAttribute('data-side') === which ? 'true' : 'false');
+    for (i = 0; i < brain.length; i++) brain[i].setAttribute('data-on', brain[i].getAttribute('data-lvl') === step ? 'yes' : 'no');
+    for (i = 0; i < sides.length; i++) sides[i].setAttribute('aria-pressed', sides[i].getAttribute('data-side') === side ? 'true' : 'false');
+    for (i = 0; i < pills.length; i++) pills[i].setAttribute('aria-pressed', pills[i].getAttribute('data-step') === step ? 'true' : 'false');
+    elDot.setAttribute('data-c', step);
+    if (step === 'all') {
+      elK.textContent = 'THREE STATES, THREE PARTS';
+      elH.innerHTML = D.intro[side][0];
+      elB.innerHTML = D.intro[side][1];
+      if (elNeedRow) elNeedRow.hidden = true;
+      elAskRow.hidden = true;
+    } else {
+      var s = D.list[+step];
+      elK.textContent = s.part.toUpperCase();
+      elH.innerHTML = s.name + (s.alias ? ' <span class="bs-alias">&middot; ' + s.alias + '</span>' : '');
+      elB.innerHTML = s.desc + ' ' + s[side][0];
+      elAsk.innerHTML = s[side][1];
+      elAskRow.hidden = false;
+      if (elNeedRow) { elNeed.innerHTML = s[side][2] || ''; elNeedRow.hidden = !s[side][2]; }
     }
   }
-
-  function clear() {
-    for (var i = 0; i < timers.length; i++) clearTimeout(timers[i]);
-    timers = [];
-  }
-
-  function highlight(n) {
-    for (var i = 0; i < rows.length; i++) rows[i].removeAttribute('data-live');
-    if (n === null) { tiers.removeAttribute('data-running'); return; }
-    tiers.setAttribute('data-running', 'yes');
-    var t = tierByLevel(n);
-    if (t) t.setAttribute('data-live', 'yes');
-  }
-
-  function stop() {
-    clear();
-    playing = false;
-    highlight(null);
-    if (caption) caption.textContent = '';
-    if (btn) btn.textContent = 'Watch a drop, and the way back';
-  }
-
-  function start() {
-    clear();
-    playing = true;
-    btn.textContent = 'Stop';
-    /* Reduced motion still gets the sequence — it is content, not decoration —
-       but tightened, and the CSS transitions are already off. */
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var scale = reduce ? 0.6 : 1;
-    for (var i = 0; i < SEQ.length; i++) {
-      (function (step) {
-        timers.push(setTimeout(function () {
-          if (step[1] === null) { stop(); return; }
-          highlight(step[1]);
-          caption.textContent = step[2];
-        }, step[0] * scale));
-      })(SEQ[i]);
+  /* The caption box keeps one height for all eight captions so nothing below
+     it jumps. Measured, not fixed in CSS, since the copy changes length. */
+  var cap = root.querySelector('.bs-cap');
+  function fit() {
+    if (!cap || !cap.offsetParent) return;
+    var s0 = side, t0 = step, max = 0, SS = ['child', 'parent'], TT = ['all', '0', '1', '2'];
+    cap.style.height = 'auto';
+    for (var a = 0; a < SS.length; a++) for (var b = 0; b < TT.length; b++) {
+      side = SS[a]; step = TT[b]; paint(); max = Math.max(max, cap.offsetHeight);
     }
+    side = s0; step = t0; paint();
+    cap.style.height = max + 'px';
   }
-
-  for (var i = 0; i < sides.length; i++) {
-    sides[i].addEventListener('click', function () {
-      stop();
-      paintSide(this.getAttribute('data-side'));
-    });
-  }
-
-  if (btn) btn.addEventListener('click', function () { if (playing) stop(); else start(); });
-  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function () { setTimeout(fit, 0); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  setTimeout(fit, 0);
+  var scr = root.closest('.screen');
+  if (scr && window.MutationObserver) new MutationObserver(function () { if (!scr.hidden) setTimeout(fit, 0); }).observe(scr, { attributes: true, attributeFilter: ['hidden'] });
+  for (var i = 0; i < sides.length; i++) sides[i].addEventListener('click', function () { side = this.getAttribute('data-side'); paint(); });
+  for (var j = 0; j < pills.length; j++) pills[j].addEventListener('click', function () { step = this.getAttribute('data-step'); paint(); });
 })();
 
 
-/* ===== SCR-105 · the iceberg ===========================================
-   Layers start closed because the principle is that you have to look. The
-   upshot line is withheld until all three are open, so it reads as the
-   payoff rather than a fourth layer. */
+/* ===== SCR-112 · the drop, and the way back =============================
+   Revised 27 Sept. The brain follows the sequence and the caption sits under
+   it, at its width, because the caption belongs to the picture. Pacing is
+   reading time, not a fixed beat: two seconds plus 45ms a character, about
+   30 seconds end to end. That is slow enough that a parent needs to be told
+   it is still going, hence the six-segment bar (the current segment fills),
+   Pause, and Watch again. Any segment jumps to that step. Reduced motion
+   keeps the pacing (it is reading time) and loses only the crossfades. */
+
+(function () {
+  'use strict';
+  var root = document.querySelector('[data-drop]');
+  if (!root) return;
+  var SEQ = [
+    [2, 'Ready to think. This is the only level teaching lands on.'],
+    [1, 'Something goes wrong, and the brain drops a level. Now it runs on feeling, not reasoning.'],
+    [0, 'More stress, another drop. Now it is the body. No explanation reaches here.'],
+    [0, 'The way back up starts with what this level asks for \u2014 safety, not words.'],
+    [1, 'Safety lands, and it comes up a level. Now connect: name the feeling.'],
+    [2, 'Back to ready. Only now does teaching work.']
+  ];
+  var IDLE = 'Watch what happens in the brain when a situation goes wrong.';
+  var DONE = 'Back where it started. Watch it again, or tap any step in the bar.';
+  var btn = root.querySelector('[data-drop-play]'), bar = root.querySelector('[data-drop-bar]');
+  var cap = root.querySelector('[data-drop-cap]'), grid = root.querySelector('.drop-grid');
+  var brain = root.querySelectorAll('.drop-brain [data-xfade]'), tiers = root.querySelectorAll('.dtier');
+  var i = -1, t = 0, paused = false, tick = null;
+  var fills = [];
+  for (var k = 0; k < SEQ.length; k++) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'drop-seg';
+    b.setAttribute('aria-label', 'Step ' + (k + 1) + ' of ' + SEQ.length);
+    b.innerHTML = '<span><i></i></span>';
+    (function (n) { b.addEventListener('click', function () { go(n); }); })(k);
+    bar.appendChild(b); fills.push(b.querySelector('i'));
+  }
+  function dur(n) { return 2000 + SEQ[n][1].length * 45; }
+  function level(lvl) {
+    var key = lvl === null ? 'all' : String(lvl);
+    for (var a = 0; a < brain.length; a++) brain[a].setAttribute('data-on', brain[a].getAttribute('data-lvl') === key ? 'yes' : 'no');
+    for (var c = 0; c < tiers.length; c++) {
+      if (lvl !== null && tiers[c].getAttribute('data-lvl') === key) tiers[c].setAttribute('data-live', 'yes');
+      else tiers[c].removeAttribute('data-live');
+    }
+    if (lvl === null) grid.removeAttribute('data-running'); else grid.setAttribute('data-running', 'yes');
+  }
+  function paintBar(done) {
+    for (var s = 0; s < fills.length; s++) fills[s].style.width = (done || s < i ? 100 : s === i ? Math.min(100, t / dur(i) * 100) : 0) + '%';
+  }
+  function stopTick() { clearInterval(tick); tick = null; }
+  function finish() {
+    stopTick(); i = -1; t = 0; paused = false;
+    level(null); paintBar(true);
+    cap.textContent = DONE; cap.removeAttribute('data-live');
+    btn.innerHTML = '&#8634;&#xFE0E; Watch again';
+  }
+  function go(n) {
+    i = n; t = 0; paused = false;
+    bar.hidden = false;
+    level(SEQ[i][0]); cap.textContent = SEQ[i][1]; cap.setAttribute('data-live', 'yes');
+    btn.innerHTML = '&#10074;&#10074; Pause'; paintBar(false);
+    stopTick();
+    tick = setInterval(function () {
+      if (paused) return;
+      t += 50;
+      if (t >= dur(i)) {
+        if (i + 1 >= SEQ.length) { finish(); return; }
+        i++; t = 0; level(SEQ[i][0]); cap.textContent = SEQ[i][1];
+      }
+      paintBar(false);
+    }, 50);
+  }
+  function reset() {
+    stopTick(); i = -1; t = 0; paused = false;
+    level(null); bar.hidden = true; paintBar(false);
+    cap.textContent = IDLE; cap.removeAttribute('data-live');
+    btn.innerHTML = '&#9654;&#xFE0E; Watch a drop, and the way back';
+  }
+  btn.addEventListener('click', function () {
+    if (i < 0) { go(0); return; }
+    paused = !paused;
+    btn.innerHTML = paused ? '&#9654;&#xFE0E; Resume' : '&#10074;&#10074; Pause';
+  });
+  /* Leaving the screen resets it, like the breathing circle. */
+  window.addEventListener('hashchange', reset);
+})();
+
+
+/* ===== SCR-113 · the iceberg ===========================================
+   Revised 27 Sept. The drawn iceberg sits behind the layers, fading in from
+   the left so the words stay on the quiet side. Each unopened layer has a
+   veil over its depth of the ice; REVEAL lifts the veil and shows the text,
+   so opening a layer shows more of the iceberg as well as the words. On a
+   phone the iceberg slides further right, so the text sits on its faded
+   side (chosen over a highlight or a glow, which no other text in the
+   module has). The upshot line waits until all three are open. */
 
 (function () {
   'use strict';
@@ -785,67 +881,73 @@
   };
 
   var layers  = root.querySelectorAll('.layer');
+  var veils   = root.querySelectorAll('.berg-veil');
   var picks   = root.querySelectorAll('.side');
   var surface = document.getElementById('bergSurface');
   var upshot  = document.getElementById('bergUpshot');
   var upText  = document.getElementById('bergUpshotText');
 
+  function set(n, open) {
+    layers[n].setAttribute('aria-expanded', open ? 'true' : 'false');
+    layers[n].querySelector('.layer-cue').textContent = open ? 'CLOSE' : 'REVEAL';
+    if (veils[n]) veils[n].setAttribute('data-open', open ? 'yes' : 'no');
+  }
   function checkAll() {
     var all = true;
-    for (var i = 0; i < layers.length; i++) {
-      if (layers[i].getAttribute('aria-expanded') !== 'true') all = false;
-    }
+    for (var i = 0; i < layers.length; i++) if (layers[i].getAttribute('aria-expanded') !== 'true') all = false;
     upshot.hidden = !all;
   }
-
-  function closeAll() {
-    for (var i = 0; i < layers.length; i++) {
-      layers[i].setAttribute('aria-expanded', 'false');
-      layers[i].querySelector('.layer-cue').textContent = 'LOOK';
-    }
-    upshot.hidden = true;
-  }
-
   function paintCase(key) {
     var c = CASES[key];
     if (!c) return;
     surface.textContent = c.surface;
-    for (var i = 0; i < layers.length; i++) {
-      layers[i].querySelector('.layer-text').textContent = c.layers[i];
-    }
+    for (var i = 0; i < layers.length; i++) { layers[i].querySelector('.layer-text').textContent = c.layers[i]; set(i, false); }
     upText.textContent = c.upshot;
-    for (var j = 0; j < picks.length; j++) {
-      picks[j].setAttribute('aria-pressed', picks[j].getAttribute('data-case') === key ? 'true' : 'false');
-    }
-    closeAll();
+    upshot.hidden = true;
+    for (var j = 0; j < picks.length; j++) picks[j].setAttribute('aria-pressed', picks[j].getAttribute('data-case') === key ? 'true' : 'false');
   }
-
   for (var i = 0; i < layers.length; i++) {
-    layers[i].addEventListener('click', function () {
-      var open = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', open ? 'false' : 'true');
-      this.querySelector('.layer-cue').textContent = open ? 'LOOK' : 'HIDE';
-      checkAll();
-    });
+    (function (n) {
+      layers[n].addEventListener('click', function () {
+        set(n, this.getAttribute('aria-expanded') !== 'true');
+        checkAll();
+      });
+    })(i);
   }
-
-  for (var k = 0; k < picks.length; k++) {
-    picks[k].addEventListener('click', function () { paintCase(this.getAttribute('data-case')); });
-  }
+  for (var k = 0; k < picks.length; k++) picks[k].addEventListener('click', function () { paintCase(this.getAttribute('data-case')); });
 })();
 
 
 /* ===== SCR-114 · the four shifts =======================================
-   Old frame first, shift on tap: the parent does the shifting. */
+   Revised 27 Sept. Each old frame is paired with a Parent pose, and the
+   shift changes the pose and the words together: Tense to Calm, Scolding to
+   Gentle but Firm, Frustrated to Compassion, Angry to Two Options. The
+   parent does the shifting, and can shift back. */
 
 (function () {
   'use strict';
   var items = document.querySelectorAll('[data-shifts] .shift');
+  var note = document.querySelector('[data-shifts-note]');
+  function count() {
+    var n = 0;
+    for (var i = 0; i < items.length; i++) if (items[i].getAttribute('aria-pressed') === 'true') n++;
+    if (!note) return;
+    note.textContent = n === 0 ? 'Tap each one to shift it.'
+      : n < items.length ? n + ' of ' + items.length + ' shifted. Tap again to see the old frame.'
+      : 'All four shifted. Tap any one to see the old frame again.';
+  }
   for (var i = 0; i < items.length; i++) {
     items[i].addEventListener('click', function () {
-      var open = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', open ? 'false' : 'true');
-      this.querySelector('.shift-cue').textContent = open ? 'SHIFT IT' : 'BACK';
+      var on = this.getAttribute('aria-pressed') !== 'true';
+      this.setAttribute('aria-pressed', on ? 'true' : 'false');
+      var imgs = this.querySelectorAll('[data-xfade]');
+      imgs[0].setAttribute('data-on', on ? 'no' : 'yes');
+      imgs[1].setAttribute('data-on', on ? 'yes' : 'no');
+      this.querySelector('.shift-old').setAttribute('aria-hidden', on ? 'true' : 'false');
+      this.querySelector('.shift-new').setAttribute('aria-hidden', on ? 'false' : 'true');
+      this.querySelector('.shift-k').textContent = on ? 'THE SHIFT' : 'THE OLD FRAME';
+      this.querySelector('.shift-cue').textContent = on ? 'SHIFT BACK' : 'SHIFT IT';
+      count();
     });
   }
 })();
@@ -900,9 +1002,9 @@
     var t = 0;
     for (var k = 0; k < N; k++) {
       (function (k) {
-        timers.push(setTimeout(function () { ring.setAttribute('data-phase', 'in'); cap.textContent = 'Breathe in\u2026 (' + (k + 1) + ' of ' + N + ')'; }, t));
+        timers.push(setTimeout(function () { ring.setAttribute('data-phase', 'in'); cap.textContent = 'Breathe in through your nose\u2026 (' + (k + 1) + ' of ' + N + ')'; }, t));
         t += IN;
-        timers.push(setTimeout(function () { ring.setAttribute('data-phase', 'out'); cap.textContent = 'And slowly out\u2026'; }, t));
+        timers.push(setTimeout(function () { ring.setAttribute('data-phase', 'out'); cap.textContent = 'And slowly out through your mouth\u2026'; }, t));
         t += OUT;
       })(k);
     }
