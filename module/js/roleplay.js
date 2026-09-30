@@ -491,6 +491,14 @@
       }
 
       var h = score(scene, raw);
+      /* Gibberish: nothing hit, composure intact, no English in it. She
+         doesn't answer and no turn is used. */
+      var MM = window.CDAH_MATCH;
+      if (MM && MM.nonsense && !h.fail && !h.connect && !h.limit && !h.choices && MM.nonsense(raw)) {
+        MM.huh(field, ((window.CDAH_STRINGS || {}).huh || {}).roleplay);
+        return;
+      }
+      if (MM && MM.huh) MM.huh(field, '');
       /* Words to try phrases sent exactly as the card gave them. Any edit
          inside a phrase breaks the match, and that is the rule: an edited
          phrase is the parent's own words. Counted as phrases, not lines, so
@@ -507,7 +515,9 @@
       if (h.fail) run.fail = true;
       else {
         if (h.connect) run.connect = true;
-        if (h.limit) { if (ready) run.limit = true; else run.limitEarly = true; }
+        /* A safety limit doesn't wait (scene.limitAnytime, SCN-302): said at
+           any point, it counts. */
+        if (h.limit) { if (ready || scene.limitAnytime) run.limit = true; else run.limitEarly = true; }
         if (h.choices) { if (ready) run.choices = true; else run.choicesEarly = true; }
       }
       var rk = run.level + ':' + s.key;
@@ -711,8 +721,9 @@
       if (nx) {
         var C2 = (window.CDAH_STRINGS && window.CDAH_STRINGS.close2) || {};
         var n = +id.slice(-1);
-        var to = n < 3 ? 'scn-30' + (n + 1) : 'scr-400';
-        nx.textContent = n < 3 ? (C2.next || 'Next scenario') : (C2.finish || 'Finish');
+        /* Scene 3 is the 7:40 morning, so it leads to the Bookend, not Finish. */
+        var to = n < 3 ? 'scn-30' + (n + 1) : 'scr-304';
+        nx.textContent = n < 3 ? (C2.next || 'Next scenario') : (C2.toBookend || C2.finish || 'Finish');
         nx.setAttribute('data-to', to);
         nx.hidden = !document.getElementById(to);
       }

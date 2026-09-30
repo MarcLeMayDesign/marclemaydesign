@@ -37,7 +37,7 @@
             costs a parent a fair reading, and package E's parent sessions
             are where real wording gets added. Add a line, do not rewrite.
    veto     phrasings that cancel a pass even when an accept matched. Only
-            item 3 has one, and it is there because "I'd apologize if he
+            item 4 has one, and it is there because "I'd apologize if she
             apologizes" contains "apologize" and is not a repair.
    hit/miss the one-line rows on the result screen. hit is what they did;
             miss is what was not there. Both stay plain — the glyph beside
@@ -84,7 +84,7 @@ window.CDAH_QUIZ = {
     ask: 'What is probably going on for him, and what would you deal with first?',
     say: {
       lead: 'Once you have your own breath, and you are down at his level:',
-      line: 'You really wanted that chocolate. It is hard when the answer is no. We are not buying it today.'
+      line: 'You really wanted that chocolate. I know it\u2019s hard when the answer is no. We\u2019re not buying it today.'
     },
     practice: 'These are principles to practice, not a script. Some evenings none of it lands, and that is a fact about evenings, not about you.',
 
@@ -147,7 +147,7 @@ window.CDAH_QUIZ = {
       },
       missB: {
         head: 'You read him accurately',
-        body: 'You read him accurately. The part still missing is you: the threat you were about to make came from the woman behind you in the queue, not from him. Your own state is the first thing in the room that you control.'
+        body: 'You read him accurately. The part still missing is you: the threat you were about to make came from the woman behind you in line, not from him. Your own state is the first thing in the room that you control.'
       },
       missA: {
         head: 'You started with yourself',
@@ -174,7 +174,7 @@ window.CDAH_QUIZ = {
       lead: 'Later, when she is calm, with the toy in sight:',
       line: 'You wanted that truck. You can say \u201ccan I have a turn?\u201d \u2014 let us try it. Snatching is still not okay.'
     },
-    practice: 'Nobody does this cleanly. Getting it half right, often, is what actually changes things.',
+    practice: 'Nobody does this perfectly. Getting it half right is often what actually changes things.',
     criteria: [
       { id: 'A',
         accept: ['how to ask', 'asking', 'taking turns', 'take turns', 'turn taking',
@@ -202,7 +202,7 @@ window.CDAH_QUIZ = {
       missC: { head: 'A skill, not a moral',
                body: 'You\u2019re right that she\u2019s missing a skill rather than a moral. The thing to watch is that teaching the skill doesn\u2019t replace the limit \u2014 she needs to hear that snatching isn\u2019t okay, just after she\u2019s been understood rather than instead of it.' },
       missA: { head: 'You saw the apology was hollow',
-               body: 'You saw that the apology was hollow. The next question is what she\u2019d need in order not to do it again \u2014 she hasn\u2019t got a way of getting a turn other than taking one.' },
+               body: 'You saw that the apology was hollow. The next question is what she\u2019d need in order not to do it again \u2014 she doesn\u2019t see a way of getting a turn other than to take one.' },
       missB: { head: 'You found the missing skill',
                body: 'You found the thing she hasn\u2019t got yet. Worth adding why the apology failed on its own: she said the words that ended the moment, which is a different thing from having understood anything.' },
       many: { head: 'The apology ended the moment',
@@ -213,61 +213,11 @@ window.CDAH_QUIZ = {
   'qz-203': {
     status: 'Question 3 of 4',
     step: 3,
-    draws: ['state before skill (adult)', 'discipline is teaching'],
-    setup: 'After a long day you snapped at your son and said something you regret \u2014 &ldquo;why can\u2019t you just be good for once?&rdquo; He went quiet and went to his room. An hour later you\u2019re still turning it over.',
-    ask: 'What would you do now, and what does the moment tell you about what happened earlier?',
-    say: {
-      lead: 'At his door, without waiting for him to come out to you:',
-      line: 'What I said was not true and it was not fair. I was worn out, and that was not your fault.'
-    },
-    practice: 'You will not always get to this in the moment. Noticing it an hour later still counts.',
-    criteria: [
-      { id: 'A',
-        accept: ['long day', 'my state', 'tired', 'exhausted', 'out of capacity',
-                 'not about him', 'wasnt him', 'wasnt about him', 'my own stress',
-                 'my stress', 'depleted', 'had nothing left', 'nothing left'],
-        hit: 'You put the outburst where it came from \u2014 your own state',
-        miss: 'Where the sentence came from stayed out of the answer' },
-      { id: 'B',
-        /* The script's absence check: a conditional repair is not a repair,
-           and "apologize" appears in both. This is the module's one veto. */
-        accept: ['go to him', 'go in', 'tell him', 'apologize', 'apologise',
-                 'say sorry', 'wasnt true', 'wasnt fair', 'own it', 'sit with him',
-                 'talk to him', 'repair', 'go back'],
-        veto: ['if he apologizes', 'if he apologises', 'if he says sorry',
-               'once he apologizes', 'when he apologizes', 'if he comes out',
-               'make him feel better about me', 'tell me its okay'],
-        hit: 'You went back and repaired it, without conditions',
-        miss: 'The repair either had conditions on it, or didn\u2019t arrive' },
-      { id: 'C',
-        accept: ['shows him', 'show him', 'models', 'modeling', 'modelling',
-                 'he learns', 'learns from', 'teaches him', 'thats the lesson',
-                 'that is the lesson', 'the teaching', 'how to do it'],
-        hit: 'You saw the repair as the teaching, not as damage control',
-        miss: 'You didn\u2019t say what the repair itself teaches him' }
-    ],
-    coach: {
-      all: { head: 'You took it straight on',
-             body: 'You didn\u2019t look for a way to be right, and you saw that going back and mending it is itself the thing he learns from. That is the hardest of these four questions.' },
-      missC: { head: 'Going back is exactly right',
-               body: 'Going back to him is exactly right. Worth knowing that the repair isn\u2019t damage limitation \u2014 it\u2019s the most useful thing he\u2019ll see all week. Children who watch an adult own a mistake learn how to do it.' },
-      missA: { head: 'You went back to him',
-               body: 'Repairing it matters. The part still worth sitting with is where the sentence came from: a long day, not a child who deserved it.' },
-      missB: { head: 'You read the evening accurately',
-               body: 'You know where it came from, and you know what he takes from what happens next. The missing piece is the going-in itself \u2014 plainly, first, and not resting on him coming out to meet you.' },
-      many: { head: 'Every parent has said something like this',
-              body: 'What happens next is the part that teaches.' }
-    }
-  },
-
-  'qz-204': {
-    status: 'Question 4 of 4',
-    step: 4,
     draws: ['connection before correction', 'look beneath', 'the school bridge'],
-    setup: 'Your mother watches you kneel down and say &ldquo;you\u2019re really angry that we have to go&rdquo; to your son mid-tantrum. Afterwards she says: &ldquo;You\u2019re letting him walk all over you. In my day we\u2019d have just told him.&rdquo;',
+    setup: 'Your mother watches you kneel down and say &ldquo;you\u2019re really angry that we have to go&rdquo; to your son mid-tantrum. Afterward she says: &ldquo;You\u2019re letting him walk all over you! Why can\u2019t you just control him?&rdquo;',
     ask: 'How would you explain what you were doing \u2014 and why it isn\u2019t giving in?',
     say: {
-      lead: 'To your mother, afterwards, without making a case of it:',
+      lead: 'To your mother, afterward, without making a case of it:',
       line: 'I told him he was angry. We still left. He just heard me first.'
     },
     practice: 'This works more often than it does not \u2014 which is a different thing from always.',
@@ -301,6 +251,61 @@ window.CDAH_QUIZ = {
                body: 'You were clear that nothing was given away, which is the part that answers her directly. What it doesn\u2019t yet say is why the naming helps at all \u2014 an upset child hears an instruction through the noise, and very little of it goes in.' },
       many: { head: 'This one is about defending the approach',
               body: 'It is less about your child than about defending an approach to someone who thinks it\u2019s softness. The line above does it in one sentence.' }
+    }
+  }
+,
+
+  'qz-204': {
+    status: 'Question 4 of 4',
+    step: 4,
+    draws: ['state before skill (adult)', 'discipline is teaching'],
+    setup: 'After a long day you snapped at your daughter and said something you regret \u2014 &ldquo;why can\u2019t you just be good for once?&rdquo; She went quiet and went to her room. An hour later you\u2019re still turning it over.',
+    ask: 'What would you do now, and what does the moment tell you about what happened earlier?',
+    say: {
+      lead: 'At her door, without waiting for her to come out to you:',
+      line: 'What I said was not true and it was not fair. I was worn out, and that was not your fault.'
+    },
+    practice: 'You will not always get to this in the moment. Noticing it an hour later still counts.',
+    criteria: [
+      { id: 'A',
+        accept: ['long day', 'my state', 'tired', 'exhausted', 'out of capacity',
+                 'not about her', 'wasnt her', 'wasnt about her', 'not about him', 'wasnt him', 'wasnt about him',
+                 'my own stress', 'my stress', 'depleted', 'had nothing left', 'nothing left'],
+        hit: 'You put the outburst where it came from \u2014 your own state',
+        miss: 'Where the sentence came from stayed out of the answer' },
+      { id: 'B',
+        /* The script's absence check: a conditional repair is not a repair,
+           and "apologize" appears in both. This is the module's one veto. */
+        accept: ['go to her', 'tell her', 'sit with her', 'talk to her',
+                 'go to him', 'tell him', 'sit with him', 'talk to him',
+                 'go in', 'apologize', 'apologise', 'say sorry', 'wasnt true', 'wasnt fair',
+                 'own it', 'repair', 'go back'],
+        veto: ['if she apologizes', 'if she apologises', 'if she says sorry', 'once she apologizes',
+               'when she apologizes', 'if she comes out',
+               'if he apologizes', 'if he apologises', 'if he says sorry',
+               'once he apologizes', 'when he apologizes', 'if he comes out',
+               'make her feel better about me', 'make him feel better about me', 'tell me its okay'],
+        hit: 'You went back and repaired it, without conditions',
+        miss: 'The repair either had conditions on it, or didn\u2019t arrive' },
+      { id: 'C',
+        accept: ['shows her', 'show her', 'she learns', 'teaches her',
+                 'shows him', 'show him', 'he learns', 'teaches him',
+                 'models', 'modeling', 'modelling', 'learns from', 'thats the lesson',
+                 'that is the lesson', 'the teaching', 'how to do it'],
+        hit: 'You saw the repair as the teaching, not as damage control',
+        miss: 'You didn\u2019t say what the repair itself teaches her' }
+    ],
+    coach: {
+      all: { head: 'You took it straight on',
+             body: 'You didn\u2019t look for a way to be right, and you saw that going back and mending it is itself the thing she learns from. That is the hardest of these four questions.' },
+      missC: { head: 'Going back is exactly right',
+               body: 'Going back to her is exactly right. Worth knowing that the repair isn\u2019t damage control \u2014 it\u2019s the most useful thing she\u2019ll see all week. Children who watch an adult own a mistake learn how to do it.' },
+      missA: { head: 'You went back to her',
+               body: 'Repairing it matters. The part still worth sitting with is where the sentence came from: a long day, not a child who deserved it.' },
+      missB: { head: 'You read the evening accurately',
+               body: 'You know where it came from, and you know what she takes from what happens next. The missing piece is the going-in itself \u2014 plainly, first, and not waiting on her to come out to meet you.' },
+      many: { head: 'Every parent has said something like this',
+              body: 'What happens next is the part that teaches.' }
     }
   }
 

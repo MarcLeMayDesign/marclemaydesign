@@ -60,7 +60,7 @@
   }
 
   /* A veto cancels a pass that an accept phrase already earned. Only one
-     criterion in the module uses it (qz-203 B: "I'd apologize if he
+     criterion in the module uses it (qz-204 B: "I'd apologize if she
      apologizes" contains "apologize" and is not a repair), and it should
      stay that rare — a veto is the matcher overruling a parent, which is
      the thing this module is most careful about. */
@@ -112,8 +112,48 @@
     };
   }
 
+  /* Gibberish (30 Sept, Marc). A keyboard mash used to come back as a
+     full set of misses, which reads as the Coach grading nonsense. Checked
+     only when nothing matched: if no everyday English word appears at all,
+     or most of the "words" have no vowel, the answer is treated as not
+     understood — nothing scored, nothing saved, no turn used. A real
+     one-word answer that also missed everything gets the same gentle ask
+     for a sentence, which is the right nudge anyway. */
+  var COMMON = ('i im id ive me my myself you your youre he hes him his she shes her it its we were us our they them their ' +
+    'a an the and or but so if then than because that this what why how when where who which not no yes dont cant wont ' +
+    'is are was be been being am do does did have has had will would could should can may might must just really ' +
+    'to of in on at for with about from up down out off over after before now later first then again still also ' +
+    'say said tell ask go get let make feel think know want need see look help try stop time okay ok like calm ' +
+    'mom mum dad son daughter child kid kids boy girl baby sorry please thank').split(' ');
+  function nonsense(text) {
+    var toks = normalize(text).trim().split(' ').filter(Boolean);
+    if (!toks.length) return true;
+    var common = 0, vowelless = 0;
+    for (var i = 0; i < toks.length; i++) {
+      if (COMMON.indexOf(toks[i]) !== -1) common++;
+      if (!/[aeiouy]/.test(toks[i]) && !/^[0-9]+$/.test(toks[i])) vowelless++;
+    }
+    return common === 0 || vowelless / toks.length > 0.5;
+  }
+  /* The note under a field that says so. One element per field, made on
+     first use, cleared as soon as they type again. */
+  function huh(field, msg) {
+    if (!field) return;
+    var n = field._huh;
+    if (!n) {
+      n = field._huh = document.createElement('p');
+      n.className = 'huh'; n.setAttribute('role', 'status'); n.hidden = true;
+      field.insertAdjacentElement('afterend', n);
+      field.addEventListener('input', function () { n.hidden = true; });
+    }
+    n.textContent = msg || ''; n.hidden = !msg;
+    if (msg) field.focus();
+  }
+
   window.CDAH_MATCH = {
     score: score,
+    nonsense: nonsense,
+    huh: huh,
     normalize: normalize,
     /* Exposed for package E: after a session, paste a parent's exact wording
        in the console against a criterion and see whether it would have

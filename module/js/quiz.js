@@ -169,9 +169,17 @@
         }
       }
 
+      var res = M.score(item, text);
+      /* Gibberish: nothing hit and no English in it. Not scored, not saved. */
+      var hitAny = res.criteria.some(function (c) { return c.passed; });
+      if (!hitAny && M.nonsense && M.nonsense(text)) {
+        var HU = (window.CDAH_STRINGS && window.CDAH_STRINGS.huh) || {};
+        M.huh(field, HU.quiz);
+        return;
+      }
+      if (M.huh) M.huh(field, '');
       /* Where the field is now, measured before the panes swap. */
       var from = field.getBoundingClientRect();
-      var res = M.score(item, text);
       H.tap();
       /* Best stands — state.answer only raises a band, never lowers it, so a
          retake can never cost a parent the reading they already earned. */

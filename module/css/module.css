@@ -1613,3 +1613,106 @@ a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-heigh
   .lens .name{font-size:17px}
   .lens .blurb{font-size:15.5px}
 }
+
+
+/* ==== 30 Sept, later [Marc] ============================================= */
+
+/* Credit line: drawer, Cover, Finish. */
+.panel-foot .credit{margin:10px 0 0}
+.panel-foot .credit a,.cover-disclaimer a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.panel-foot .credit a:hover{color:var(--action)}
+.cover-disclaimer a:hover{color:var(--bookend-ink)}
+
+/* Iceberg: one column of body; the note under the two buttons sits 5px in. */
+#scr-113 [data-prin-body]{display:flex;flex-direction:column;gap:14px}
+#scr-113 [data-prin-body] p.screen-body{max-width:62ch}
+.berg .sides-note{margin-left:5px}
+
+/* Learn header: the bars are buttons. The hit area is taller than the bar. */
+.head-prog button{appearance:none;-webkit-appearance:none;border:0;margin:0;padding:0;background:none;display:block;cursor:pointer;position:relative;flex:0 1 auto;min-width:5px}
+.head-prog button::before{content:"";position:absolute;left:-3px;right:-3px;top:-14px;bottom:-14px}
+.head-prog button i{transition:background-color .15s}
+.head-prog button:hover i:not(.on){background:var(--action-dim)}
+.head-prog button:focus-visible{outline:2px solid var(--action);outline-offset:4px;border-radius:3px}
+
+/* Breathe: the circle is a control too. */
+.br-ring{cursor:pointer}
+
+/* SCR-200: the Coach out of the box, large, on the right; the four
+   situations in one column on the left. */
+.qzi-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;align-items:start}
+.qzi-main{display:flex;flex-direction:column;gap:22px;min-width:0}
+.qzi-says{display:flex;flex-direction:column;gap:8px}
+.qzi-says .coach-k{color:var(--plum)}
+.qzi-hub{grid-template-columns:minmax(0,1fr)}
+.qzi-head{display:flex;flex-direction:column;gap:12px}
+.qzi-head h1.screen-title{margin:0}
+/* The Coach's head level with the top of the title: the figure is pulled up
+   by the eyebrow's height, less the transparent strip at the top of the art. */
+.qzi-head .eyebrow{line-height:18px}
+/* 18px eyebrow + 12px gap + ~5px of the title's own leading, less the art's
+   transparent top strip (38 of 840px; 6.75% of the figure's width). */
+.qzi-fig{margin:0;margin-top:calc(35px - 6.75%)}
+.qzi-fig img{display:block;width:100%;height:auto}
+@media (min-width:1000px){.qzi-grid{grid-template-columns:minmax(0,1fr) 340px;gap:72px}.qzi-hub{grid-template-columns:minmax(0,1fr)}.qzi-fig{margin-top:calc(36px - 6.75%)}}
+@media (max-width:760px){
+  .qzi-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .qzi-fig{order:-1;margin-top:0}
+  .qzi-fig img{width:140px}
+}
+
+/* SCR-304, the Bookend. Borrows the Morning grid and the read-back. */
+.bk-result{display:flex;flex-direction:column;gap:12px}
+.bk-result[hidden]{display:none}
+.bk-rows{display:flex;flex-direction:column;gap:10px}
+.app[data-theme="dark"] .bk-row .qz-t{color:var(--bookend-ink)}
+.app[data-theme="dark"] .bk-row .qz-g{color:var(--bookend-soft)}
+.app[data-theme="dark"] .bk-row .qz-g[data-hit="yes"]{color:#9FC9E8}
+.app[data-theme="dark"] .bk-result .qz-k{color:#D79AB3}
+.bk-was{display:block;font-size:.85em;color:var(--bookend-soft);margin-top:2px}
+.bk-analysis{margin:4px 0 0}
+
+/* SCR-400, Finish: the Cover's grid, the embrace with its die-cut edge. */
+.fin-title{max-width:12ch}
+.fin-acts{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.app:has(#scr-400:not([hidden])) .mod-foot{display:none}
+
+/* Try It Out feedback: the bare Coach box is one column. The scale-up's
+   72px figure column was landing on it and squeezing the text to a word a line. */
+.coach-says-bare{grid-template-columns:minmax(0,1fr)}
+/* Gibberish note under a field. */
+.huh{margin:0;font-size:16px;line-height:1.5;color:var(--plum);max-width:56ch;text-wrap:pretty}
+.huh[hidden]{display:none}
+.app[data-theme="dark"] .huh{color:#D79AB3}
+@media (min-width:1000px){.huh{font-size:18px}}
+
+/* One column again for the four questions and the Bookend (30 Sept, Marc):
+   the answer box belongs under the situation, on the left, not in a fixed
+   right-hand column. Morning keeps its two columns. */
+@media (min-width:1000px){
+  .qz-ask{display:flex;flex-direction:column;gap:28px;max-width:880px}
+  .qz-main h1.screen-title{text-wrap:pretty}
+}
+.bk-col{display:flex;flex-direction:column;gap:28px;max-width:880px}
+.bk-scene,.bk-ask{display:flex;flex-direction:column;gap:18px;min-width:0}
+.bk-ask{gap:22px}
+.bk-scene .screen-title{max-width:18ch;text-wrap:balance}
+
+/* Bookend as payoff: the two answers side by side (a comparison, not a
+   form, so two columns earn their place), then the moves table. */
+.bk-col{max-width:1040px}
+.bk-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px}
+.bk-pair .readback{margin:0}
+.bk-now{border-left-color:#9FC9E8}
+.bk-now .readback-k{color:#9FC9E8}
+.bk-empty{margin:0;font-size:18px;line-height:1.5;color:var(--bookend-soft);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.bk-empty[hidden],.readback-q[hidden]{display:none}
+.bk-empty p{margin:0}
+.bk-table{display:flex;flex-direction:column;max-width:560px}
+.bk-tr{display:grid;grid-template-columns:minmax(0,1fr) 88px 88px;align-items:center;padding:10px 0;border-bottom:1px solid #333A50}
+.bk-th{padding-top:0}
+.bk-th span{font-weight:600;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:#D79AB3}
+.bk-name{font-size:19px;color:var(--bookend-ink)}
+.bk-m{text-align:center;font-size:19px;color:var(--bookend-soft)}
+.bk-m[data-hit="yes"]{color:#9FC9E8}
+@media (max-width:640px){.bk-tr{grid-template-columns:minmax(0,1fr) 64px 64px}.bk-name,.bk-m{font-size:16px}.bk-th span{font-size:11px}}

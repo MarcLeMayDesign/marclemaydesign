@@ -42,15 +42,34 @@
 
      root:  an element with [data-xfade] children, each carrying data-xfade="key"
      returns { to(key), current() } */
-  function layers(root) {
+  /* opts.over (30 Sept): the incoming layer fades in ON TOP of the outgoing
+     one, which stays at full opacity until the new one has landed. A plain
+     crossfade puts both at ~50% midway, and the ground shows through where
+     the two drawings share a fill — the "blip" on the Parent's tunic in
+     Act 1. Used where one figure changes pose in place. */
+  function layers(root, opts) {
     if (!root) return { to: function () {}, current: function () { return null; } };
 
     var nodes = Array.prototype.slice.call(root.querySelectorAll('[data-xfade]'));
     var showing = null;
+    var over = !!(opts && opts.over), later = null;
 
     function to(key) {
       if (key === showing) return;
       showing = key;
+      if (over) {
+        clearTimeout(later);
+        for (var j = 0; j < nodes.length; j++) {
+          var mine = nodes[j].getAttribute('data-xfade') === key;
+          nodes[j].style.zIndex = mine ? '2' : '1';
+          if (mine) { nodes[j].setAttribute('data-on', 'yes'); nodes[j].setAttribute('aria-hidden', 'false'); }
+          else nodes[j].setAttribute('aria-hidden', 'true');
+        }
+        later = setTimeout(function () {
+          for (var m = 0; m < nodes.length; m++) if (nodes[m].getAttribute('data-xfade') !== showing) nodes[m].setAttribute('data-on', 'no');
+        }, reduced() ? 0 : 340);
+        return key;
+      }
       for (var i = 0; i < nodes.length; i++) {
         var on = nodes[i].getAttribute('data-xfade') === key;
         nodes[i].setAttribute('data-on', on ? 'yes' : 'no');

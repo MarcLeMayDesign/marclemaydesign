@@ -98,7 +98,7 @@
        tapped (tense, then neutral at step 2, calm at step 3). Arriving resets. */
     var af = el.querySelector('[data-act-fig]');
     if (af) {
-      var lay = af._lay || (af._lay = FX.layers(af));
+      var lay = af._lay || (af._lay = FX.layers(af, { over: true }));
       var btns = el.querySelectorAll('[data-act-steps] .act-step');
       var setStep = function (n) {
         for (var b = 0; b < btns.length; b++) btns[b].setAttribute('aria-pressed', b < n ? 'true' : 'false');
@@ -147,11 +147,26 @@
     var steps = parseInt(el.getAttribute('data-steps') || '0', 10);
     var step  = parseInt(el.getAttribute('data-step') || '0', 10);
     elProg.innerHTML = '';
+    /* In Learn and Test Your Knowledge the bars are a map as well as a gauge
+       (30 Sept, Marc): each one goes to its screen. Try It Out's only show
+       progress, since a scene is meant to be played through. */
+    var QZ = ['scr-201', 'scr-202', 'scr-203', 'scr-204'];
+    var path = key === 'learn' ? (ASSESS.indexOf(el.id) !== -1 ? ASSESS : ACT.indexOf(el.id) !== -1 ? ACT : null)
+      : key === 'check' && QZ.indexOf(el.id) !== -1 ? QZ : null;
     for (var k = 1; k <= steps; k++) {
       var i2 = document.createElement('i');
       if (k === step) i2.className = 'on';
       else if (k < step) i2.className = 'done';
-      elProg.appendChild(i2);
+      if (path && path[k - 1]) {
+        var pb = document.createElement('button');
+        var to = document.getElementById(path[k - 1]);
+        pb.type = 'button';
+        pb.setAttribute('data-show', path[k - 1]);
+        pb.setAttribute('aria-label', (to && to.getAttribute('data-status')) || ('Screen ' + k));
+        if (k === step) pb.setAttribute('aria-current', 'step');
+        pb.appendChild(i2);
+        elProg.appendChild(pb);
+      } else elProg.appendChild(i2);
     }
     elProg.hidden = steps === 0;
   }
@@ -270,6 +285,14 @@
     else go(-1);
   }
 
+  /* Any in-screen control that just goes somewhere: data-show="screen-id". */
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-show]');
+    if (!t || !stage.contains(t) && !elProg.contains(t)) return;
+    var to = t.getAttribute('data-show');
+    if (to && to !== current && indexOf(to) !== -1) { H.tap(); show(to); }
+  });
+
   btnBack.addEventListener('click', back);
   btnNext.addEventListener('click', function () { go(1); });
 
@@ -363,17 +386,38 @@
     codeNow = '';
     elCode.textContent = '\u2026';
     S.codeAsync().then(function (c) { codeNow = c; elCode.textContent = c; });
+    if (panelAnim) { panelAnim.cancel(); panelAnim = null; }
     scrim.hidden = false;
     panel.hidden = false;
     btnX.focus();
     document.addEventListener('keydown', trap, true);
+    panelAnim = grow(true);
+  }
+
+  /* The drawer grows out of the ? and folds back into it (30 Sept, Marc): a
+     circle centered on the button, clipping the panel open. Clip-path, not
+     transform, because the panel's own transform centers it on desktop. */
+  var panelAnim = null;
+  function grow(open) {
+    if (FX.reduced() || !panel.animate) return null;
+    var b = btnAbout.getBoundingClientRect(), p = panel.getBoundingClientRect();
+    var x = b.left + b.width / 2 - p.left, y = b.top + b.height / 2 - p.top;
+    var r = Math.max(Math.hypot(x, y), Math.hypot(p.width - x, y), Math.hypot(x, p.height - y), Math.hypot(p.width - x, p.height - y));
+    var at = ' at ' + x + 'px ' + y + 'px)';
+    var kf = [{ clipPath: 'circle(' + (b.width / 2) + 'px' + at, opacity: 0.5 }, { clipPath: 'circle(' + r + 'px' + at, opacity: 1 }];
+    if (!open) kf.reverse();
+    scrim.animate(open ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 1 }, { opacity: 0 }], { duration: open ? 420 : 300, easing: 'ease' });
+    return panel.animate(kf, { duration: open ? 440 : 300, easing: open ? 'cubic-bezier(.2,.7,.2,1)' : 'cubic-bezier(.5,0,.75,.3)' });
   }
 
   function closePanel() {
+    if (panel.hidden) return;
     if (typeof disarm === 'function') disarm();
-    panel.hidden = true;
-    scrim.hidden = true;
     document.removeEventListener('keydown', trap, true);
+    var done = function () { panelAnim = null; panel.hidden = true; scrim.hidden = true; };
+    if (panelAnim) panelAnim.cancel();
+    panelAnim = grow(false);
+    if (panelAnim) panelAnim.onfinish = done; else done();
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
@@ -597,6 +641,27 @@
       restartAll();
     });
   }
+  /* Finish (SCR-400): Start over, armed the same way as the panel's. */
+  var FIN = (window.CDAH_BOOKEND && window.CDAH_BOOKEND.finish) || {};
+  var fin = document.getElementById('scr-400');
+  if (fin) {
+    var fq = fin.querySelectorAll('[data-fin]');
+    for (var fi = 0; fi < fq.length; fi++) { var fk = fq[fi].getAttribute('data-fin'); if (FIN[fk]) fq[fi].textContent = FIN[fk]; }
+    var finAgain = document.getElementById('finAgain'), finTimer = null;
+    var finDisarm = function () { clearTimeout(finTimer); finAgain.removeAttribute('data-armed'); finAgain.textContent = FIN.again || 'Start over'; };
+    finAgain.addEventListener('click', function () {
+      if (finAgain.getAttribute('data-armed') !== 'yes') {
+        finAgain.setAttribute('data-armed', 'yes');
+        finAgain.textContent = FIN.againArmed || 'Tap again to clear everything';
+        clearTimeout(finTimer); finTimer = setTimeout(finDisarm, 5000);
+        return;
+      }
+      finDisarm();
+      restartAll();
+    });
+    window.addEventListener('hashchange', finDisarm);
+  }
+
   function disarm() {
     if (!btnPanelAgain) return;
     clearTimeout(panelAgainTimer);
@@ -1045,6 +1110,86 @@
     timers.push(setTimeout(function () { stop(true); }, t));
   }
   btn.addEventListener('click', function () { if (running) stop(false); else start(); });
+  /* The circle starts it too (30 Sept, Marc). The button stays the
+     accessible control; the ring is aria-hidden. */
+  ring.addEventListener('click', function () { if (!running) start(); else stop(false); });
   /* Leaving the screen stops the count. */
   window.addEventListener('hashchange', function () { if (running) stop(false); });
+})();
+
+
+/* ===== SCR-304 · the Hook Bookend, the payoff (package K, revised 30 Sept) ==
+   Marc: no second write. The first answer to the 7:40 morning sits beside
+   what the parent actually said in Scene 3, the same morning played live,
+   and a table marks which Act moves each one used. Never scored. Reads the
+   latest Scene 3 transcript (answers['scn-303'], its "You:" lines). */
+
+(function () {
+  'use strict';
+  var S = window.CDAH_STATE, M = window.CDAH_MATCH;
+  var B = window.CDAH_BOOKEND;
+  var root = document.getElementById('scr-304');
+  if (!root || !B || !M) return;
+  var q = root.querySelectorAll('[data-bk]');
+  for (var i = 0; i < q.length; i++) { var k = q[i].getAttribute('data-bk'); if (B[k]) q[i].textContent = B[k]; }
+  var thenT = document.getElementById('bkThenT'), thenNone = document.getElementById('bkThenNone');
+  var nowT = document.getElementById('bkNowT'), nowNone = document.getElementById('bkNowNone');
+  var res = document.getElementById('bkResult'), table = document.getElementById('bkTable');
+  var ana = document.getElementById('bkAnalysis');
+
+  function shouting(raw) { return /\b[A-Z]{3,}\b/.test(raw) || raw.indexOf('!!') !== -1; }
+  function uses(raw) {
+    var hay = M.normalize(raw), out = {};
+    var any = function (list) {
+      for (var j = 0; j < (list || []).length; j++) if (hay.indexOf(' ' + M.normalize(list[j]).trim() + ' ') !== -1) return true;
+      return false;
+    };
+    B.moves.forEach(function (m) {
+      out[m.id] = m.breaks ? (!!raw.trim() && !shouting(raw) && !any(m.breaks)) : any(m.accept);
+    });
+    return out;
+  }
+  function first() { var a = S.get().answers || {}; return typeof a.baseline === 'string' ? a.baseline.replace(/\s+$/, '') : ''; }
+  function scene3() {
+    var a = (S.get().answers || {})[B.scene || 'scn-303'];
+    if (typeof a !== 'string') return '';
+    return a.split('\n').filter(function (l) { return l.indexOf('You: ') === 0; })
+      .map(function (l) { return l.slice(5); }).join('\n');
+  }
+  function cell(txt, cls, role) { var c = document.createElement('span'); c.className = cls; c.setAttribute('role', role || 'cell'); c.textContent = txt; return c; }
+  function mark(on) {
+    var c = cell(on ? '\u2713' : '\u25CB', 'bk-m', 'cell');
+    if (on) c.setAttribute('data-hit', 'yes');
+    c.setAttribute('aria-label', on ? B.yes : B.no);
+    return c;
+  }
+
+  function paint() {
+    var t = first(), n = scene3();
+    thenT.textContent = t; thenT.hidden = !t; thenNone.hidden = !!t;
+    nowT.textContent = n; nowT.hidden = !n; nowNone.hidden = !!n;
+    res.hidden = !n;
+    if (!n) return;
+    var was = t ? uses(t) : null, now = uses(n), count = 0;
+    table.innerHTML = '';
+    var hr = document.createElement('div'); hr.className = 'bk-tr bk-th'; hr.setAttribute('role', 'row');
+    hr.appendChild(cell(B.tableK, 'bk-name', 'columnheader'));
+    hr.appendChild(cell(B.thenShort, 'bk-m', 'columnheader'));
+    hr.appendChild(cell(B.nowShort, 'bk-m', 'columnheader'));
+    table.appendChild(hr);
+    B.moves.forEach(function (m) {
+      if (now[m.id]) count++;
+      var r = document.createElement('div'); r.className = 'bk-tr'; r.setAttribute('role', 'row');
+      r.appendChild(cell(m.name, 'bk-name'));
+      r.appendChild(was ? mark(was[m.id]) : cell('\u2013', 'bk-m'));
+      r.appendChild(mark(now[m.id]));
+      table.appendChild(r);
+    });
+    var key = count === B.moves.length ? 'all' : count === 0 ? 'none' : 'some';
+    var line = B.analysis && B.analysis[key];
+    ana.textContent = line || ''; ana.hidden = !line;
+  }
+  document.addEventListener('cdah:restart', paint);
+  paint();
+  window.addEventListener('hashchange', paint);
 })();
