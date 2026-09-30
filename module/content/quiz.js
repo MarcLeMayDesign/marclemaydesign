@@ -79,7 +79,8 @@ window.CDAH_QUIZ = {
     status: 'Question 1 of 4',
     step: 1,
     draws: ['look beneath', 'state before skill'],
-    setup: 'Your five-year-old has been fine all afternoon. At the checkout he suddenly starts shouting that he wants a chocolate bar, and won\u2019t stop when you say no. A woman behind you is watching. You find yourself about to say &ldquo;we are leaving right now and you\u2019ve lost screen time tonight.&rdquo;',
+    where: 'At the checkout',
+    setup: 'He\u2019s been fine all afternoon. Now he\u2019s shouting for a chocolate bar, and a woman behind you is watching. You\u2019re about to say, \u201cWe\u2019re leaving right now, and you\u2019ve lost screen time.\u201d',
     ask: 'What is probably going on for him, and what would you deal with first?',
     say: {
       lead: 'Once you have your own breath, and you are down at his level:',

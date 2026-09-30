@@ -204,7 +204,7 @@
       var n = countRead(set);
       cards[i].setAttribute('data-read', n === set.length ? 'yes' : 'no');
       cards[i].querySelector('.mark').textContent = n === set.length ? 'read \u2713'
-        : n === 0 ? set.length + ' screens' : n + ' of ' + set.length + ' read';
+        : n === 0 ? '' : n + ' of ' + set.length + ' read';
       var items = cards[i].querySelectorAll('[data-lens-item]');
       for (var j = 0; j < items.length; j++) {
         items[j].setAttribute('data-read', seen.indexOf(items[j].getAttribute('data-lens-item')) !== -1 ? 'yes' : 'no');
@@ -288,17 +288,51 @@
     var q = function (s) { return sec.querySelector(s); };
     var intro = sec.getAttribute('data-band') === 'intro';
     var note = q('[data-band-note]');
-    q('[data-band-eyebrow]').textContent = intro ? C2.eyebrowIntro : C2.eyebrowClose;
-    q('[data-band-title]').textContent = (intro && C2.titleIntro) || C2.title || '';
-    q('[data-band-body]').textContent = C2.body || '';
-    q('[data-band-go]').textContent = C2.go || '';
+    var goBtn = q('[data-band-go]'), more = q('[data-band-more]'), pick = q('[data-band-pick]');
+    var goTo = 'scn-301';
+    /* Package J. Which intro shows depends on how many scenes are done
+       (a best band saved). None: Start, plus the "come back" line. Some:
+       Carry on, to the first not yet done. All: a picker instead. Only
+       scenes that exist in the page count. Painted on every arrival. */
+    function paint() {
+      var best = (S.get().best) || {};
+      var list = (C2.scenes || []).filter(function (x) { return document.getElementById(x.id); });
+      var done = list.filter(function (x) { return best[x.id]; });
+      var all = list.length === 3 && done.length === 3;
+      var next = list.filter(function (x) { return !best[x.id]; })[0];
+      goTo = next ? next.id : 'scn-301';
+      q('[data-band-eyebrow]').textContent = intro ? C2.eyebrowIntro : C2.eyebrowClose;
+      q('[data-band-title]').textContent = all ? C2.titlePick : ((intro && C2.titleIntro) || C2.title || '');
+      q('[data-band-body]').textContent = all ? C2.bodyPick : (C2.body || '');
+      more.textContent = C2.more || '';
+      more.hidden = all || done.length > 0 || !C2.more;
+      goBtn.textContent = done.length ? (C2.goOn || C2.go) : (C2.go || '');
+      goBtn.hidden = all;
+      pick.hidden = !all;
+      pick.innerHTML = '';
+      if (all) list.forEach(function (x) {
+        var l = document.createElement('a');
+        l.className = 'lens';
+        l.href = '#' + x.id;
+        var r = document.createElement('span'); r.className = 'row';
+        var nm = document.createElement('span'); nm.className = 'name'; nm.textContent = x.name;
+        var mk = document.createElement('span'); mk.className = 'mark';
+        var M = window.CDAH_MATCH;
+        mk.textContent = (M && M.BANDS && M.BANDS[best[x.id]]) || '';
+        r.appendChild(nm); r.appendChild(mk); l.appendChild(r);
+        l.addEventListener('click', function () { H.tap(); });
+        pick.appendChild(l);
+      });
+    }
+    paint();
     q('[data-band-stop]').textContent = C2.stop || '';
     note.textContent = C2.note || '';
-    q('[data-band-go]').addEventListener('click', function () { H.tap(); show('scn-301'); });
+    goBtn.addEventListener('click', function () { H.tap(); show(goTo); });
     /* Stopping is already true — show() saved this screen. The button
        only says so, with the same weight as going on. */
     q('[data-band-stop]').addEventListener('click', function () { note.textContent = C2.stopped || C2.note || ''; });
-    window.addEventListener('hashchange', function () { note.textContent = C2.note || ''; });
+    window.addEventListener('hashchange', function () { note.textContent = C2.note || ''; paint(); });
+    document.addEventListener('cdah:restart', paint);
   })(bands[b]);
 
   /* ---- the panel ------------------------------------------------------- */

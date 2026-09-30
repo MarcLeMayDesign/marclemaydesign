@@ -389,7 +389,7 @@
          foot), not her head at the bubble's top: a one-line reply and a
          three-line one both point at the mouth. Measured on the 168x252
          rail from pose-ready.png. */
-      var MOUTH = 85, TIP = 3;
+      var MOUTH = Math.round(85 * (railEl.offsetHeight || 252) / 252), TIP = 3;
       /* .rp-body is position:relative, so it is the bubble's offsetParent. */
       var foot = last ? last.offsetTop + last.offsetHeight : 0;
       var to = last ? Math.max(0, Math.round(foot - TIP - MOUTH)) : 0;
@@ -705,6 +705,17 @@
         coach.hidden = !line;
       }
 
+      /* Package J: the way on. Scenes 1 and 2 go to the next scene (once it
+         exists); scene 3 carries Finish (once the finish screen exists). */
+      var nx = result.querySelector('[data-rp-next]');
+      if (nx) {
+        var C2 = (window.CDAH_STRINGS && window.CDAH_STRINGS.close2) || {};
+        var n = +id.slice(-1);
+        var to = n < 3 ? 'scn-30' + (n + 1) : 'scr-400';
+        nx.textContent = n < 3 ? (C2.next || 'Next scenario') : (C2.finish || 'Finish');
+        nx.setAttribute('data-to', to);
+        nx.hidden = !document.getElementById(to);
+      }
       play.hidden = true;
       result.hidden = false;
       sizePose();
@@ -758,6 +769,12 @@
     });
     field.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); turn(); }
+    });
+    var nxBtn = result.querySelector('[data-rp-next]');
+    if (nxBtn) nxBtn.addEventListener('click', function () {
+      H.tap();
+      var to = nxBtn.getAttribute('data-to');
+      if (to) location.hash = to;
     });
     result.querySelector('[data-rp-again]').addEventListener('click', function () {
       reset(); field.focus();

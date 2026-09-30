@@ -805,6 +805,8 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .band-in{width:100%;max-width:560px;display:flex;flex-direction:column;gap:12px}
 .band-in h1.screen-title{margin:0}
 .band-acts{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.band-pick{grid-template-columns:minmax(0,1fr);margin-top:12px}
+.band-pick[hidden]{display:none}
 .band-note{font-size:13px;line-height:1.5;color:var(--muted);margin:4px 0 0}
 .app[data-theme="dark"] .band-note{color:#9BA3B8}
 
@@ -1361,4 +1363,253 @@ a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-heigh
   .hero-card .wt-card::before{left:-9px;bottom:18px;width:16px;height:16px}
   .hero-card .wt-say{font-size:21px}
   .hero-rules{grid-template-columns:1fr;gap:14px}
+}
+
+
+/* ==== Scale-up, 30 Sept [Marc] ========================================== *
+   The module read as fine print on a laptop: 15px body, 30-36px titles,
+   five label sizes between 10 and 13px, figures 130-260px, in a 960px
+   column. Adopted from "Scale-Up Mockup.dc.html", with the eyebrows and
+   body one step larger again than the mockup. One label style everywhere
+   (Work Sans 600, uppercase); the mono kickers are retired. Everything
+   below is an override, so the pre-scale values above stay readable. */
+
+.rail span,.tier-qa .k,.readback-k,.home-k,.rp-who,.berg-eyebrow,.layer-cue,.path-tag,
+.card-seen-k,.shift-k,.shift-cue,.ct-k,.sum-k,.sum-col a b,.bs-k,.bs-ask .k,.dtier-ask .k,
+.hero-card .wt-what,.placeholder .tag,.wt-what,.qz-k,.coach-k,.rp-used-what,.qz-band,.eyebrow{
+  font-family:'Work Sans',system-ui,sans-serif;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+}
+/* "You'll see this card again" comes off: the card speaks for itself. */
+.card-seen-k{display:none}
+
+/* Morning (SCR-100) and the four questions: the scene on the left, the ask
+   on the right, one screen with no scrolling on a laptop. Stacked below. */
+.mn-grid,.qz-ask{display:flex;flex-direction:column;gap:22px}
+.mn-scene,.mn-ask,.qz-lead,.qz-main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.mn-ask{gap:22px}
+.mn .screen-title{max-width:18ch;text-wrap:balance}
+.qz-lead [data-qz-where][hidden]{display:none}
+
+@media (min-width:1000px){
+  :root{--head-h:72px}
+  .mod-head,.mod-foot,.resume{
+    padding-left:max(48px,calc((100% - 1216px) / 2 + 48px));
+    padding-right:max(48px,calc((100% - 1216px) / 2 + 48px));
+  }
+  .mod-foot{padding-top:16px;padding-bottom:16px}
+  .screen{max-width:1216px;padding:56px 48px;gap:28px}
+  .screen.prin-tight{padding-top:44px;gap:24px}
+  .head-name,.head-sub{font-size:17px}
+  .head-status{font-size:15px}
+  .head-prog{gap:6px}
+  .head-prog i{width:28px;height:6px}
+  .head-about,.panel-x{width:38px;height:38px;border-radius:12px;font-size:16px}
+  .head-about::before,.panel-x::before{inset:-3px}
+
+  .eyebrow{font-size:15px}
+  h1.screen-title{font-size:56px;line-height:1.06;letter-spacing:-.022em;font-weight:600;max-width:20ch}
+  p.screen-body{font-size:22px;line-height:1.55;max-width:60ch}
+  [data-prin-body]{gap:14px}
+
+  .btn{min-height:58px;padding:0 32px;border-radius:16px;font-size:18px}
+  .row .btn,.resume .btn{min-height:52px;padding:0 22px;font-size:16px}
+  .btn-link,.door{font-size:18px}
+  .btn-link.rp-quiet{font-size:16px}
+  .door-note,.gate{font-size:18px;line-height:1.5}
+  .resume p{font-size:17px}
+
+  /* Cover */
+  .cover-title{font-size:clamp(64px,7.6vw,112px)}
+  .cover .screen-body{font-size:22px}
+  .cover-art img{max-width:520px}
+  .cover-begin{min-height:62px;padding:0 40px;font-size:19px}
+  .cover-restore summary{font-size:17px}
+  .cover-form label{font-size:16px}
+  .cover-disclaimer{font-size:14px}
+
+  /* Lens and path cards */
+  .lenses{gap:18px}
+  .lens{padding:22px 26px}
+  .lens .name{font-size:21px}
+  .path .name{font-size:24px}
+  .lens .mark{font-size:15px}
+  .lens .blurb{font-size:18px;margin-top:6px}
+  .path-tag{font-size:13px}
+  .path-list{gap:9px;margin-top:16px;padding-top:16px}
+  .path-list > span{font-size:18px;grid-template-columns:22px 1fr}
+  .qz-hub{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}
+
+  /* Morning: two columns */
+  .mn-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:72px;align-items:start}
+  .mn-scene{gap:28px}
+  .mn-ask{padding-top:40px}
+  .baseline{gap:16px;margin:0}
+  .baseline-q{font-size:28px;line-height:1.2}
+  .baseline-note{font-size:18px}
+  .baseline-in{font-size:20px;min-height:200px;padding:20px 22px;border-radius:16px}
+  .baseline-state{font-size:17px}
+  .readback{padding-left:22px}
+  .readback-k{font-size:14px;margin-bottom:10px}
+  .readback-q{font-size:26px}
+
+  /* Questions: two columns */
+  .qz-ask{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:72px;align-items:start}
+  .qz-lead{gap:22px}
+  .qz-main{gap:24px}
+  .qz-main h1.screen-title{font-size:44px;line-height:1.12;max-width:none;margin:0;text-wrap:balance}
+  .qz-field{font-size:20px;min-height:220px;padding:20px 22px;border-radius:16px}
+  .qz-result{gap:20px}
+  .qz-wrote{font-size:20px;padding:20px 22px}
+  .qz-wrote::before{left:calc(22px - .48em);top:20px}
+  .qz-k{font-size:14px;margin-bottom:10px}
+  .qz-band{font-size:14px;padding:7px 16px}
+  .qz-rows{gap:14px}
+  .qz-row{grid-template-columns:26px minmax(0,1fr);gap:14px}
+  .qz-g{font-size:18px}
+  .qz-t{font-size:19px}
+  .qz-model{padding:20px 24px}
+  .qz-say-lead{font-size:17px}
+  .qz-say-line{font-size:24px}
+  .qz-practice,.qz-claimed{font-size:17px}
+  .qz-coach{font-size:20px}
+
+  /* Coach, safety */
+  .coach-says{grid-template-columns:72px minmax(0,1fr);padding:18px 22px 18px 18px;gap:20px}
+  .coach-fig{width:72px}
+  .coach-k{font-size:13px}
+  .coach-t{font-size:19px}
+  .safety-t{font-size:21px}
+  .safety-link{font-size:20px}
+
+  /* Try It Out */
+  .rp-body{grid-template-columns:220px minmax(0,1fr);gap:36px}
+  .rp-rail{width:220px;height:330px}
+  .rp-log{gap:20px}
+  .rp-bub{padding:16px 20px;border-radius:16px}
+  .rp-who{font-size:13px}
+  .rp-line{font-size:21px;max-width:44ch}
+  .rp-note{font-size:17px;max-width:48ch}
+  .rp-frame{font-size:19px;padding:16px 20px}
+  .wt-pill{font-size:16px;min-height:48px;padding:0 20px}
+  .wt-cards{gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+  .wt-card{padding:16px 18px;gap:7px}
+  .wt-what{font-size:13px}
+  .wt-say{font-size:18px}
+  .wt-prov{font-size:15px}
+  .rp-fb{gap:36px}
+  .rp-fb-txt{gap:20px}
+  .rp-used-what{font-size:13px}
+  .rp-used-say{font-size:18px}
+  .band-in{max-width:720px;gap:18px}
+  .band-note{font-size:16px}
+
+  /* Assess 1 */
+  .side{font-size:17px;padding:12px 22px}
+  .sides-note,.bs-hint{font-size:17px}
+  .bs{gap:18px}
+  .bs-stage{gap:64px}
+  .bs-fig{width:230px;height:412px}
+  .bs-brain{width:440px;height:425px}
+  .bs-pill{font-size:17px;padding:10px 18px}
+  .bs-cap{padding:20px 26px}
+  .bs-k{font-size:14px}
+  .bs-head{font-size:25px}
+  .bs-body,.bs-ask{font-size:19px}
+  .bs-ask .k,.dtier-ask .k{font-size:13px}
+
+  /* Assess 2 */
+  .btn-play{font-size:17px;min-height:50px;padding:0 24px}
+  .drop-play{max-width:720px}
+  .drop-grid{grid-template-columns:400px minmax(0,1fr);gap:44px}
+  .drop-brain{width:380px;height:367px}
+  .drop-cap{height:120px;font-size:21px}
+  .dtier{padding:22px 26px}
+  .dtier-name{font-size:22px}
+  .dtier-ask{font-size:19px}
+
+  /* Assess 3, the iceberg: art scaled 1.2x with the box */
+  .berg-box{height:624px}
+  .berg-art{left:calc(70% - 273px);width:546px}
+  .berg-line{width:calc(70% - 273px)}
+  .berg-top{width:500px}
+  .berg-eyebrow{font-size:13px}
+  .berg-surface{font-size:21px}
+  .layer{width:520px}
+  .layer-name{font-size:20px}
+  .layer-cue{font-size:13px}
+  .layer-text{font-size:18px}
+  .berg-upshot p{font-size:20px}
+
+  /* Assess 4 */
+  .shifts{gap:16px}
+  .shift{grid-template-columns:100px minmax(0,1fr);gap:22px;padding:18px 22px 18px 18px}
+  .shift-fig{width:100px;height:180px}
+  .shift-main{height:180px;gap:10px}
+  .shift-k,.shift-cue{font-size:13px}
+  .shift-t{font-size:20px}
+  .shifts-note{font-size:17px}
+
+  /* Act */
+  .play-caption{font-size:18px}
+  .act-split{grid-template-columns:minmax(0,1fr) 220px;gap:40px}
+  .act-fig{width:220px}
+  .act-rise{grid-template-columns:minmax(0,1fr) 260px}
+  .act-rise .act-fig{width:260px}
+  .prin-tight .act-body[data-prin-body]{max-width:calc(100% - 300px)}
+  .act-step{font-size:19px;padding:14px 18px;grid-template-columns:36px minmax(0,1fr);gap:14px}
+  .act-n{width:36px;height:36px;font-size:16px}
+  .act-split .act-rules li{font-size:21px}
+  .act-aside{font-size:17px}
+  .contrast-k{font-size:19px}
+  .ct-row{grid-template-columns:96px minmax(0,1fr);gap:22px;padding:16px 22px 16px 16px}
+  .ct-fig{width:96px;height:174px}
+  .ct-k{font-size:13px}
+  .ct-say{font-size:21px}
+  .ct-then{font-size:17px}
+  .breathe{gap:64px}
+  .br-scene{width:340px}
+  .br-ring{width:280px;height:280px}
+  .br-dot{width:100px;height:100px}
+  .br-side{max-width:320px}
+  .hero-say{grid-template-columns:180px minmax(0,1fr);gap:36px}
+  .hero-fig{width:180px}
+  .hero-card .wt-card{padding:28px 34px;gap:10px;border-radius:20px}
+  .hero-card .wt-what{font-size:14px}
+  .hero-card .wt-say{font-size:36px}
+  .hero-rules{gap:28px}
+  .hero-rules li{font-size:18px;gap:8px;padding-top:14px}
+  .hero-rules strong{font-size:21px}
+
+  /* Section closes */
+  .sum-cols{gap:18px}
+  .sum-col{padding:20px 24px}
+  .sum-k{font-size:13px}
+  .sum-col a{font-size:19px;padding:8px 0}
+  .sum-col a b{font-size:15px;width:16px}
+  .prin-home{gap:14px;padding-top:18px}
+  .home-row{grid-template-columns:70px 1fr}
+  .home-k{font-size:13px}
+  .home-t{font-size:18px}
+}
+
+/* Tablet: between the phone and the laptop column. */
+@media (min-width:641px) and (max-width:999px){
+  .eyebrow{font-size:14px}
+  h1.screen-title{font-size:44px;line-height:1.08;font-weight:600}
+  p.screen-body{font-size:19px}
+  .btn{min-height:54px;font-size:17px;border-radius:16px}
+}
+
+/* Phone */
+@media (max-width:640px){
+  .eyebrow{font-size:13px}
+  h1.screen-title{font-size:34px;line-height:1.08;letter-spacing:-.02em;font-weight:600}
+  .qz-main h1.screen-title{font-size:26px;line-height:1.18}
+  p.screen-body{font-size:18px;line-height:1.55}
+  .btn{min-height:56px;font-size:17px;border-radius:16px}
+  .baseline-q{font-size:22px}
+  .baseline-in,.qz-field{font-size:17px}
+  .gate,.door{font-size:16px}
+  .lens .name{font-size:17px}
+  .lens .blurb{font-size:15.5px}
 }

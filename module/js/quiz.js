@@ -39,6 +39,8 @@
     /* Content into the ask pane. The prompt and question live here rather
        than in the HTML because the other three items arrive as data. */
     fill(section, '[data-qz-setup]', item.setup);
+    var where = section.querySelector('[data-qz-where]');
+    if (where && item.where) { where.textContent = item.where; where.hidden = false; }
     fill(section, '[data-qz-ask-q]', item.ask);
     fill(section, '[data-qz-say-lead]', item.say && item.say.lead);
     fill(section, '[data-qz-say-line]', item.say && item.say.line);

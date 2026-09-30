@@ -28,8 +28,7 @@ window.CDAH_PRINCIPLES = {
     eyebrow: 'Assess 1',
     title: 'Three brain states',
     body: [
-      'A child&rsquo;s brain works from one of three brain-body states, and each one can do less than the one above it. You have the same three.',
-      'Before you decide what to say, work out which state your child is in, and which one you are in. The right move depends on both.'
+      'A child&rsquo;s brain works from one of three brain-body states, and each one can do less than the one above it. You have the same three. Before you decide what to say, work out which state your child is in, and which one you are in.'
     ],
     home: {
       notice: 'The question underneath the behavior changes with the state. &ldquo;Am I safe?&rdquo; is not a question you can answer with a choice between two pairs of shoes.',
@@ -144,7 +143,7 @@ window.CDAH_PRINCIPLES = {
     title: 'State the Limit',
     body: [
       'Once your child feels heard, say the limit: plainly, once, in as few words as you can.',
-      'A limit isn&rsquo;t the opposite of connection. Children feel safer when someone is holding the edges, and understanding without a limit reads to a five-year-old as a yes.'
+      'Understanding without a limit reads to a five-year-old as a yes.'
     ],
     home: {
       notice: 'If the limit needs saying five times, it usually arrived before they felt heard.',

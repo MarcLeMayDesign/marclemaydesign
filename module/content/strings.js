@@ -48,6 +48,22 @@ window.CDAH_STRINGS = {
     go: "Start Try It Out",
     stop: "Stop here for now",
     note: "Your place is saved on this device.",
-    stopped: "Saved. Close this page whenever you like \u2014 you\u2019ll come back to this screen."
+    stopped: "Saved. Close this page whenever you like \u2014 you\u2019ll come back to this screen.",
+    // NEW (package J). Intro 1, first visit: under the body.
+    more: "Once you\u2019ve done all three, you can come back and try any one again.",
+    // NEW. Part-way through: the button picks up at the next scene not yet done.
+    goOn: "Carry on",
+    // NEW. Intro 2, all three done: title and body change, the picker replaces Start.
+    titlePick: "Try one again",
+    bodyPick: "Pick a scene. Your strongest attempt on each is the one that counts.",
+    // NEW. Scene names for the picker. Scenes 2 and 3 are placeholders until Marc's drafts land.
+    scenes: [
+      { id: "scn-301", name: "Screen time" },
+      { id: "scn-302", name: "Scenario 2" },
+      { id: "scn-303", name: "Scenario 3" }
+    ],
+    // NEW. The primary button on a scene's feedback.
+    next: "Next scenario",
+    finish: "Finish"
   }
 };
