@@ -870,12 +870,12 @@
   var root = document.querySelector('[data-drop]');
   if (!root) return;
   var SEQ = [
-    [2, 'Ready to think. This is the only level teaching lands on.'],
+    [2, 'Ready to think. This is the only state where teaching works.'],
     [1, 'Something goes wrong, and the brain drops a level. Now it runs on feeling, not reasoning.'],
     [0, 'More stress, another drop. Now it is the body. No explanation reaches here.'],
     [0, 'The way back up starts with what this level asks for \u2014 safety, not words.'],
     [1, 'Safety lands, and it comes up a level. Now connect: name the feeling.'],
-    [2, 'Back to ready. Only now does teaching work.']
+    [2, 'Back to ready. Now teaching can work.']
   ];
   var IDLE = 'Watch what happens in the brain when a situation goes wrong.';
   var DONE = 'Back where it started. Watch it again, or tap any step in the bar.';
@@ -962,7 +962,7 @@
     a: {
       surface: 'She screams that she will not put her shoes on.',
       layers: [
-        'She has been holding it together all morning and has nothing left to hold it with.',
+        'She\u2019s been holding it together all morning, and her battery\u2019s running low.',
         'She wants some say in a morning that has already been decided for her.',
         'She cannot yet stop one thing and start another without help doing it.'
       ],

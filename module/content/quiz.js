@@ -69,7 +69,7 @@ window.CDAH_COACH_LINES = [
   'Don\u2019t forget, you\u2019re practicing here. Some days? This stuff just doesn\u2019t land. That\u2019s not about you, that\u2019s parenting. Keep at it, keep breathing, and be kind to yourself as well.',
   'You\u2019re building new muscles here. Some days, the method will fall flat, and that has nothing to do with your skills as a parent. Kids have off days, and so do we. Keep showing up, remember that composure always comes first, and turn that compassion back on yourself every time.',
   'Remember, you\u2019re here to learn, not to prove anything. Parenting is messy and complex, and it\u2019s normal to feel overwhelmed, even angry. You\u2019re not always gonna get it right, but keep going, and be kind to yourself while you figure this out.',
-  'We have our bad days too. We get short-tempered, we get overwhelmed. Don\u2019t beat yourself up over that, that\u2019s just being a parent. When things don\u2019t work, try telling yourself \u2018Hey, it didn\u2019t work that time, but I\u2019m doing okay. I\u2019ll try again next time.\u2019 A process like this is about learning, not reaching for arbitrary goals.',
+  'We have our bad days too. We get short-tempered, we get overwhelmed. Don\u2019t beat yourself up over that, that\u2019s just being a parent. When things don\u2019t work, try telling yourself \u2018Hey, it didn\u2019t work that time, but I\u2019m doing okay. I\u2019ll try again next time.\u2019 This is about learning, not hitting a target.',
   'When things don\u2019t seem to work, remember: you\u2019re not alone in this. Your child is hearing the same language, working through the same techniques, at school five days a week. The burden isn\u2019t all on you. You\u2019re part of a community now that puts empathy first, and that means being kind to yourself as well.'
 ];
 
@@ -86,7 +86,7 @@ window.CDAH_QUIZ = {
       lead: 'Once you have your own breath, and you are down at his level:',
       line: 'You really wanted that chocolate. I know it\u2019s hard when the answer is no. We\u2019re not buying it today.'
     },
-    practice: 'These are principles to practice, not a script. Some evenings none of it lands, and that is a fact about evenings, not about you.',
+    practice: 'These are ideas to practice, not a script. Some evenings nothing works. That happens to every parent.',
 
     criteria: [
       {
@@ -147,15 +147,15 @@ window.CDAH_QUIZ = {
       },
       missB: {
         head: 'You read him accurately',
-        body: 'You read him accurately. The part still missing is you: the threat you were about to make came from the woman behind you in line, not from him. Your own state is the first thing in the room that you control.'
+        body: 'You read him accurately. The part still missing is you: the threat you were about to make came from the woman behind you in line, not from him. Start with your own state. It\u2019s the one thing in that line you can control.'
       },
       missA: {
         head: 'You started with yourself',
-        body: 'You were right that nothing useful lands while he\u2019s shouting. Worth going one step further back \u2014 a child who has been fine all afternoon and falls apart at the checkout has usually run out of capacity rather than decided to push you.'
+        body: 'You were right that nothing useful gets through while he\u2019s shouting. Go one step further back. A child who\u2019s been fine all afternoon and falls apart at the checkout has usually run out of steam. He isn\u2019t trying to push you.'
       },
       missC: {
         head: 'You started with yourself',
-        body: 'You read him accurately and you started in the right place. One more thing worth naming: while he\u2019s shouting, a consequence has nowhere to land. It teaches him nothing until he can hear it.'
+        body: 'You read him accurately and you started in the right place. One more thing: while he\u2019s shouting, a consequence won\u2019t teach him anything. He can\u2019t hear it yet.'
       },
       many: {
         head: 'Two things at once here',
@@ -200,11 +200,11 @@ window.CDAH_QUIZ = {
       all: { head: 'You swapped the apology for a skill',
              body: 'The limit is still there in your answer, which is the part most people drop.' },
       missC: { head: 'A skill, not a moral',
-               body: 'You\u2019re right that she\u2019s missing a skill rather than a moral. The thing to watch is that teaching the skill doesn\u2019t replace the limit \u2014 she needs to hear that snatching isn\u2019t okay, just after she\u2019s been understood rather than instead of it.' },
+               body: 'You\u2019re right: she\u2019s missing a skill, not being bad. Just don\u2019t let the skill replace the limit. She still needs to hear that snatching isn\u2019t okay, once she feels understood.' },
       missA: { head: 'You saw the apology was hollow',
                body: 'You saw that the apology was hollow. The next question is what she\u2019d need in order not to do it again \u2014 she doesn\u2019t see a way of getting a turn other than to take one.' },
       missB: { head: 'You found the missing skill',
-               body: 'You found the thing she hasn\u2019t got yet. Worth adding why the apology failed on its own: she said the words that ended the moment, which is a different thing from having understood anything.' },
+               body: 'You found the thing she hasn\u2019t got yet. Also think about why the apology didn\u2019t work. She said sorry to make the moment end. She hadn\u2019t understood anything yet.' },
       many: { head: 'The apology ended the moment',
               body: 'A forced apology ends the moment without changing anything. The line above swaps it for something she can use next time.' }
     }
@@ -220,7 +220,7 @@ window.CDAH_QUIZ = {
       lead: 'To your mother, afterward, without making a case of it:',
       line: 'I told him he was angry. We still left. He just heard me first.'
     },
-    practice: 'This works more often than it does not \u2014 which is a different thing from always.',
+    practice: 'This works most of the time. Not every time, and that\u2019s normal.',
     criteria: [
       { id: 'A',
         accept: ['we still left', 'still left', 'we left anyway', 'the limit stayed',
@@ -241,16 +241,16 @@ window.CDAH_QUIZ = {
         miss: 'School did not come into the answer' }
     ],
     coach: {
-      all: { head: 'You said the thing most people can only feel',
-             body: 'The feeling was acknowledged and the limit didn\u2019t move. Being able to say that out loud to a skeptical relative is its own skill.' },
+      all: { head: 'You put it into words',
+             body: 'The feeling was heard and the limit didn\u2019t move. Explaining that to a skeptical relative is hard, and you did it.' },
       missA: { head: 'You explained why it works',
-               body: 'You explained why it works. The sentence that answers your mother, though, is the simplest one \u2014 you still left. Nothing was conceded.' },
+               body: 'You explained why it works. But the simplest answer for your mother is this: you still left. You didn\u2019t give in.' },
       missC: { head: 'A solid explanation',
                body: 'Solid explanation. One more thing worth saying to her: it\u2019s the same language he hears at school, so he isn\u2019t being asked to learn two systems.' },
-      missB: { head: 'Nothing was conceded',
+      missB: { head: 'You didn\u2019t give in',
                body: 'You were clear that nothing was given away, which is the part that answers her directly. What it doesn\u2019t yet say is why the naming helps at all \u2014 an upset child hears an instruction through the noise, and very little of it goes in.' },
       many: { head: 'This one is about defending the approach',
-              body: 'It is less about your child than about defending an approach to someone who thinks it\u2019s softness. The line above does it in one sentence.' }
+              body: 'This one is about explaining yourself to someone who thinks you\u2019re being soft. The line above does it in one sentence.' }
     }
   }
 ,
@@ -297,13 +297,13 @@ window.CDAH_QUIZ = {
     ],
     coach: {
       all: { head: 'You took it straight on',
-             body: 'You didn\u2019t look for a way to be right, and you saw that going back and mending it is itself the thing she learns from. That is the hardest of these four questions.' },
+             body: 'You didn\u2019t try to justify it, and you saw that going back to fix it is what teaches her. This is the hardest of the four.' },
       missC: { head: 'Going back is exactly right',
-               body: 'Going back to her is exactly right. Worth knowing that the repair isn\u2019t damage control \u2014 it\u2019s the most useful thing she\u2019ll see all week. Children who watch an adult own a mistake learn how to do it.' },
+               body: 'Going back to her is exactly right. It isn\u2019t just cleanup. When she sees you own a mistake, she learns how to own hers.' },
       missA: { head: 'You went back to her',
-               body: 'Repairing it matters. The part still worth sitting with is where the sentence came from: a long day, not a child who deserved it.' },
+               body: 'Repairing it matters. Also think about where that sentence came from: a long day, not a child who deserved it.' },
       missB: { head: 'You read the evening accurately',
-               body: 'You know where it came from, and you know what she takes from what happens next. The missing piece is the going-in itself \u2014 plainly, first, and not waiting on her to come out to meet you.' },
+               body: 'You know where it came from, and you know what she takes from what happens next. What\u2019s missing is going to her: first, and without waiting for her to come out.' },
       many: { head: 'Every parent has said something like this',
               body: 'What happens next is the part that teaches.' }
     }

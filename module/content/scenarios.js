@@ -108,10 +108,10 @@ window.CDAH_SCENES = {
                          again: 'I choose\u2026 not stopping!',  // NEW
                          note: 'Choices without the limit said out loud turn into a negotiation.' }, // NEW
       '2:both':        { child: 'Fine. I\u2019m pausing it. Can I finish it after?',
-                         note: 'Two real choices inside one limit. She stopped, and she didn\u2019t lose.' },
+                         note: 'Two real choices inside one limit, and she stopped.' },
       '0:still':       { child: '(she turns away from you)',
                          again: '(she pulls a cushion over her head)',  // NEW
-                         note: 'She\u2019s in her body right now. Low, slow and short is the whole job.' }, // NEW
+                         note: 'She\u2019s past words. Keep your voice low and slow, and keep it short.' }, // NEW
       '0:calm':        { child: '(still face-down, quieter) \u2026I was almost done.',
                          note: 'Your calm reached her before any words did.' }        // NEW
     },
@@ -129,7 +129,7 @@ window.CDAH_SCENES = {
       notyet:    { head: 'She\u2019s still in the middle of it',                     // NEW
                    body: 'The scene ended with her still stuck. Start with the first row below that isn\u2019t ticked \u2014 the others build on it.' },
       composure: { head: 'This one got away from you',
-                   body: 'When a voice goes up, a five-year-old hears the anger, not the limit. There may have been good work after it, but it landed on a child who had already stopped listening.',
+                   body: 'Once your voice went up, she heard the anger, not the limit. Anything good you said after that didn\u2019t reach her.',
                    frame: '<strong>The old frame.</strong> She\u2019s testing me and I need to win this. What\u2019s actually happening: she\u2019s five, she\u2019s absorbed in something, and her brain hasn\u2019t finished the part that makes stopping easy.' }
     },
 
@@ -141,7 +141,7 @@ window.CDAH_SCENES = {
                    miss: 'Her feeling didn\u2019t get named before the rule.',
                    name: 'Name the feeling' },
       limit:     { hit: 'You said the limit out loud.',
-                   miss: 'The limit didn\u2019t get said. Understanding without a limit reads to a five-year-old as a yes.',
+                   miss: 'The limit didn\u2019t get said. If you only sympathize and never say the limit, a five-year-old hears \u201cyes.\u201d',
                    early: 'You said the limit, but before she felt heard, so it didn\u2019t land yet.',  // NEW
                    name: 'State the limit' },
       choices:   { hit: 'You gave her two ways to move.',
@@ -197,7 +197,7 @@ window.CDAH_SCENES = {
     words: [
       { what: 'Name the feeling', say: 'You were hoping it\u2019d be Grandma today. That\u2019s a big disappointment.' },
       { what: 'State the limit',  say: 'I won\u2019t let you kick my seat. I need to drive us home safely.' },
-      { what: 'Give two options',  say: 'You can stomp on you seat or squeeze your Bun-Bun. You pick.' }
+      { what: 'Give two options',  say: 'You can stomp on your seat or squeeze your Bun-Bun. You pick.' }
     ],
 
     replies: {
@@ -225,17 +225,17 @@ window.CDAH_SCENES = {
                          again: 'Squeezing your seat with my feet!',
                          note: 'Choices without the limit said out loud turn into a loophole.' },
       '2:both':        { child: '(stomps her own seat, hard, three times) \u2026Can we get fruit snacks?',
-                         note: 'A limit that keeps you both safe, and two places for the feeling to go. She stopped, and she didn\u2019t lose.' },
+                         note: 'A limit that keeps you both safe, and two places for the feeling to go. She stopped kicking.' },
       '0:still':       { child: '(she screams and kicks with both feet)',
                          again: '(she buries her face in her backpack)',
-                         note: 'She\u2019s past words. Low, slow and short is the whole job, and you don\u2019t have to pull out yet.' },
+                         note: 'She\u2019s past words. Keep your voice low and slow, and keep it short. You don\u2019t have to drive off yet.' },
       '0:calm':        { child: '(the kicking slows, quieter) \u2026I wanted Grandma.',
                          note: 'Your calm reached her before any words did.' }
     },
 
     results: {
       strong:    { head: 'It wasn\u2019t about you, and you knew it',
-                   body: 'You heard the disappointment under the words, kept her feet still with a limit that\u2019s about everyone\u2019s safety, and gave the feeling somewhere to go \u2014 without taking \u201cnot you\u201d personally.' },
+                   body: 'You heard the disappointment, stopped the kicking to keep everyone safe, and gave her feelings somewhere to go. And you didn\u2019t take \u201cnot you\u201d personally.' },
       cards:     { head: 'It wasn\u2019t about you, and you knew it',
                    coach: 'Those were my words, and they worked. Now try it again in your own.' },
       nearly:    { head: 'You stayed with her' },
@@ -243,7 +243,7 @@ window.CDAH_SCENES = {
                    body: 'The scene ended with her still stuck. Start with the first row below that isn\u2019t ticked \u2014 the others build on it.' },
       composure: { head: 'This one got under your skin',
                    body: '\u201cNot you\u201d is built to sting, and it did. That\u2019s normal. But once your voice changed, she heard the hurt, not the limit, and the kicking had a reason to keep going.',
-                   frame: '<strong>The old frame.</strong> She\u2019s rejecting me, and she needs to know it hurt. What\u2019s actually happening: she held it together all day, and she\u2019s falling apart with the person she\u2019s safest with. That isn\u2019t rejection. It\u2019s trust, in its hardest form.' }
+                   frame: '<strong>The old frame.</strong> She\u2019s rejecting me, and she needs to know it hurt. What\u2019s actually happening: she held it together all day. Kids often fall apart with the person they feel safest with. It feels like rejection, but it means she trusts you.' }
     },
 
     rows: {
@@ -333,25 +333,25 @@ window.CDAH_SCENES = {
                          again: 'I choose socks!',
                          note: 'Choices without the limit said out loud turn into a negotiation.' },
       '2:both':        { child: '(she holds out her foot) \u2026Can you do the left one loose?',
-                         note: 'One limit, two ways in. The shoes went on, and nobody lost.' },
+                         note: 'One limit, two ways in. The shoes went on.' },
       '0:still':       { child: '(she lies flat on the rug)',
                          again: '(she covers her face with both arms)',
-                         note: 'She\u2019s past words right now. Low, slow and short is the whole job, even with the bus coming.' },
+                         note: 'She\u2019s past words. Keep your voice low and slow, and keep it short, even with the bus coming.' },
       '0:calm':        { child: '(still on the rug, quieter) \u2026They feel weird.',
                          note: 'Your calm reached her before any words did.' }
     },
 
     results: {
-      strong:    { head: 'Out the door, and nobody lost',
+      strong:    { head: 'Shoes on, out the door',
                    body: 'You named the feeling, said the limit plainly, and gave her two ways in \u2014 with the bus coming, and without your voice going up.' },
-      cards:     { head: 'Out the door, and nobody lost',
+      cards:     { head: 'Shoes on, out the door',
                    coach: 'Those were my words, and they worked. Now try it again in your own.' },
       nearly:    { head: 'You stayed with her' },
       notyet:    { head: 'She\u2019s still on the rug',
                    body: 'The scene ended with her still stuck. Start with the first row below that isn\u2019t ticked \u2014 the others build on it.' },
       composure: { head: 'The clock won this one',
-                   body: 'With the bus coming, hurry is the loudest thing in the room, and a five-year-old hears it before anything else. There may have been good work after it, but it landed on a child who had already stopped listening.',
-                   frame: '<strong>The old frame.</strong> If I don\u2019t get her out the door right now, the morning has failed. What\u2019s actually happening: she can\u2019t hurry her way out of a feeling, and the fastest way out the door usually goes through the feeling first.' }
+                   body: 'With the bus coming, she heard the rush in your voice before anything else. Anything good you said after that didn\u2019t reach her.',
+                   frame: '<strong>The old frame.</strong> If I don\u2019t get her out the door right now, the morning has failed. What\u2019s actually happening: you can\u2019t rush a five-year-old out of a feeling. Dealing with the feeling first is usually the fastest way out the door.' }
     },
 
     rows: {
@@ -362,7 +362,7 @@ window.CDAH_SCENES = {
                    miss: 'How the shoes felt didn\u2019t get named before the rule.',
                    name: 'Name the feeling' },
       limit:     { hit: 'You said the limit out loud: the shoes go on.',
-                   miss: 'The limit didn\u2019t get said. Understanding without a limit reads to a five-year-old as \u201cno shoes today.\u201d',
+                   miss: 'The limit didn\u2019t get said. If you only sympathize and never say the limit, a five-year-old hears \u201cno shoes today.\u201d',
                    early: 'You said the limit, but before she felt heard, so it didn\u2019t land yet.',
                    name: 'State the limit' },
       choices:   { hit: 'You gave her two ways in.',

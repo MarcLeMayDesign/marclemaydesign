@@ -56,7 +56,7 @@ window.CDAH_STRINGS = {
     eyebrowIntro: "Section 3 of 3",
     title: "That\u2019s the thinking part done",
     titleIntro: "What would you say?",
-    body: "Next is Try It Out \u2014 three real moments where you write what you\u2019d actually say. It takes about 15\u201320 minutes, and it\u2019s the part worth doing when you\u2019re not rushing.",
+    body: "Next is Try It Out \u2014 three real moments where you write what you\u2019d actually say. It takes about 15\u201320 minutes, and it\u2019s best done when you\u2019re not rushing.",
     go: "Start Try It Out",
     stop: "Stop here for now",
     note: "Your place is saved on this device.",

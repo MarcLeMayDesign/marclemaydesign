@@ -67,7 +67,7 @@ window.CDAH_SAFETY_DATA = {
         negate: ['never', 'not', 'wouldnt', 'dont', 'didnt', 'wont', 'cant', 'couldnt', 'shouldnt', 'no'],
         unless: ['feelings']
       },
-      say: 'Thank you for your honesty \u2014 it can be difficult to be open about one\u2019s own anger. This is further than a practice module should go with you, and I don\u2019t want to hand you an exercise instead of an answer. The National Parent Helpline is free and confidential, and it exists for exactly this: you can text or call <strong>1-855-427-2736</strong> at any time. Same goes for this module: nothing you type here is stored anywhere but your own device, and nothing has been recorded.',
+      say: 'Thank you for telling me. That\u2019s not easy to say. This is more than a practice module can help with, and you deserve a real answer, not an exercise. The National Parent Helpline is free and confidential: call or text <strong>1-855-427-2736</strong>, any time. Nothing you type here leaves this device.',
       again: 'The National Parent Helpline is still the right place for this: <strong>1-855-427-2736</strong>, call or text, any time.',
       action: { label: 'Call or text 1-855-427-2736', href: 'tel:18554272736' } },
 
@@ -90,7 +90,7 @@ window.CDAH_SAFETY_DATA = {
                 'beat up', 'beaten up', 'beating him up', 'beating her up',
                 'picked on', 'picks on him', 'picks on her', 'picking on him', 'picking on her',
                 'getting hurt at school', 'gets hurt at school'],
-      say: 'That\u2019s a different situation from the one on this screen, and it deserves a straight answer. There\u2019s a page in this module written for it \u2014 <strong>\u201cBut what if my child is the one being hurt?\u201d</strong> \u2014 and it\u2019s a short read. Your answer is still here when you come back.',
+      say: 'That\u2019s a different situation from this one, and there\u2019s a short page in this module about it: <strong>\u201cBut what if my child is the one being hurt?\u201d</strong> Your answer will still be here when you come back.',
       again: 'The page written for this is still one tap away.',
       action: { label: 'Read it', panel: 'panelHurt' } },
 

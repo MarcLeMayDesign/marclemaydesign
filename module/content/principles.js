@@ -52,7 +52,7 @@ window.CDAH_PRINCIPLES = {
         { name: 'Upset', alias: 'The Emotional State', part: 'The limbic system',
           desc: 'The feeling center. Emotion takes over, making it difficult to empathize with others and reason through a problem.',
           child:  ['Shows in the words &mdash; yelling, blaming, &ldquo;you never.&rdquo;', '&ldquo;Do you still love me?&rdquo;', 'Connection.'],
-          parent: ['Shows in the words &mdash; sarcasm, keeping score &mdash; and in our tone. We tend to unconsciously imitate authority figures from our youth.', '&ldquo;Does any of this get noticed?&rdquo;', 'Connection.'] },
+          parent: ['Shows in your words and your tone: sarcasm, keeping score. Often we end up sounding like the adults who raised us.', '&ldquo;Does any of this get noticed?&rdquo;', 'Connection.'] },
         { name: 'Ready to think', alias: 'The Executive State', part: 'The prefrontal lobes',
           desc: 'The last part of the brain to finish growing, and the first to go quiet under stress. Once the body and mind are regulated, this center can take over, problem-solving and learning.',
           child:  ['Can hear you, can weigh two options.', '&ldquo;What do I do about this?&rdquo;', 'Options, a plan, a repair.'],
@@ -83,7 +83,7 @@ window.CDAH_PRINCIPLES = {
     ],
     home: {
       notice: 'The same behavior can come from three different places on three different mornings, and each one needs something different from you.',
-      try: 'Ask what this would make sense as an answer to. The behavior is almost always an answer to something.'
+      try: 'Ask yourself: what is she trying to tell me? There&rsquo;s almost always something.'
     }
   },
 
@@ -94,7 +94,7 @@ window.CDAH_PRINCIPLES = {
       'A lot of what goes wrong in a hard moment starts with how we read it. Each of these is a common way of seeing it, and the shift that can change what you do next.'
     ],
     home: {
-      notice: 'Every shift here is a step away from &ldquo;stop this&rdquo; and toward &ldquo;what does my child need?&rdquo; Act is what you do once you have taken that step.',
+      notice: 'Each shift moves you from &ldquo;stop this&rdquo; to &ldquo;what does my child need?&rdquo; The five Act moves are what you do next.',
       try: 'Pick the old frame that sounds most like you on a bad morning. That is the one to watch for.'
     }
   },
@@ -103,8 +103,8 @@ window.CDAH_PRINCIPLES = {
     eyebrow: 'Act 1',
     title: 'Composure',
     body: [
-      'Conscious Discipline starts here. A child reads your state before your words, so the four moves after this one only work from a calm voice.',
-      'Composure isn&rsquo;t feeling calm. It is choosing your next sentence carefully when you <em>don&rsquo;t</em> feel calm. Once your voice goes up, whatever good thing you say after it lands on a child who has already stopped listening.'
+      'Composure comes first. The four moves after it only work if your voice stays calm.',
+      'You don&rsquo;t have to <em>feel</em> calm to have composure. You just have to choose your next words on purpose, even when you&rsquo;re angry. Once your voice goes up, she stops listening.'
     ],
     home: {
       notice: 'You can be angry and still choose the next sentence.',
@@ -116,11 +116,11 @@ window.CDAH_PRINCIPLES = {
     eyebrow: 'Act 2 &middot; Connection before correction',
     title: 'Name the Feeling',
     body: [
-      'Naming what your child is feeling is not the same as agreeing to what they want. It is what makes the limit hearable.',
+      'Naming your child&rsquo;s feeling doesn&rsquo;t mean you&rsquo;re giving in to what they want. It helps them actually hear the limit when it comes.',
       'Say what you see, simply, before anything about what happens next. You don&rsquo;t have to get the feeling exactly right. Once your child is ready to think, they can calmly tell you if you&rsquo;ve got it.'
     ],
     home: {
-      notice: 'A limit that lands on an upset child has to be repeated. The repetition is the cost of skipping this step.',
+      notice: 'If you find yourself repeating the limit, this is usually the step that got skipped.',
       try: 'Say what you see, then say what holds. &ldquo;You really wanted the blue cup. The blue cup is in the dishwasher.&rdquo;'
     }
   },
@@ -143,10 +143,10 @@ window.CDAH_PRINCIPLES = {
     title: 'State the Limit',
     body: [
       'Once your child feels heard, say the limit: plainly, once, in as few words as you can.',
-      'Understanding without a limit reads to a five-year-old as a yes.'
+      'If you only sympathize and never say the limit, a five-year-old hears &ldquo;yes.&rdquo;'
     ],
     home: {
-      notice: 'If the limit needs saying five times, it usually arrived before they felt heard.',
+      notice: 'If you hear yourself saying it a third time, stop. Go back and name the feeling.',
       try: '&ldquo;Shoes keep your feet safe. They go on before the bus.&rdquo;'
     }
   },
@@ -156,7 +156,7 @@ window.CDAH_PRINCIPLES = {
     title: 'Give Two Options',
     body: [
       'Two choices, both fine with you. The limit stays in place, but they get a say in how.',
-      'A child who can&rsquo;t yet stop one thing and start another needs a way to move that doesn&rsquo;t feel like losing. Two options are that way.'
+      'Kids this age find it hard to stop one thing and start another. A choice lets them move on without feeling like they lost.'
     ],
     home: {
       notice: 'If they pick neither, the limit still holds. You can choose for them, calmly: &ldquo;I&rsquo;ll pick this time.&rdquo;',

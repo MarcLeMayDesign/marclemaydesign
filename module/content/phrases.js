@@ -34,7 +34,7 @@ window.CDAH_PHRASES = {
         { say: "This is a hard moment, not an emergency.",
           school: "Big feelings are treated as something to help with, not something to shut down." },
         { say: "She isn\u2019t against me. She\u2019s stuck.",
-          school: "Teachers read a meltdown as a signal first and a problem second." },
+          school: "Teachers treat a meltdown as a sign that a child needs help." },
         { say: "I don\u2019t have to fix this in the next ten seconds.",
           school: "In class, calming down comes before solving. The problem can wait a minute." },
         { say: "Lower and slower.",

@@ -43,7 +43,7 @@ window.CDAH_GLOSSARY = [
   },
   {
     term: "Shifting from Judgment to Description",
-    plain: "Rather than judging your child\u2019s nonverbal cues and behaviors, a practice of describing them instead. This strategy is designed to help the safekeeper maintain composure without projecting their own immediate, visceral reaction.",
+    plain: "Rather than judging your child\u2019s nonverbal cues and behaviors, a practice of describing them instead. It helps the safekeeper stay calm and not react on the spot.",
     say: "Your arms are crossed and your face is all scrunched up.", to: "child"   // NEW
   },
   {

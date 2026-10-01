@@ -36,9 +36,9 @@ window.CDAH_BOOKEND = {
   /* NEW 1 Oct, Claude's drafts for Marc. The count is the Scene 3 answer
      only: Composure counts as used unless something broke it. */
   analysis: {
-    all:  'All four, on the same morning you started with. The words didn\u2019t change much. The order did: calm first, then the feeling, then the limit, then a way through it.',
+    all:  'All four, on the same morning you started with. This time you went in order: calm first, then the feeling, then the limit, then a choice.',
     some: 'Some of the moves made it in. The ones marked Not used are the ones to reach for first next time, and the phrase cards have a line for each.',
-    none: 'None of the moves showed up this time. That\u2019s worth knowing, not worrying about: a school morning is the hardest place to practice. Try Scene 3 again, or start with one line from the phrase cards.'
+    none: 'None of the moves showed up this time. Don\u2019t worry about it. A school morning is the hardest place to practice. Try Scene 3 again, or start with one line from the phrase cards.'
   },
 
   moves: [
