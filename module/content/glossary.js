@@ -13,7 +13,7 @@
    `say` lines marked // NEW are drafts for Marc to read. Some are for the
    child, some the parent says to themselves; `to` says which.
 
-   Not loaded by index.html yet — it arrives with the glossary screen. */
+   Loaded since 1 Oct: shown in the panel by js/glossary.js. */
 
 window.CDAH_GLOSSARY = [
   {

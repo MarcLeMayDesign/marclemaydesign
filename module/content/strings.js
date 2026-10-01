@@ -36,6 +36,10 @@ window.CDAH_STRINGS = {
 
   /* NEW (30 Sept). Said under the field when an answer can't be read as
      English at all (a keyboard mash). Nothing is scored or saved. */
+  /* NEW (1 Oct). Under Maya's last reply while the result is coming. No
+     "AI", no "analyzing": the matcher is rules, not a model. */
+  coachThinking: "The Coach is looking over your conversation\u2026",
+
   huh: {
     quiz: "I couldn\u2019t make sense of that one. Try a sentence or two, the way you\u2019d explain it to a friend.",
     roleplay: "I didn\u2019t follow that, and she wouldn\u2019t either. Try it the way you\u2019d say it to her out loud.",

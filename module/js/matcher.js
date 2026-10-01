@@ -124,16 +124,30 @@
     'is are was be been being am do does did have has had will would could should can may might must just really ' +
     'to of in on at for with about from up down out off over after before now later first then again still also ' +
     'say said tell ask go get let make feel think know want need see look help try stop time okay ok like calm ' +
-    'mom mum dad son daughter child kid kids boy girl baby sorry please thank').split(' ');
+    'mom mum dad son daughter child kid kids boy girl baby sorry please thank ' +
+    'whatever whatevs fine nope yeah yep yup nah huh ugh hey hi hmm oh oops uh um wow cool great good bad hate love').split(' ');
+  /* 1 Oct (Marc): "Whatevs" was flagged. A one-word answer outside the list
+     isn't gibberish if it looks like a word, so the no-common-word rule now
+     needs at least half the tokens to look mashed: no vowel, four consonants
+     in a row, a letter three times running, or a run along a keyboard row. */
+  var ROWS = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+  function mashed(t) {
+    if (/^[0-9]+$/.test(t)) return false;
+    if (!/[aeiouy]/.test(t)) return true;
+    if (/[^aeiouy0-9]{5,}/.test(t) || /(.)\1\1/.test(t)) return true;
+    for (var r = 0; r < ROWS.length; r++) for (var k = 0; k + 4 <= t.length; k++) if (ROWS[r].indexOf(t.substr(k, 4)) !== -1) return true;
+    return false;
+  }
   function nonsense(text) {
     var toks = normalize(text).trim().split(' ').filter(Boolean);
     if (!toks.length) return true;
-    var common = 0, vowelless = 0;
+    var common = 0, vowelless = 0, mash = 0;
     for (var i = 0; i < toks.length; i++) {
       if (COMMON.indexOf(toks[i]) !== -1) common++;
       if (!/[aeiouy]/.test(toks[i]) && !/^[0-9]+$/.test(toks[i])) vowelless++;
+      if (mashed(toks[i])) mash++;
     }
-    return common === 0 || vowelless / toks.length > 0.5;
+    return vowelless / toks.length > 0.5 || (common === 0 && mash / toks.length >= 0.5);
   }
   /* The note under a field that says so. One element per field, made on
      first use, cleared as soon as they type again. */

@@ -7,7 +7,7 @@
 <meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/module.css?v=20260930f">
+<link rel="stylesheet" href="css/module.css?v=20261001c">
 </head>
 <body>
 
@@ -112,8 +112,9 @@
         </div>
       </aside>
       <div>
-        <button class="door" id="hardMoment" type="button" aria-disabled="true">I&rsquo;m in a hard moment right now &rarr;</button>
-        <p class="door-note">Goes straight to the phrase cards &mdash; words to use in the next ten minutes &mdash; and keeps a way back into Section 1 for later. Live once the cards land.</p>
+        <button class="door" id="hardMoment" type="button" data-show="scr-500">I&rsquo;m in a hard moment right now &rarr;</button>
+        <!-- NEW 1 Oct: the door is live. -->
+        <p class="door-note">Short lines to use in the next ten minutes. The module will be here when things are calmer.</p>
       </div>
     </section>
 
@@ -1030,6 +1031,23 @@
       </div>
     </section>
 
+    <!-- SCR-500, phrase cards (1 Oct). A door, not a stop: reached from the
+         Hook and the panel. Built by js/phrases.js from content/phrases.js. -->
+    <section class="screen" id="scr-500" data-status="Phrase cards" data-direct-only hidden>
+      <div class="pc-col">
+        <p class="eyebrow plum" data-pc="eyebrow"></p>
+        <h1 class="screen-title" data-pc="title"></h1>
+        <p class="screen-body" data-pc="intro"></p>
+        <nav class="pc-jump" data-pc-jump aria-label="Phrase card groups"></nav>
+        <div><button class="btn-link" type="button" data-pc-print data-pc="print"></button></div>
+        <div class="pc-list" data-pc-list></div>
+        <div class="pc-later">
+          <p class="door-note" data-pc="later"></p>
+          <button class="door" type="button" data-show="scr-099" data-pc="laterGo"></button>
+        </div>
+      </div>
+    </section>
+
     <section class="screen fin" id="scr-400" data-theme="dark" hidden>
       <div class="cover-grid">
         <div class="cover-text">
@@ -1037,9 +1055,10 @@
           <h1 class="cover-title fin-title" data-fin="title"></h1>
           <p class="screen-body" data-fin="body"></p>
           <div class="fin-acts">
-            <button class="btn" type="button" data-show="scr-099" data-fin="home"></button>
-            <button class="btn-link" id="finAgain" type="button" data-fin="again"></button>
+            <button class="btn" id="finAgain" type="button" data-fin="again"></button>
+            <button class="btn-link" type="button" data-show="scr-099" data-fin="home"></button>
           </div>
+          <div><button class="btn-link" type="button" data-pc-print data-fin="print"></button></div>
         </div>
         <figure class="cover-art"><img src="assets/img/scene-embrace-kneeling-dark.png" width="557" height="782" alt="A parent kneels and hugs their child. Both are smiling with their eyes closed."></figure>
       </div>
@@ -1088,9 +1107,19 @@
   </div>
 
   <div class="card">
+    <h3>Words for a hard moment</h3>
+    <p>Twenty-one short lines, grouped by the five Act moves, for when you need something to say right now.</p>
+    <div class="row">
+      <button class="btn btn-quiet" id="panelPhrases" type="button">Open the phrase cards</button>
+    </div>
+  </div>
+
+  <div class="card">
     <h3>What the words mean</h3>
     <p>Ten words your child&rsquo;s school uses, each paired with a phrase you can actually say.</p>
-    <p class="note">The glossary opens from here once the practice section is built.</p>
+    <div class="row">
+      <button class="btn btn-quiet" id="glossOpen" type="button">Open the glossary</button>
+    </div>
   </div>
 
   <div class="card">
@@ -1103,6 +1132,12 @@
     <p>Everything here is about teaching a skill over time. It is not about leaving a child unprotected in the moment. If someone is being hurt you stop it first, physically if you have to, and the teaching happens afterward, when everybody is calm.</p>
   </div>
 
+  <div class="gl" id="panelGloss" data-title="What the words mean" hidden>
+    <button class="btn-link gl-back" type="button" data-gl-back>&larr; About &amp; reference</button>
+    <p class="gl-lede">The words your child&rsquo;s school uses, in plain English first, each with something you can say.</p>
+    <div class="gl-list" data-gl-list></div>
+  </div>
+
   <div class="panel-foot">
     <p class="keys">Press <strong>?</strong> for this panel. Press <strong>R</strong> for words to try, once you are practicing.</p>
     <p class="disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.</p>
@@ -1110,21 +1145,25 @@
   </div>
 </div>
 
-<script src="content/strings.js?v=20260930f"></script>
-<script src="content/principles.js?v=20260930f"></script>
-<script src="content/quiz.js?v=20260930f"></script>
-<script src="content/safety.js?v=20260930f"></script>
-<script src="content/scenarios.js?v=20260930f"></script>
-<script src="content/bookend.js?v=20260930f"></script>
-<script src="js/board.js?v=20260930f"></script>
-<script src="js/state.js?v=20260930f"></script>
-<script src="js/haptics.js?v=20260930f"></script>
-<script src="js/fx.js?v=20260930f"></script>
-<script src="js/principles.js?v=20260930f"></script>
-<script src="js/safety.js?v=20260930f"></script>
-<script src="js/matcher.js?v=20260930f"></script>
-<script src="js/quiz.js?v=20260930f"></script>
-<script src="js/roleplay.js?v=20260930f"></script>
-<script src="js/app.js?v=20260930f"></script>
+<script src="content/strings.js?v=20261001c"></script>
+<script src="content/principles.js?v=20261001c"></script>
+<script src="content/quiz.js?v=20261001c"></script>
+<script src="content/safety.js?v=20261001c"></script>
+<script src="content/scenarios.js?v=20261001c"></script>
+<script src="content/bookend.js?v=20261001c"></script>
+<script src="content/phrases.js?v=20261001c"></script>
+<script src="content/glossary.js?v=20261001c"></script>
+<script src="js/board.js?v=20261001c"></script>
+<script src="js/state.js?v=20261001c"></script>
+<script src="js/haptics.js?v=20261001c"></script>
+<script src="js/fx.js?v=20261001c"></script>
+<script src="js/principles.js?v=20261001c"></script>
+<script src="js/safety.js?v=20261001c"></script>
+<script src="js/matcher.js?v=20261001c"></script>
+<script src="js/quiz.js?v=20261001c"></script>
+<script src="js/roleplay.js?v=20261001c"></script>
+<script src="js/app.js?v=20261001c"></script>
+<script src="js/phrases.js?v=20261001c"></script>
+<script src="js/glossary.js?v=20261001c"></script>
 </body>
 </html>

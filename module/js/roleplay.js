@@ -634,7 +634,15 @@
       var token = run;
       /* Her last reply is her reaction to your last line, so it stays up long
          enough to read before the result replaces the scene. */
-      setTimeout(function () { if (run === token) paintResult(band, cap, copy, variant); }, 2800);
+      /* 1 Oct (Marc): a bar under her last reply, so the wait reads as the
+         Coach reading the scene, not a stall. Same 2.8s. */
+      var think = el('div', 'rp-think');
+      think.setAttribute('role', 'status');
+      think.appendChild(el('p', 'rp-think-t', (window.CDAH_STRINGS || {}).coachThinking || 'The Coach is looking over your conversation\u2026'));
+      var bar = el('div', 'rp-think-bar'); bar.appendChild(el('i'));
+      think.appendChild(bar);
+      setTimeout(function () { if (run !== token) return; log.appendChild(think); toBottom(); }, 500);
+      setTimeout(function () { think.remove(); if (run === token) paintResult(band, cap, copy, variant); }, 2800);
     }
 
     function paintResult(band, cap, copy, variant) {

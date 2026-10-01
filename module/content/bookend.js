@@ -9,9 +9,9 @@
    breaks   composure only: what BREAKS it (threats, labels, counting), and
             so does shouting (a word of three+ capitals, or "!!").
 
-   NOTE, for Marc: `analysis` is empty on purpose — it is the line under the
-   rows, the part that reads most like judgment, and it is yours to write.
-   While it is empty the screen shows the rows alone. Everything marked NEW
+   NOTE, for Marc: `analysis` is the line under the rows, the part that reads
+   most like judgment. Claude drafted all three on 1 Oct; Marc approved them
+   as written the same day. Empty any one to hide it. Everything marked NEW
    is Claude's draft. */
 
 window.CDAH_BOOKEND = {
@@ -33,7 +33,13 @@ window.CDAH_BOOKEND = {
 
   /* Marc's wording. Keyed by how many of the five moves the new answer
      uses; any key left empty shows nothing. */
-  analysis: { all: '', some: '', none: '' },
+  /* NEW 1 Oct, Claude's drafts for Marc. The count is the Scene 3 answer
+     only: Composure counts as used unless something broke it. */
+  analysis: {
+    all:  'All four, on the same morning you started with. The words didn\u2019t change much. The order did: calm first, then the feeling, then the limit, then a way through it.',
+    some: 'Some of the moves made it in. The ones marked Not used are the ones to reach for first next time, and the phrase cards have a line for each.',
+    none: 'None of the moves showed up this time. That\u2019s worth knowing, not worrying about: a school morning is the hardest place to practice. Try Scene 3 again, or start with one line from the phrase cards.'
+  },
 
   moves: [
     { id: 'composure', name: 'Composure',
@@ -65,8 +71,9 @@ window.CDAH_BOOKEND = {
     eyebrow: 'The end of the module',                                   // NEW
     title: 'That\u2019s the whole thing.',                              // NEW
     body: 'Everything you wrote stays on this device. Come back to any part of it the next time a morning goes sideways.', // NEW
-    home: 'Back to the title',
+    home: 'Or go back to the title screen \u2192',   // NEW 1 Oct: Start over is the button, and it goes to the Cover
     again: 'Start over',
+    print: 'Print the phrase cards',                                    // NEW 1 Oct
     againArmed: 'Tap again to clear everything'
   }
 };

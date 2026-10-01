@@ -197,7 +197,7 @@ window.CDAH_SCENES = {
     words: [
       { what: 'Name the feeling', say: 'You were hoping it\u2019d be Grandma today. That\u2019s a big disappointment.' },
       { what: 'State the limit',  say: 'I won\u2019t let you kick my seat. I need to drive us home safely.' },
-      { what: 'Give two options',  say: 'You can stomp on the floor mat or squeeze Bunny. You pick.' }
+      { what: 'Give two options',  say: 'You can stomp on you seat or squeeze your Bun-Bun. You pick.' }
     ],
 
     replies: {
@@ -224,7 +224,7 @@ window.CDAH_SCENES = {
       '2:choicesOnly': { child: 'I pick\u2026 stomping. On your seat!',
                          again: 'Squeezing your seat with my feet!',
                          note: 'Choices without the limit said out loud turn into a loophole.' },
-      '2:both':        { child: '(stomps the floor mat, hard, three times) \u2026Can we get fruit snacks?',
+      '2:both':        { child: '(stomps her own seat, hard, three times) \u2026Can we get fruit snacks?',
                          note: 'A limit that keeps you both safe, and two places for the feeling to go. She stopped, and she didn\u2019t lose.' },
       '0:still':       { child: '(she screams and kicks with both feet)',
                          again: '(she buries her face in her backpack)',
@@ -237,7 +237,7 @@ window.CDAH_SCENES = {
       strong:    { head: 'It wasn\u2019t about you, and you knew it',
                    body: 'You heard the disappointment under the words, kept her feet still with a limit that\u2019s about everyone\u2019s safety, and gave the feeling somewhere to go \u2014 without taking \u201cnot you\u201d personally.' },
       cards:     { head: 'It wasn\u2019t about you, and you knew it',
-                   coach: 'Those were my words, and they worked. Now try it again in your own \u2014 yours are the ones you\u2019ll have in the pickup line.' },
+                   coach: 'Those were my words, and they worked. Now try it again in your own.' },
       nearly:    { head: 'You stayed with her' },
       notyet:    { head: 'She\u2019s still kicking',
                    body: 'The scene ended with her still stuck. Start with the first row below that isn\u2019t ticked \u2014 the others build on it.' },
@@ -345,7 +345,7 @@ window.CDAH_SCENES = {
       strong:    { head: 'Out the door, and nobody lost',
                    body: 'You named the feeling, said the limit plainly, and gave her two ways in \u2014 with the bus coming, and without your voice going up.' },
       cards:     { head: 'Out the door, and nobody lost',
-                   coach: 'Those were my words, and they worked. Now try it again in your own \u2014 yours are the ones you\u2019ll have at 7:40 tomorrow.' },
+                   coach: 'Those were my words, and they worked. Now try it again in your own.' },
       nearly:    { head: 'You stayed with her' },
       notyet:    { head: 'She\u2019s still on the rug',
                    body: 'The scene ended with her still stuck. Start with the first row below that isn\u2019t ticked \u2014 the others build on it.' },
