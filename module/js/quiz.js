@@ -23,6 +23,8 @@
   if (!DATA || !M) return;
 
   var sections = document.querySelectorAll('[data-quiz]');
+  /* The module's Back asks these first (js/app.js back()). */
+  var hooks = window.CDAH_BACK_HOOKS = window.CDAH_BACK_HOOKS || [];
 
   function build(section) {
     var id = section.getAttribute('data-quiz');
@@ -52,7 +54,13 @@
     var saved = (S.get().answers || {})[id];
     if (field && typeof saved === 'string') field.value = saved;
 
-    function showAsk(focus) {
+    /* Draft 2 (Marc): Back on a result (the footer, the arrow key, the
+       browser) goes to the question, like "Back to the question". The result
+       is pushed as its own history entry so the browser's Back pops it. */
+    var pushed = false;
+    function showAsk(focus, fromPop) {
+      if (pushed && !fromPop && !result.hidden) { pushed = false; history.back(); }
+      pushed = false;
       result.hidden = true;
       if (safety) safety.hidden = true;
       ask.hidden = false;
@@ -62,6 +70,7 @@
     function showResult() {
       ask.hidden = true;
       result.hidden = false;
+      if (!pushed) { history.pushState({ qz: id }, '', location.href); pushed = true; }
       var h = result.querySelector('[data-qz-head]');
       if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
     }
@@ -143,7 +152,7 @@
       var pracT = result.querySelector('[data-qz-practice-t]');
       /* Only asked for on Not yet, so a line is handed out on a real miss
          and not spent on a Strong the parent never sees it on. */
-      var line = res.band === 'notyet'
+      var line = (res.band === 'notyet' && res.nth >= 2)
         ? (S.coachLine(id, window.CDAH_COACH_LINES) || item.practice || '') : '';
       if (prac && pracT) {
         pracT.textContent = line;
@@ -189,6 +198,7 @@
       /* Best stands — state.answer only raises a band, never lowers it, so a
          retake can never cost a parent the reading they already earned. */
       S.answer(id, text, res.band);
+      res.nth = res.band === 'notyet' ? S.notYet() : S.notYets();
       paint(res, text);
       showResult();
       moveAnswer(from);
@@ -208,9 +218,15 @@
       var dy = from.top - to.top;
       if (Math.abs(dy) < 4) return;
       var others = [];
+      /* The desktop grid flattens .qz-fb (display:contents), which can't
+         take an opacity, so its children fade instead. */
+      var kids = [];
       for (var k = 0; k < result.children.length; k++) {
         var ch = result.children[k];
-        if (!ch.contains(wrote) && !ch.hidden) others.push(ch);
+        if (getComputedStyle(ch).display === 'contents') kids.push.apply(kids, ch.children); else kids.push(ch);
+      }
+      for (var k2 = 0; k2 < kids.length; k2++) {
+        if (!kids[k2].contains(wrote) && !kids[k2].hidden) others.push(kids[k2]);
       }
       wrote.style.transition = 'none';
       wrote.style.transform = 'translateY(' + dy + 'px)';
@@ -265,6 +281,16 @@
     var again = result && result.querySelector('[data-qz-again]');
     if (again) again.addEventListener('click', function () { showAsk(true); });
 
+    window.addEventListener('popstate', function (e) {
+      if (section.hidden || result.hidden) { pushed = false; return; }
+      if (!(e.state && e.state.qz === id)) showAsk(true, true);
+    });
+    hooks.push(function () {
+      if (section.hidden || result.hidden) return false;
+      showAsk(true);
+      return true;
+    });
+
     /* "I think my answer covered this" — the only protection against a right
        answer no phrase list anticipated, and it is not a negotiation: the
        parent says it covered the point and the module takes their word,
@@ -295,6 +321,7 @@
        write — the exact thing a fresh start is for. */
     document.addEventListener('cdah:restart', function () {
       if (field) field.value = '';
+      pushed = false;
       showAsk(false);
     });
 

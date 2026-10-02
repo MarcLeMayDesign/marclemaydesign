@@ -144,15 +144,20 @@ window.CDAH_QUIZ = {
                  'hug', 'breathe with him', 'then the limit', 'then state the limit',
                  'limit after', 'before the limit', 'not ready', 'survival', 'emotional state',
                  'calm him', 'help him calm', 'once he calms'],
-        hit: 'You dealt with him before any rule or consequence',
-        miss: 'What comes before a consequence stayed out of the answer'
+        /* Draft 2 pass 2 (Marc: the old miss line didn't connect to Learn). What it
+           listens for: that you'd connect with him first (get down, name the
+           feeling, breathe with him), or that a consequence can't reach him yet. */
+        hit: 'You connected with him before any limit or consequence',   // NEW
+        miss: 'You didn\u2019t say how you\u2019d connect with him before any limit or consequence'   // NEW
       }
     ],
 
     coach: {
       all: {
         head: 'You separated the two things',
-        body: 'Being watched is the hardest part of this one, and you named it.'
+        /* Draft 2 pass 2 (Marc): the old line said "you named" being watched,
+           which most Strong answers don't. This is true of every Strong. */
+        body: 'You started with your own state. With someone watching, that\u2019s the hardest part of this one.'   // NEW
       },
       missB: {
         head: 'You read him accurately',
@@ -294,10 +299,12 @@ window.CDAH_QUIZ = {
     draws: ['state before skill (adult)', 'discipline is teaching'],
     where: 'After you snapped',
     setup: 'After a long day you snapped at your daughter and said something you regret \u2014 &ldquo;why can\u2019t you just be good for once?&rdquo; She went quiet and went to her room. An hour later you\u2019re still turning it over.',
-    ask: 'What would you do now, and what does the moment tell you about what happened earlier?',
+    /* Draft 2 pass 2 (Marc): the prompt now asks for all three things the
+       answer is read for, in the criteria's order (A, B, C). */
+    ask: 'What happened earlier, what would you do now, and what could she learn from how you put it right?',   // NEW
     say: {
       lead: 'At her door, without waiting for her to come out to you:',
-      line: 'What I said was not true and it was not fair. I was worn out, and that was not your fault.'
+      line: 'What I said was not true and it was not fair. I was worn out, and that was not your fault. When I get it wrong, I come back and fix it.'   // NEW: last sentence, so the line shows what she learns
     },
     practice: 'You will not always get to this in the moment. Noticing it an hour later still counts.',
     criteria: [
@@ -336,7 +343,9 @@ window.CDAH_QUIZ = {
                     repair modeled, even when the word "teach" never appears. */
                  'work on', 'do better', 'next time', 'ill try', 'try to', 'mistake', 'mistakes',
                  'own my', 'owning', 'responsibility', 'example', 'grown ups', 'adults make',
-                 'everyone makes', 'wasnt fair to her', 'wasnt fair to him', 'it wasnt fair'],
+                 'everyone makes', 'wasnt fair to her', 'wasnt fair to him', 'it wasnt fair',
+                 /* Draft 2 pass 2 (Marc's answer): owning it out loud. */
+                 'was wrong', 'on me', 'not on you', 'my bad', 'i shouldnt have', 'shouldnt have said'],
         hit: 'You owned it in a way she can learn from',
         miss: 'What she learns from the repair stayed out of the answer' }
     ],

@@ -1926,3 +1926,21 @@ button,input,textarea,select{font-family:inherit}
 .ref-q{display:inline-flex;align-items:center;justify-content:center;width:1.3em;height:1.3em;border-radius:50%;border:1.5px solid currentColor;font-size:.8em;font-weight:600;vertical-align:.08em;line-height:1}
 .say-touch{display:none}
 @media (hover:none) and (pointer:coarse){.say-touch{display:inline}.say-fine{display:none}}
+/* Draft 2 pass 2 (Marc) */
+.code-mail{margin-top:2px}
+.app:has(#scr-500:not([hidden])) .mod-foot{display:none}
+.pc-back{align-self:flex-start;margin-bottom:-8px}
+#baselineKeep[aria-disabled="true"]{cursor:default}
+/* TYK result, desktop: verdict, answer and rows in a narrower column, the Coach large at top right,
+   the top of his cap level with the top of the title's capitals. Below the rows everything runs full width. */
+@media (min-width:1000px){
+  .qz-result{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:56px;row-gap:20px;align-items:start}
+  .qz-result > *{grid-column:1 / -1}
+  .qz-result > .qz-fb{display:contents}
+  .qz-result .qz-verdict,.qz-result > .qz-block,.qz-result > .qz-rows{grid-column:1}
+  .qz-result .qz-verdict{grid-row:1}
+  .qz-result > .qz-block{grid-row:2}
+  .qz-result > .qz-rows{grid-row:3}
+  .qz-result .qz-fb .rp-pose{grid-column:2;grid-row:1 / span 3;width:300px;height:450px;margin-top:-10px;align-self:start}
+  .qz-result .qz-fb .rp-pose > img{object-position:center top}
+}

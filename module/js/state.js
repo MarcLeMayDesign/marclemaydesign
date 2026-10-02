@@ -112,6 +112,16 @@
       write();
     },
 
+    /* Draft 2 (Marc): the Coach Says box waits until a parent has had more
+       than one Not yet (quiz and Try It Out together). Counts every Not yet
+       received; returns the new total. */
+    notYet: function () {
+      state.notYets = (state.notYets || 0) + 1;
+      write();
+      return state.notYets;
+    },
+    notYets: function () { return state.notYets || 0; },
+
     /* The coach line for one item. First ask assigns the next line in the
        list and remembers it; every later ask returns the same one. */
     coachLine: function (itemId, lines) {

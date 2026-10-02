@@ -138,7 +138,8 @@
     if (opts && opts.fx) return opts.fx;
     if (!from || from === to) return 'normal';
     var f = from.id, t = to.id;
-    if (t === 'scr-099') return (f === 'scr-000' || f === 'scr-100' || f === 'scr-101' || f === 'scr-400' || f === 'scr-130' || f === 'scr-209') ? 'big' : 'normal';
+    if (t === 'scr-099' && (f === 'scr-100' || f === 'scr-101')) return 'grand';
+    if (t === 'scr-099') return (f === 'scr-000' || f === 'scr-400' || f === 'scr-130' || f === 'scr-209') ? 'big' : 'normal';
     if (f === 'scr-110' && t === 'scr-200') return 'big';
     /* Moderately big (Marc, 2 Oct): phrase cards in and out, the opening screens, a section's last screen → its close. */
     if (f === 'scr-500' || t === 'scr-500') return 'half';
@@ -319,6 +320,8 @@
      hashchange below lands the screen. Arriving cold (a reload, a shared
      link), there is no trail yet, so it falls back to the previous screen. */
   function back() {
+    var hk = window.CDAH_BACK_HOOKS || [];
+    for (var b = 0; b < hk.length; b++) if (hk[b]()) return;
     if (trail.length > 1) history.back();
     else go(-1);
   }
@@ -332,6 +335,9 @@
   });
 
   btnBack.addEventListener('click', back);
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('[data-pc-back]')) { H.tap(); back(); }
+  });
   btnNext.addEventListener('click', function () { go(1); });
 
   window.addEventListener('hashchange', function () {
@@ -760,10 +766,17 @@
      and the skip door steps aside, so the way on is unmistakable. */
   var goBtn = document.getElementById('baselineGo');
   var skipW = document.getElementById('skipWrap');
+  /* Draft 2 pass 2 (Marc): the button itself says "Kept" and stops working
+     until the text changes, rather than a "Kept." note beside it. */
   function paintKept(on) {
     if (goBtn) goBtn.hidden = !on;
     if (skipW) skipW.hidden = on;
-    if (keep) keep.className = on ? 'btn btn-quiet' : 'btn';
+    if (keep) {
+      keep.className = on ? 'btn btn-quiet' : 'btn';
+      keep.textContent = on ? 'Kept' : 'Keep this';
+      if (on) keep.setAttribute('aria-disabled', 'true'); else keep.removeAttribute('aria-disabled');
+    }
+    if (note && on) note.textContent = '';
   }
 
   function saved() {
@@ -785,19 +798,23 @@
 
   if (field) {
     field.value = saved();
-    if (note && field.value) note.textContent = 'Kept.';
     paintKept(!!field.value && field.value === saved());
     field.addEventListener('input', function () {
       /* The confirmation is about the stored sentence, so it clears the
          moment the box stops matching what is stored. */
       var same = field.value === saved() && !!field.value;
-      if (note) note.textContent = same ? 'Kept.' : '';
+      if (note) note.textContent = '';
       paintKept(same);
+    });
+    /* Cmd/Ctrl+Return keeps it, as on the quiz. A bare Return is a new line. */
+    field.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey) && keep) { e.preventDefault(); keep.click(); }
     });
   }
 
   if (keep && field) {
     keep.addEventListener('click', function () {
+      if (keep.getAttribute('aria-disabled') === 'true') return;
       var text = field.value.replace(/\s+$/, '');
       if (!text) { if (note) note.textContent = 'Nothing to keep yet.'; field.focus(); return; }
       /* The baseline is where a parent is most likely to write something
@@ -813,7 +830,6 @@
       if (bSafe) bSafe.hidden = true;
       S.answer('baseline', text);
       H.tap();
-      if (note) note.textContent = 'Kept.';
       paintKept(true);
       paintReadback();
       if (goBtn) goBtn.focus();

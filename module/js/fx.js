@@ -74,53 +74,65 @@
     return k.slice(0, 8);
   }
 
-  function veil(stage, color, k) {
+  function veil(stage, color, k, dur) {
     if (!stage || !color) return;
     var r = stage.getBoundingClientRect();
     var v = document.createElement('div');
     v.setAttribute('aria-hidden', 'true');
     v.style.cssText = 'position:fixed;pointer-events:none;z-index:40;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;background:' + color;
     document.body.appendChild(v);
-    var a = v.animate([{ opacity: k < 1 ? .6 : 1 }, { opacity: 0 }], { duration: k < 1 ? 260 : 380, easing: 'ease-out', fill: 'forwards' });
+    var a = v.animate([{ opacity: k < 1 ? .6 : 1 }, { opacity: 0 }], { duration: k < 1 ? 260 : (dur || 380), easing: 'ease-out', fill: 'forwards' });
     a.onfinish = a.oncancel = function () { v.remove(); };
   }
 
-  /* opts: { weight: 'normal'|'half'|'big', stage, ground }.
-     Revised 2 Oct [MARC]: normal was "a little too much" in Learn, so its
-     distances are halved. 'half' is big at half strength, for the header's
-     way back to the title. Which moves are big is decided in app.js. */
+  /* opts: { weight: 'normal'|'half'|'big'|'grand', stage, ground }.
+     Revised 2 Oct [MARC]: normal halved ("a little too much" in Learn);
+     'half' is big at half strength; 'grand' is big, slower and a little
+     further, for the opening into the title. Which moves get which is
+     decided in app.js (moveWeight).
+     Second pass [MARC]: figures on SCR-110/200/300 "bounced awkwardly and
+     abruptly." Two causes: the figure was also one of the staggered blocks,
+     so two animations fought over it, and it used the overshoot curve. Now
+     a figure is never also a block, and it glides in on a plain ease-out. */
   function enter(el, opts) {
     for (var r = 0; r < running.length; r++) running[r].cancel();
     running = [];
     if (!el || reduced() || !el.animate) return;
     var w = (opts && opts.weight) || 'normal';
-    var big = w !== 'normal', k = w === 'half' ? .5 : 1;
-    var px = function (n) { return Math.round(n * k) + 'px'; };
+    var figs = figures(el);
+    var isFig = function (n) { for (var i = 0; i < figs.length; i++) if (figs[i] === n || n.contains(figs[i]) && n.children.length === 1) return true; return false; };
 
-    if (big && opts.ground) veil(opts.stage, opts.ground, k);
-
-    if (!big) {
+    if (w === 'normal') {
       anim(el, { t: '0 4px' }, 240);
-      figures(el).forEach(function (n, i) { anim(n, { t: '0 6px' }, 360, 60 + i * 60, SETTLE); });
+      figs.forEach(function (n, i) { anim(n, { t: '0 6px' }, 420, 60 + i * 60); });
       Array.prototype.forEach.call(el.querySelectorAll('.lens, .shift, .ct-row'), function (n, i) {
         if (seen(n)) anim(n, { t: '0 5px' }, 300, 60 + i * 35);
       });
       return;
     }
 
-    anim(el, { t: '0 ' + px(14) }, 420 - 100 * (1 - k));
-    blocks(el).forEach(function (n, i) { anim(n, { t: '0 ' + px(16) }, 480, (80 + i * 70) * k); });
-    figures(el).forEach(function (n, i) {
-      anim(n, { t: '0 ' + px(26), s: 1 - .03 * k }, 640 - 160 * (1 - k), (200 + i * 90) * k, SETTLE);
+    var k = w === 'half' ? .5 : w === 'grand' ? 1.3 : 1;     /* distance */
+    var d = w === 'grand' ? 1.6 : 1;                          /* time */
+    var px = function (n) { return Math.round(n * k) + 'px'; };
+    var ms = function (n) { return Math.round(n * d); };
+    var lag = function (n) { return Math.round(n * d * (w === 'half' ? .5 : 1)); };
+
+    if (opts.ground) veil(opts.stage, opts.ground, w === 'half' ? .5 : 1, ms(380));
+    anim(el, { t: '0 ' + px(14) }, ms(w === 'half' ? 320 : 420));
+    blocks(el).forEach(function (n, i) {
+      if (!isFig(n)) anim(n, { t: '0 ' + px(16) }, ms(480), lag(80 + i * 70));
+    });
+    figs.forEach(function (n, i) {
+      anim(n, { t: '0 ' + px(18) }, ms(w === 'half' ? 520 : 760), lag(180 + i * 90), 'cubic-bezier(.22,.61,.36,1)');
     });
     Array.prototype.forEach.call(el.querySelectorAll('.lens.cast'), function (n, i) {
       if (!seen(n)) return;
-      anim(n, { t: px(-22) + ' 0' }, 520, (180 + i * 85) * k);
+      anim(n, { t: px(-22) + ' 0' }, ms(520), lag(180 + i * 85));
       var img = n.querySelector('.cast-pic img');
-      if (img) anim(img, { t: '0 ' + px(34) }, 620, (320 + i * 85) * k, SETTLE);
+      if (img) anim(img, { t: '0 ' + px(34) }, ms(620), lag(320 + i * 85), SETTLE);
     });
     Array.prototype.forEach.call(el.querySelectorAll('.lens:not(.cast), .shift, .ct-row'), function (n, i) {
-      if (seen(n)) anim(n, { t: '0 ' + px(10) }, 360, (260 + i * 55) * k);
+      if (seen(n)) anim(n, { t: '0 ' + px(10) }, ms(360), lag(260 + i * 55));
     });
   }
 

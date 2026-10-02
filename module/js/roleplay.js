@@ -33,6 +33,17 @@
     return false;
   }
 
+  /* Where in the line the first phrase from a list starts, or -1. */
+  function hitAt(hay, list) {
+    var best = -1;
+    for (var i = 0; i < list.length; i++) {
+      var p = M.prep(list[i]).trim();
+      var at = p ? hay.indexOf(' ' + p + ' ') : -1;
+      if (at !== -1 && (best === -1 || at < best)) best = at;
+    }
+    return best;
+  }
+
   function hitAny(hay, list) {
     for (var i = 0; i < list.length; i++) {
       var p = M.prep(list[i]).trim();
@@ -51,11 +62,13 @@
   function score(scene, raw) {
     var hay = M.stem(strip(M.normalize(raw)));
     var c = scene.criteria;
+    var at = { connect: hitAt(hay, c.connect.accept), limit: hitAt(hay, c.limit.accept), choices: hitAt(hay, c.choices.accept) };
     return {
       fail: shouting(raw) || hitAny(hay, c.composure.breaks),
-      connect: hitAny(hay, c.connect.accept),
-      limit: hitAny(hay, c.limit.accept),
-      choices: hitAny(hay, c.choices.accept),
+      connect: at.connect !== -1,
+      limit: at.limit !== -1,
+      choices: at.choices !== -1,
+      at: at,
       words: raw.trim().split(/\s+/).length
     };
   }
@@ -63,10 +76,18 @@
   /* The state machine, as a lookup. Connection before correction is
      enforced here: at the emotional level a limit, even with choices,
      does not move her until she has felt heard. */
-  function step(level, h, run) {
+  function step(level, h, run, scene) {
     if (h.fail) return { to: Math.max(0, level - 1), key: 'fail' };
     if (level === 0) return (h.connect || h.words <= 10) ? { to: 1, key: 'calm' } : { to: 0, key: 'still' };
     if (level === 1) {
+      /* Draft 2 pass 2 (Marc, SCN-302): one line that names the feeling and
+         THEN gives the limit and the choices is the order Learn teaches, said
+         in one breath. The feeling comes first in the line, so she has heard
+         it before the rest arrives: it counts, and she can stop. A limit
+         said before the feeling still has to wait (except a safety limit). */
+      if (h.connect && h.choices && h.at.choices > h.at.connect &&
+          ((h.limit && (h.at.limit > h.at.connect || scene.limitAnytime)) || run.limit))
+        return { to: 3, key: 'both', reply: '2:both', inOrder: true };
       if (h.connect) return { to: 2, key: 'connect' };
       if (h.limit) return { to: 1, key: 'limitOnly' };
       return { to: 1, key: 'none' };
@@ -510,8 +531,8 @@
       /* A limit or choices said before she has felt heard don't land, so
          they don't count yet: that row reads "said too early" rather than a
          tick. This keeps the rows and the band telling the same story. */
-      var ready = run.level >= 2;
-      var s = step(run.level, h, run);
+      var s = step(run.level, h, run, scene);
+      var ready = run.level >= 2 || !!s.inOrder;
       if (h.fail) run.fail = true;
       else {
         if (h.connect) run.connect = true;
@@ -520,7 +541,7 @@
         if (h.limit) { if (ready || scene.limitAnytime) run.limit = true; else run.limitEarly = true; }
         if (h.choices) { if (ready) run.choices = true; else run.choicesEarly = true; }
       }
-      var rk = run.level + ':' + s.key;
+      var rk = s.reply || (run.level + ':' + s.key);
       var r = scene.replies[rk] || {};
       /* The same state twice in a row would repeat her line word for word,
          which reads as a glitch. The second time she uses the 'again' line. */
@@ -568,6 +589,15 @@
         if (run.turns === scene.maxTurns - 1 && scene.lastPrompt) field.placeholder = scene.lastPrompt;
         /* Pose and position change together: one gesture, not two. */
         if (rail) rail.to(String(run.level));
+        /* Draft 2 (Marc, after the shake was dropped): on a drop, the new
+           pose sinks into place as it fades in, so the drop reads in her
+           body rather than in the screen. 8px, heavy ease-in; desktop rail
+           only (the phone shows her face in the bubble). */
+        if (run.level < fromLevel && railEl && railEl.offsetParent && !(FX && FX.reduced())) {
+          var sunk = railEl.querySelector('[data-xfade="' + run.level + '"]');
+          if (sunk && sunk.animate && window.CSS && CSS.supports('translate', '0 1px'))
+            sunk.animate([{ translate: '0 -8px' }, { translate: '0 0' }], { duration: 420, easing: 'cubic-bezier(.5,0,.75,0)' });
+        }
         place();
         toBottom();
         busy = false; syncSay();
@@ -629,6 +659,7 @@
       var copy = cap ? scene.results.composure : scene.results[variant];
 
       S.answer(id, run.lines.join('\n'), band);
+      run.nth = band === 'notyet' ? S.notYet() : S.notYets();
 
       /* Let the last reply land before the result replaces the scene. */
       var token = run;
@@ -718,7 +749,7 @@
       if (coach && ct) {
         /* Same list as the quiz, same pick-in-order rule. The line is handed
            out on the first Not yet here and kept for this scene. */
-        var line = band === 'notyet' ? S.coachLine(id, window.CDAH_COACH_LINES) : '';
+        var line = (band === 'notyet' && run.nth >= 2) ? S.coachLine(id, window.CDAH_COACH_LINES) : '';
         ct.textContent = line;
         coach.hidden = !line;
       }
