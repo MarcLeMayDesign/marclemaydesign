@@ -48,8 +48,33 @@
     return s;
   }
 
+  /* Draft 2 (2 Oct). Light stemming, applied to both the answer and every
+     list phrase, so "calmer", "calming" and "calmed" all meet "calm", and
+     "feelings" meets "feeling". Up to two suffixes off a word of five
+     letters or more, never leaving fewer than three. It is crude on purpose:
+     because both sides get the same treatment, an odd stem ("shoes" ->
+     "sho") still matches itself. Marc's Draft 1 answers missed on exactly
+     this ("he was calmer", "we had to go"). */
+  var SUFFIX = ['ing', 'ed', 'er', 'es', 'ly', 's'];
+  function stemWord(w) {
+    for (var pass = 0; pass < 2; pass++) {
+      if (w.length < 5) break;
+      var cut = false;
+      for (var i = 0; i < SUFFIX.length; i++) {
+        var sx = SUFFIX[i];
+        if (w.length - sx.length >= 3 && w.slice(-sx.length) === sx) { w = w.slice(0, -sx.length); cut = true; break; }
+      }
+      if (!cut) break;
+    }
+    return w;
+  }
+  function stem(padded) {
+    return ' ' + padded.trim().split(' ').map(stemWord).join(' ') + ' ';
+  }
+  function prep(text) { return stem(normalize(text)); }
+
   function contains(haystack, phrase) {
-    var p = ' ' + normalize(phrase).trim() + ' ';
+    var p = ' ' + prep(phrase).trim() + ' ';
     return haystack.indexOf(p) !== -1;
   }
 
@@ -91,7 +116,7 @@
   }
 
   function score(item, text) {
-    var hay = normalize(text);
+    var hay = prep(text);
     var results = [];
     var missed = 0;
     var crits = item.criteria || [];
@@ -169,13 +194,15 @@
     nonsense: nonsense,
     huh: huh,
     normalize: normalize,
+    stem: stem,
+    prep: prep,
     /* Exposed for package E: after a session, paste a parent's exact wording
        in the console against a criterion and see whether it would have
        passed, without loading the whole screen. */
     test: function (item, critId, text) {
       var crits = (item && item.criteria) || [];
       for (var i = 0; i < crits.length; i++) {
-        if (crits[i].id === critId) return scoreCriterion(normalize(text), crits[i]);
+        if (crits[i].id === critId) return scoreCriterion(prep(text), crits[i]);
       }
       return null;
     },

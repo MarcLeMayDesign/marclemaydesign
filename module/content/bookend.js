@@ -73,7 +73,9 @@ window.CDAH_BOOKEND = {
     body: 'Everything you wrote stays on this device. Come back to any part of it the next time a morning goes sideways.', // NEW
     home: 'Or go back to the title screen \u2192',   // NEW 1 Oct: Start over is the button, and it goes to the Cover
     again: 'Start over',
-    print: 'Print the phrase cards',                                    // NEW 1 Oct
+    /* Draft 2 (Marc): goes to the phrase cards page, which has its own print
+       button. A bare print dialog from here didn't say what it would print. */
+    cards: 'See the words for a hard moment \u2192',                    // NEW 2 Oct
     againArmed: 'Tap again to clear everything'
   }
 };

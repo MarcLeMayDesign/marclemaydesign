@@ -35,7 +35,7 @@
 
   function hitAny(hay, list) {
     for (var i = 0; i < list.length; i++) {
-      var p = M.normalize(list[i]).trim();
+      var p = M.prep(list[i]).trim();
       if (p && hay.indexOf(' ' + p + ' ') !== -1) return true;
     }
     return false;
@@ -49,7 +49,7 @@
   }
 
   function score(scene, raw) {
-    var hay = strip(M.normalize(raw));
+    var hay = M.stem(strip(M.normalize(raw)));
     var c = scene.criteria;
     return {
       fail: shouting(raw) || hitAny(hay, c.composure.breaks),

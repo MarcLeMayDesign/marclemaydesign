@@ -16,7 +16,7 @@
 window.CDAH_PHRASES = {
   eyebrow: "For right now",
   title: "Words for a hard moment",
-  intro: "Start with yourself. Then pick one line from any group below. Nothing here is scored.",
+  intro: "Start with yourself. Then pick one line from any group below.",
   jump: "Go to",
   schoolK: "At school:",
   later: "When things are calmer, the module explains why these work.",
@@ -24,7 +24,7 @@ window.CDAH_PHRASES = {
   print: "Print the phrase cards",                                    // NEW 1 Oct
   printTitle: "Words for a hard moment",                              // NEW
   printNote: "Cut along the dashed lines. Keep one where the hard moments happen: the fridge, the car, by the front door.", // NEW
-  printFoot: "Conscious Discipline at Home \u00b7 An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.",
+  printFoot: "Conscious Discipline at Home \u00b7 An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.",
 
   moves: [
     { id: "composure", title: "Composure", note: "Say these to yourself, before you say anything to your child.",

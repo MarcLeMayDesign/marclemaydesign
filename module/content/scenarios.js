@@ -63,7 +63,11 @@ window.CDAH_SCENES = {
                  'put it away', 'its time', 'time for dinner', 'dinner time', 'dinners ready',
                  'finished for today', 'no more tablet', 'enough tablet', 'thats enough for today', 'tablet time is over', 'were stopping',
                  'we are stopping', 'stopping now', 'it has to stop', 'has to go off',
-                 'the tablet is going', 'need to stop', 'have to stop']
+                 'the tablet is going', 'need to stop', 'have to stop',
+                 /* Draft 2 (Marc: "your forty minutes are up"). */
+                 'are up', 'is up', 'minutes are up', 'time is over', 'all finished', 'done for today',
+                 'done now', 'off now', 'turn off', 'shut it off', 'tablet off', 'no more', 'stop now',
+                 'time to', 'were done', 'we are done', 'thats it for', 'thats enough']
       },
       choices: {
         accept: ['or you can', 'you pick', 'you choose', 'you can choose', 'which one',
@@ -107,7 +111,7 @@ window.CDAH_SCENES = {
       '2:choicesOnly': { child: 'Okay, I pick\u2026 five more minutes!',
                          again: 'I choose\u2026 not stopping!',  // NEW
                          note: 'Choices without the limit said out loud turn into a negotiation.' }, // NEW
-      '2:both':        { child: 'Fine. I\u2019m pausing it. Can I finish it after?',
+      '2:both':        { child: '(a big sigh) Fine. \u2026Can I finish it tomorrow?',  // NEW 2 Oct: no longer names a choice she may not have been given
                          note: 'Two real choices inside one limit, and she stopped.' },
       '0:still':       { child: '(she turns away from you)',
                          again: '(she pulls a cushion over her head)',  // NEW
@@ -224,7 +228,7 @@ window.CDAH_SCENES = {
       '2:choicesOnly': { child: 'I pick\u2026 stomping. On your seat!',
                          again: 'Squeezing your seat with my feet!',
                          note: 'Choices without the limit said out loud turn into a loophole.' },
-      '2:both':        { child: '(stomps her own seat, hard, three times) \u2026Can we get fruit snacks?',
+      '2:both':        { child: '(the kicking stops) \u2026Can we get fruit snacks?',  // NEW 2 Oct: as above
                          note: 'A limit that keeps you both safe, and two places for the feeling to go. She stopped kicking.' },
       '0:still':       { child: '(she screams and kicks with both feet)',
                          again: '(she buries her face in her backpack)',
@@ -332,7 +336,7 @@ window.CDAH_SCENES = {
       '2:choicesOnly': { child: 'I pick\u2026 no shoes!',
                          again: 'I choose socks!',
                          note: 'Choices without the limit said out loud turn into a negotiation.' },
-      '2:both':        { child: '(she holds out her foot) \u2026Can you do the left one loose?',
+      '2:both':        { child: '(she sniffs and holds out her foot) \u2026Okay. Help me?',  // NEW 2 Oct (Marc: "Loosen my left shoe" answered a choice he never offered)
                          note: 'One limit, two ways in. The shoes went on.' },
       '0:still':       { child: '(she lies flat on the rug)',
                          again: '(she covers her face with both arms)',

@@ -208,7 +208,8 @@
   /* TYK summary: one of the "parenting is hard" lines, kept per parent. */
   function paintSummary() {
     var t = document.querySelector('[data-sum-coach-t]');
-    if (t && window.CDAH_COACH_LINES) t.textContent = S.coachLine('tyk-summary', window.CDAH_COACH_LINES);
+    /* Draft 2 (Marc): one fixed line here, the least judgmental of the set. */
+    if (t) t.textContent = T.tykSummaryCoach || (window.CDAH_COACH_LINES ? S.coachLine('tyk-summary', window.CDAH_COACH_LINES) : '');
   }
 
   function paintLenses() {
@@ -237,6 +238,10 @@
             ? 'Assess is done. Act is next: five moves, about a minute each.'
             : (LEARN.length - a - c) + ' screens still to read, in either part.';
     }
+
+    /* Draft 2 (Marc): all read, a way on from the overview itself. */
+    var lensGo = document.getElementById('lensGo');
+    if (lensGo) lensGo.hidden = countRead(ASSESS) + countRead(ACT) !== LEARN.length;
 
     var closeGate = document.getElementById('closeGate');
     if (closeGate) {
@@ -413,6 +418,7 @@
   function closePanel() {
     if (panel.hidden) return;
     if (typeof disarm === 'function') disarm();
+    elCode.classList.remove('is-open');
     document.removeEventListener('keydown', trap, true);
     var done = function () { panelAnim = null; panel.hidden = true; scrim.hidden = true; };
     if (panelAnim) panelAnim.cancel();
@@ -429,6 +435,16 @@
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
+
+  /* Draft 2 (Marc): a click in the code box selects all of it, and the box
+     opens to show the whole string, so the highlight is visibly complete. */
+  function selectCode() {
+    elCode.classList.add('is-open');
+    var r = document.createRange(); r.selectNodeContents(elCode);
+    var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+  }
+  elCode.addEventListener('click', selectCode);
+  elCode.addEventListener('focus', function () { setTimeout(selectCode, 0); });
 
   btnAbout.addEventListener('click', openPanel);
   btnX.addEventListener('click', closePanel);
@@ -701,6 +717,15 @@
   var bSafe = document.getElementById('baselineSafety');
   var back  = document.getElementById('readback');
   var backT = document.getElementById('readbackText');
+  /* Draft 2 (Marc): once an answer is kept, Continue appears beside "Kept."
+     and the skip door steps aside, so the way on is unmistakable. */
+  var goBtn = document.getElementById('baselineGo');
+  var skipW = document.getElementById('skipWrap');
+  function paintKept(on) {
+    if (goBtn) goBtn.hidden = !on;
+    if (skipW) skipW.hidden = on;
+    if (keep) keep.className = on ? 'btn btn-quiet' : 'btn';
+  }
 
   function saved() {
     var a = S.get().answers;
@@ -722,10 +747,13 @@
   if (field) {
     field.value = saved();
     if (note && field.value) note.textContent = 'Kept.';
+    paintKept(!!field.value && field.value === saved());
     field.addEventListener('input', function () {
       /* The confirmation is about the stored sentence, so it clears the
          moment the box stops matching what is stored. */
-      if (note) note.textContent = (field.value === saved()) ? 'Kept.' : '';
+      var same = field.value === saved() && !!field.value;
+      if (note) note.textContent = same ? 'Kept.' : '';
+      paintKept(same);
     });
   }
 
@@ -747,7 +775,9 @@
       S.answer('baseline', text);
       H.tap();
       if (note) note.textContent = 'Kept.';
+      paintKept(true);
       paintReadback();
+      if (goBtn) goBtn.focus();
     });
   }
 
@@ -755,6 +785,7 @@
     if (field) field.value = '';
     if (note) note.textContent = '';
     if (bSafe) bSafe.hidden = true;
+    paintKept(false);
     paintReadback();
   });
 
@@ -826,7 +857,7 @@
       var s = D.list[+step];
       elK.textContent = s.part.toUpperCase();
       elH.innerHTML = s.name + (s.alias ? ' <span class="bs-alias">&middot; ' + s.alias + '</span>' : '');
-      elB.innerHTML = s.desc + ' ' + s[side][0];
+      elB.innerHTML = (s[side + 'Desc'] || s.desc) + ' ' + s[side][0];
       elAsk.innerHTML = s[side][1];
       elAskRow.hidden = false;
       if (elNeedRow) { elNeed.innerHTML = s[side][2] || ''; elNeedRow.hidden = !s[side][2]; }
@@ -972,7 +1003,7 @@
       surface: 'He hits his little brother, then says he didn\u2019t.',
       layers: [
         'Something felt unfair, and it came out of his body before any words got there.',
-        'He needs to know he is still the one you are glad to see, not only the older one.',
+        'He needs to know he is still loved, even when he has done something wrong.',  // 2 Oct (Marc)
         'He does not yet have a sentence for \u201Cthat was mine\u201D that actually works on a toddler.'
       ],
       upshot: 'Not \u201Csay sorry\u201D \u2014 but \u201Cwhat could you do instead of hitting next time?\u201D, once he is calm enough to answer it.'
@@ -1093,7 +1124,7 @@
     clear(); running = false;
     ring.removeAttribute('data-phase');
     btn.textContent = done ? 'Again' : 'Try one now, three breaths';
-    cap.textContent = done ? 'That\u2019s three. It works the same with her beside you.' : idle;
+    cap.textContent = done ? 'That\u2019s three. It works the same with your child beside you.' : idle;
   }
   function start() {
     clear(); running = true;
@@ -1139,9 +1170,9 @@
 
   function shouting(raw) { return /\b[A-Z]{3,}\b/.test(raw) || raw.indexOf('!!') !== -1; }
   function uses(raw) {
-    var hay = M.normalize(raw), out = {};
+    var hay = M.prep(raw), out = {};
     var any = function (list) {
-      for (var j = 0; j < (list || []).length; j++) if (hay.indexOf(' ' + M.normalize(list[j]).trim() + ' ') !== -1) return true;
+      for (var j = 0; j < (list || []).length; j++) if (hay.indexOf(' ' + M.prep(list[j]).trim() + ' ') !== -1) return true;
       return false;
     };
     B.moves.forEach(function (m) {

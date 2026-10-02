@@ -68,7 +68,8 @@
 window.CDAH_COACH_LINES = [
   'Don\u2019t forget, you\u2019re practicing here. Some days? This stuff just doesn\u2019t land. That\u2019s not about you, that\u2019s parenting. Keep at it, keep breathing, and be kind to yourself as well.',
   'You\u2019re building new muscles here. Some days, the method will fall flat, and that has nothing to do with your skills as a parent. Kids have off days, and so do we. Keep showing up, remember that composure always comes first, and turn that compassion back on yourself every time.',
-  'Remember, you\u2019re here to learn, not to prove anything. Parenting is messy and complex, and it\u2019s normal to feel overwhelmed, even angry. You\u2019re not always gonna get it right, but keep going, and be kind to yourself while you figure this out.',
+  /* Draft 2: "Remember, you're here to learn…" moved to strings.js
+     (tykSummaryCoach), fixed on SCR-209, so it isn't also dealt here. */
   'We have our bad days too. We get short-tempered, we get overwhelmed. Don\u2019t beat yourself up over that, that\u2019s just being a parent. When things don\u2019t work, try telling yourself \u2018Hey, it didn\u2019t work that time, but I\u2019m doing okay. I\u2019ll try again next time.\u2019 This is about learning, not hitting a target.',
   'When things don\u2019t seem to work, remember: you\u2019re not alone in this. Your child is hearing the same language, working through the same techniques, at school five days a week. The burden isn\u2019t all on you. You\u2019re part of a community now that puts empathy first, and that means being kind to yourself as well.'
 ];
@@ -134,9 +135,17 @@ window.CDAH_QUIZ = {
                  'wont get through', 'wouldnt get through', 'wont mean anything',
                  'wouldnt mean anything', 'wont matter', 'wouldnt matter',
                  'consequence wouldnt', 'wouldnt do anything', 'wont do anything',
-                 'wouldnt achieve', 'wont achieve', 'wouldnt teach'],
-        hit: 'You saw that a consequence would not land while he is shouting',
-        miss: 'You did not get to what a consequence would achieve right now'
+                 'wouldnt achieve', 'wont achieve', 'wouldnt teach',
+                 /* Draft 2: the Learn order counts. Connecting before any
+                    rule or consequence is the same idea, in the module's
+                    own words (Marc's Draft 1 answer). */
+                 'connect', 'connection', 'get down', 'his level', 'eye level', 'kneel',
+                 'name the feeling', 'name his feeling', 'naming', 'you really wanted',
+                 'hug', 'breathe with him', 'then the limit', 'then state the limit',
+                 'limit after', 'before the limit', 'not ready', 'survival', 'emotional state',
+                 'calm him', 'help him calm', 'once he calms'],
+        hit: 'You dealt with him before any rule or consequence',
+        miss: 'What comes before a consequence stayed out of the answer'
       }
     ],
 
@@ -168,6 +177,7 @@ window.CDAH_QUIZ = {
     status: 'Question 2 of 4',
     step: 2,
     draws: ['discipline is teaching', 'connection before correction'],
+    where: 'The apology',
     setup: 'Your daughter snatches a toy from her cousin and makes him cry. You tell her to say sorry. She mumbles it while looking at the floor, and two minutes later she does it again.',
     ask: 'Why didn\u2019t the apology work, and what would have taught her more?',
     say: {
@@ -179,20 +189,30 @@ window.CDAH_QUIZ = {
       { id: 'A',
         accept: ['how to ask', 'asking', 'taking turns', 'take turns', 'turn taking',
                  'waiting', 'wait', 'doesnt know what to do instead', 'what to do instead',
-                 'no other way', 'another way', 'skill', 'words for', 'the words'],
+                 'no other way', 'another way', 'skill', 'words for', 'the words',
+                 /* Draft 2: Learn's moves are a fair "what would teach her". */
+                 'options', 'two options', 'choices', 'alternative', 'alternate', 'instead',
+                 'teach her', 'show her how', 'practice', 'next time', 'a turn', 'her turn'],
         hit: 'You identified the skill she is missing',
         miss: 'The skill she is missing stayed unnamed' },
       { id: 'B',
         accept: ['just words', 'only words', 'doesnt mean it', 'didnt mean it',
                  'ends the moment', 'end the conversation', 'to get away',
                  'get out of it', 'forced', 'made her', 'didnt understand',
-                 'meaningless', 'empty', 'compliance', 'complied'],
-        hit: 'You saw the apology as compliance rather than learning',
-        miss: 'You didn\u2019t say what the apology itself taught her' },
+                 'meaningless', 'empty', 'compliance', 'complied',
+                 /* Draft 2: "it didn't work because I didn't connect" is the
+                    Learn answer to why, and it counts. */
+                 'didnt connect', 'no connection', 'connect first', 'connection', 'connect',
+                 'wasnt ready', 'not ready', 'still upset', 'upset', 'emotional state', 'survival',
+                 'feeling behind', 'feeling underneath', 'what she was feeling', 'her feeling',
+                 'acknowledge', 'didnt feel heard', 'not heard', 'to make it stop', 'make it end'],
+        hit: 'You said why the apology didn\u2019t change anything',
+        miss: 'Why the apology didn\u2019t work is missing from the answer' },
       { id: 'C',
         accept: ['what she wanted', 'name it', 'name what', 'then the rule',
                  'still not okay', 'still not ok', 'snatching isnt okay',
-                 'limit', 'both', 'first then', 'understood first'],
+                 'limit', 'both', 'first then', 'understood first', 'rule', 'boundary',
+                 'not okay to', 'not ok to', 'no snatching', 'no grabbing', 'gentle hands'],
         hit: 'You put understanding first without dropping the limit',
         miss: 'The limit went missing once she was understood' }
     ],
@@ -214,6 +234,7 @@ window.CDAH_QUIZ = {
     status: 'Question 3 of 4',
     step: 3,
     draws: ['connection before correction', 'look beneath', 'the school bridge'],
+    where: '\u201CYou\u2019re letting him walk all over you!\u201D',
     setup: 'Your mother watches you kneel down and say &ldquo;you\u2019re really angry that we have to go&rdquo; to your son mid-tantrum. Afterward she says: &ldquo;You\u2019re letting him walk all over you! Why can\u2019t you just control him?&rdquo;',
     ask: 'How would you explain what you were doing \u2014 and why it isn\u2019t giving in?',
     say: {
@@ -225,13 +246,25 @@ window.CDAH_QUIZ = {
       { id: 'A',
         accept: ['we still left', 'still left', 'we left anyway', 'the limit stayed',
                  'limit didnt change', 'not agreeing', 'didnt agree',
-                 'didnt change what happened', 'he still had to', 'both', 'still went'],
+                 'didnt change what happened', 'he still had to', 'both', 'still went',
+                 /* Draft 2 (Marc's answer: "I could then state the limit:
+                    that we had to go"). */
+                 'state the limit', 'stated the limit', 'the limit', 'had to go', 'have to go',
+                 'had to leave', 'have to leave', 'we went', 'we still', 'we did leave',
+                 'not giving in', 'isnt giving in', 'wasnt giving in', 'didnt give in', 'not caving',
+                 'didnt cave', 'firm', 'held the line', 'no means no', 'still happened'],
         hit: 'You held the line between hearing a feeling and moving the limit',
         miss: 'You didn\u2019t say that the limit held' },
       { id: 'B',
         accept: ['so he can hear', 'able to hear', 'hear it', 'lowers', 'less resistance',
                  'otherwise he fights', 'fights it', 'gets through', 'lands',
-                 'goes in', 'nothing would have gone in', 'through the noise'],
+                 'goes in', 'nothing would have gone in', 'through the noise',
+                 /* Draft 2: Learn's account of why (calming, connection,
+                    the brain states) is the reason, in the module's words. */
+                 'calm', 'calm down', 'connect', 'connection', 'heard', 'feel heard', 'felt heard',
+                 'understood', 'survival', 'emotional state', 'ready to think', 'ready to listen',
+                 'listen', 'helped him', 'so he could', 'before correction', 'instead of correction',
+                 'rather than correction', 'meet him where'],
         hit: 'You explained why the connection is what makes the limit work',
         miss: 'You didn\u2019t say why naming the feeling helps the limit land' },
       { id: 'C',
@@ -259,6 +292,7 @@ window.CDAH_QUIZ = {
     status: 'Question 4 of 4',
     step: 4,
     draws: ['state before skill (adult)', 'discipline is teaching'],
+    where: 'After you snapped',
     setup: 'After a long day you snapped at your daughter and said something you regret \u2014 &ldquo;why can\u2019t you just be good for once?&rdquo; She went quiet and went to her room. An hour later you\u2019re still turning it over.',
     ask: 'What would you do now, and what does the moment tell you about what happened earlier?',
     say: {
@@ -270,7 +304,13 @@ window.CDAH_QUIZ = {
       { id: 'A',
         accept: ['long day', 'my state', 'tired', 'exhausted', 'out of capacity',
                  'not about her', 'wasnt her', 'wasnt about her', 'not about him', 'wasnt him', 'wasnt about him',
-                 'my own stress', 'my stress', 'depleted', 'had nothing left', 'nothing left'],
+                 'my own stress', 'my stress', 'depleted', 'had nothing left', 'nothing left',
+                 /* Draft 2 (Marc's answer: rough day, lost my cool, composure). */
+                 'rough day', 'bad day', 'hard day', 'stressful', 'stressed', 'stress',
+                 'lost my cool', 'lost my temper', 'lost it', 'composure', 'calm', 'snapped',
+                 'took it out', 'take it out', 'my fault', 'not her fault', 'wasnt her fault',
+                 'not his fault', 'wasnt his fault', 'overwhelmed', 'frustrated', 'survival',
+                 'triggered', 'my own state', 'handling it myself'],
         hit: 'You put the outburst where it came from \u2014 your own state',
         miss: 'Where the sentence came from stayed out of the answer' },
       { id: 'B',
@@ -291,9 +331,14 @@ window.CDAH_QUIZ = {
         accept: ['shows her', 'show her', 'she learns', 'teaches her',
                  'shows him', 'show him', 'he learns', 'teaches him',
                  'models', 'modeling', 'modelling', 'learns from', 'thats the lesson',
-                 'that is the lesson', 'the teaching', 'how to do it'],
-        hit: 'You saw the repair as the teaching, not as damage control',
-        miss: 'You didn\u2019t say what the repair itself teaches her' }
+                 'that is the lesson', 'the teaching', 'how to do it',
+                 /* Draft 2: owning it and promising to do better is the
+                    repair modeled, even when the word "teach" never appears. */
+                 'work on', 'do better', 'next time', 'ill try', 'try to', 'mistake', 'mistakes',
+                 'own my', 'owning', 'responsibility', 'example', 'grown ups', 'adults make',
+                 'everyone makes', 'wasnt fair to her', 'wasnt fair to him', 'it wasnt fair'],
+        hit: 'You owned it in a way she can learn from',
+        miss: 'What she learns from the repair stayed out of the answer' }
     ],
     coach: {
       all: { head: 'You took it straight on',

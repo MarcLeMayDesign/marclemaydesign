@@ -42,7 +42,7 @@ window.CDAH_PRINCIPLES = {
     states: {
       intro: {
         child:  ['Which part is in charge?', 'Each state is led by a different part of the brain, and the part in charge decides what your child can do right now, and what will reach them.'],
-        parent: ['Your brain does this too', 'The same three parts take turns in you. Which one is leading decides what you can offer her right now.']
+        parent: ['Your brain does this too', 'The same three parts take turns in you. Which one is leading decides what you can offer your child right now.']
       },
       list: [
         { name: 'Overwhelmed', alias: 'The Survival State', part: 'The brain stem',
@@ -55,6 +55,8 @@ window.CDAH_PRINCIPLES = {
           parent: ['Shows in your words and your tone: sarcasm, keeping score. Often we end up sounding like the adults who raised us.', '&ldquo;Does any of this get noticed?&rdquo;', 'Connection.'] },
         { name: 'Ready to think', alias: 'The Executive State', part: 'The prefrontal lobes',
           desc: 'The last part of the brain to finish growing, and the first to go quiet under stress. Once the body and mind are regulated, this center can take over, problem-solving and learning.',
+          /* 2 Oct (Marc): the parent side drops the growing-brain sentence. */
+          parentDesc: 'Once the body and mind are regulated, this center can take over, problem-solving and learning.',
           child:  ['Can hear you, can weigh two options.', '&ldquo;What do I do about this?&rdquo;', 'Options, a plan, a repair.'],
           parent: ['This is where you can help teach them the skills they&rsquo;re missing.', '&ldquo;What is my child missing here?&rdquo;', 'Options, a plan, a repair.'] }
       ]
@@ -83,7 +85,7 @@ window.CDAH_PRINCIPLES = {
     ],
     home: {
       notice: 'The same behavior can come from three different places on three different mornings, and each one needs something different from you.',
-      try: 'Ask yourself: what is she trying to tell me? There&rsquo;s almost always something.'
+      try: 'Ask yourself: what is my child trying to tell me? There&rsquo;s almost always something.'
     }
   },
 
@@ -142,8 +144,7 @@ window.CDAH_PRINCIPLES = {
     eyebrow: 'Act 4',
     title: 'State the Limit',
     body: [
-      'Once your child feels heard, say the limit: plainly, once, in as few words as you can.',
-      'If you only sympathize and never say the limit, a five-year-old hears &ldquo;yes.&rdquo;'
+      'Once your child feels heard, say the limit: plainly, once, in as few words as you can. If you only sympathize and never say the limit, a five-year-old hears &ldquo;yes.&rdquo;'
     ],
     home: {
       notice: 'If you hear yourself saying it a third time, stop. Go back and name the feeling.',
@@ -155,8 +156,7 @@ window.CDAH_PRINCIPLES = {
     eyebrow: 'Act 5',
     title: 'Give Two Options',
     body: [
-      'Two choices, both fine with you. The limit stays in place, but they get a say in how.',
-      'Kids this age find it hard to stop one thing and start another. A choice lets them move on without feeling like they lost.'
+      'Two choices, both fine with you. The limit stays in place, but they get a say in how. Kids this age find it hard to stop one thing and start another. A choice lets them move on without feeling like they lost.'
     ],
     home: {
       notice: 'If they pick neither, the limit still holds. You can choose for them, calmly: &ldquo;I&rsquo;ll pick this time.&rdquo;',

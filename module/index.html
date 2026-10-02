@@ -7,7 +7,7 @@
 <meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/module.css?v=20261001d">
+<link rel="stylesheet" href="css/module.css?v=20261002c">
 </head>
 <body>
 
@@ -66,7 +66,7 @@
         </div>
         <figure class="cover-art"><img src="assets/img/scene-sitting-dark.png" width="668" height="680" alt="A parent and child sitting cross-legged on the floor. The child is telling a story with both hands up; the parent is smiling and listening."></figure>
       </div>
-      <p class="cover-disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.<br>Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay Design</a></p>
+      <p class="cover-disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.<br>Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay Design</a></p>
     </section>
 
 
@@ -81,15 +81,17 @@
       <div class="baseline" id="baseline">
         <label class="baseline-q" for="baselineText">What would you say?</label>
         <p class="baseline-note">Not scored, just saved so you can come back to it at the end.</p>
-        <textarea class="baseline-in" id="baselineText" rows="4" placeholder="In your own words, out loud if you like."></textarea>
+        <textarea class="baseline-in" id="baselineText" rows="4" placeholder="In your own words."></textarea>
         <div class="baseline-row">
           <button class="btn" id="baselineKeep" type="button">Keep this</button>
           <span class="baseline-state" id="baselineState" aria-live="polite"></span>
+          <!-- Draft 2 (2 Oct, Marc): no footer on SCR-100/101; the way on is here. -->
+          <button class="btn" id="baselineGo" type="button" data-show="scr-101" hidden>Continue &rarr;</button>
         </div>
         <div class="safety" id="baselineSafety" hidden></div>
       </div>
-      <div>
-        <!-- Live 26 Sept: goes to the title (SCR-099), baseline left unanswered; SCR-304 falls back to a general reflection prompt. -->
+      <div id="skipWrap">
+        <!-- Live 26 Sept: goes to the title (SCR-099), baseline left unanswered; SCR-304 falls back to a general reflection prompt. Hidden once an answer is kept (Draft 2). -->
         <button class="door" id="skipBaseline" type="button">I&rsquo;d rather start with the module &rarr;</button>
       </div>
       </div>
@@ -105,12 +107,14 @@
         <blockquote class="readback-q" id="readbackText"></blockquote>
       </figure>
       <aside class="coach-says coach-dark">
-        <img class="coach-fig" src="assets/img/coach-neutral.png" alt="" width="56" height="84">
+        <img class="coach-fig" src="assets/img/coach-happy.png" alt="" width="56" height="84">
         <div class="coach-txt">
           <p class="coach-k">Coach says</p>
-          <p class="coach-t">Whatever you wrote is fine. That&rsquo;s your starting point. Nobody gets mornings like this right every time. I&rsquo;ll be here at the end when you try it again.</p>
+          <!-- NEW 2 Oct (Claude, for Marc): encouragement, not a verdict. -->
+          <p class="coach-t">Good start. Hang on to that. You&rsquo;ll meet this same morning again at the end, and I&rsquo;ll be right there with you.</p>
         </div>
       </aside>
+      <div class="mn-go"><button class="btn" type="button" data-show="scr-099">Continue &rarr;</button></div>
       <div>
         <button class="door" id="hardMoment" type="button" data-show="scr-500">I&rsquo;m in a hard moment right now &rarr;</button>
         <!-- NEW 1 Oct: the door is live. -->
@@ -122,21 +126,24 @@
          now live on COVER (and the disclaimer in the About panel). -->
     <section class="screen" id="scr-099" data-theme="dark" hidden>
       <h1 class="screen-title">Conscious Discipline at Home</h1>
-      <p class="screen-body">The approach your child&rsquo;s school uses every day, brought home. Learn the core ideas, then you&rsquo;ll get a chance to practice putting them into action.</p>
-      <p class="screen-body">Made by a parent, for parents.</p>
-      <p class="screen-body">Nothing is graded, and nothing is reported to the school.</p>
-      <nav class="lenses" aria-label="The three sections">
-        <a class="lens" href="#scr-110">
-          <span class="row"><span class="name">1 &middot; Learn</span><span class="mark">10 min</span></span>
-          <span class="blurb">How to read the hard moments, and strategies for handling them.</span>
+      <!-- Trimmed to one paragraph per the 1c mockup [MARC, 2 Oct]. -->
+      <p class="screen-body">The approach your child&rsquo;s school uses every day, brought home. Made by a parent, for parents. Nothing is graded, and nothing is reported to the school.</p>
+      <!-- SCR-099 option 1c, picked by Marc 2 Oct: one row per section, each section's figure in a circle of its color. -->
+      <nav class="lenses casts" aria-label="The three sections">
+        <a class="lens cast" data-cast="learn" href="#scr-110">
+          <span class="cast-pic"><img src="assets/img/parent-calm.png" width="336" height="504" alt=""></span>
+          <span class="cast-txt"><span class="row"><span class="name">1 &middot; Learn</span><span class="mark">10 min</span></span><span class="blurb">How to read the hard moments, and strategies for handling them.</span></span>
+          <span class="cast-go" aria-hidden="true">&rarr;</span>
         </a>
-        <a class="lens" href="#scr-200">
-          <span class="row"><span class="name">2 &middot; Test Your Knowledge</span><span class="mark">10 min</span></span>
-          <span class="blurb">Four situations, answered in your own words.</span>
+        <a class="lens cast" data-cast="check" href="#scr-200">
+          <span class="cast-pic"><img src="assets/img/coach-happy.png" width="336" height="504" alt=""></span>
+          <span class="cast-txt"><span class="row"><span class="name">2 &middot; Test Your Knowledge</span><span class="mark">10 min</span></span><span class="blurb">Four situations, answered in your own words.</span></span>
+          <span class="cast-go" aria-hidden="true">&rarr;</span>
         </a>
-        <a class="lens" href="#scr-300">
-          <span class="row"><span class="name">3 &middot; Try It Out</span><span class="mark">20 min</span></span>
-          <span class="blurb">Three everyday moments where you talk with a five-year-old and see how she responds.</span>
+        <a class="lens cast" data-cast="practice" href="#scr-300">
+          <span class="cast-pic"><img src="assets/img/pose-contented.png" width="336" height="504" alt=""></span>
+          <span class="cast-txt"><span class="row"><span class="name">3 &middot; Try It Out</span><span class="mark">20 min</span></span><span class="blurb">Three everyday moments where you talk with a five-year-old and see how she responds.</span></span>
+          <span class="cast-go" aria-hidden="true">&rarr;</span>
         </a>
       </nav>
       <p class="gate">All three are open from the start. If your answers show an idea needs another look, the module tells you which one and takes you back to it.</p>
@@ -149,7 +156,11 @@
          content/principles.js is Claude's draft for Marc's copy pass. -->
 
     <section class="screen" id="scr-110" data-section="learn" data-status="Overview" hidden>
-      <h1 class="screen-title">Assess, then Act</h1>
+      <div class="qzi-grid sec-grid">
+      <div class="qzi-main">
+      <!-- 1d, 2 Oct: the Parent beside the title, as the Coach on SCR-200. Eyebrow NEW. -->
+      <div class="qzi-head"><p class="eyebrow sec-learn">Section 1 of 3</p>
+      <h1 class="screen-title">Assess, then Act</h1></div>
       <p class="screen-body">First, work out what&rsquo;s going on in your child&rsquo;s brain, and in yours. Then act.</p>
       <nav class="lenses paths" id="lenses" aria-label="The two parts of Learn">
         <a class="lens path" href="#scr-111" data-lens-set="scr-111 scr-112 scr-113 scr-114">
@@ -175,6 +186,10 @@
         </a>
       </nav>
       <p class="gate" id="lensGate">Start with Assess to get the full picture. After that, go back to either part whenever you like.</p>
+      <div><a class="btn" id="lensGo" href="#scr-200" hidden>Go to Test Your Knowledge &rarr;</a></div>
+      </div>
+      <figure class="qzi-fig sec-fig"><img src="assets/img/parent-calm.png" width="336" height="504" alt="The Parent, standing calmly."></figure>
+      </div>
     </section>
 
     <section class="screen prin-tight" id="scr-111" data-section="learn" data-status="Assess 1 of 4" data-steps="4" data-step="1" data-principle hidden>
@@ -253,11 +268,11 @@
       <h1 class="screen-title" data-prin-title></h1>
       <div data-prin-body></div>
       <div class="berg" id="berg">
+        <p class="sides-note">Two moments, the same shape underneath.</p>
         <div class="sides">
           <button class="side" type="button" data-case="a" aria-pressed="true">The shoes</button>
           <button class="side" type="button" data-case="b" aria-pressed="false">The little brother</button>
         </div>
-        <p class="sides-note">Two moments, the same shape underneath.</p>
         <div class="berg-box">
           <div class="berg-water" aria-hidden="true"></div>
           <div class="berg-art" aria-hidden="true">
@@ -471,7 +486,7 @@
     <section class="screen" id="scr-200" data-section="check" data-status="Overview" hidden>
 <div class="qzi-grid">
         <div class="qzi-main">
-          <div class="qzi-head"><p class="eyebrow">Section 2 of 3</p>
+          <div class="qzi-head"><p class="eyebrow sec-check">Section 2 of 3</p>
             <h1 class="screen-title">Test Your Knowledge</h1></div>
           <div class="qzi-says">
             <p class="coach-k">Meet the Coach</p>
@@ -480,7 +495,7 @@
           <nav class="lenses qz-hub qzi-hub" aria-label="The four situations">
         <a class="lens" href="#scr-201" data-qz-hub="qz-201"><span class="row"><span class="name">1 &middot; At the checkout</span><span class="mark"></span></span><span class="blurb">A meltdown over a chocolate bar, with someone watching.</span></a>
         <a class="lens" href="#scr-202" data-qz-hub="qz-202"><span class="row"><span class="name">2 &middot; The apology</span><span class="mark"></span></span><span class="blurb">She says sorry, then does it again.</span></a>
-        <a class="lens" href="#scr-203" data-qz-hub="qz-203"><span class="row"><span class="name">3 &middot; &ldquo;You&rsquo;re letting him walk all over you&rdquo;</span><span class="mark"></span></span><span class="blurb">Explaining what you were doing to someone who doubts it.</span></a>
+        <a class="lens" href="#scr-203" data-qz-hub="qz-203"><span class="row"><span class="name">3 &middot; &ldquo;You&rsquo;re letting him walk all over you!&rdquo;</span><span class="mark"></span></span><span class="blurb">Explaining what you were doing to someone who doubts it.</span></a>
         <a class="lens" href="#scr-204" data-qz-hub="qz-204"><span class="row"><span class="name">4 &middot; After you snapped</span><span class="mark"></span></span><span class="blurb">You said something you regret. What now?</span></a>
       </nav>
           <p class="gate" id="qzGate">Start with 1, or pick any. They take about two minutes each.</p>
@@ -509,9 +524,16 @@
       <div class="safety" data-qz-safety hidden></div>
 
       <div class="qz-result" data-qz-result hidden>
-        <div class="qz-verdict">
-          <h1 class="screen-title" data-qz-head></h1>
-          <span class="qz-band" data-qz-band></span>
+        <div class="qz-fb">
+          <div class="qz-verdict">
+            <h1 class="screen-title" data-qz-head></h1>
+            <span class="qz-band" data-qz-band></span>
+          </div>
+          <div class="rp-pose xfade" data-qz-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
         </div>
 
         <div class="qz-block">
@@ -529,8 +551,7 @@
 
         <p class="qz-coach" data-qz-coach></p>
 
-        <aside class="coach-says" data-qz-practice hidden>
-          <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+        <aside class="coach-says coach-says-bare" data-qz-practice hidden>
           <div class="coach-txt">
             <p class="coach-k">Coach says</p>
             <p class="coach-t" data-qz-practice-t></p>
@@ -566,9 +587,16 @@
       <div class="safety" data-qz-safety hidden></div>
 
       <div class="qz-result" data-qz-result hidden>
-        <div class="qz-verdict">
-          <h1 class="screen-title" data-qz-head></h1>
-          <span class="qz-band" data-qz-band></span>
+        <div class="qz-fb">
+          <div class="qz-verdict">
+            <h1 class="screen-title" data-qz-head></h1>
+            <span class="qz-band" data-qz-band></span>
+          </div>
+          <div class="rp-pose xfade" data-qz-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
         </div>
 
         <div class="qz-block">
@@ -586,8 +614,7 @@
 
         <p class="qz-coach" data-qz-coach></p>
 
-        <aside class="coach-says" data-qz-practice hidden>
-          <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+        <aside class="coach-says coach-says-bare" data-qz-practice hidden>
           <div class="coach-txt">
             <p class="coach-k">Coach says</p>
             <p class="coach-t" data-qz-practice-t></p>
@@ -623,9 +650,16 @@
       <div class="safety" data-qz-safety hidden></div>
 
       <div class="qz-result" data-qz-result hidden>
-        <div class="qz-verdict">
-          <h1 class="screen-title" data-qz-head></h1>
-          <span class="qz-band" data-qz-band></span>
+        <div class="qz-fb">
+          <div class="qz-verdict">
+            <h1 class="screen-title" data-qz-head></h1>
+            <span class="qz-band" data-qz-band></span>
+          </div>
+          <div class="rp-pose xfade" data-qz-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
         </div>
 
         <div class="qz-block">
@@ -643,8 +677,7 @@
 
         <p class="qz-coach" data-qz-coach></p>
 
-        <aside class="coach-says" data-qz-practice hidden>
-          <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+        <aside class="coach-says coach-says-bare" data-qz-practice hidden>
           <div class="coach-txt">
             <p class="coach-k">Coach says</p>
             <p class="coach-t" data-qz-practice-t></p>
@@ -680,9 +713,16 @@
       <div class="safety" data-qz-safety hidden></div>
 
       <div class="qz-result" data-qz-result hidden>
-        <div class="qz-verdict">
-          <h1 class="screen-title" data-qz-head></h1>
-          <span class="qz-band" data-qz-band></span>
+        <div class="qz-fb">
+          <div class="qz-verdict">
+            <h1 class="screen-title" data-qz-head></h1>
+            <span class="qz-band" data-qz-band></span>
+          </div>
+          <div class="rp-pose xfade" data-qz-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
         </div>
 
         <div class="qz-block">
@@ -700,8 +740,7 @@
 
         <p class="qz-coach" data-qz-coach></p>
 
-        <aside class="coach-says" data-qz-practice hidden>
-          <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+        <aside class="coach-says coach-says-bare" data-qz-practice hidden>
           <div class="coach-txt">
             <p class="coach-k">Coach says</p>
             <p class="coach-t" data-qz-practice-t></p>
@@ -747,8 +786,9 @@
     </section>
 
     <section class="screen band-close" id="scr-300" data-section="practice" data-status="Before you start" data-band="intro" data-direct-only hidden>
+      <div class="band-cast">
       <div class="band-in">
-        <p class="eyebrow" data-band-eyebrow></p>
+        <p class="eyebrow plum" data-band-eyebrow></p>
         <h1 class="screen-title" data-band-title></h1>
         <p class="screen-body" data-band-body></p>
         <p class="screen-body" data-band-more hidden></p>
@@ -758,6 +798,8 @@
           <button class="btn-link" data-band-stop type="button"></button>
         </div>
         <p class="band-note" data-band-note aria-live="polite"></p>
+      </div>
+      <figure class="band-fig"><img src="assets/img/pose-contented.png" width="336" height="504" alt="Maya, smiling."></figure>
       </div>
     </section>
 
@@ -1058,11 +1100,11 @@
             <button class="btn" id="finAgain" type="button" data-fin="again"></button>
             <button class="btn-link" type="button" data-show="scr-099" data-fin="home"></button>
           </div>
-          <div><button class="btn-link" type="button" data-pc-print data-fin="print"></button></div>
+          <div><button class="door" type="button" data-show="scr-500" data-fin="cards"></button></div>
         </div>
         <figure class="cover-art"><img src="assets/img/scene-embrace-kneeling-dark.png" width="557" height="782" alt="A parent kneels and hugs their child. Both are smiling with their eyes closed."></figure>
       </div>
-      <p class="cover-disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.<br>Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay Design</a></p>
+      <p class="cover-disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.<br>Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay Design</a></p>
     </section>
 
   </main>
@@ -1092,7 +1134,7 @@
     <!-- NEW 26 Sept: the code now has somewhere to go (COVER), and the email sends a link. -->
     <p>Email yourself a link and open it on your phone or laptop. Or copy this code and paste it on the module&rsquo;s first screen, under &ldquo;Started on another device?&rdquo;</p>
     <div class="code-row">
-      <div class="code" id="resumeCode"></div>
+      <div class="code" id="resumeCode" tabindex="0" title="Click to select the whole code"></div>
       <button class="code-copy" id="codeCopy" type="button" aria-label="Copy code"><svg class="i-copy" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="6" y="6" width="9" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"></rect><path d="M12 3.5V3a1.5 1.5 0 0 0-1.5-1.5h-6A1.5 1.5 0 0 0 3 3v7.5A1.5 1.5 0 0 0 4.5 12H5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><svg class="i-done" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
     </div>
     <p class="code-status" id="codeStatus" aria-live="polite"></p>
@@ -1108,7 +1150,7 @@
 
   <div class="card">
     <h3>Words for a hard moment</h3>
-    <p>Twenty-one short lines, grouped by the five Act moves, for when you need something to say right now.</p>
+    <p>Twenty-one short lines for when you need something to say right now.</p>
     <div class="row">
       <button class="btn btn-quiet" id="panelPhrases" type="button">Open the phrase cards</button>
     </div>
@@ -1116,7 +1158,7 @@
 
   <div class="card">
     <h3>What the words mean</h3>
-    <p>Ten words your child&rsquo;s school uses, each paired with a phrase you can actually say.</p>
+    <p>Ten words and phrases your child&rsquo;s school uses, each paired with a phrase you can actually say.</p>
     <div class="row">
       <button class="btn btn-quiet" id="glossOpen" type="button">Open the glossary</button>
     </div>
@@ -1140,30 +1182,30 @@
 
   <div class="panel-foot">
     <p class="keys">Press <strong>?</strong> for this panel. Press <strong>R</strong> for words to try, once you are practicing.</p>
-    <p class="disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance.</p>
+    <p class="disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.</p>
     <p class="credit">Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay</a>, instructional designer and real-life dad of a 5-year-old.</p>
   </div>
 </div>
 
-<script src="content/strings.js?v=20261001d"></script>
-<script src="content/principles.js?v=20261001d"></script>
-<script src="content/quiz.js?v=20261001d"></script>
-<script src="content/safety.js?v=20261001d"></script>
-<script src="content/scenarios.js?v=20261001d"></script>
-<script src="content/bookend.js?v=20261001d"></script>
-<script src="content/phrases.js?v=20261001d"></script>
-<script src="content/glossary.js?v=20261001d"></script>
-<script src="js/board.js?v=20261001d"></script>
-<script src="js/state.js?v=20261001d"></script>
-<script src="js/haptics.js?v=20261001d"></script>
-<script src="js/fx.js?v=20261001d"></script>
-<script src="js/principles.js?v=20261001d"></script>
-<script src="js/safety.js?v=20261001d"></script>
-<script src="js/matcher.js?v=20261001d"></script>
-<script src="js/quiz.js?v=20261001d"></script>
-<script src="js/roleplay.js?v=20261001d"></script>
-<script src="js/app.js?v=20261001d"></script>
-<script src="js/phrases.js?v=20261001d"></script>
-<script src="js/glossary.js?v=20261001d"></script>
+<script src="content/strings.js?v=20261002c"></script>
+<script src="content/principles.js?v=20261002c"></script>
+<script src="content/quiz.js?v=20261002c"></script>
+<script src="content/safety.js?v=20261002c"></script>
+<script src="content/scenarios.js?v=20261002c"></script>
+<script src="content/bookend.js?v=20261002c"></script>
+<script src="content/phrases.js?v=20261002c"></script>
+<script src="content/glossary.js?v=20261002c"></script>
+<script src="js/board.js?v=20261002c"></script>
+<script src="js/state.js?v=20261002c"></script>
+<script src="js/haptics.js?v=20261002c"></script>
+<script src="js/fx.js?v=20261002c"></script>
+<script src="js/principles.js?v=20261002c"></script>
+<script src="js/safety.js?v=20261002c"></script>
+<script src="js/matcher.js?v=20261002c"></script>
+<script src="js/quiz.js?v=20261002c"></script>
+<script src="js/roleplay.js?v=20261002c"></script>
+<script src="js/app.js?v=20261002c"></script>
+<script src="js/phrases.js?v=20261002c"></script>
+<script src="js/glossary.js?v=20261002c"></script>
 </body>
 </html>

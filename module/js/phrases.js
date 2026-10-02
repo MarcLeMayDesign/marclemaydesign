@@ -85,11 +85,23 @@
   });
   window.addEventListener('afterprint', function () { document.body.classList.remove('pc-printing'); });
 
-  /* The panel's door: close the drawer, then go. */
+  /* The panel's door: close the drawer, then go. Draft 2 (Marc): coming back
+     from the cards to the screen the drawer was opened on (the module's Back
+     or the browser's) opens the drawer again. Any other way out, or any
+     other way in to the cards, leaves it closed. */
   var pp = document.getElementById('panelPhrases');
+  var cameFrom = null;
   if (pp) pp.addEventListener('click', function () {
     var x = document.getElementById('panelX');
+    cameFrom = location.hash.slice(1) || null;
     if (x) x.click();
     location.hash = 'scr-500';
+  });
+  window.addEventListener('hashchange', function () {
+    var id = location.hash.slice(1);
+    if (!cameFrom || id === 'scr-500') return;
+    var back = id === cameFrom;
+    cameFrom = null;
+    if (back && window.CDAH_OPEN_PANEL) setTimeout(window.CDAH_OPEN_PANEL, 60);
   });
 })();

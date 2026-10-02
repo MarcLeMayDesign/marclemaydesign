@@ -38,6 +38,11 @@ window.CDAH_STRINGS = {
      English at all (a keyboard mash). Nothing is scored or saved. */
   /* NEW (1 Oct). Under Maya's last reply while the result is coming. No
      "AI", no "analyzing": the matcher is rules, not a model. */
+  /* Draft 2 (2 Oct, Marc): the Coach's line on the End of Section 2 screen
+     (SCR-209). Fixed, not rotated. Marc's own line, chosen as the least
+     judgmental of the five. */
+  tykSummaryCoach: "Remember, you\u2019re here to learn, not to prove anything. Parenting is messy and complex, and it\u2019s normal to feel overwhelmed, even angry. You\u2019re not always gonna get it right, but keep going, and be kind to yourself while you figure this out.",
+
   coachThinking: "The Coach is looking over your conversation\u2026",
 
   huh: {

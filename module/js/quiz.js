@@ -35,6 +35,10 @@
     var submit = section.querySelector('[data-qz-submit]');
     var skip   = section.querySelector('[data-qz-skip]');
     var safety = section.querySelector('[data-qz-safety]');
+    /* Draft 2 (Marc): the Coach stands beside the verdict, one pose per band,
+       as in Try It Out: thinking, neutral, celebratory. */
+    var FX = window.CDAH_FX;
+    var pose = FX && FX.layers ? FX.layers(result.querySelector('[data-qz-pose]')) : null;
 
     /* Content into the ask pane. The prompt and question live here rather
        than in the HTML because the other three items arrive as data. */
@@ -70,6 +74,7 @@
       var coach = result.querySelector('[data-qz-coach]');
 
       if (head) head.textContent = (res.coach && res.coach.head) || '';
+      if (pose) pose.to(res.band);
       if (pill) {
         pill.textContent = M.BANDS[res.band];
         pill.setAttribute('data-band', res.band);
@@ -281,6 +286,7 @@
         if (note) note.hidden = false;
         var pill = result.querySelector('[data-qz-band]');
         if (pill) { pill.textContent = M.BANDS.strong; pill.setAttribute('data-band', 'strong'); }
+        if (pose) pose.to('strong');
       });
     }
 
