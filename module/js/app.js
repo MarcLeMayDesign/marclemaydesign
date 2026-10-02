@@ -62,9 +62,21 @@
     else if (trail[trail.length - 1] !== id) trail.push(id);
     current = id;
 
+    /* Transition weight (2 Oct): big when the section changes. Read before the swap. */
+    var prevEl = null;
+    for (var p = 0; p < screens.length; p++) if (!screens[p].hidden) { prevEl = screens[p]; break; }
+    var ground = null;
+    if (prevEl) {
+      for (var gn = stage; gn && gn.nodeType === 1; gn = gn.parentNode) {
+        var bg = getComputedStyle(gn).backgroundColor;
+        if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') { ground = bg; break; }
+      }
+    }
+
     for (var n = 0; n < screens.length; n++) screens[n].hidden = (screens[n].id !== id);
 
     var el = screens[i];
+    var weight = moveWeight(prevEl, el, opts);
     app.setAttribute('data-theme', el.getAttribute('data-theme') || 'light');
     paintHeader(el);
     paintNav(i);
@@ -93,7 +105,7 @@
     if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
     stage.scrollTop = 0;
     /* After focus and the scroll reset, so the fade is not fighting either. */
-    FX.enter(el);
+    if (prevEl !== el) FX.enter(el, { weight: weight, stage: stage, ground: ground });
     /* Act 1 (Composure), revised 28 Sept: the parent settles as the steps are
        tapped (tense, then neutral at step 2, calm at step 3). Arriving resets. */
     var af = el.querySelector('[data-act-fig]');
@@ -116,6 +128,27 @@
       }
       setStep(0);
     }
+  }
+
+  /* Big moves, listed by Marc 2 Oct: into the title from the opening or from
+     Finish; title row → its overview; section close → the next overview; the
+     end of Try It Out → Bookend; Bookend → Finish. The header's name back to
+     the title is the same at half strength (opts.fx = 'half'). All else normal. */
+  function moveWeight(from, to, opts) {
+    if (opts && opts.fx) return opts.fx;
+    if (!from || from === to) return 'normal';
+    var f = from.id, t = to.id;
+    if (t === 'scr-099') return (f === 'scr-000' || f === 'scr-100' || f === 'scr-101' || f === 'scr-400' || f === 'scr-130' || f === 'scr-209') ? 'big' : 'normal';
+    if (f === 'scr-110' && t === 'scr-200') return 'big';
+    /* Moderately big (Marc, 2 Oct): phrase cards in and out, the opening screens, a section's last screen → its close. */
+    if (f === 'scr-500' || t === 'scr-500') return 'half';
+    if ((f === 'scr-000' && t === 'scr-100') || (f === 'scr-100' && t === 'scr-101')) return 'half';
+    if ((f === 'scr-125' && t === 'scr-130') || (f === 'scr-204' && t === 'scr-209')) return 'half';
+    if (f === 'scr-099' && (t === 'scr-110' || t === 'scr-200' || t === 'scr-300')) return 'big';
+    if ((f === 'scr-130' && t === 'scr-200') || (f === 'scr-209' && t === 'scr-300')) return 'big';
+    if (t === 'scr-304' && from.getAttribute('data-section') === 'practice') return 'big';
+    if (f === 'scr-304' && t === 'scr-400') return 'big';
+    return 'normal';
   }
 
   function paintHeader(el) {
@@ -274,7 +307,7 @@
      nothing else in the chrome offers it. On the title screen itself it is
      inert rather than hidden, so the header never changes shape. */
   elName.addEventListener('click', function () {
-    if (current !== 'scr-099') show('scr-099');
+    if (current !== 'scr-099') show('scr-099', { fx: 'half' });
   });
 
   elSub.addEventListener('click', function () {
@@ -394,6 +427,8 @@
     if (panelAnim) { panelAnim.cancel(); panelAnim = null; }
     scrim.hidden = false;
     panel.hidden = false;
+    /* Draft 2 (Marc): always reopens at the top, never where it was left. */
+    panel.scrollTop = 0;
     btnX.focus();
     document.addEventListener('keydown', trap, true);
     panelAnim = grow(true);
@@ -447,6 +482,10 @@
   elCode.addEventListener('focus', function () { setTimeout(selectCode, 0); });
 
   btnAbout.addEventListener('click', openPanel);
+  /* SCR-099's reference note (2 Oct): open the drawer straight at the glossary. */
+  var titleGloss = document.getElementById('titleGloss');
+  var glossOpenBtn = document.getElementById('glossOpen');
+  if (titleGloss && glossOpenBtn) titleGloss.addEventListener('click', function () { H.tap(); openPanel(); glossOpenBtn.click(); });
   btnX.addEventListener('click', closePanel);
   scrim.addEventListener('click', closePanel);
 

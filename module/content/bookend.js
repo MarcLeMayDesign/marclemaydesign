@@ -71,7 +71,7 @@ window.CDAH_BOOKEND = {
     eyebrow: 'The end of the module',                                   // NEW
     title: 'That\u2019s the whole thing.',                              // NEW
     body: 'Everything you wrote stays on this device. Come back to any part of it the next time a morning goes sideways.', // NEW
-    home: 'Or go back to the title screen \u2192',   // NEW 1 Oct: Start over is the button, and it goes to the Cover
+    home: 'Back to the title screen',   // Draft 2 (Marc): a quiet button, not a text link   // NEW 1 Oct: Start over is the button, and it goes to the Cover
     again: 'Start over',
     /* Draft 2 (Marc): goes to the phrase cards page, which has its own print
        button. A bare print dialog from here didn't say what it would print. */

@@ -146,12 +146,8 @@ a:hover{color:#17578A}
 }
 .screen[hidden]{display:none}
 
-/* The screen change. Opacity and a 5px rise, nothing lateral: a slide says
-   "you have been moved somewhere"; this says "the same surface is now
-   saying something else." The from-state is set by JS for one frame
-   (CDAH_FX.enter) and released, so a screen with JS off simply appears. */
-.screen{transition:opacity .2s ease,transform .2s ease}
-.screen[data-enter]{opacity:0;transform:translateY(5px)}
+/* The screen change lives in js/fx.js (Web Animations, rebuilt 2 Oct), so
+   a screen with JS off simply appears. */
 
 /* Stacked crossfade (CDAH_FX.layers). The container sizes itself; every
    layer is present from load and only opacity moves, so the pose rail never
@@ -1906,3 +1902,27 @@ a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-heigh
   .lens.cast[data-cast="check"] .cast-pic img{top:3px}
   .lens.cast[data-cast="practice"] .cast-pic img{top:6px}
 }
+
+/* Draft 2 (Marc). Eyebrows hang optically: the caps' ink starts at the box edge
+   (about 0.4px in) while the title and body ink start about 1-2.5px in, so the
+   eyebrow read as pushed left. A small indent lines the ink up. */
+.eyebrow{text-indent:.12em}
+/* SCR-304: the analysis line spans the moves table and sits on its left edge. */
+.bk-analysis{width:100%;max-width:560px;text-align:left}
+#bkAnalysis{text-align:left}
+
+/* Draft 2 (Marc caught it on SCR-400): browsers don't pass the page font to
+   buttons, so any button class without its own font-family (.door was one)
+   fell back to the system font. Element-level, so every class that sets its
+   own family still wins. */
+button,input,textarea,select{font-family:inherit}
+.door{font-family:'Work Sans',system-ui,sans-serif}
+
+/* SCR-099 reference note (2 Oct, Marc): ways in to the phrase cards and the glossary
+   other than the drawer. Inline text buttons in the dark door blue. */
+.ref-link{background:none;border:0;padding:0;margin:0;font:inherit;color:#9FC9E8;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.ref-link:hover{color:#C4DEF2}
+.ref-link:focus-visible{outline:2px solid #9FC9E8;outline-offset:2px;border-radius:2px}
+.ref-q{display:inline-flex;align-items:center;justify-content:center;width:1.3em;height:1.3em;border-radius:50%;border:1.5px solid currentColor;font-size:.8em;font-weight:600;vertical-align:.08em;line-height:1}
+.say-touch{display:none}
+@media (hover:none) and (pointer:coarse){.say-touch{display:inline}.say-fine{display:none}}

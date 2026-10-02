@@ -72,7 +72,7 @@ window.CDAH_STRINGS = {
     goOn: "Carry on",
     // NEW. Intro 2, all three done: title and body change, the picker replaces Start.
     titlePick: "Try one again",
-    bodyPick: "Pick a scene. Your strongest attempt on each is the one that counts.",
+    bodyPick: "Pick a scene to try again.",   // Draft 2 (Marc): no "strongest attempt counts"; nothing is scored
     // NEW. Scene names for the picker. Scenes 2 and 3 are placeholders until Marc's drafts land.
     scenes: [
       { id: "scn-301", name: "Screen time" },

@@ -45,7 +45,9 @@ window.CDAH_SCENES = {
                  'told you already', 'dont make me', 'last warning', 'im counting', 'one two three',
                  '1 2 3', 'grounded', 'punish', 'naughty', 'bad girl', 'spoiled', 'ungrateful',
                  'stop whining', 'shut up', 'i dont care', 'you never listen',
-                 'you always', 'or you lose', 'or youll lose']
+                 'you always', 'or you lose', 'or youll lose',
+                 /* Draft 2 (Marc): guilt aimed back at her. */
+                 'you make me', 'is how i feel', 'how i feel when you', 'what about me']
       },
       connect: {
         accept: ['hard to stop', 'really hard', 'so hard', 'its hard', 'thats hard', 'tough',
@@ -177,7 +179,10 @@ window.CDAH_SCENES = {
                  'should be grateful', 'be grateful', 'how dare', 'dont talk to me', 'watch your tone',
                  'or else', 'no tv', 'no tablet', 'no screen', 'no treat', 'no snack', 'im counting',
                  'one two three', '1 2 3', 'last warning', 'because i said', 'i said so', 'naughty',
-                 'bad girl', 'spoiled', 'i dont care', 'you always', 'you never', 'stop it right now']
+                 'bad girl', 'spoiled', 'i dont care', 'you always', 'you never', 'stop it right now',
+                 /* Draft 2 (Marc): sarcasm and guilt aimed back at her. */
+                 'whats great about', 'what is great about', 'whats special about', 'better than me', 'what about me', 'whats wrong with me',
+                 'not good enough', 'you make me', 'is how i feel', 'how i feel when you']
       },
       connect: {
         accept: ['you wanted grandma', 'wanted it to be grandma', 'you were hoping', 'hoping', 'you wish', 'wished',
@@ -286,7 +291,10 @@ window.CDAH_SCENES = {
                  'told you already', 'last warning', 'im counting', 'one two three', '1 2 3', 'ill give you',
                  'if you put them on ill', 'sticker if', 'candy if', 'treat if', 'dont make me', 'i dont care',
                  'you always', 'you never', 'naughty', 'bad girl', 'spoiled', 'right now or', 'im leaving without you',
-                 'ill leave you']
+                 'ill leave you',
+                 /* Draft 2 (Marc): her word turned back on her ("Weird is how I feel when you say these things!"). */
+                 'is how i feel', 'how i feel when you', 'you make me', 'when you say these', 'when you say that',
+                 'when you act like', 'when you talk like']
       },
       connect: {
         accept: ['feel weird', 'feels weird', 'weird', 'scratchy', 'itchy', 'tight', 'uncomfortable', 'dont feel right',
