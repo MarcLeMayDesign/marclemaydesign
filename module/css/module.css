@@ -172,7 +172,7 @@ h1.screen-title{
 /* The title is focused on every screen change so a screen reader announces
    the new screen. It is tabindex="-1" and never keyboard-reachable, so the
    UA ring around it is noise. */
-.screen h1:focus{outline:none}
+.screen h1:focus,.screen .eyebrow:focus{outline:none}
 .app[data-theme="dark"] h1.screen-title{color:var(--bookend-ink)}
 
 p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;margin:0;text-wrap:pretty}
@@ -226,6 +226,14 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 
 .app[data-theme="dark"] .btn{background:#2E86C8;color:#0F1420}
 .app[data-theme="dark"] .btn-quiet{background:transparent;color:#C3C9D8;box-shadow:inset 0 0 0 1.5px #3A4158}
+/* Oct 2 (Marc, on Finish): the two dark rules above outrank .btn:hover, so
+   no button on a dark screen had a hover. Same move as the light ground:
+   the fill shifts, the quiet one fills in. */
+.app[data-theme="dark"] .btn:not([disabled]):hover{background:#5BA3DA}
+.app[data-theme="dark"] .btn-quiet:not([disabled]):hover{background:var(--bookend-surface);color:var(--bookend-ink);box-shadow:inset 0 0 0 1.5px #545D7A}
+/* The resume strip is on the light tint even on a dark screen: it keeps the light hovers. */
+.app[data-theme="dark"] .resume .btn:not([disabled]):hover{background:#17578A}
+.app[data-theme="dark"] .resume .btn-quiet:not([disabled]):hover{background:#DCE8F3;color:#17578A;box-shadow:inset 0 0 0 1.5px #C3CBD4}
 
 /* Disabled, on the bookends. These need their own rules: the dark enabled
    selectors outrank a bare [disabled] attribute, so without them a dead
@@ -1768,7 +1776,7 @@ a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-heigh
   .pc-print-note{font-size:12pt;color:#5F6272;margin:0 0 12pt}
   .pc-print-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px dashed #9AA3AE;border-left:1px dashed #9AA3AE}
   .pc-print-card{break-inside:avoid;padding:12pt 14pt;border-right:1px dashed #9AA3AE;border-bottom:1px dashed #9AA3AE;display:flex;flex-direction:column;gap:5pt;min-height:1.6in}
-  .pc-print-k{margin:0;font:500 8.5pt 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#8E3A57;font-size:9.5pt}
+  .pc-print-k{margin:0;font:600 9.5pt 'Work Sans',sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#8E3A57}
   .pc-print-say{margin:0;font-size:15pt;line-height:1.35}
   .pc-print-school{margin:0;font-size:12pt;line-height:1.4;color:#5F6272}
   .pc-print-foot{font-size:8.5pt;color:#5F6272;margin:12pt 0 0}
@@ -1944,3 +1952,52 @@ button,input,textarea,select{font-family:inherit}
   .qz-result .qz-fb .rp-pose{grid-column:2;grid-row:1 / span 3;width:300px;height:450px;margin-top:-10px;align-self:start}
   .qz-result .qz-fb .rp-pose > img{object-position:center top}
 }
+
+/* ---- Draft 2, phone pass (Oct 2, Marc) ---- */
+/* SCR-209: Coach Says on the dark ground, like the SCR-130 boxes. His black
+   lines measure about 1.3:1 on #272C3E, so he wears a paper sticker edge. */
+.coach-dark{background:var(--bookend-surface)}
+.coach-dark .coach-k{color:#D79AB3}
+.coach-dark .coach-t{color:var(--bookend-ink)}
+.coach-dark .coach-fig{filter:drop-shadow(1.5px 0 0 #F4F1EA) drop-shadow(-1.5px 0 0 #F4F1EA) drop-shadow(0 1.5px 0 #F4F1EA) drop-shadow(0 -1.5px 0 #F4F1EA)}
+/* SCR-112 rest box: desktop keeps its three boxes. */
+.dtier-rest{display:none}
+.dtier-names{display:flex;flex-wrap:wrap;gap:6px 16px}
+.dtier-names span{display:inline-flex;align-items:center;gap:7px}
+@media (max-width:640px){
+  /* Progress dashes: wider bars, a full-height hit area that meets its
+     neighbor; the name wraps to two lines to make room. */
+  .mod-head:has(#headProg:not([hidden])) .head-name{white-space:normal;font-size:13.5px;line-height:1.15;max-width:7.6em;overflow:visible}
+  .head-prog{gap:8px;margin-left:6px;flex:none}
+  .head-prog i{width:20px;flex:0 0 20px;height:5px}
+  .head-prog button{flex:none}
+  .head-prog button::before{left:-4px;right:-4px;top:-20px;bottom:-20px}
+  /* SCR-112: one box under the brain that follows it, caption below. */
+  .drop-left{display:contents}
+  .drop-brain{order:1}
+  .drop-tiers{order:2;display:grid;grid-template-areas:"t"}
+  .drop-cap{order:3}
+  .drop-tiers .dtier{grid-area:t;display:block;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+  .drop-grid:not([data-running]) .dtier-rest,
+  .drop-grid[data-running] .dtier[data-live]{opacity:1;visibility:visible;transition:opacity .35s}
+}
+
+/* ---- Accessibility pass (Oct 2) ---- */
+/* Blue on the pale-blue tint measured 4.38:1, just under 4.5. Text on the
+   tint takes the darker blue the hovers already use (6.3:1). */
+.act-n,.resume .btn-quiet,.app[data-theme="dark"] .resume .btn-quiet{color:#17578A}
+.act-step[aria-pressed="true"] .act-n{color:#fff}
+.ct-row[data-kind="connect"] .ct-k{color:#17578A}
+/* Doors are a line of text, 20-22px tall: an invisible hit area takes them
+   to 44px without moving anything. */
+.door{position:relative}
+.door::before{content:"";position:absolute;inset:-11px -4px}
+
+/* Focus ring (Oct 2, Marc's keyboard run): buttons had no rule of their own,
+   so Chrome's blue ring vanished against blue buttons on light and Safari's
+   against the dark ground. One ring for both browsers: ink on light, cream on
+   dark, set 3px off the button so the gap shows the ground. */
+.btn:focus-visible,.door:focus-visible,.head-about:focus-visible,.panel-x:focus-visible{outline:3px solid #1C2030;outline-offset:3px}
+.app[data-theme="dark"] .btn:focus-visible,.app[data-theme="dark"] .door:focus-visible,.app[data-theme="dark"] .head-about:focus-visible,
+.app[data-theme="dark"] .btn-link:focus-visible,.app[data-theme="dark"] .side:focus-visible{outline:3px solid #F4F1EA;outline-offset:3px}
+.app[data-theme="dark"] .resume .btn:focus-visible{outline-color:#1C2030}

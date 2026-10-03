@@ -41,17 +41,20 @@
   /* The pair reads as one idea in two moves, so it is one block with two
      labeled rows rather than two cards. Labels are copy, not chrome: NOTICE
      is what the lens shows you, TRY is what you do with it. */
+  /* Oct 2 (Marc, SCR-113/125 on the phone): the last two words of a line
+     travel together, so a line never ends on one word alone. */
+  function keep(s) { return String(s).replace(/ (\S+)\s*$/, '&nbsp;$1'); }
   function fillHome(host, home) {
     if (!host) return;
     if (!home) { host.hidden = true; return; }
     var html = '';
     if (home.notice) {
       html += '<p class="home-row"><span class="home-k">NOTICE</span>' +
-              '<span class="home-t">' + home.notice + '</span></p>';
+              '<span class="home-t">' + keep(home.notice) + '</span></p>';
     }
     if (home.try) {
       html += '<p class="home-row"><span class="home-k">TRY</span>' +
-              '<span class="home-t">' + home.try + '</span></p>';
+              '<span class="home-t">' + keep(home.try) + '</span></p>';
     }
     if (!html) { host.hidden = true; return; }
     host.innerHTML = html;

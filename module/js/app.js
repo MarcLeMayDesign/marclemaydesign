@@ -102,7 +102,20 @@
       if (hs[q].offsetParent !== null) { h = hs[q]; break; }
     }
     if (!h) h = hs[0] || null;
-    if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+    /* Oct 2 (Marc, VoiceOver): an eyebrow above the title carries where you
+       are (Question 1, Scenario 2, Section 1 of 3), and landing on the h1
+       skipped it. Focus lands on the eyebrow when one comes before the title,
+       so the order heard is eyebrow, title, body. */
+    if (h) {
+      var ebs = el.querySelectorAll('.eyebrow'), eb = null;
+      for (var e2 = 0; e2 < ebs.length; e2++) {
+        var x = ebs[e2];
+        if (x.offsetParent !== null && !x.hidden && x.textContent.trim() &&
+            (x.compareDocumentPosition(h) & Node.DOCUMENT_POSITION_FOLLOWING)) { eb = x; break; }
+      }
+      if (eb) h = eb;
+      h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true });
+    }
     stage.scrollTop = 0;
     /* After focus and the scroll reset, so the fade is not fighting either. */
     if (prevEl !== el) FX.enter(el, { weight: weight, stage: stage, ground: ground });
@@ -294,7 +307,20 @@
     btnNext.textContent = T.nav.next;
   }
 
+  /* All three scenes have a best band saved. */
+  function scenesDone() {
+    var best = (S.get().best) || {};
+    var list = ((T.close2 || {}).scenes || []).filter(function (x) { return document.getElementById(x.id); });
+    return list.length === 3 && list.every(function (x) { return best[x.id]; });
+  }
+  window.CDAH_SCENES_DONE = scenesDone;
+
   function go(delta) {
+    /* Oct 2 (Marc): with all three scenes done, Next on the last question
+       skips "End of section 2" and lands on Section 3's own intro, which
+       offers the scenes to try again. The picker under a Section 2 eyebrow
+       read as if it belonged to Section 2. */
+    if (delta === 1 && current === 'scr-204' && indexOf('scr-300') !== -1 && scenesDone()) { show('scr-300'); return; }
     /* Screens marked data-direct-only are doors, not stops: linear nav
        steps over them in both directions. */
     var i = indexOf(current) + delta;
@@ -365,7 +391,8 @@
       var best = (S.get().best) || {};
       var list = (C2.scenes || []).filter(function (x) { return document.getElementById(x.id); });
       var done = list.filter(function (x) { return best[x.id]; });
-      var all = list.length === 3 && done.length === 3;
+      /* The picker lives on SCR-300 only (Oct 2): SCR-209 always closes Section 2. */
+      var all = intro && list.length === 3 && done.length === 3;
       var next = list.filter(function (x) { return !best[x.id]; })[0];
       goTo = next ? next.id : 'scn-301';
       q('[data-band-eyebrow]').textContent = intro ? C2.eyebrowIntro : C2.eyebrowClose;
@@ -876,6 +903,19 @@
    reading. The caption box is a fixed size so nothing below it moves when
    the text changes. Copy is in content/principles.js under scr-111.states. */
 
+/* Oct 2 (Marc): the first press on an interactive brings the whole of it
+   into view, its controls at the top of the screen. Only if it doesn't
+   already fit; never while the parent is mid-scroll elsewhere. */
+window.CDAH_FIT = function (topEl, bottomEl) {
+  var st = document.getElementById('stage');
+  if (!st || !topEl) return;
+  var sr = st.getBoundingClientRect(), t = topEl.getBoundingClientRect(), b = (bottomEl || topEl).getBoundingClientRect();
+  if (t.top >= sr.top && b.bottom <= sr.bottom) return;
+  var y = Math.max(0, st.scrollTop + t.top - sr.top - 12);
+  var fx = window.CDAH_FX, rm = fx && fx.reduced && fx.reduced();
+  if (st.scrollTo) st.scrollTo({ top: y, behavior: rm ? 'auto' : 'smooth' }); else st.scrollTop = y;
+};
+
 (function () {
   'use strict';
   var root = document.querySelector('[data-bstates]');
@@ -937,8 +977,13 @@
   setTimeout(fit, 0);
   var scr = root.closest('.screen');
   if (scr && window.MutationObserver) new MutationObserver(function () { if (!scr.hidden) setTimeout(fit, 0); }).observe(scr, { attributes: true, attributeFilter: ['hidden'] });
-  for (var i = 0; i < sides.length; i++) sides[i].addEventListener('click', function () { side = this.getAttribute('data-side'); paint(); });
-  for (var j = 0; j < pills.length; j++) pills[j].addEventListener('click', function () { step = this.getAttribute('data-step'); paint(); });
+  /* First press per visit brings the sides to the top and the caption box
+     into view. */
+  var fitted = false;
+  function first() { if (fitted) return; fitted = true; window.CDAH_FIT(root.querySelector('.sides'), cap); }
+  window.addEventListener('hashchange', function () { fitted = false; });
+  for (var i = 0; i < sides.length; i++) sides[i].addEventListener('click', function () { side = this.getAttribute('data-side'); paint(); first(); });
+  for (var j = 0; j < pills.length; j++) pills[j].addEventListener('click', function () { step = this.getAttribute('data-step'); paint(); first(); });
 })();
 
 
@@ -1021,7 +1066,7 @@
     btn.innerHTML = '&#9654;&#xFE0E; Watch a drop, and the way back';
   }
   btn.addEventListener('click', function () {
-    if (i < 0) { go(0); return; }
+    if (i < 0) { go(0); window.CDAH_FIT(root.querySelector('.drop-play'), root.querySelector('.drop-tiers')); return; }
     paused = !paused;
     btn.innerHTML = paused ? '&#9654;&#xFE0E; Resume' : '&#10074;&#10074; Pause';
   });

@@ -118,6 +118,9 @@ window.CDAH_SCENES = {
       '0:still':       { child: '(she turns away from you)',
                          again: '(she pulls a cushion over her head)',  // NEW
                          note: 'She\u2019s past words. Keep your voice low and slow, and keep it short.' }, // NEW
+      '0:fail':        { child: '(she screams into the cushion)',  // NEW 2 Oct: there was no reply here, so a second sharp line stalled the scene
+                         again: '(she kicks the arm of the couch, face still hidden)',  // NEW
+                         note: 'She was already past words, and that pushed her further away.' },  // NEW
       '0:calm':        { child: '(still face-down, quieter) \u2026I was almost done.',
                          note: 'Your calm reached her before any words did.' }        // NEW
     },
@@ -238,6 +241,9 @@ window.CDAH_SCENES = {
       '0:still':       { child: '(she screams and kicks with both feet)',
                          again: '(she buries her face in her backpack)',
                          note: 'She\u2019s past words. Keep your voice low and slow, and keep it short. You don\u2019t have to drive off yet.' },
+      '0:fail':        { child: '(she screams) GO AWAY!',  // NEW 2 Oct
+                         again: '(she kicks with both feet, hard)',  // NEW
+                         note: 'She was already past words, and that pushed her further away.' },  // NEW
       '0:calm':        { child: '(the kicking slows, quieter) \u2026I wanted Grandma.',
                          note: 'Your calm reached her before any words did.' }
     },
@@ -349,6 +355,9 @@ window.CDAH_SCENES = {
       '0:still':       { child: '(she lies flat on the rug)',
                          again: '(she covers her face with both arms)',
                          note: 'She\u2019s past words. Keep your voice low and slow, and keep it short, even with the bus coming.' },
+      '0:fail':        { child: '(she wails and drums her heels on the rug)',  // NEW 2 Oct
+                         again: '(she rolls away from you)',  // NEW
+                         note: 'She was already past words, and that pushed her further away.' },  // NEW
       '0:calm':        { child: '(still on the rug, quieter) \u2026They feel weird.',
                          note: 'Your calm reached her before any words did.' }
     },

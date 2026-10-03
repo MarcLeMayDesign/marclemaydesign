@@ -7,7 +7,7 @@
 <meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/module.css?v=20261002f">
+<link rel="stylesheet" href="css/module.css?v=20261002j">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
 
   <header class="mod-head">
     <button class="head-name head-home" id="headName" type="button" title="Back to the start">Conscious Discipline at Home</button>
-    <span class="head-dot" id="headDot" hidden>&middot;</span>
+    <span class="head-dot" id="headDot" aria-hidden="true" hidden>&middot;</span>
     <button class="head-sub head-home" id="headSub" type="button" hidden></button>
     <span class="head-gap"></span>
     <span class="head-status" id="headStatus"></span>
@@ -187,7 +187,8 @@
         </a>
       </nav>
       <p class="gate" id="lensGate">Start with Assess to get the full picture. After that, go back to either part whenever you like.</p>
-      <div><a class="btn" id="lensGo" href="#scr-200" hidden>Go to Test Your Knowledge &rarr;</a></div>
+      <!-- Oct 2 (Marc): a link, not a button; a button here read as the way into Learn. NEW copy. -->
+      <div><a class="btn-link" id="lensGo" href="#scr-200" hidden>Go straight to Test Your Knowledge &rarr;</a></div>
       </div>
       <figure class="qzi-fig sec-fig"><img src="assets/img/parent-calm.png" width="336" height="504" alt="The Parent, standing calmly."></figure>
       </div>
@@ -256,6 +257,8 @@
             <p class="drop-cap" data-drop-cap aria-live="polite">Watch what happens in the brain when a situation goes wrong.</p>
           </div>
           <div class="drop-tiers">
+            <!-- Oct 2 (Marc): phone only. The three boxes become one that follows the brain; at rest it shows this. NEW copy. -->
+            <div class="dtier dtier-rest"><p class="dtier-name">Three states</p><p class="dtier-ask dtier-names"><span><i class="bs-dot" data-c="2"></i>Ready to think</span><span><i class="bs-dot" data-c="1"></i>Upset</span><span><i class="bs-dot" data-c="0"></i>Overwhelmed</span></p></div>
             <div class="dtier" data-lvl="2"><p class="dtier-name"><i class="bs-dot" data-c="2"></i>Ready to think</p><p class="dtier-ask"><span class="k">ASKS</span><em>&ldquo;What do I do about this?&rdquo;</em></p></div>
             <div class="dtier" data-lvl="1"><p class="dtier-name"><i class="bs-dot" data-c="1"></i>Upset</p><p class="dtier-ask"><span class="k">ASKS</span><em>&ldquo;Do you still love me?&rdquo;</em></p></div>
             <div class="dtier" data-lvl="0"><p class="dtier-name"><i class="bs-dot" data-c="0"></i>Overwhelmed</p><p class="dtier-ask"><span class="k">ASKS</span><em>&ldquo;Am I safe?&rdquo;</em></p></div>
@@ -1188,25 +1191,25 @@
   </div>
 </div>
 
-<script src="content/strings.js?v=20261002f"></script>
-<script src="content/principles.js?v=20261002f"></script>
-<script src="content/quiz.js?v=20261002f"></script>
-<script src="content/safety.js?v=20261002f"></script>
-<script src="content/scenarios.js?v=20261002f"></script>
-<script src="content/bookend.js?v=20261002f"></script>
-<script src="content/phrases.js?v=20261002f"></script>
-<script src="content/glossary.js?v=20261002f"></script>
-<script src="js/board.js?v=20261002f"></script>
-<script src="js/state.js?v=20261002f"></script>
-<script src="js/haptics.js?v=20261002f"></script>
-<script src="js/fx.js?v=20261002f"></script>
-<script src="js/principles.js?v=20261002f"></script>
-<script src="js/safety.js?v=20261002f"></script>
-<script src="js/matcher.js?v=20261002f"></script>
-<script src="js/quiz.js?v=20261002f"></script>
-<script src="js/roleplay.js?v=20261002f"></script>
-<script src="js/app.js?v=20261002f"></script>
-<script src="js/phrases.js?v=20261002f"></script>
-<script src="js/glossary.js?v=20261002f"></script>
+<script src="content/strings.js?v=20261002j"></script>
+<script src="content/principles.js?v=20261002j"></script>
+<script src="content/quiz.js?v=20261002j"></script>
+<script src="content/safety.js?v=20261002j"></script>
+<script src="content/scenarios.js?v=20261002j"></script>
+<script src="content/bookend.js?v=20261002j"></script>
+<script src="content/phrases.js?v=20261002j"></script>
+<script src="content/glossary.js?v=20261002j"></script>
+<script src="js/board.js?v=20261002j"></script>
+<script src="js/state.js?v=20261002j"></script>
+<script src="js/haptics.js?v=20261002j"></script>
+<script src="js/fx.js?v=20261002j"></script>
+<script src="js/principles.js?v=20261002j"></script>
+<script src="js/safety.js?v=20261002j"></script>
+<script src="js/matcher.js?v=20261002j"></script>
+<script src="js/quiz.js?v=20261002j"></script>
+<script src="js/roleplay.js?v=20261002j"></script>
+<script src="js/app.js?v=20261002j"></script>
+<script src="js/phrases.js?v=20261002j"></script>
+<script src="js/glossary.js?v=20261002j"></script>
 </body>
 </html>

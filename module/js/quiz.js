@@ -46,7 +46,9 @@
        than in the HTML because the other three items arrive as data. */
     fill(section, '[data-qz-setup]', item.setup);
     var where = section.querySelector('[data-qz-where]');
-    if (where && item.where) { where.textContent = item.where; where.hidden = false; }
+    /* Oct 2 (Marc): the number goes in the eyebrow, so a phone landing on a
+       new question knows it is a new one. Same form as the scene eyebrows. */
+    if (where && item.where) { where.textContent = (item.step ? 'Question ' + item.step + ' \u00b7 ' : '') + item.where; where.hidden = false; }
     fill(section, '[data-qz-ask-q]', item.ask);
     fill(section, '[data-qz-say-lead]', item.say && item.say.lead);
     fill(section, '[data-qz-say-line]', item.say && item.say.line);

@@ -542,7 +542,9 @@
         if (h.choices) { if (ready) run.choices = true; else run.choicesEarly = true; }
       }
       var rk = s.reply || (run.level + ':' + s.key);
-      var r = scene.replies[rk] || {};
+      /* A missing reply must never stall the scene (Oct 2: '0:fail' was missing
+         in all three, so a second sharp line got no answer). */
+      var r = scene.replies[rk] || scene.replies[s.to + ':still'] || scene.replies[s.to + ':none'] || scene.replies[s.to + ':connectAgain'] || {};
       /* The same state twice in a row would repeat her line word for word,
          which reads as a glitch. The second time she uses the 'again' line. */
       var line = (rk === run.lastKey && r.again) ? r.again : r.child;
@@ -584,8 +586,10 @@
       var wait = 900 + Math.min(900, (line || '').length * 14);
       setTimeout(function () {
         if (run !== token) return;
-        if (dots) dots.remove();
-        if (line) addChild(line, run.level);
+        /* Oct 2 (Marc: "jumpy"): her reply grows out of the typing bubble
+           rather than replacing it, so the log moves once, not twice. */
+        if (line && dots) land(dots, line, run.level);
+        else { if (dots) dots.remove(); if (line) addChild(line, run.level); }
         if (run.turns === scene.maxTurns - 1 && scene.lastPrompt) field.placeholder = scene.lastPrompt;
         /* Pose and position change together: one gesture, not two. */
         if (rail) rail.to(String(run.level));
@@ -601,7 +605,12 @@
         place();
         toBottom();
         busy = false; syncSay();
-        if (strip && words.length && run.level < 3) { strip.hidden = false; toBottom(); }
+        if (strip && words.length && run.level < 3) {
+          var wasHid = strip.hidden;
+          strip.hidden = false;
+          if (wasHid && strip.animate && !(FX && FX.reduced())) strip.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
+          toBottom();
+        }
         if (run.level === 3 || run.turns >= scene.maxTurns) finish();
         else if (fine) field.focus({ preventScroll: true });
       }, wait);
@@ -625,12 +634,42 @@
       return b;
     }
 
+    function land(b, text, lv) {
+      var bub = b.querySelector('.rp-bub'), d = b.querySelector('.rp-dots');
+      var w0 = bub.offsetWidth, h0 = bub.offsetHeight;
+      var p = el('p', 'rp-line', text);
+      d.parentNode.replaceChild(p, d);
+      var f = b.querySelector('.rp-face'); if (f) f.src = face(lv).src;
+      b.classList.remove('rp-typing'); b.removeAttribute('aria-label');
+      latest(b);
+      run.lines.push(scene.child + ': ' + text);
+      if (FX && FX.reduced() || !bub.animate) return;
+      var w1 = bub.offsetWidth, h1 = bub.offsetHeight;
+      bub.animate([{ width: w0 + 'px', height: h0 + 'px' }, { width: w1 + 'px', height: h1 + 'px' }], { duration: 300, easing: 'cubic-bezier(.2,.7,.3,1)' });
+      p.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 280, delay: 120, easing: 'ease-out', fill: 'backwards' });
+    }
+
+    /* One eased scroll that follows the bottom as it grows, instead of the
+       browser's smooth scroll, which restarts on every call and stacks. A
+       touch or wheel hands control straight back. */
+    var scrolling = null;
     function toBottom() {
       var stage = document.getElementById('stage');
       if (!stage) return;
-      var top = stage.scrollHeight;
-      if (stage.scrollTo && !(FX && FX.reduced())) stage.scrollTo({ top: top, behavior: 'smooth' });
-      else stage.scrollTop = top;
+      if ((FX && FX.reduced()) || !window.requestAnimationFrame) { stage.scrollTop = stage.scrollHeight; return; }
+      if (scrolling) { scrolling.from = stage.scrollTop; scrolling.t0 = performance.now(); return; }
+      var s = scrolling = { from: stage.scrollTop, t0: performance.now(), stop: false };
+      function stop() { s.stop = true; }
+      stage.addEventListener('touchstart', stop, { passive: true, once: true });
+      stage.addEventListener('wheel', stop, { passive: true, once: true });
+      (function frame(now) {
+        if (s.stop) { scrolling = null; return; }
+        var k = Math.min(1, (now - s.t0) / 480), e = 1 - Math.pow(1 - k, 3);
+        var to = stage.scrollHeight - stage.clientHeight;
+        stage.scrollTop = s.from + (to - s.from) * e;
+        if (k < 1) requestAnimationFrame(frame);
+        else { scrolling = null; stage.removeEventListener('touchstart', stop); stage.removeEventListener('wheel', stop); }
+      })(performance.now());
     }
 
     /* Between her last reply and the result the footer stays hidden, or it
