@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
+<title>Conscious Discipline at Home</title>
+<meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/module.css?v=20261005b">
+</head>
+<body>
+
+<div class="app" id="app" data-theme="dark">
+
+  <header class="mod-head">
+    <button class="head-name head-home" id="headName" type="button" title="Back to the start">Conscious Discipline at Home</button>
+    <span class="head-dot" id="headDot" aria-hidden="true" hidden>&middot;</span>
+    <button class="head-sub head-home" id="headSub" type="button" hidden></button>
+    <span class="head-gap"></span>
+    <span class="head-status" id="headStatus"></span>
+    <span class="head-prog" id="headProg" hidden></span>
+    <button class="head-about" id="aboutBtn" type="button" title="About this Module" aria-label="About this module">?</button>
+  </header>
+
+  <div class="resume" id="resumeStrip" hidden>
+    <p>You were partway through. Your answers are still here.</p>
+    <button class="btn" id="resumeGo" type="button">Pick up where I left off</button>
+    <button class="btn btn-quiet" id="resumeAgain" type="button">Start again</button>
+  </div>
+
+  <main class="stage" id="stage">
+
+    <!-- Step 1 ships the spine: seven labeled screens a parent can walk.
+         Section 1's real content lands in Step 2 and replaces each
+         placeholder block below. Header behavior, progress, save, resume
+         and the panel are finished here. -->
+
+    <!-- SCR-100 and SCR-101 are one moment across two screens: the question,
+         then the parent's own answer read back. The 7:40 morning opens the
+         module and is paid off three times later — the shoe capstone, its
+         feedback, and the two bookend reflections. -->
+
+    <!-- COVER (NEW 26 Sept). The first thing a fresh device shows: title,
+         Begin, and the way in for a parent who started somewhere else. No
+         footer nav here; Begin is the one way forward. Copy is Claude's
+         draft for Marc's pass. -->
+    <section class="screen cover" id="scr-000" data-theme="dark" hidden>
+      <div class="cover-grid">
+        <div class="cover-text">
+          <p class="eyebrow plum">For parents of kindergarteners</p>
+          <h1 class="cover-title">Conscious Discipline at Home</h1>
+          <p class="screen-body">About forty minutes, in as many sittings as you like. What you write stays on this device.</p>
+          <div class="cover-go"><button class="btn cover-begin" id="coverBegin" type="button">Begin module</button></div>
+          <details class="cover-restore" id="coverRestore">
+            <summary>Started on another device?</summary>
+            <form class="cover-form" id="coverForm" novalidate>
+              <label for="coverCode">On your other device, open About &amp; reference (the ? button) and copy your code. Paste it here.</label>
+              <div class="cover-field">
+                <input id="coverCode" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                <button class="btn btn-quiet" id="coverRestoreGo" type="submit">Restore</button>
+              </div>
+              <p class="cover-note" id="coverNote" aria-live="polite"></p>
+            </form>
+          </details>
+        </div>
+        <figure class="cover-art"><img src="assets/img/scene-sitting-dark.png" width="668" height="680" alt="A parent and child sitting cross-legged on the floor. The child is telling a story with both hands up; the parent is smiling and listening."></figure>
+      </div>
+      <p class="cover-disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.<br>Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay Design</a></p>
+    </section>
+
+
+    <section class="screen" id="scr-100" data-theme="dark" hidden>
+      <div class="mn-grid">
+      <div class="mn-scene">
+        <p class="eyebrow plum">7:40 a.m. &middot; The bus comes in ten minutes</p>
+        <h1 class="screen-title">&ldquo;I&rsquo;m NOT wearing these stupid shoes!&rdquo;</h1>
+        <p class="screen-body">One shoe on, the other kicked across the rug.</p>
+      </div>
+      <div class="mn-ask">
+      <div class="baseline" id="baseline">
+        <label class="baseline-q" for="baselineText">What would you say?</label>
+        <p class="baseline-note">Not scored, just saved so you can come back to it at the end.</p>
+        <textarea class="baseline-in" id="baselineText" rows="4" placeholder="In your own words."></textarea>
+        <div class="baseline-row">
+          <button class="btn" id="baselineKeep" type="button">Keep this</button>
+          <span class="baseline-state" id="baselineState" aria-live="polite"></span>
+          <!-- Draft 2 (2 Oct, Marc): no footer on SCR-100/101; the way on is here. -->
+          <button class="btn" id="baselineGo" type="button" data-show="scr-101" hidden>Continue &rarr;</button>
+        </div>
+        <div class="safety" id="baselineSafety" hidden></div>
+      </div>
+      <div id="skipWrap">
+        <!-- Live 26 Sept: goes to the title (SCR-099), baseline left unanswered; SCR-304 falls back to a general reflection prompt. Hidden once an answer is kept (Draft 2). -->
+        <button class="door" id="skipBaseline" type="button">I&rsquo;d rather start with the module &rarr;</button>
+      </div>
+      </div>
+      </div>
+    </section>
+
+    <section class="screen" id="scr-101" data-theme="dark" hidden>
+      <p class="eyebrow plum">A typical morning</p>
+      <h1 class="screen-title">There are no right answers yet.</h1>
+      <p class="screen-body">Hold on to what you wrote. Next, you&rsquo;ll see why mornings like this happen, and the small changes that can make them go differently. You&rsquo;ll get another shot at this scenario at the end of the module, and see how your answer here compares.</p>
+      <figure class="readback" id="readback" hidden>
+        <figcaption class="readback-k">What you said</figcaption>
+        <blockquote class="readback-q" id="readbackText"></blockquote>
+      </figure>
+      <aside class="coach-says coach-dark">
+        <img class="coach-fig" src="assets/img/coach-happy.png" alt="" width="56" height="84">
+        <div class="coach-txt">
+          <p class="coach-k">Coach says</p>
+          <!-- NEW 2 Oct (Claude, for Marc): encouragement, not a verdict. -->
+          <p class="coach-t">Good start. Hang on to that. You&rsquo;ll meet this same morning again at the end, and I&rsquo;ll be right there with you.</p>
+        </div>
+      </aside>
+      <div class="mn-go"><button class="btn" type="button" data-show="scr-099">Continue &rarr;</button></div>
+      <div>
+        <button class="door" id="hardMoment" type="button" data-show="scr-500">I&rsquo;m in a hard moment right now &rarr;</button>
+        <!-- NEW 1 Oct: the door is live. -->
+        <p class="door-note">Short lines to use in the next ten minutes. The module will be here when things are calmer.</p>
+      </div>
+    </section>
+
+    <!-- Trimmed 26 Sept: the audience line, the time line and the disclaimer
+         now live on COVER (and the disclaimer in the About panel). -->
+    <section class="screen" id="scr-099" data-theme="dark" hidden>
+      <h1 class="screen-title">Conscious Discipline at Home</h1>
+      <!-- Trimmed to one paragraph per the 1c mockup [MARC, 2 Oct]. -->
+      <p class="screen-body">The approach your child&rsquo;s school uses every day, brought home. Made by a parent, for parents. Nothing is graded, and nothing is reported to the school.</p>
+      <!-- SCR-099 option 1c, picked by Marc 2 Oct: one row per section, each section's figure in a circle of its color. -->
+      <nav class="lenses casts" aria-label="The three sections">
+        <a class="lens cast" data-cast="learn" href="#scr-110">
+          <span class="cast-pic"><img src="assets/img/parent-calm.png" width="336" height="504" alt=""></span>
+          <span class="cast-txt"><span class="row"><span class="name">1 &middot; Learn</span><span class="mark">10 min</span></span><span class="blurb">How to read the hard moments, and strategies for handling them.</span></span>
+          <span class="cast-go" aria-hidden="true">&rarr;</span>
+        </a>
+        <a class="lens cast" data-cast="check" href="#scr-200">
+          <span class="cast-pic"><img src="assets/img/coach-happy.png" width="336" height="504" alt=""></span>
+          <span class="cast-txt"><span class="row"><span class="name">2 &middot; Test Your Knowledge</span><span class="mark">10 min</span></span><span class="blurb">Four situations, answered in your own words.</span></span>
+          <span class="cast-go" aria-hidden="true">&rarr;</span>
+        </a>
+        <a class="lens cast" data-cast="practice" href="#scr-300">
+          <span class="cast-pic"><img src="assets/img/pose-contented.png" width="336" height="504" alt=""></span>
+          <span class="cast-txt"><span class="row"><span class="name">3 &middot; Try It Out</span><span class="mark">20 min</span></span><span class="blurb">Three everyday moments where you talk with a five-year-old and see how she responds.</span></span>
+          <span class="cast-go" aria-hidden="true">&rarr;</span>
+        </a>
+      </nav>
+      <!-- NEW 2 Oct [MARC]: replaces "All three are open from the start…". The title links to all the major content. -->
+      <p class="gate"><span role="text"><span class="say-fine">Click on the</span><span class="say-touch">Tap</span> <span class="ref-q" aria-hidden="true">?</span><span class="sr-only">question mark</span> at the top right to find</span> <button class="ref-link" type="button" data-show="scr-500">Words for a hard moment</button>, short lines for when you need something to say, and <button class="ref-link" type="button" id="titleGloss">What the words mean</button>, the words your child&rsquo;s school uses. Your saved place is kept there too.</p>
+    </section>
+
+    <!-- Section 1, revised 25 Sept: two paths. ASSESS reads the moment (four
+         screens), ACT turns the reading into five named moves. The Act titles
+         are the same names the phrase cards and the feedback rows use, so what
+         is taught here is what Try It Out listens for. Copy marked NEW in
+         content/principles.js is Claude's draft for Marc's copy pass. -->
+
+    <section class="screen" id="scr-110" data-section="learn" data-status="Overview" hidden>
+      <div class="qzi-grid sec-grid">
+      <div class="qzi-main">
+      <!-- 1d, 2 Oct: the Parent beside the title, as the Coach on SCR-200. Eyebrow NEW. -->
+      <div class="qzi-head"><p class="eyebrow sec-learn">Section 1 of 3</p>
+      <h1 class="screen-title">Assess, then Act</h1></div>
+      <p class="screen-body">First, work out what&rsquo;s going on in your child&rsquo;s brain, and in yours. Then act.</p>
+      <nav class="lenses paths" id="lenses" aria-label="The two parts of Learn">
+        <a class="lens path" href="#scr-111" data-lens-set="scr-111 scr-112 scr-113 scr-114">
+          <span class="row"><span class="name">Assess</span><span class="path-tag">Start here</span><span class="mark">4 screens</span></span>
+          <span class="blurb">How to read a hard moment before you respond to it.</span>
+          <span class="path-list">
+            <span data-lens-item="scr-111">Three brain states</span>
+            <span data-lens-item="scr-112">The drop, and the way back</span>
+            <span data-lens-item="scr-113">Look beneath the behavior</span>
+            <span data-lens-item="scr-114">Four shifts in how you see it</span>
+          </span>
+        </a>
+        <a class="lens path" href="#scr-121" data-lens-set="scr-121 scr-122 scr-123 scr-124 scr-125">
+          <span class="row"><span class="name">Act</span><span class="mark">5 screens</span></span>
+          <span class="blurb">Five moves, in order.</span>
+          <span class="path-list">
+            <span data-lens-item="scr-121">Composure</span>
+            <span data-lens-item="scr-122">Name the Feeling</span>
+            <span data-lens-item="scr-123">Breathe Together</span>
+            <span data-lens-item="scr-124">State the Limit</span>
+            <span data-lens-item="scr-125">Give Two Options</span>
+          </span>
+        </a>
+      </nav>
+      <p class="gate" id="lensGate">Start with Assess to get the full picture. After that, go back to either part whenever you like.</p>
+      <!-- Oct 2 (Marc): a link, not a button; a button here read as the way into Learn. -->
+      <div><a class="btn-link" id="lensGo" href="#scr-200" hidden>Go straight to Test Your Knowledge &rarr;</a></div>
+      </div>
+      <figure class="qzi-fig sec-fig"><img src="assets/img/parent-calm.png" width="336" height="504" alt="The Parent, standing calmly."></figure>
+      </div>
+    </section>
+
+    <section class="screen prin-tight" id="scr-111" data-section="learn" data-status="Assess 1 of 4" data-steps="4" data-step="1" data-principle hidden>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <div class="bs" data-bstates>
+        <div class="sides">
+          <button class="side" type="button" data-side="child" aria-pressed="true">Where they are</button>
+          <button class="side" type="button" data-side="parent" aria-pressed="false">Where you are</button>
+        </div>
+        <div class="bs-stage" role="img" data-bs-stage aria-label="Maya, smiling. The brain shows all three parts.">
+          <div class="bs-fig xfade">
+            <img data-xfade data-who="child" data-lvl="all" data-on="yes" class="bs-child" src="assets/img/state-child-contented.png" alt="">
+            <img data-xfade data-who="child" data-lvl="0" data-on="no" class="bs-child" src="assets/img/state-child-overwhelmed.png" alt="">
+            <img data-xfade data-who="child" data-lvl="1" data-on="no" class="bs-child" src="assets/img/state-child-upset.png" alt="">
+            <img data-xfade data-who="child" data-lvl="2" data-on="no" class="bs-child" src="assets/img/state-child-ready.png" alt="">
+            <img data-xfade data-who="parent" data-lvl="all" data-on="no" src="assets/img/state-parent-neutral.png" alt="">
+            <img data-xfade data-who="parent" data-lvl="0" data-on="no" src="assets/img/state-parent-overwhelmed.png" alt="">
+            <img data-xfade data-who="parent" data-lvl="1" data-on="no" src="assets/img/state-parent-frustrated.png" alt="">
+            <img data-xfade data-who="parent" data-lvl="2" data-on="no" src="assets/img/state-parent-calm.png" alt="">
+          </div>
+          <div class="bs-brain xfade">
+            <img data-xfade data-lvl="all" data-on="yes" src="assets/img/brain-all.png" alt="">
+            <img data-xfade data-lvl="0" data-on="no" src="assets/img/brain-stem.png" alt="">
+            <img data-xfade data-lvl="1" data-on="no" src="assets/img/brain-limbic.png" alt="">
+            <img data-xfade data-lvl="2" data-on="no" src="assets/img/brain-prefrontal.png" alt="">
+          </div>
+        </div>
+        <div class="bs-pills">
+          <span class="bs-hint">Tap each one:</span>
+          <button class="side bs-pill" type="button" data-step="all" aria-pressed="true"><i class="bs-dot" data-c="all"></i>All three</button>
+          <button class="side bs-pill" type="button" data-step="0" aria-pressed="false"><i class="bs-dot" data-c="0"></i>Overwhelmed</button>
+          <button class="side bs-pill" type="button" data-step="1" aria-pressed="false"><i class="bs-dot" data-c="1"></i>Upset</button>
+          <button class="side bs-pill" type="button" data-step="2" aria-pressed="false"><i class="bs-dot" data-c="2"></i>Ready to think</button>
+        </div>
+        <div class="bs-cap">
+          <p class="bs-k"><i class="bs-dot" data-c="all" data-bs-dot></i><span data-bs-kicker>Three states, three parts</span></p>
+          <p class="bs-head" data-bs-head>Which part is in charge?</p>
+          <p class="bs-body" data-bs-body>Each state is led by a different part of the brain, and the part in charge decides what your child can do right now, and what will reach them.</p>
+          <p class="bs-ask" data-bs-askrow hidden><span class="k">Asks</span><em data-bs-ask></em></p>
+          <p class="bs-ask" data-bs-needrow hidden><span class="k">Needs</span><span data-bs-need></span></p>
+        </div>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen prin-tight" id="scr-112" data-section="learn" data-status="Assess 2 of 4" data-steps="4" data-step="2" data-principle hidden>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div class="act-body" data-prin-body></div>
+      <div class="drop" data-drop>
+        <div class="drop-play">
+          <button class="btn-play" type="button" data-drop-play>&#9654;&#xFE0E; Watch a drop, and the way back</button>
+          <div class="drop-bar" data-drop-bar hidden></div>
+        </div>
+        <div class="drop-grid">
+          <div class="drop-left">
+            <div class="drop-brain xfade" aria-hidden="true">
+              <img data-xfade data-lvl="all" data-on="yes" src="assets/img/brain-all.png" alt="">
+              <img data-xfade data-lvl="0" data-on="no" src="assets/img/brain-stem.png" alt="">
+              <img data-xfade data-lvl="1" data-on="no" src="assets/img/brain-limbic.png" alt="">
+              <img data-xfade data-lvl="2" data-on="no" src="assets/img/brain-prefrontal.png" alt="">
+            </div>
+            <p class="drop-cap" data-drop-cap aria-live="polite">Watch what happens in the brain when a situation goes wrong.</p>
+          </div>
+          <div class="drop-tiers">
+            <!-- Oct 2 (Marc): phone only. The three boxes become one that follows the brain; at rest it shows this. -->
+            <div class="dtier dtier-rest"><p class="dtier-name">Three states</p><p class="dtier-ask dtier-names"><span><i class="bs-dot" data-c="2"></i>Ready to think</span><span><i class="bs-dot" data-c="1"></i>Upset</span><span><i class="bs-dot" data-c="0"></i>Overwhelmed</span></p></div>
+            <div class="dtier" data-lvl="2"><p class="dtier-name"><i class="bs-dot" data-c="2"></i>Ready to think</p><p class="dtier-ask"><span class="k">Asks</span><em>&ldquo;What do I do about this?&rdquo;</em></p></div>
+            <div class="dtier" data-lvl="1"><p class="dtier-name"><i class="bs-dot" data-c="1"></i>Upset</p><p class="dtier-ask"><span class="k">Asks</span><em>&ldquo;Do you still love me?&rdquo;</em></p></div>
+            <div class="dtier" data-lvl="0"><p class="dtier-name"><i class="bs-dot" data-c="0"></i>Overwhelmed</p><p class="dtier-ask"><span class="k">Asks</span><em>&ldquo;Am I safe?&rdquo;</em></p></div>
+          </div>
+        </div>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen prin-tight" id="scr-113" data-section="learn" data-status="Assess 3 of 4" data-steps="4" data-step="3" data-principle hidden>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <div class="berg" id="berg">
+        <p class="sides-note">Two moments, the same shape underneath.</p>
+        <div class="sides">
+          <button class="side" type="button" data-case="a" aria-pressed="true">The shoes</button>
+          <button class="side" type="button" data-case="b" aria-pressed="false">The little brother</button>
+        </div>
+        <div class="berg-box">
+          <div class="berg-water" aria-hidden="true"></div>
+          <div class="berg-art" aria-hidden="true">
+            <img src="assets/img/iceberg.png" alt="">
+            <i class="berg-veil" data-veil="0"></i><i class="berg-veil" data-veil="1"></i><i class="berg-veil" data-veil="2"></i>
+          </div>
+          <i class="berg-line" aria-hidden="true"></i>
+          <div class="berg-top">
+            <p class="berg-eyebrow">What you see</p>
+            <p class="berg-surface" id="bergSurface">She screams that she will not put her shoes on.</p>
+          </div>
+          <div class="layer" data-layer="0" data-open="no">
+            <span class="layer-head"><span class="layer-name">The feeling underneath</span><button class="layer-cue" type="button" aria-expanded="false">Reveal</button></span>
+            <span class="layer-text" aria-hidden="true">She&rsquo;s been holding it together all morning, and her battery&rsquo;s running low.</span>
+          </div>
+          <div class="layer" data-layer="1" data-open="no">
+            <span class="layer-head"><span class="layer-name">The unmet need</span><button class="layer-cue" type="button" aria-expanded="false">Reveal</button></span>
+            <span class="layer-text" aria-hidden="true">She wants some say in a morning that has already been decided for her.</span>
+          </div>
+          <div class="layer" data-layer="2" data-open="no">
+            <span class="layer-head"><span class="layer-name">The missing skill</span><button class="layer-cue" type="button" aria-expanded="false">Reveal</button></span>
+            <span class="layer-text" aria-hidden="true">She can&rsquo;t yet go from playing to getting her shoes on without help.</span>
+          </div>
+        </div>
+        <div class="berg-upshot" id="bergUpshot" hidden><p><strong>So what changes?</strong> <span id="bergUpshotText">Not &ldquo;stop screaming and put your shoes on&rdquo; &mdash; but &ldquo;these ones or those ones?&rdquo;, offered before the shouting starts.</span></p></div>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen prin-tight" id="scr-114" data-section="learn" data-status="Assess 4 of 4" data-steps="4" data-step="4" data-principle hidden>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div class="act-body" data-prin-body></div>
+      <div class="shifts" data-shifts>
+        <div class="shift" data-pressed="false">
+          <span class="shift-fig xfade" aria-hidden="true"><img data-xfade data-on="yes" src="assets/img/shift-tense.png" alt=""><img data-xfade data-on="no" src="assets/img/shift-calm.png" alt=""></span>
+          <span class="shift-main">
+            <span class="shift-top"><span class="shift-k">The old frame</span></span>
+            <span class="shift-txt"><span class="shift-t shift-old">&ldquo;He needs to calm down right now so I can explain why that was wrong.&rdquo;</span><span class="shift-t shift-new" aria-hidden="true">&ldquo;One of us has to be calm before any of this works, and it has to be me first.&rdquo;</span></span>
+            <button class="shift-cue" type="button" aria-pressed="false">Shift it</button>
+          </span>
+        </div>
+        <div class="shift" data-pressed="false">
+          <span class="shift-fig xfade" aria-hidden="true"><img data-xfade data-on="yes" src="assets/img/shift-scolding.png" alt=""><img data-xfade data-on="no" src="assets/img/shift-gentle-firm.png" alt=""></span>
+          <span class="shift-main">
+            <span class="shift-top"><span class="shift-k">The old frame</span></span>
+            <span class="shift-txt"><span class="shift-t shift-old">&ldquo;If I name her feelings, I&rsquo;m giving in and letting her win.&rdquo;</span><span class="shift-t shift-new" aria-hidden="true">&ldquo;She can&rsquo;t hear the limit until she knows I understood her. The limit doesn&rsquo;t move either way.&rdquo;</span></span>
+            <button class="shift-cue" type="button" aria-pressed="false">Shift it</button>
+          </span>
+        </div>
+        <div class="shift" data-pressed="false">
+          <span class="shift-fig xfade" aria-hidden="true"><img data-xfade data-on="yes" src="assets/img/shift-frustrated.png" alt=""><img data-xfade data-on="no" src="assets/img/shift-compassion.png" alt=""></span>
+          <span class="shift-main">
+            <span class="shift-top"><span class="shift-k">The old frame</span></span>
+            <span class="shift-txt"><span class="shift-t shift-old">&ldquo;She&rsquo;s choosing to be difficult and push my buttons.&rdquo;</span><span class="shift-t shift-new" aria-hidden="true">&ldquo;What&rsquo;s really going on here, and how can I help with the problem underneath?&rdquo;</span></span>
+            <button class="shift-cue" type="button" aria-pressed="false">Shift it</button>
+          </span>
+        </div>
+        <div class="shift" data-pressed="false">
+          <span class="shift-fig xfade" aria-hidden="true"><img data-xfade data-on="yes" src="assets/img/shift-angry.png" alt=""><img data-xfade data-on="no" src="assets/img/shift-two-options.png" alt=""></span>
+          <span class="shift-main">
+            <span class="shift-top"><span class="shift-k">The old frame</span></span>
+            <span class="shift-txt"><span class="shift-t shift-old">&ldquo;How do I stop this behavior right now?&rdquo;</span><span class="shift-t shift-new" aria-hidden="true">&ldquo;What skill is my child missing, and how do I teach it?&rdquo;</span></span>
+            <button class="shift-cue" type="button" aria-pressed="false">Shift it</button>
+          </span>
+        </div>
+      </div>
+      <p class="shifts-note" data-shifts-note>Tap each one to shift it.</p>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <!-- NEW 30 Sept [Marc]: the turn from Assess to Act. Reached by Next from
+         Assess 4; a parent who picks Act from the overview goes straight in. -->
+    <section class="screen band-close" id="scr-120" data-section="learn" data-status="Assess done" hidden>
+      <div class="band-in">
+        <p class="eyebrow">From Assess to Act</p>
+        <h1 class="screen-title">Now you&rsquo;ve assessed your child&rsquo;s state, what&rsquo;s the next move?</h1>
+        <div class="band-acts"><button class="btn" type="button" data-show="scr-121">Continue</button></div>
+      </div>
+    </section>
+
+    <section class="screen prin-tight" id="scr-121" data-section="learn" data-status="Act 1 of 5" data-steps="5" data-step="1" data-principle hidden>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div class="act-split act-rise">
+        <div class="act-col">
+        <div class="act-body" data-prin-body></div>
+        <div class="act-steps" data-act-steps>
+          <p class="bs-hint">Tap each step:</p>
+          <button class="act-step" type="button" data-to="1" aria-pressed="false"><span class="act-n">1</span><span><strong>Notice it.</strong> Your jaw, your shoulders, your tone of voice. Pick the one that goes first in you.</span></button>
+          <button class="act-step" type="button" data-to="2" aria-pressed="false"><span class="act-n">2</span><span><strong>Stop talking.</strong> When you&rsquo;re that wound up, nothing comes out the way you mean it.</span></button>
+          <button class="act-step" type="button" data-to="3" aria-pressed="false"><span class="act-n">3</span><span><strong>One breath before the next word.</strong> Then decide what you&rsquo;ll say.</span></button>
+        </div>
+        </div>
+        <figure class="act-fig xfade" data-act-fig role="img" aria-label="The Parent, standing tense.">
+          <img data-xfade="0" data-on="yes" src="assets/img/state-parent-tense.png" alt="" width="335" height="600">
+          <img data-xfade="2" data-on="no" src="assets/img/state-parent-neutral.png" alt="" width="335" height="600">
+          <img data-xfade="3" data-on="no" src="assets/img/state-parent-calm.png" alt="" width="335" height="600">
+        </figure>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen prin-tight" id="scr-122" data-section="learn" data-status="Act 2 of 5" data-steps="5" data-step="2" data-principle hidden>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div class="act-body" data-prin-body></div>
+      <div class="contrast">
+        <p class="contrast-k">She&rsquo;s at <strong>Upset</strong>: yelling about the shoes. Two ways to answer her.</p>
+        <div class="ct-row" data-kind="correct">
+          <img class="ct-fig" src="assets/img/state-child-overwhelmed.png" alt="Maya, overwhelmed." width="221" height="400">
+          <div class="ct-txt">
+            <p class="ct-k">Correct first</p>
+            <p class="ct-say">&ldquo;Stop yelling and put your shoes on. We&rsquo;re going to be late.&rdquo;</p>
+            <p class="ct-then">She drops to <strong>Overwhelmed</strong>. Now it&rsquo;s her body talking, and nothing you say next can reach her.</p>
+          </div>
+        </div>
+        <div class="ct-row" data-kind="connect">
+          <img class="ct-fig" src="assets/img/state-child-ready.png" alt="Maya, calmer and ready to think." width="221" height="400">
+          <div class="ct-txt">
+            <p class="ct-k">Connect first</p>
+            <p class="ct-say">&ldquo;Looks like those shoes aren&rsquo;t feeling right. Do I get you?&rdquo;</p>
+            <p class="ct-then">She comes up to <strong>Ready to think</strong>. The shoes still go on, but now she can hear you say so.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-seen">
+        <p class="card-seen-k">You&rsquo;ll see this card again in Try It Out</p>
+        <div class="wt-card card-static" data-card-what="Name the feeling"><span class="wt-what">Name the feeling</span><span class="wt-say"></span></div>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen prin-tight" id="scr-123" data-section="learn" data-status="Act 3 of 5" data-steps="5" data-step="3" data-principle hidden>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div data-prin-body></div>
+      <div class="breathe" data-breathe>
+        <img class="br-scene" src="assets/img/scene-breathing.png" width="480" height="550" alt="A parent kneels on one knee beside their child. Both have their hands on their bellies and are breathing out slowly together.">
+        <div class="br-col">
+          <div class="br-ring" data-br-ring aria-hidden="true"><span class="br-dot"></span></div>
+          <div class="br-side">
+            <button class="btn-play" type="button" data-br-go>Try one now, three breaths</button>
+            <p class="play-caption" data-br-cap aria-live="polite">In through the nose while the circle grows, out slowly while it shrinks.</p>
+          </div>
+        </div>
+      </div>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen prin-tight" id="scr-124" data-section="learn" data-status="Act 4 of 5" data-steps="5" data-step="4" data-principle hidden>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div class="act-body" data-prin-body></div>
+      <div class="hero-say">
+        <figure class="hero-fig" aria-hidden="true"><img src="assets/img/shift-gentle-firm.png" alt="" width="268" height="480"></figure>
+        <div class="card-seen hero-card">
+          <p class="card-seen-k">You&rsquo;ll see this card again in Try It Out</p>
+          <div class="wt-card card-static" data-card-what="State the limit"><span class="wt-what">State the limit</span><span class="wt-say"></span></div>
+        </div>
+      </div>
+      <ul class="act-rules hero-rules">
+        <li><strong>Say what happens, not what they did wrong.</strong> &ldquo;The shoes go on before the bus,&rdquo; not &ldquo;You&rsquo;re being ridiculous.&rdquo;</li>
+        <li><strong>Tell, don&rsquo;t ask.</strong> &ldquo;Can you put your shoes on?&rdquo; invites a no you&rsquo;ll have to overrule.</li>
+        <li><strong>Say it once.</strong> Repeating it turns the limit into an argument.</li>
+      </ul>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen prin-tight" id="scr-125" data-section="learn" data-status="Act 5 of 5" data-steps="5" data-step="5" data-principle hidden>
+      <h1 class="screen-title" data-prin-title></h1>
+      <div class="act-body" data-prin-body></div>
+      <div class="hero-say">
+        <figure class="hero-fig" aria-hidden="true"><img src="assets/img/shift-two-options.png" alt="" width="268" height="480"></figure>
+        <div class="card-seen hero-card">
+          <p class="card-seen-k">You&rsquo;ll see this card again in Try It Out</p>
+          <div class="wt-card card-static" data-card-what="Give two options"><span class="wt-what">Give two options</span><span class="wt-say"></span></div>
+        </div>
+      </div>
+      <ul class="act-rules hero-rules">
+        <li><strong>Both have to be fine with you.</strong> If one of them isn&rsquo;t, it isn&rsquo;t a choice.</li>
+        <li><strong>Wait for Ready to think.</strong> An overwhelmed child can&rsquo;t weigh two things. Name the feeling first.</li>
+        <li><strong>Keep them small.</strong> This or that. Now, or after one more minute.</li>
+      </ul>
+      <div class="prin-home" data-prin-home hidden></div>
+    </section>
+
+    <section class="screen" id="scr-130" data-section="learn" data-status="Section close" data-theme="dark" hidden>
+      <p class="eyebrow">End of section 1</p>
+      <h1 class="screen-title">Assess, then Act</h1>
+      <p class="screen-body">Assess is how you read the moment. Act is what you do in it. Test Your Knowledge and Try It Out both listen for the five Act moves, by these names.</p>
+      <div class="sum-cols">
+        <div class="sum-col">
+          <p class="sum-k">Assess</p>
+          <a href="#scr-111">Three brain states</a>
+          <a href="#scr-112">The drop, and the way back</a>
+          <a href="#scr-113">Look beneath the behavior</a>
+          <a href="#scr-114">Four shifts in how you see it</a>
+        </div>
+        <div class="sum-col">
+          <p class="sum-k">Act</p>
+          <a href="#scr-121"><b>1</b> Composure</a>
+          <a href="#scr-122"><b>2</b> Name the Feeling</a>
+          <a href="#scr-123"><b>3</b> Breathe Together</a>
+          <a href="#scr-124"><b>4</b> State the Limit</a>
+          <a href="#scr-125"><b>5</b> Give Two Options</a>
+        </div>
+      </div>
+      <p class="gate" id="closeGate" hidden></p>
+      <div class="band-acts">
+        <a class="btn" href="#scr-200">Go on to Test Your Knowledge</a>
+        <a class="btn-link" href="#scr-099">Back to the start</a>
+      </div>
+      <p class="gate">A reasonable place to stop, too. Your place is saved either way.</p>
+    </section>
+
+    <!-- TYK intro hub (NEW 26 Sept, package I): the fourth use of the "pick a
+         section" pattern. Introduces the Coach; start at 1 or pick any. Ticks
+         come from saved bands. Copy is Claude's draft for Marc's pass. -->
+    <section class="screen" id="scr-200" data-section="check" data-status="Overview" hidden>
+<div class="qzi-grid">
+        <div class="qzi-main">
+          <div class="qzi-head"><p class="eyebrow sec-check">Section 2 of 3</p>
+            <h1 class="screen-title">Test Your Knowledge</h1></div>
+          <div class="qzi-says">
+            <p class="coach-k">Meet the Coach</p>
+            <p class="screen-body">I&rsquo;ll read what you write and tell you what I think is working. Four everyday situations. Answer in your own words, the way you&rsquo;d explain it to a friend. There&rsquo;s no pass mark, and you can try any of them again.</p>
+          </div>
+          <nav class="lenses qz-hub qzi-hub" aria-label="The four situations">
+        <a class="lens" href="#scr-201" data-qz-hub="qz-201"><span class="row"><span class="name">1 &middot; At the checkout</span><span class="mark"></span></span><span class="blurb">A meltdown over a chocolate bar, with someone watching.</span></a>
+        <a class="lens" href="#scr-202" data-qz-hub="qz-202"><span class="row"><span class="name">2 &middot; The apology</span><span class="mark"></span></span><span class="blurb">She says sorry, then does it again.</span></a>
+        <a class="lens" href="#scr-203" data-qz-hub="qz-203"><span class="row"><span class="name">3 &middot; &ldquo;You&rsquo;re letting him walk all over you!&rdquo;</span><span class="mark"></span></span><span class="blurb">Explaining what you were doing to someone who doubts it.</span></a>
+        <a class="lens" href="#scr-204" data-qz-hub="qz-204"><span class="row"><span class="name">4 &middot; After you snapped</span><span class="mark"></span></span><span class="blurb">You said something you regret. What now?</span></a>
+      </nav>
+          <p class="gate" id="qzGate">Start with 1, or pick any. They take about two minutes each.</p>
+        </div>
+        <figure class="qzi-fig"><img src="assets/img/coach-encouraging-lg.png" width="560" height="840" alt="The Coach, in a cap and whistle, encouraging you on."></figure>
+      </div>
+    </section>
+
+    <section class="screen" id="scr-201" data-section="check" data-status="Question 1 of 4" data-steps="4" data-step="1" data-quiz="qz-201" hidden>
+
+      <div class="qz-ask" data-qz-ask>
+        <div class="qz-lead">
+          <p class="eyebrow" data-qz-where hidden></p>
+          <p class="screen-body" data-qz-setup></p>
+        </div>
+        <div class="qz-main">
+        <h1 class="screen-title" data-qz-ask-q></h1>
+        <textarea class="qz-field" data-qz-field rows="4" aria-label="Your answer" placeholder="A sentence or two is plenty — write it the way you would explain it to a friend."></textarea>
+        <div class="qz-acts">
+          <button class="btn" data-qz-submit type="button">Check my answer</button>
+          <button class="btn-link" data-qz-skip type="button">Skip this one</button>
+        </div>
+        </div>
+      </div>
+
+      <div class="safety" data-qz-safety hidden></div>
+
+      <div class="qz-result" data-qz-result hidden>
+        <div class="qz-fb">
+          <div class="qz-verdict">
+            <h1 class="screen-title" data-qz-head></h1>
+            <span class="qz-band" data-qz-band></span>
+          </div>
+          <div class="rp-pose xfade" data-qz-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
+        </div>
+
+        <div class="qz-block">
+          <p class="qz-k sr">What you wrote</p>
+          <p class="qz-wrote" data-qz-wrote></p>
+        </div>
+
+        <div class="qz-rows" data-qz-rows></div>
+
+        <div class="qz-model">
+          <p class="qz-k qz-k-blue" data-qz-say-k>One thing you could say</p>
+          <p class="qz-say-lead" data-qz-say-lead></p>
+          <p class="qz-say-line" data-qz-say-line></p>
+        </div>
+
+        <p class="qz-coach" data-qz-coach></p>
+
+        <aside class="coach-says coach-says-bare" data-qz-practice hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-qz-practice-t></p>
+          </div>
+        </aside>
+
+        <div class="qz-acts">
+          <button class="btn btn-quiet" data-qz-again type="button">Back to the question</button>
+          <button class="btn-link" data-qz-claim type="button" hidden>I think my answer covered this</button>
+        </div>
+        <p class="qz-claimed" data-qz-claimed hidden>Taken at your word. Nobody is grading you — and the wording that tripped this is worth telling Marc about.</p>
+      </div>
+
+    </section>
+
+    <section class="screen" id="scr-202" data-section="check" data-status="Question 2 of 4" data-steps="4" data-step="2" data-quiz="qz-202" hidden>
+
+      <div class="qz-ask" data-qz-ask>
+        <div class="qz-lead">
+          <p class="eyebrow" data-qz-where hidden></p>
+          <p class="screen-body" data-qz-setup></p>
+        </div>
+        <div class="qz-main">
+        <h1 class="screen-title" data-qz-ask-q></h1>
+        <textarea class="qz-field" data-qz-field rows="4" aria-label="Your answer" placeholder="A sentence or two is plenty — write it the way you would explain it to a friend."></textarea>
+        <div class="qz-acts">
+          <button class="btn" data-qz-submit type="button">Check my answer</button>
+          <button class="btn-link" data-qz-skip type="button">Skip this one</button>
+        </div>
+        </div>
+      </div>
+
+      <div class="safety" data-qz-safety hidden></div>
+
+      <div class="qz-result" data-qz-result hidden>
+        <div class="qz-fb">
+          <div class="qz-verdict">
+            <h1 class="screen-title" data-qz-head></h1>
+            <span class="qz-band" data-qz-band></span>
+          </div>
+          <div class="rp-pose xfade" data-qz-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
+        </div>
+
+        <div class="qz-block">
+          <p class="qz-k sr">What you wrote</p>
+          <p class="qz-wrote" data-qz-wrote></p>
+        </div>
+
+        <div class="qz-rows" data-qz-rows></div>
+
+        <div class="qz-model">
+          <p class="qz-k qz-k-blue" data-qz-say-k>One thing you could say</p>
+          <p class="qz-say-lead" data-qz-say-lead></p>
+          <p class="qz-say-line" data-qz-say-line></p>
+        </div>
+
+        <p class="qz-coach" data-qz-coach></p>
+
+        <aside class="coach-says coach-says-bare" data-qz-practice hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-qz-practice-t></p>
+          </div>
+        </aside>
+
+        <div class="qz-acts">
+          <button class="btn btn-quiet" data-qz-again type="button">Back to the question</button>
+          <button class="btn-link" data-qz-claim type="button" hidden>I think my answer covered this</button>
+        </div>
+        <p class="qz-claimed" data-qz-claimed hidden>Taken at your word. Nobody is grading you — and the wording that tripped this is worth telling Marc about.</p>
+      </div>
+
+    </section>
+
+    <section class="screen" id="scr-203" data-section="check" data-status="Question 3 of 4" data-steps="4" data-step="3" data-quiz="qz-203" hidden>
+
+      <div class="qz-ask" data-qz-ask>
+        <div class="qz-lead">
+          <p class="eyebrow" data-qz-where hidden></p>
+          <p class="screen-body" data-qz-setup></p>
+        </div>
+        <div class="qz-main">
+        <h1 class="screen-title" data-qz-ask-q></h1>
+        <textarea class="qz-field" data-qz-field rows="4" aria-label="Your answer" placeholder="A sentence or two is plenty — write it the way you would explain it to a friend."></textarea>
+        <div class="qz-acts">
+          <button class="btn" data-qz-submit type="button">Check my answer</button>
+          <button class="btn-link" data-qz-skip type="button">Skip this one</button>
+        </div>
+        </div>
+      </div>
+
+      <div class="safety" data-qz-safety hidden></div>
+
+      <div class="qz-result" data-qz-result hidden>
+        <div class="qz-fb">
+          <div class="qz-verdict">
+            <h1 class="screen-title" data-qz-head></h1>
+            <span class="qz-band" data-qz-band></span>
+          </div>
+          <div class="rp-pose xfade" data-qz-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
+        </div>
+
+        <div class="qz-block">
+          <p class="qz-k sr">What you wrote</p>
+          <p class="qz-wrote" data-qz-wrote></p>
+        </div>
+
+        <div class="qz-rows" data-qz-rows></div>
+
+        <div class="qz-model">
+          <p class="qz-k qz-k-blue" data-qz-say-k>One thing you could say</p>
+          <p class="qz-say-lead" data-qz-say-lead></p>
+          <p class="qz-say-line" data-qz-say-line></p>
+        </div>
+
+        <p class="qz-coach" data-qz-coach></p>
+
+        <aside class="coach-says coach-says-bare" data-qz-practice hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-qz-practice-t></p>
+          </div>
+        </aside>
+
+        <div class="qz-acts">
+          <button class="btn btn-quiet" data-qz-again type="button">Back to the question</button>
+          <button class="btn-link" data-qz-claim type="button" hidden>I think my answer covered this</button>
+        </div>
+        <p class="qz-claimed" data-qz-claimed hidden>Taken at your word. Nobody is grading you — and the wording that tripped this is worth telling Marc about.</p>
+      </div>
+
+    </section>
+
+    <section class="screen" id="scr-204" data-section="check" data-status="Question 4 of 4" data-steps="4" data-step="4" data-quiz="qz-204" hidden>
+
+      <div class="qz-ask" data-qz-ask>
+        <div class="qz-lead">
+          <p class="eyebrow" data-qz-where hidden></p>
+          <p class="screen-body" data-qz-setup></p>
+        </div>
+        <div class="qz-main">
+        <h1 class="screen-title" data-qz-ask-q></h1>
+        <textarea class="qz-field" data-qz-field rows="4" aria-label="Your answer" placeholder="A sentence or two is plenty — write it the way you would explain it to a friend."></textarea>
+        <div class="qz-acts">
+          <button class="btn" data-qz-submit type="button">Check my answer</button>
+          <button class="btn-link" data-qz-skip type="button">Skip this one</button>
+        </div>
+        </div>
+      </div>
+
+      <div class="safety" data-qz-safety hidden></div>
+
+      <div class="qz-result" data-qz-result hidden>
+        <div class="qz-fb">
+          <div class="qz-verdict">
+            <h1 class="screen-title" data-qz-head></h1>
+            <span class="qz-band" data-qz-band></span>
+          </div>
+          <div class="rp-pose xfade" data-qz-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
+        </div>
+
+        <div class="qz-block">
+          <p class="qz-k sr">What you wrote</p>
+          <p class="qz-wrote" data-qz-wrote></p>
+        </div>
+
+        <div class="qz-rows" data-qz-rows></div>
+
+        <div class="qz-model">
+          <p class="qz-k qz-k-blue" data-qz-say-k>One thing you could say</p>
+          <p class="qz-say-lead" data-qz-say-lead></p>
+          <p class="qz-say-line" data-qz-say-line></p>
+        </div>
+
+        <p class="qz-coach" data-qz-coach></p>
+
+        <aside class="coach-says coach-says-bare" data-qz-practice hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-qz-practice-t></p>
+          </div>
+        </aside>
+
+        <div class="qz-acts">
+          <button class="btn btn-quiet" data-qz-again type="button">Back to the question</button>
+          <button class="btn-link" data-qz-claim type="button" hidden>I think my answer covered this</button>
+        </div>
+        <p class="qz-claimed" data-qz-claimed hidden>Taken at your word. Nobody is grading you — and the wording that tripped this is worth telling Marc about.</p>
+      </div>
+
+    </section>
+
+    <!-- The End of Section 2 band, twice, from one copy source
+         (content/strings.js close2). SCR-209 is the dark close reached by
+         Next. SCR-300 is the same band on the light ground, reachable ONLY
+         from the title screen's Try It Out link: Next and Back step over it
+         (data-direct-only), because a parent arriving from Section 2 has
+         just read it. -->
+    <section class="screen band-close" id="scr-209" data-section="check" data-status="Section close" data-theme="dark" data-band="close" hidden>
+      <div class="band-in">
+        <p class="eyebrow" data-band-eyebrow></p>
+        <h1 class="screen-title" data-band-title></h1>
+        <p class="screen-body" data-band-body></p>
+        <p class="screen-body" data-band-more hidden></p>
+        <div class="lenses band-pick" data-band-pick hidden></div>
+        <aside class="coach-says coach-dark" data-sum-coach>
+          <img class="coach-fig" src="assets/img/coach-happy.png" alt="" width="56" height="84">
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-sum-coach-t></p>
+          </div>
+        </aside>
+        <div class="band-acts">
+          <button class="btn" data-band-go type="button"></button>
+          <a class="btn-link" href="#scr-099">Back to the title</a>
+          <button class="btn-link" data-band-stop type="button"></button>
+        </div>
+        <p class="band-note" data-band-note aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="screen band-close" id="scr-300" data-section="practice" data-status="Before you start" data-band="intro" data-direct-only hidden>
+      <div class="band-cast">
+      <div class="band-in">
+        <p class="eyebrow plum" data-band-eyebrow></p>
+        <h1 class="screen-title" data-band-title></h1>
+        <p class="screen-body" data-band-body></p>
+        <p class="screen-body" data-band-more hidden></p>
+        <div class="lenses band-pick" data-band-pick hidden></div>
+        <div class="band-acts">
+          <button class="btn" data-band-go type="button"></button>
+          <button class="btn-link" data-band-stop type="button"></button>
+        </div>
+        <p class="band-note" data-band-note aria-live="polite"></p>
+      </div>
+      <figure class="band-fig"><img src="assets/img/pose-contented.png" width="336" height="504" alt="Maya, smiling."></figure>
+      </div>
+    </section>
+
+    <section class="screen" id="scn-301" data-section="practice" data-status="Scenario 1 of 3" data-steps="3" data-step="1" data-scene="scn-301" hidden>
+
+      <div class="rp-play" data-rp-play>
+        <div class="rp-head">
+          <p class="eyebrow">Scenario 1 &middot; Screen time</p>
+          <h1 class="screen-title">It&rsquo;s time to stop</h1>
+          <p class="screen-body">After dinner. Maya has been on the tablet for forty minutes. Say what you&rsquo;d really say. You get three replies.</p>
+        </div>
+
+        <div class="rp-body">
+          <div class="rp-rail xfade" data-rp-rail aria-hidden="true">
+            <img data-xfade="0" data-on="no" src="assets/img/pose-overwhelmed.png" alt="" width="168" height="252">
+            <img data-xfade="1" data-on="yes" src="assets/img/pose-upset.png" alt="" width="168" height="252">
+            <img data-xfade="2" data-on="no" src="assets/img/pose-ready.png" alt="" width="168" height="252">
+            <img data-xfade="3" data-on="no" src="assets/img/pose-contented.png" alt="" width="168" height="252" style="transform:scale(0.981)">
+          </div>
+          <div class="rp-main">
+            <div class="rp-log" data-rp-log></div>
+            <div class="safety" data-rp-safety hidden></div>
+            <div class="rp-compose" data-rp-compose>
+              <div class="wt" data-wt>
+                <button class="wt-pill" type="button" data-wt-toggle aria-expanded="false" aria-controls="wt-scn-301">Words to try <span aria-hidden="true">&middot;</span> <span data-wt-count>3</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                <div class="wt-cards" id="wt-scn-301" data-wt-cards hidden></div>
+              </div>
+              <textarea class="qz-field" data-rp-field rows="3" aria-label="What you say to Maya" placeholder="What would you say to her? Write it the way you&rsquo;d say it out loud."></textarea>
+              <div class="rp-acts">
+                <div class="rp-side">
+                  <button class="btn-link rp-quiet" data-rp-back data-to="scr-300" type="button">Back</button>
+                  <button class="btn-link rp-quiet" data-rp-reset type="button" hidden>Start over</button>
+                </div>
+                <p class="wt-prov" id="wt-prov-301" data-wt-prov hidden><span class="wt-prov-lead">Preview <span aria-hidden="true">&middot;</span> </span><span data-wt-dbl>double-tap</span> to keep</p>
+                <span class="gap"></span>
+                <button class="btn btn-quiet" data-wt-use type="button" hidden>Use it</button>
+                <button class="btn" data-rp-say type="button">Say it</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qz-result" data-rp-result hidden>
+        <div class="rp-fb">
+          <div class="rp-pose xfade" data-rp-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="cards" data-on="no" src="assets/img/coach-happy.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
+          <div class="rp-fb-txt">
+            <div class="qz-verdict">
+              <h1 class="screen-title" data-rp-head></h1>
+              <span class="qz-band" data-rp-band></span>
+            </div>
+            <p class="qz-coach" data-rp-body></p>
+            <p class="rp-frame" data-rp-frame hidden></p>
+            <div class="qz-rows" data-rp-rows></div>
+          </div>
+        </div>
+        <aside class="coach-says coach-says-bare" data-rp-cards hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-rp-cards-t></p>
+            <ul class="rp-used" data-rp-used></ul>
+          </div>
+        </aside>
+        <aside class="coach-says coach-says-bare" data-rp-coach hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-rp-coach-t></p>
+          </div>
+        </aside>
+        <div class="qz-acts">
+          <button class="btn btn-quiet" data-rp-again type="button">Try this one again</button>
+          <button class="btn" data-rp-next type="button" hidden></button>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="screen" id="scn-302" data-section="practice" data-status="Scenario 2 of 3" data-steps="3" data-step="2" data-scene="scn-302" hidden>
+
+      <div class="rp-play" data-rp-play>
+        <div class="rp-head">
+          <p class="eyebrow">Scenario 2 &middot; The pickup line</p>
+          <h1 class="screen-title">&ldquo;Not YOU!&rdquo;</h1>
+          <p class="screen-body">The pickup line, 3:15. You&rsquo;re parked with the engine running, and Maya climbs into her car seat. Say what you&rsquo;d really say. You get three replies.</p>
+        </div>
+
+        <div class="rp-body">
+          <div class="rp-rail xfade" data-rp-rail aria-hidden="true">
+            <img data-xfade="0" data-on="no" src="assets/img/pose-overwhelmed.png" alt="" width="168" height="252">
+            <img data-xfade="1" data-on="yes" src="assets/img/pose-upset.png" alt="" width="168" height="252">
+            <img data-xfade="2" data-on="no" src="assets/img/pose-ready.png" alt="" width="168" height="252">
+            <img data-xfade="3" data-on="no" src="assets/img/pose-contented.png" alt="" width="168" height="252" style="transform:scale(0.981)">
+          </div>
+          <div class="rp-main">
+            <div class="rp-log" data-rp-log></div>
+            <div class="safety" data-rp-safety hidden></div>
+            <div class="rp-compose" data-rp-compose>
+              <div class="wt" data-wt>
+                <button class="wt-pill" type="button" data-wt-toggle aria-expanded="false" aria-controls="wt-scn-302">Words to try <span aria-hidden="true">&middot;</span> <span data-wt-count>3</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                <div class="wt-cards" id="wt-scn-302" data-wt-cards hidden></div>
+              </div>
+              <textarea class="qz-field" data-rp-field rows="3" aria-label="What you say to Maya" placeholder="What would you say to her? Write it the way you&rsquo;d say it out loud."></textarea>
+              <div class="rp-acts">
+                <div class="rp-side">
+                  <button class="btn-link rp-quiet" data-rp-back data-to="scr-300" type="button">Back</button>
+                  <button class="btn-link rp-quiet" data-rp-reset type="button" hidden>Start over</button>
+                </div>
+                <p class="wt-prov" id="wt-prov-302" data-wt-prov hidden><span class="wt-prov-lead">Preview <span aria-hidden="true">&middot;</span> </span><span data-wt-dbl>double-tap</span> to keep</p>
+                <span class="gap"></span>
+                <button class="btn btn-quiet" data-wt-use type="button" hidden>Use it</button>
+                <button class="btn" data-rp-say type="button">Say it</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qz-result" data-rp-result hidden>
+        <div class="rp-fb">
+          <div class="rp-pose xfade" data-rp-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="cards" data-on="no" src="assets/img/coach-happy.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
+          <div class="rp-fb-txt">
+            <div class="qz-verdict">
+              <h1 class="screen-title" data-rp-head></h1>
+              <span class="qz-band" data-rp-band></span>
+            </div>
+            <p class="qz-coach" data-rp-body></p>
+            <p class="rp-frame" data-rp-frame hidden></p>
+            <div class="qz-rows" data-rp-rows></div>
+          </div>
+        </div>
+        <aside class="coach-says coach-says-bare" data-rp-cards hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-rp-cards-t></p>
+            <ul class="rp-used" data-rp-used></ul>
+          </div>
+        </aside>
+        <aside class="coach-says coach-says-bare" data-rp-coach hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-rp-coach-t></p>
+          </div>
+        </aside>
+        <div class="qz-acts">
+          <button class="btn btn-quiet" data-rp-again type="button">Try this one again</button>
+          <button class="btn" data-rp-next type="button" hidden></button>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="screen" id="scn-303" data-section="practice" data-status="Scenario 3 of 3" data-steps="3" data-step="3" data-scene="scn-303" hidden>
+
+      <div class="rp-play" data-rp-play>
+        <div class="rp-head">
+          <p class="eyebrow">Scenario 3 &middot; The shoes</p>
+          <h1 class="screen-title">The bus comes in ten minutes</h1>
+          <p class="screen-body">7:40 a.m., the morning from the very start of the module. This time, say it to her. You get three replies.</p>
+        </div>
+
+        <div class="rp-body">
+          <div class="rp-rail xfade" data-rp-rail aria-hidden="true">
+            <img data-xfade="0" data-on="no" src="assets/img/pose-overwhelmed.png" alt="" width="168" height="252">
+            <img data-xfade="1" data-on="yes" src="assets/img/pose-upset.png" alt="" width="168" height="252">
+            <img data-xfade="2" data-on="no" src="assets/img/pose-ready.png" alt="" width="168" height="252">
+            <img data-xfade="3" data-on="no" src="assets/img/pose-contented.png" alt="" width="168" height="252" style="transform:scale(0.981)">
+          </div>
+          <div class="rp-main">
+            <div class="rp-log" data-rp-log></div>
+            <div class="safety" data-rp-safety hidden></div>
+            <div class="rp-compose" data-rp-compose>
+              <div class="wt" data-wt>
+                <button class="wt-pill" type="button" data-wt-toggle aria-expanded="false" aria-controls="wt-scn-303">Words to try <span aria-hidden="true">&middot;</span> <span data-wt-count>3</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                <div class="wt-cards" id="wt-scn-303" data-wt-cards hidden></div>
+              </div>
+              <textarea class="qz-field" data-rp-field rows="3" aria-label="What you say to Maya" placeholder="What would you say to her? Write it the way you&rsquo;d say it out loud."></textarea>
+              <div class="rp-acts">
+                <div class="rp-side">
+                  <button class="btn-link rp-quiet" data-rp-back data-to="scr-300" type="button">Back</button>
+                  <button class="btn-link rp-quiet" data-rp-reset type="button" hidden>Start over</button>
+                </div>
+                <p class="wt-prov" id="wt-prov-303" data-wt-prov hidden><span class="wt-prov-lead">Preview <span aria-hidden="true">&middot;</span> </span><span data-wt-dbl>double-tap</span> to keep</p>
+                <span class="gap"></span>
+                <button class="btn btn-quiet" data-wt-use type="button" hidden>Use it</button>
+                <button class="btn" data-rp-say type="button">Say it</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qz-result" data-rp-result hidden>
+        <div class="rp-fb">
+          <div class="rp-pose xfade" data-rp-pose aria-hidden="true">
+            <img data-xfade="notyet" data-on="yes" src="assets/img/coach-thinking.png" alt="" width="84" height="126">
+            <img data-xfade="nearly" data-on="no" src="assets/img/coach-neutral.png" alt="" width="84" height="126">
+            <img data-xfade="cards" data-on="no" src="assets/img/coach-happy.png" alt="" width="84" height="126">
+            <img data-xfade="strong" data-on="no" src="assets/img/coach-celebratory.png" alt="" width="84" height="126">
+          </div>
+          <div class="rp-fb-txt">
+            <div class="qz-verdict">
+              <h1 class="screen-title" data-rp-head></h1>
+              <span class="qz-band" data-rp-band></span>
+            </div>
+            <p class="qz-coach" data-rp-body></p>
+            <p class="rp-frame" data-rp-frame hidden></p>
+            <div class="qz-rows" data-rp-rows></div>
+          </div>
+        </div>
+        <aside class="coach-says coach-says-bare" data-rp-cards hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-rp-cards-t></p>
+            <ul class="rp-used" data-rp-used></ul>
+          </div>
+        </aside>
+        <aside class="coach-says coach-says-bare" data-rp-coach hidden>
+          <div class="coach-txt">
+            <p class="coach-k">Coach says</p>
+            <p class="coach-t" data-rp-coach-t></p>
+          </div>
+        </aside>
+        <div class="qz-acts">
+          <button class="btn btn-quiet" data-rp-again type="button">Try this one again</button>
+          <button class="btn" data-rp-next type="button" hidden></button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Package K, 30 Sept. The Hook Bookend: the first answer beside a new one,
+         and which Act moves the new one uses. Never scored. Copy in
+         content/bookend.js; the analysis line is Marc's to write. -->
+    <section class="screen" id="scr-304" data-theme="dark" data-status="" hidden>
+      <div class="bk-col">
+        <p class="eyebrow plum" data-bk="eyebrow"></p>
+        <h1 class="screen-title">&ldquo;I&rsquo;m NOT wearing these stupid shoes!&rdquo;</h1>
+        <p class="screen-body" data-bk="intro"></p>
+        <div class="bk-pair">
+          <figure class="readback bk-then">
+            <figcaption class="readback-k" data-bk="thenK"></figcaption>
+            <blockquote class="readback-q" id="bkThenT"></blockquote>
+            <p class="bk-empty" id="bkThenNone" data-bk="noThen" hidden></p>
+          </figure>
+          <figure class="readback bk-now">
+            <figcaption class="readback-k" data-bk="nowK"></figcaption>
+            <blockquote class="readback-q" id="bkNowT"></blockquote>
+            <div class="bk-empty" id="bkNowNone" hidden>
+              <p data-bk="noNow"></p>
+              <button class="door" type="button" data-show="scr-300" data-bk="goScene"></button>
+            </div>
+          </figure>
+        </div>
+        <div class="bk-result" id="bkResult" hidden>
+          <div class="bk-table" role="table" id="bkTable"></div>
+          <p class="screen-body bk-analysis" id="bkAnalysis" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCR-500, phrase cards (1 Oct). A door, not a stop: reached from the
+         Hook and the panel. Built by js/phrases.js from content/phrases.js. -->
+    <section class="screen" id="scr-500" data-status="Phrase cards" data-direct-only hidden>
+      <div class="pc-col">
+        <!-- Draft 2 (Marc): a one-off page, so no Back/Next footer; Back sits at the top, as in the glossary. -->
+        <button class="btn-link gl-back pc-back" type="button" data-pc-back>&larr; Back</button>
+        <p class="eyebrow plum" data-pc="eyebrow"></p>
+        <h1 class="screen-title" data-pc="title"></h1>
+        <p class="screen-body" data-pc="intro"></p>
+        <nav class="pc-jump" data-pc-jump aria-label="Phrase card groups"></nav>
+        <div><button class="btn-link" type="button" data-pc-print data-pc="print"></button></div>
+        <div class="pc-list" data-pc-list></div>
+        <div class="pc-later">
+          <p class="door-note" data-pc="later"></p>
+          <button class="door" type="button" data-show="scr-099" data-pc="laterGo"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen fin" id="scr-400" data-theme="dark" hidden>
+      <div class="cover-grid">
+        <div class="cover-text">
+          <p class="eyebrow plum" data-fin="eyebrow"></p>
+          <h1 class="cover-title fin-title" data-fin="title"></h1>
+          <p class="screen-body" data-fin="body"></p>
+          <div class="fin-acts">
+            <button class="btn" id="finAgain" type="button" data-fin="again"></button>
+            <button class="btn btn-quiet" type="button" data-show="scr-099" data-fin="home"></button>
+          </div>
+          <div><button class="door" type="button" data-show="scr-500" data-fin="cards"></button></div>
+        </div>
+        <figure class="cover-art"><img src="assets/img/scene-embrace-kneeling-dark.png" width="557" height="782" alt="A parent kneels and hugs their child. Both are smiling with their eyes closed."></figure>
+      </div>
+      <p class="cover-disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.<br>Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay Design</a></p>
+    </section>
+
+  </main>
+
+  <nav class="mod-foot">
+    <button class="btn btn-quiet" id="navBack" type="button">Back</button>
+    <span class="gap"></span>
+    <button class="btn" id="navNext" type="button">Next</button>
+  </nav>
+
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+
+<div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" hidden>
+  <div class="panel-head">
+    <h2 id="panelTitle">About &amp; reference</h2>
+    <span class="saved" id="panelSaved"></span>
+    <span class="gap"></span>
+    <button class="panel-x" id="panelX" type="button" aria-label="Close"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg></button>
+  </div>
+
+  <div class="card">
+    <h3>Your place is saved.</h3>
+    <p>This module remembers where you are and everything you have written. As long as you use the same device and browser, you can close the module and come back to it. Nothing is sent anywhere: the scoring runs on your own computer, so what you type never leaves it, and nothing is reported to the school.</p>
+    <p class="sub">Using a different device?</p>
+    <!-- NEW 26 Sept: the code now has somewhere to go (COVER), and the email sends a link. -->
+    <p>Email yourself a link and open it on your phone or laptop. Or copy this code and paste it on the module&rsquo;s first screen, under &ldquo;Started on another device?&rdquo;</p>
+    <div class="code-row">
+      <div class="code" id="resumeCode" tabindex="0" title="Click to select the whole code"></div>
+      <button class="code-copy" id="codeCopy" type="button" aria-label="Copy code"><svg class="i-copy" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="6" y="6" width="9" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"></rect><path d="M12 3.5V3a1.5 1.5 0 0 0-1.5-1.5h-6A1.5 1.5 0 0 0 3 3v7.5A1.5 1.5 0 0 0 4.5 12H5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><svg class="i-done" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+    </div>
+    <!-- Draft 2 (Marc): Email it to me sits right under the code. -->
+    <div class="row code-mail">
+      <button class="btn btn-quiet" id="codeMail" type="button">Email it to me</button>
+    </div>
+    <p class="code-status" id="codeStatus" aria-live="polite"></p>
+    <p class="sub">Want a fresh start?</p>
+    <p>This clears everything you have written on this device. It cannot be undone.</p>
+    <div class="row">
+      <button class="btn btn-quiet" id="panelRestart" type="button">Start again</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Words for a hard moment</h3>
+    <p>Twenty-one short lines for when you need something to say right now.</p>
+    <div class="row">
+      <button class="btn btn-quiet" id="panelPhrases" type="button">Open the phrase cards</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>What the words mean</h3>
+    <p>Ten words and phrases your child&rsquo;s school uses, each paired with a phrase you can actually say.</p>
+    <div class="row">
+      <button class="btn btn-quiet" id="glossOpen" type="button">Open the glossary</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Nobody is grading you</h3>
+    <p>There is no pass mark, cumulative score, or report. You will receive feedback as you go, and you can retake anything as many times as you like.</p>
+  </div>
+
+  <div class="card" id="panelHurt">
+    <h3>&ldquo;But what if my child is the one being hurt?&rdquo;</h3>
+    <p>This module is about teaching a skill over time. It never means leaving a child unprotected. If someone is being hurt, stop it first, physically if you have to. The teaching comes later, once everyone is calm.</p>
+  </div>
+
+  <div class="gl" id="panelGloss" data-title="What the words mean" hidden>
+    <button class="btn-link gl-back" type="button" data-gl-back>&larr; About &amp; reference</button>
+    <p class="gl-lede">The words your child&rsquo;s school uses, in plain English first, each with something you can say.</p>
+    <div class="gl-list" data-gl-list></div>
+  </div>
+
+  <div class="panel-foot">
+    <p class="keys">Press <strong aria-hidden="true">?</strong><span class="sr-only">the question mark key</span> for this panel. Press <strong>R</strong> for words to try, once you are practicing.</p>
+    <p class="disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.</p>
+    <p class="credit">Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay</a>, instructional designer and real-life dad of a 5-year-old.</p>
+  </div>
+</div>
+
+<script src="content/strings.js?v=20261005b"></script>
+<script src="content/principles.js?v=20261005b"></script>
+<script src="content/quiz.js?v=20261005b"></script>
+<script src="content/safety.js?v=20261005b"></script>
+<script src="content/scenarios.js?v=20261005b"></script>
+<script src="content/bookend.js?v=20261005b"></script>
+<script src="content/phrases.js?v=20261005b"></script>
+<script src="content/glossary.js?v=20261005b"></script>
+<script src="js/board.js?v=20261005b"></script>
+<script src="js/state.js?v=20261005b"></script>
+<script src="js/haptics.js?v=20261005b"></script>
+<script src="js/fx.js?v=20261005b"></script>
+<script src="js/principles.js?v=20261005b"></script>
+<script src="js/safety.js?v=20261005b"></script>
+<script src="js/matcher.js?v=20261005b"></script>
+<script src="js/quiz.js?v=20261005b"></script>
+<script src="js/roleplay.js?v=20261005b"></script>
+<script src="js/app.js?v=20261005b"></script>
+<script src="js/phrases.js?v=20261005b"></script>
+<script src="js/glossary.js?v=20261005b"></script>
+</body>
+</html>

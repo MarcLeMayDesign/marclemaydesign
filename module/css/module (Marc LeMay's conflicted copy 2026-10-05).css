@@ -1,0 +1,2015 @@
+/* Conscious Discipline at Home — the module's own stylesheet.
+   Not site.css. The module is its own surface and shares nothing with the
+   portfolio pages around it.
+
+   Ground      #FAFBFC   cool near-white paper, every screen but the bookends
+   Bookend     #1C2030   SCR-101, SCR-304 and the dark reflective screens
+   Ink         #25293C   headings
+   Body        #3B3E4C   running text
+   Muted       #5F6272   labels, status, secondary
+   Action      #1F6FAD   the one blue: links, buttons, live markers
+   Plum        #8E3A57   small uppercase labels only
+   Tint        #E7EFF7   key-concept blocks and the provisional band
+   Hairline    #DEE3E9   rules and borders on the ground
+   Radius      14px      everything soft except rules
+   Type        Work Sans throughout
+*/
+
+:root{
+  --ground:#FAFBFC;
+  --surface:#F1F4F7;
+  --bookend:#1C2030;
+  --bookend-surface:#272C3E;
+  --bookend-ink:#F4F1EA;
+  --bookend-soft:#C3C9D8;
+  --ink:#25293C;
+  --body:#3B3E4C;
+  --muted:#5F6272;
+  --action:#1F6FAD;
+  --action-dim:#9FC3DF;
+  --plum:#8E3A57;
+  --tint:#DFEAF5;
+  --hair:#DEE3E9;
+  --r:14px;
+  --head-h:60px;
+}
+
+*{box-sizing:border-box}
+
+html,body{margin:0;padding:0}
+
+body{
+  background:var(--ground);
+  color:var(--body);
+  font-family:'Work Sans',system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  font-size:15px;
+  line-height:1.6;
+}
+
+a{color:var(--action)}
+a:hover{color:#17578A}
+
+/* ---- the frame ----
+   The module is the page (decided 25 Sept; it was a 960px card on a gray
+   desk). The chrome runs full width; on a desktop the content keeps the old
+   card's 960px column, centered. Whatever hosts the module — the site, an
+   LMS player, the case study — supplies any frame it wants. */
+
+.app{
+  width:100%;
+  height:100vh;
+  height:100svh;
+  background:var(--ground);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+@media (max-width:999px){
+  /* Nothing may widen the page past the screen: a few stray pixels (a
+     full-bleed row, 100vw) let a phone zoom out and push the header's
+     buttons to the edge. clip, not hidden, so sticky still works. */
+  html,body{overflow-x:clip;max-width:100%}
+  .app{overflow-x:clip}
+}
+
+/* ---- header ---- */
+
+.mod-head{
+  height:var(--head-h);
+  flex:none;
+  padding:0 34px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-bottom:1px solid var(--hair);
+  background:var(--ground);
+}
+
+/* The reset and the hover live on .head-home, further down. Nothing belongs
+   here but type and color — a second hover rule on .head-name outranks
+   .head-home:hover and silently replaces it. */
+.head-name{font-weight:600;font-size:15px;color:var(--ink);white-space:nowrap}
+.head-dot{color:#9AA3AE}
+.head-sub{font-size:15px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.head-gap{flex:1}
+.head-status{font-weight:500;font-size:12px;color:var(--muted);white-space:nowrap}
+
+.head-prog{display:flex;align-items:center;gap:6px}
+.head-prog i{width:20px;height:5px;border-radius:3px;background:#D3DAE2;display:block}
+.head-prog i.on{background:var(--action)}
+.head-prog i.done{background:var(--action-dim)}
+
+.head-about{
+  width:26px;height:26px;flex:none;
+  border:0;padding:0;
+  border-radius:10px;
+  background:var(--surface);
+  box-shadow:0 1px 2px rgba(60,52,32,.10),0 0 0 .5px rgba(60,52,32,.06);
+  color:var(--muted);
+  font:600 13px/1 'Work Sans',sans-serif;
+  cursor:pointer;
+}
+@media (hover:hover){
+  .head-about:hover{color:var(--action);background:var(--tint)}
+  .app[data-theme="dark"] .head-about:hover{background:#3E4661;color:var(--bookend-ink)}
+}
+
+/* Dark screens take the header with them. */
+.app[data-theme="dark"]{background:var(--bookend)}
+.app[data-theme="dark"] .mod-head{background:var(--bookend);border-bottom-color:#333A50}
+.app[data-theme="dark"] .head-name{color:var(--bookend-ink)}
+.app[data-theme="dark"] .head-sub,
+.app[data-theme="dark"] .head-status{color:var(--bookend-soft)}
+.app[data-theme="dark"] .head-about{background:#333A50;box-shadow:none;color:var(--bookend-soft)}
+.app[data-theme="dark"] .head-prog i{background:#3A4158}
+.app[data-theme="dark"] .mod-foot{background:var(--bookend);border-top-color:#333A50}
+.app[data-theme="dark"] .placeholder{background:var(--bookend-surface);box-shadow:inset 0 0 0 1.5px #3A4158}
+.app[data-theme="dark"] .placeholder .tag{color:#D79AB3}
+.app[data-theme="dark"] .placeholder .what{color:var(--bookend-ink)}
+.app[data-theme="dark"] .placeholder .why{color:var(--bookend-soft)}
+
+/* ---- stage ---- */
+
+.stage{flex:1;min-height:0;position:relative;overflow:auto;-webkit-overflow-scrolling:touch}
+
+/* Section ids are hash targets, so keep an anchor jump clear of the header. */
+.screen{scroll-margin-top:var(--head-h)}
+
+.screen{
+  padding:30px 34px;
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+  min-height:100%;
+}
+.screen[hidden]{display:none}
+
+/* The screen change lives in js/fx.js (Web Animations, rebuilt 2 Oct), so
+   a screen with JS off simply appears. */
+
+/* Stacked crossfade (CDAH_FX.layers). The container sizes itself; every
+   layer is present from load and only opacity moves, so the pose rail never
+   flashes a decoding image mid-scene. 320ms is the pose prototype's value. */
+.xfade{position:relative}
+.xfade > [data-xfade]{
+  position:absolute;inset:0;width:100%;height:100%;
+  opacity:0;transition:opacity 320ms ease-in-out;
+}
+.xfade > [data-xfade][data-on="yes"]{opacity:1}
+
+.eyebrow{
+  font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--action);margin:0;
+}
+.eyebrow.plum{color:var(--plum)}
+
+h1.screen-title{
+  font-weight:575;font-size:30px;line-height:1.16;letter-spacing:-.012em;
+  color:var(--ink);margin:6px 0 0;max-width:22ch;text-wrap:pretty;
+}
+/* The title is focused on every screen change so a screen reader announces
+   the new screen. It is tabindex="-1" and never keyboard-reachable, so the
+   UA ring around it is noise. */
+.screen h1:focus,.screen .eyebrow:focus{outline:none}
+.app[data-theme="dark"] h1.screen-title{color:var(--bookend-ink)}
+
+p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;margin:0;text-wrap:pretty}
+.app[data-theme="dark"] p.screen-body{color:var(--bookend-soft)}
+
+.placeholder{
+  flex:1;min-height:120px;
+  border-radius:var(--r);
+  background:var(--surface);
+  box-shadow:inset 0 0 0 1.5px #C9C2B1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;text-align:center;padding:24px;
+}
+.placeholder .tag{font:500 10px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:var(--plum)}
+.placeholder .what{font-weight:600;font-size:15px;color:var(--ink)}
+.placeholder .why{font-size:13px;color:var(--muted);max-width:44ch}
+
+/* ---- footer nav ---- */
+
+.mod-foot{
+  flex:none;
+  padding:14px 34px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-top:1px solid var(--hair);
+  background:var(--ground);
+}
+.mod-foot .gap{flex:1}
+
+.btn{
+  min-height:46px;
+  padding:12px 20px;
+  border:0;
+  border-radius:var(--r);
+  font:600 14.5px/1.2 'Work Sans',sans-serif;
+  cursor:pointer;
+  background:var(--action);
+  color:#fff;
+}
+.btn:hover{background:#17578A}
+.btn[disabled]{background:#DDE2E8;color:#868E98;cursor:default}
+
+.btn-quiet{
+  background:transparent;
+  color:var(--action);
+  box-shadow:inset 0 0 0 1.5px #C3CBD4;
+}
+.btn-quiet:hover{background:var(--tint);color:#17578A}
+.btn-quiet[disabled]{background:transparent;color:#9AA3AE;box-shadow:inset 0 0 0 1.5px #E0E5EB}
+
+.app[data-theme="dark"] .btn{background:#2E86C8;color:#0F1420}
+.app[data-theme="dark"] .btn-quiet{background:transparent;color:#C3C9D8;box-shadow:inset 0 0 0 1.5px #3A4158}
+/* Oct 2 (Marc, on Finish): the two dark rules above outrank .btn:hover, so
+   no button on a dark screen had a hover. Same move as the light ground:
+   the fill shifts, the quiet one fills in. */
+.app[data-theme="dark"] .btn:not([disabled]):hover{background:#5BA3DA}
+.app[data-theme="dark"] .btn-quiet:not([disabled]):hover{background:var(--bookend-surface);color:var(--bookend-ink);box-shadow:inset 0 0 0 1.5px #545D7A}
+/* The resume strip is on the light tint even on a dark screen: it keeps the light hovers. */
+.app[data-theme="dark"] .resume .btn:not([disabled]):hover{background:#17578A}
+.app[data-theme="dark"] .resume .btn-quiet:not([disabled]):hover{background:#DCE8F3;color:#17578A;box-shadow:inset 0 0 0 1.5px #C3CBD4}
+
+/* Disabled, on the bookends. These need their own rules: the dark enabled
+   selectors outrank a bare [disabled] attribute, so without them a dead
+   Back button looks live on the first screen a parent sees. */
+.app[data-theme="dark"] .btn[disabled]{background:#2A3046;color:#6E7695}
+.app[data-theme="dark"] .btn-quiet[disabled]{background:transparent;color:#6E7695;box-shadow:inset 0 0 0 1.5px #2F3549}
+
+/* ---- the About & reference panel ---- */
+
+.scrim{
+  position:fixed;inset:0;
+  background:rgba(28,32,48,.44);
+  z-index:40;
+}
+.scrim[hidden]{display:none}
+
+.panel{
+  position:fixed;
+  z-index:41;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:min(640px,calc(100vw - 32px));
+  max-height:min(760px,calc(100vh - 32px));
+  overflow:auto;
+  background:var(--ground);
+  border-radius:var(--r);
+  box-shadow:0 18px 50px rgba(28,32,48,.34);
+  padding:22px 24px 20px;
+}
+.panel[hidden]{display:none}
+
+/* Sticky, so the title and the X stay in reach however far the drawer is
+   scrolled. The negative margins pull it to the panel's edges so content
+   passes under it rather than showing through the padding. */
+.panel-head{
+  display:flex;align-items:baseline;gap:12px;
+  position:sticky;top:-22px;z-index:2;
+  margin:-22px -24px 16px;padding:22px 24px 12px;
+  background:var(--ground);box-shadow:0 1px 0 var(--hair);
+}
+.panel-head h2{font-weight:575;font-size:21px;line-height:1.15;color:var(--ink);margin:0}
+.panel-head .saved{font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.panel-head .gap{flex:1}
+
+/* Same object as the header's ? (26px, radius 10, same shadow), with the
+   cross drawn as a centered SVG rather than a text glyph. */
+.panel-x{
+  width:26px;height:26px;flex:none;border:0;padding:0;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;position:relative;
+  background:var(--surface);box-shadow:0 1px 2px rgba(60,52,32,.10),0 0 0 .5px rgba(60,52,32,.06);
+  color:var(--muted);cursor:pointer;
+}
+/* Both small square buttons get a 44px hit area around the 26px drawing. */
+.head-about{position:relative}
+.panel-x::before,.head-about::before{content:"";position:absolute;inset:-9px}
+.panel-x:hover{color:var(--action)}
+
+.card{
+  border-radius:var(--r);
+  background:var(--surface);
+  box-shadow:0 0 0 1px var(--hair);
+  padding:15px 18px;
+  margin-bottom:12px;
+}
+.card h3{font-weight:600;font-size:15px;color:var(--ink);margin:0 0 4px}
+.card p{font-size:14.5px;line-height:1.55;color:var(--body);margin:0}
+.card p + p{margin-top:8px}
+.card .note{font-size:13.5px;color:var(--muted);margin-top:6px}
+.card .sub{font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--plum);margin:12px 0 2px}
+
+.code{
+  font:400 13px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+  color:var(--ink);
+  background:var(--tint);
+  border-radius:9px;
+  padding:9px 11px;
+  margin:0;
+  flex:1 1 auto;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  user-select:all;
+}
+/* The code grows with everything the parent writes, so the box shows one
+   line and the copy button carries the whole thing. */
+.code-row{display:flex;align-items:center;gap:8px;margin:8px 0 4px}
+.code-copy{
+  flex:0 0 44px;width:44px;height:44px;border:0;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  background:transparent;color:var(--action);cursor:pointer;
+  box-shadow:inset 0 0 0 1.5px #C3CBD4;
+}
+.code-copy:hover{background:var(--tint);color:#17578A}
+.code-copy:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.code-copy .i-done{display:none}
+.code-copy.is-done .i-copy{display:none}
+.code-copy.is-done .i-done{display:block}
+.code-status{margin:0 0 10px;min-height:1.4em;font-size:12.5px;color:var(--muted)}
+
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.row .btn{min-height:44px;padding:11px 16px;font-size:14px}
+
+.panel-foot{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--hair);
+  font-size:12.5px;line-height:1.5;color:var(--muted);
+}
+.panel-foot .keys{margin:0 0 6px}
+.panel-foot .disclaimer{margin:0}
+
+/* ---- COVER (scr-000) ---- */
+
+.cover{gap:24px}
+.app:has(#scr-000:not([hidden])) .mod-head{display:none}
+.cover-grid{margin:auto 0;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:40px;align-items:center}
+.cover-text{display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.cover-title{font-weight:600;font-size:clamp(48px,8.4vw,92px);line-height:.98;letter-spacing:-.032em;color:var(--bookend-ink);margin:0;max-width:10ch;text-wrap:balance}
+.cover-art{margin:0}
+/* Black line on transparent disappears on the bookend ground, so the dark
+   version carries a die-cut edge of the module's paper (#F4F1EA), baked into
+   scene-sitting-dark.png: a cut-out laid on the page, not a window. */
+.cover-art img{display:block;width:100%;max-width:400px;height:auto;margin:0 auto}
+.cover-go{margin-top:4px}
+.cover-begin{min-height:52px;padding:14px 30px;font-size:16px}
+.cover-restore summary{cursor:pointer;list-style:none;font-size:14px;color:#8EC3EA;display:inline-flex;align-items:center;gap:8px;min-height:44px}
+.cover-restore summary::-webkit-details-marker{display:none}
+.cover-restore summary::after{content:"";width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .15s}
+.cover-restore[open] summary::after{transform:translateY(1px) rotate(-135deg)}
+.cover-restore summary:hover{color:var(--bookend-ink)}
+.cover-form{display:flex;flex-direction:column;gap:8px;max-width:440px}
+.cover-form label{font-size:13.5px;line-height:1.5;color:var(--bookend-soft);text-wrap:pretty}
+.cover-field{display:flex;gap:8px}
+.cover-field input{flex:1 1 auto;min-width:0;min-height:44px;border:0;border-radius:9px;background:var(--bookend-surface);box-shadow:inset 0 0 0 1.5px #3A4158;padding:0 12px;font:400 13px 'IBM Plex Mono',ui-monospace,monospace;color:var(--bookend-ink)}
+.cover-field input:focus{outline:2px solid #2E86C8;outline-offset:1px}
+.cover-field .btn{flex:none;min-height:44px;padding:10px 16px;font-size:14px}
+.cover-note{margin:0;min-height:1.5em;font-size:12.5px;line-height:1.5;color:var(--bookend-soft)}
+.cover-note.is-err{color:#D79AB3}
+.cover-disclaimer{margin:0;font-size:12px;line-height:1.5;color:#9AA2B8;max-width:62ch}
+.app:has(#scr-000:not([hidden])) .mod-foot{display:none}
+@media (max-width:760px){
+  .cover-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .cover-art{order:-1}
+  .cover-art img{max-width:240px}
+  .cover-go{align-self:stretch}
+  .cover-begin{width:100%}
+}
+
+/* ---- the resume strip (returning parent) ---- */
+
+.resume{
+  margin:0;padding:14px 34px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  background:var(--tint);
+  border-bottom:1px solid #CBDCEB;
+}
+.resume[hidden]{display:none}
+.resume p{margin:0;font-size:14.5px;color:var(--body);flex:1 1 220px}
+.resume .btn{min-height:44px;padding:10px 16px;font-size:14px}
+.app[data-theme="dark"] .resume .btn{background:var(--action);color:#fff}
+.app[data-theme="dark"] .resume .btn:hover{background:#17578A}
+.app[data-theme="dark"] .resume .btn-quiet{background:transparent;color:var(--action);box-shadow:inset 0 0 0 1.5px #C3CBD4}
+.app[data-theme="dark"] .resume .btn-quiet:hover{background:#DCE8F3;color:#17578A}
+
+/* ---- desktop: the content column (see "the frame") ---- */
+
+@media (min-width:1000px){
+  .mod-head,.mod-foot,.resume{
+    padding-left:max(34px,calc((100% - 960px) / 2 + 34px));
+    padding-right:max(34px,calc((100% - 960px) / 2 + 34px));
+  }
+  .screen{width:100%;max-width:960px;margin:0 auto;padding-top:52px;padding-bottom:52px}
+  h1.screen-title{font-size:36px}
+}
+
+/* ---- phone ---- */
+
+@media (max-width:640px){
+  .mod-head{padding:0 18px;gap:6px}
+  .head-sub,.head-status{display:none}
+  /* The header row overflowed on phones: name (nowrap, ~230px) + progress
+     (up to ~150px in Sections 1-2) + ? did not fit 339px, so the ? was pushed
+     past the edge (and clipped). Now the progress segments shrink, and the
+     name takes an ellipsis only if it still doesn't fit. */
+  .head-home{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}
+  .head-prog{flex:0 1 auto;min-width:0;gap:3px;margin-left:4px}
+  .head-prog i{width:9px;flex:0 1 9px;min-width:5px}
+  .screen{padding:22px 18px;gap:18px}
+  h1.screen-title{font-size:25px;max-width:none}
+  .mod-foot{padding:12px 18px}
+  .btn{flex:1 1 auto}
+  .resume{padding:12px 18px}
+  .panel{border-radius:var(--r) var(--r) 0 0;top:auto;bottom:0;left:0;right:0;transform:none;width:auto;max-height:88vh}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:0s !important;animation-duration:.001s !important}
+}
+
+/* ---- the lens chooser (SCR-102) ----
+   Four parallel lenses, not four steps: the parent picks an order. The gate
+   is stated in words under the grid rather than enforced by a locked button —
+   nothing here is a test, so nothing here locks. */
+
+.lenses{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:12px;margin:0;padding:0;list-style:none;
+}
+.lens{
+  display:block;text-decoration:none;
+  border-radius:var(--r);
+  background:var(--surface);
+  box-shadow:0 1px 2px rgba(60,52,32,.10),0 0 0 1px var(--hair);
+  padding:14px 16px;
+}
+.lens:hover{box-shadow:0 1px 2px rgba(60,52,32,.10),0 0 0 1.5px var(--action)}
+.lens:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.lens .row{display:flex;align-items:baseline;gap:9px}
+.lens .name{font-weight:500;font-size:15.5px;color:var(--ink);flex:1}
+.lens .mark{font-weight:500;font-size:12px;color:var(--muted);white-space:nowrap}
+.lens[data-read="yes"] .mark{color:var(--action)}
+.lens .blurb{display:block;font-size:13.5px;line-height:1.5;color:var(--muted);margin-top:3px;text-wrap:pretty}
+
+.gate{font-size:13.5px;line-height:1.5;color:var(--muted);margin:0;text-wrap:pretty}
+
+/* A second door out of a screen: quieter than the footer Next, and never
+   competing with it for the same weight. */
+.door{
+  display:inline-flex;align-items:center;gap:7px;
+  font-weight:500;font-size:14px;color:var(--action);
+  background:none;border:0;padding:0;cursor:pointer;text-align:left;
+}
+.app[data-theme="dark"] .door{color:var(--bookend-action,#9FC9E8)}
+.door[aria-disabled="true"]{color:var(--muted);cursor:default}
+.door-note{font-size:13px;line-height:1.5;color:var(--muted);margin:7px 0 0;max-width:52ch;text-wrap:pretty}
+.app[data-theme="dark"] .door-note{color:var(--bookend-soft)}
+
+/* ---- dark-ground overrides for the bookend and boundary screens ----
+   The title, the baseline, its readback and every section close sit on
+   #1C2030. These three classes were written for the cream ground and go
+   unreadable there; the values match the flow board's mocks. */
+
+.app[data-theme="dark"] .eyebrow{color:#ADB4C6}
+.app[data-theme="dark"] .eyebrow.plum{color:#D79AB3}
+.app[data-theme="dark"] .gate{color:var(--bookend-soft)}
+/* Beats .app[data-theme="dark"] .door on specificity, so a not-yet-wired
+   control still reads as not-yet-wired on dark. */
+.app[data-theme="dark"] .door[aria-disabled="true"]{color:#6E7695}
+
+/* The header title doubles as the way back to the start (SCR-099). It keeps
+   the look of the name it replaced — the affordance is hover, focus and the
+   pointer, not a permanent link treatment in the chrome. */
+.head-home{
+  appearance:none;background:none;border:0;padding:0;margin:0;
+  font-family:inherit;font-size:inherit;line-height:inherit;
+  cursor:pointer;text-align:left;
+  padding:5px 9px;margin-left:-9px;border-radius:9px;
+  transition:background-color .12s ease;
+}
+.head-home:hover{background:var(--tint)}
+.head-home:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.head-home:disabled{cursor:default;background:none}
+.app[data-theme="dark"] .head-home:hover{background:#272C3E}
+.app[data-theme="dark"] .head-home:focus-visible{outline-color:#8FC0E6}
+/* The section name keeps its text where the plain span had it: the hover
+   pad hangs out on both sides instead of pushing it right. */
+.head-sub.head-home{margin-right:-9px;min-width:0}
+.head-sub.head-home[hidden]{display:none}
+
+
+/* ---- SCR-103 the three levels ---------------------------------------- *
+   The ladder is the teaching, so it is live type and not a picture: the
+   child/parent toggle rewrites the same three rows, and the play sequence
+   walks down a level at a time and back up. Capacity is three ticks, never
+   a number — bands only, per the module rule. */
+
+.sides{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.side{
+  font:500 14px 'Work Sans',system-ui,sans-serif;
+  padding:9px 16px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--hair);background:var(--surface);color:var(--body);
+  transition:background .18s,color .18s,border-color .18s;
+}
+.side:hover{border-color:var(--action)}
+.side:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.side[aria-pressed="true"]{background:var(--action);border-color:var(--action);color:var(--surface)}
+.sides-note{font-size:13.5px;line-height:1.5;color:var(--muted);margin:0 0 13px}
+
+.levels{flex:1;display:flex;flex-direction:column}
+.ladder{display:grid;grid-template-columns:34px minmax(0,1fr);gap:0 12px}
+.rail{display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:4px 0}
+.rail span{
+  font:500 10px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;
+  writing-mode:vertical-rl;text-orientation:mixed;display:flex;align-items:center;gap:5px;
+}
+.rail b{font-style:normal;font-size:12px}
+.rail-down{color:var(--plum)}
+.rail-up{color:var(--action);transform:rotate(180deg)}
+
+.tiers{display:grid;gap:8px}
+.tier{
+  border:1px solid var(--hair);border-radius:var(--r);background:var(--surface);
+  padding:10px 14px;transition:background .28s,border-color .28s,opacity .28s,box-shadow .28s;
+  /* Name and capacity sit beside the detail rather than above it: three
+     stacked heads cost ~70px of screen, which pushed the play control —
+     the thing that actually teaches the drop — below the fold. */
+  display:grid;grid-template-columns:148px minmax(0,1fr);gap:3px 16px;
+}
+.tier[data-live="yes"]{border-color:var(--action);background:var(--tint);box-shadow:0 2px 14px rgba(31,111,173,.16)}
+.tiers[data-running="yes"] .tier{opacity:.42}
+.tiers[data-running="yes"] .tier[data-live="yes"]{opacity:1}
+.tier-head{
+  grid-column:1;grid-row:1 / span 2;margin:0;
+  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+}
+.tier-name{font-weight:600;font-size:16.5px;color:var(--ink)}
+.cap{display:inline-flex;gap:3px;align-items:center}
+.cap i{width:15px;height:4px;border-radius:2px;background:var(--hair);display:block}
+.cap i.on{background:var(--action)}
+.tier-shows{grid-column:2;grid-row:1;font-size:14px;line-height:1.45;color:var(--muted);margin:0;text-wrap:pretty}
+.tier-qa{
+  grid-column:2;grid-row:2;
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;
+  align-items:baseline;margin:0;font-size:14px;line-height:1.4;
+}
+.tier-qa .k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em}
+.tier-qa .k-asks{color:var(--plum)}
+.tier-qa .k-needs{color:var(--action)}
+.tier-asks{color:var(--ink)}
+.tier-needs{color:var(--body);text-wrap:pretty}
+
+.play-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:0 0 13px}
+.btn-play{
+  font:500 14px 'Work Sans',system-ui,sans-serif;padding:10px 18px;border-radius:999px;
+  border:1px solid var(--action);background:var(--action);color:var(--surface);cursor:pointer;
+  transition:opacity .18s;
+}
+.btn-play:hover{opacity:.86}
+.btn-play:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.play-caption{font-size:14px;line-height:1.4;color:var(--ink);margin:0;flex:1 1 300px;min-height:20px;text-wrap:pretty}
+
+/* ---- SCR-100 the baseline, SCR-101 the read-back ---------------------- *
+   Both sit on the dark bookend. The field is generous on purpose: a parent
+   who writes two words has still answered, and one who writes a paragraph
+   should not feel the box fighting them. No character count — counting is
+   the first thing that makes an unscored answer feel scored. */
+
+.baseline{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.baseline-q{font-weight:600;font-size:17px;color:var(--bookend-ink)}
+.baseline-note{font-size:13.5px;line-height:1.5;color:var(--bookend-soft);margin:0;max-width:56ch}
+.baseline-in{
+  font:400 15px/1.55 'Work Sans',system-ui,sans-serif;
+  color:var(--bookend-ink);
+  background:var(--bookend-surface);
+  border:1.5px solid #3A4158;border-radius:11px;
+  padding:12px 14px;resize:vertical;min-height:96px;width:100%;
+  box-sizing:border-box;
+}
+.baseline-in::placeholder{color:#8891A8}
+.baseline-in:focus-visible{outline:2px solid #2E86C8;outline-offset:1px;border-color:#2E86C8}
+.baseline-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.baseline-state{font-size:13.5px;color:var(--bookend-soft)}
+
+/* The read-back is the parent's own sentence, so it gets quote treatment and
+   the plum rule rather than a card: it is their voice inside the module, not
+   a component of it. */
+.readback{margin:2px 0 0;padding:0 0 0 16px;border-left:3px solid var(--plum)}
+.readback[hidden]{display:none}
+.readback-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:#D79AB3;margin:0 0 6px}
+.readback-q{
+  font-weight:400;font-size:18px;line-height:1.5;color:var(--bookend-ink);
+  margin:0;max-width:54ch;text-wrap:pretty;white-space:pre-wrap;
+}
+
+/* ---- the principle "at home" pair ------------------------------------ *
+   Under the graphic on every principle screen, drawn from
+   content/principles.js. Two labeled rows, not two cards: it is one idea in
+   two moves, and cards would make them feel like separate items. */
+
+/* The body wrapper has to re-establish the screen's own rhythm: .screen is a
+   flex column with gap:22px, so before the paragraphs were wrapped they were
+   flex children and spaced by it. p.screen-body carries margin:0 by design,
+   so a plain block wrapper collapses two paragraphs into one. Same gap value
+   as .screen, not a new one. */
+[data-prin-body]{display:flex;flex-direction:column;gap:22px}
+
+.prin-home{
+  display:flex;flex-direction:column;gap:10px;
+  border-top:1px solid var(--hair);padding-top:14px;margin-top:2px;
+}
+.prin-home[hidden]{display:none}
+.home-row{display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:baseline;margin:0}
+.home-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum)}
+.home-row:last-child .home-k{color:var(--action)}
+.home-t{font-size:14.5px;line-height:1.55;color:var(--body);text-wrap:pretty}
+
+@media (max-width:420px){
+  .home-row{grid-template-columns:1fr;gap:3px}
+}
+
+/* ---- SCR-201 · the quiz item ------------------------------------------ *
+   Two panes in one screen, swapped: ask and result. Both are flex columns
+   re-establishing .screen's 22px rhythm — a wrapper inside .screen inherits
+   nothing, which is the lesson from the principle-body collapse. */
+
+.qz-ask,.qz-result{display:flex;flex-direction:column;gap:22px}
+.qz-ask[hidden],.qz-result[hidden]{display:none}
+
+.qz-field{
+  font:400 15.5px/1.55 'Work Sans',system-ui,sans-serif;
+  color:var(--ink);background:var(--surface);
+  border:1px solid #D5DCE4;border-radius:var(--r);
+  padding:15px 17px;resize:vertical;min-height:104px;width:100%;
+  box-sizing:border-box;box-shadow:0 1px 2px rgba(60,52,32,.10);
+}
+/* The guidance lives in the placeholder rather than under the box: it is
+   advice for someone who has not written yet, and once their answer is in
+   the field it has been taken or ignored either way. It also means a parent
+   returning from the result screen sees their own words where the
+   instruction used to be. --muted at 5.5:1 — the module's own secondary-text
+   value, and dark enough for the one piece of guidance a parent gets before
+   typing. */
+.qz-field::placeholder{color:var(--muted)}
+.qz-field:focus-visible{outline:2px solid var(--action);outline-offset:1px;border-color:var(--action)}
+.qz-acts{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+
+/* The result pane is denser than a reading screen: five blocks, and the
+   parent is scanning rather than reading. Its own gap, not .screen's. */
+.qz-result{gap:14px}
+.qz-verdict{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.qz-verdict h1.screen-title{max-width:none;flex:0 1 auto}
+
+/* Three bands, three treatments. Amber for the middle one is a deliberate
+   reversal of the original "neutral beige" decision (design record 6b):
+   beige was chosen so the middle band read as neither verdict nor prize,
+   and amber does read as a verdict — the traffic-light mapping is exactly
+   what makes it legible, and also what makes it a grade. Accepted anyway,
+   because a band a parent cannot see is worse than one that leans warm.
+
+   The guard: amber is used ONLY on the band pill, never on a criterion
+   glyph, a container, or anything cumulative. Green still may not appear
+   beside a total. To revert, restore #F0ECE1 / #63604F on this one rule. */
+.qz-band{
+  font:500 12px 'Work Sans',sans-serif;letter-spacing:.07em;text-transform:uppercase;
+  border-radius:999px;padding:5px 13px;white-space:nowrap;
+}
+.qz-band[data-band="strong"]{background:#E4EEE5;color:#2F6B47}
+.qz-band[data-band="nearly"]{background:#FBEFD6;color:#8A5A0B}
+.qz-band[data-band="notyet"]{background:#F3E6EB;color:var(--plum)}
+
+.qz-k{
+  font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 7px;
+}
+.qz-k-blue{color:#17578A}
+.qz-block{display:block}
+/* Same box as the answer field — same padding plus its 1px border, same
+   type — so on submit the field can slide up into this position and the
+   text inside does not reflow on the way (js/quiz.js, moveAnswer). */
+.qz-wrote{
+  position:relative;
+  font-size:15.5px;line-height:1.55;color:var(--ink);margin:0;
+  padding:16px 18px;background:var(--surface);border-radius:var(--r);
+  box-shadow:0 1px 2px rgba(60,52,32,.10);white-space:pre-wrap;text-wrap:pretty;
+}
+
+/* Anything the module quotes — the parent's own answer, a line to say, the
+   coach — gets quotation marks. The opening mark hangs into the padding so
+   the first letter keeps its place; the text does not shift to make room. */
+.qz-wrote::before,.qz-say-line::before,.coach-t::before{content:"\201C";position:absolute;left:-.48em}
+.qz-wrote::after,.qz-say-line::after,.coach-t::after{content:"\201D"}
+.qz-wrote::before{left:calc(18px - .48em);top:16px}
+.qz-say-line,.coach-t{position:relative}
+
+.qz-rows{display:flex;flex-direction:column;gap:11px}
+.qz-row{
+  display:grid;grid-template-columns:22px minmax(0,1fr);gap:13px;
+  align-items:baseline;margin:0;
+}
+.qz-g{font:500 14px 'Work Sans',sans-serif}
+.qz-row[data-passed="yes"] .qz-g{color:#2F6B47}
+.qz-row[data-passed="no"] .qz-g{color:var(--plum)}
+/* Every label stays ink. The glyph is the verdict; coloring the line too
+   weighted the misses more heavily than the hits on a screen meant to do
+   both evenly. */
+.qz-t{font-size:15px;line-height:1.5;color:var(--ink);text-wrap:pretty}
+
+.qz-model{background:var(--tint);border-radius:var(--r);padding:15px 18px}
+/* A sayable line, not a model paragraph: the lead sets the moment small and
+   quiet, the line itself is speech and gets the size. Nothing here is longer
+   than a parent could remember at a checkout. */
+.qz-say-lead{font-size:13.5px;line-height:1.5;color:#3E5A72;margin:0 0 6px}
+/* No min-height. The 56px kept from the drag-edit was the two-line height
+   from when this line was capped at 52ch; with the cap gone all four say
+   lines fit on one line, so it stabilized nothing and left 30px of blank
+   tint on the screen we were trimming. If height stability is wanted later
+   it belongs on .qz-model, measured, not on the text. */
+.qz-say-line{font-size:17px;line-height:1.5;color:var(--ink);margin:0;text-wrap:pretty}
+.qz-practice{
+  font-size:13.5px;line-height:1.55;color:var(--muted);margin:0;
+  max-width:58ch;text-wrap:pretty;
+}
+.qz-practice[hidden]{display:none}
+.qz-coach{font-size:15px;line-height:1.6;color:var(--body);margin:0;max-width:64ch;text-wrap:pretty}
+.qz-coach[hidden]{display:none}
+.qz-claimed{font-size:13.5px;line-height:1.5;color:var(--muted);margin:0;max-width:52ch}
+.qz-claimed[hidden]{display:none}
+
+/* ---- SCN-301 · the role-play ----------------------------------------- *
+   Transcript treatment B: the child in a plum-tinted bubble on the left,
+   the parent unboxed, the coach's note under the parent's line. The rail
+   is the pose prototype's, 168px, fed by the child's level. */
+.rp-play{display:flex;flex-direction:column;gap:22px}
+.rp-play[hidden]{display:none}
+.rp-head{display:flex;flex-direction:column;gap:12px}
+.rp-body{display:grid;grid-template-columns:168px minmax(0,1fr);gap:26px;align-items:start;position:relative}
+/* Not sticky: js/roleplay.js place() translates the figure down to sit
+   beside Maya's latest line. */
+.rp-rail{width:168px;height:252px;will-change:transform}
+.rp-rail > img{object-fit:contain}
+.rp-main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.rp-log{display:flex;flex-direction:column;gap:16px}
+.rp-child{align-self:flex-start;max-width:78%;background:#F3E7EC;border-radius:14px;padding:13px 17px}
+.rp-who{font:500 10px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.11em;margin:0}
+.rp-who-child{color:var(--plum)}
+.rp-who-you{color:var(--action)}
+.rp-line{font-size:16.5px;line-height:1.5;color:var(--ink);margin:4px 0 0;max-width:46ch;text-wrap:pretty;white-space:pre-wrap}
+.rp-note{font-size:13.5px;line-height:1.5;color:var(--muted);margin:7px 0 0;padding-left:13px;box-shadow:inset 2px 0 0 #9FC3DF;max-width:44ch;text-wrap:pretty}
+.rp-compose{display:flex;flex-direction:column;gap:12px}
+/* ---- Words to try ----
+   The pill is the same object in both states; only the chevron turns. A
+   previewed phrase sits on the tint with the blue edge rule, at full ink:
+   the provisional state is carried by ground, never by graying the words. */
+.wt{display:flex;flex-direction:column;gap:10px}
+.wt[hidden],.wt-cards[hidden],[data-wt-use][hidden]{display:none}
+.wt-pill{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:transparent;box-shadow:inset 0 0 0 1.5px #C3CBD4;color:var(--action);font:600 13.5px/1 'Work Sans',sans-serif;cursor:pointer}
+.wt-pill:hover{box-shadow:inset 0 0 0 1.5px var(--action-dim)}
+.wt-pill svg{transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.wt-pill[aria-expanded="true"] svg{transform:rotate(180deg)}
+.wt-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px}
+.wt-card{display:flex;flex-direction:column;gap:5px;text-align:left;min-height:44px;padding:12px 14px;border:1px solid var(--hair);border-radius:var(--r);background:#fff;color:var(--ink);font:inherit;cursor:pointer}
+.wt-card:hover{border-color:#B9C6D3}
+.wt-card[aria-pressed="true"]{background:var(--tint);border-color:var(--action);box-shadow:inset 3px 0 0 var(--action)}
+.wt-what{font:600 11px/1.3 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
+.wt-say{font-size:14.5px;line-height:1.45;color:var(--ink);text-wrap:pretty}
+.qz-field[data-prov]{background:var(--tint);border-color:var(--action);box-shadow:inset 3px 0 0 var(--action)}
+.rp-in{animation:rp-in .45s cubic-bezier(.2,.7,.3,1) both}
+@keyframes rp-in{from{opacity:0;transform:translateY(14px)}}
+.rp-dots{display:flex;gap:5px;margin:9px 0 3px;height:8px;align-items:center}
+.rp-dots i{width:7px;height:7px;border-radius:50%;background:#A4627C;opacity:.35;animation:rp-dot 1.4s infinite ease-in-out}
+.rp-dots i:nth-child(2){animation-delay:.2s}
+.rp-dots i:nth-child(3){animation-delay:.4s}
+@keyframes rp-dot{0%,60%,100%{opacity:.35;transform:none}30%{opacity:1;transform:translateY(-2px)}}
+@keyframes rp-dot-fade{0%,60%,100%{opacity:.35}30%{opacity:1}}
+/* Reduce Motion: bubbles fade in without rising; the dots pulse without
+   bouncing. The global rule above would otherwise flicker them at .001s. */
+@media (prefers-reduced-motion:reduce){
+  .rp-in{animation:rp-fade .3s ease both !important}
+  .rp-dots i{animation:rp-dot-fade 1.4s infinite ease-in-out !important}
+  .rp-dots i:nth-child(2){animation-delay:.2s !important}
+  .rp-dots i:nth-child(3){animation-delay:.4s !important}
+}
+@keyframes rp-fade{from{opacity:0}}
+/* Phone keyboard up: the Back/Next bar steps aside so the conversation and
+   Say it keep the room. Set by js/app.js on touch devices only. */
+.app[data-kb="open"] .mod-foot{display:none}
+.app[data-rp-ending] .mod-foot{display:none}
+.rp-compose[hidden]{display:none}
+.rp-frame{font-size:15px;line-height:1.55;color:var(--ink);margin:0;background:#F3E7EC;border-radius:var(--r);padding:13px 16px;text-wrap:pretty}
+.rp-frame[hidden]{display:none}
+.qz-row[data-passed="muted"] .qz-g,.qz-row[data-passed="muted"] .qz-t{color:#8C949E}
+
+/* ---- the section boundary band (SCR-209 dark, SCR-300 light) ---------- *
+   One copy source (content/strings.js, close2), two grounds. Centered in
+   the stage as on the flow board, 560px measure. */
+.band-close{justify-content:center;align-items:center}
+.band-in{width:100%;max-width:560px;display:flex;flex-direction:column;gap:12px}
+.band-in h1.screen-title{margin:0}
+.band-acts{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.band-pick{grid-template-columns:minmax(0,1fr);margin-top:12px}
+.band-pick[hidden]{display:none}
+.band-note{font-size:13px;line-height:1.5;color:var(--muted);margin:4px 0 0}
+.app[data-theme="dark"] .band-note{color:#9BA3B8}
+
+/* On a phone the rail shrinks rather than disappearing: the child's face
+   changing when your tone does is the point of the scene. */
+@media (max-width:600px){
+  .rp-body{grid-template-columns:76px minmax(0,1fr);gap:14px}
+  .rp-rail{width:76px;height:114px}
+  .rp-child{max-width:100%}
+}
+
+/* ---- the safety reply ------------------------------------------------ *
+   In the coach's voice and slot. Deliberately no tint, no border, no color
+   of its own: a parent who has just written something hard should not see
+   the interface flinch. Same type as the coach line, one step larger. */
+.safety{display:flex;flex-direction:column;gap:18px}
+.safety[hidden]{display:none}
+.safety-t{font-size:16.5px;line-height:1.6;color:var(--ink);margin:0;max-width:60ch;text-wrap:pretty}
+.safety-t:focus{outline:none}
+.app[data-theme="dark"] .safety-t{color:var(--bookend-ink)}
+.safety-link{
+  font:500 17px 'Work Sans',sans-serif;color:var(--action);
+  text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px;
+  display:inline-flex;align-items:center;min-height:44px;
+}
+.safety-link:hover{color:#17578A}
+.app[data-theme="dark"] .safety-link{color:#7FB6E0}
+.app[data-theme="dark"] .safety-link:hover{color:#A8CEEC}
+
+/* ---- "Coach says" ------------------------------------------------------ *
+   The one place the coach has a face. Not yet only, never on a safety
+   reply. A quiet surface, not a callout: no border, no accent stripe, and
+   the figure is small enough to read as a signature rather than a mascot. */
+.coach-says{
+  display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px;align-items:center;
+  background:var(--surface);border-radius:var(--r);padding:14px 18px 14px 14px;
+}
+.coach-says[hidden]{display:none}
+.coach-fig{width:56px;height:auto;display:block}
+.coach-txt{display:flex;flex-direction:column;gap:4px}
+.coach-k{font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.coach-t{font-size:15px;line-height:1.55;color:var(--ink);margin:0;text-wrap:pretty}
+/* Black-line Coach on the dark close: sits on paper so the line holds. */
+.coach-dark{background:#F4F1EA;margin-top:6px}
+.coach-dark .coach-k{color:var(--muted)}
+.coach-dark .coach-t{color:var(--ink)}
+.qz-hub{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.qz-hub .lens[data-read="yes"] .mark{color:var(--action)}
+
+/* Screen-reader only. The quiz rows use it to say the verdict as a word
+   without printing it beside the line. */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* A text button, for the quiet second action beside a filled one. It is NOT
+   a .btn variant — these two carry only this class, because .btn:hover paints
+   a filled blue background and any variant of it inherits the pill.
+
+   Hover is a soft band behind the words rather than a filled shape: the
+   gradient is sized to the text, not to the 44px hit area, so the highlight
+   hugs the copy and the tap target stays full height. */
+.btn-link{
+  background:none;border:0;padding:0;
+  font:500 14px 'Work Sans',sans-serif;color:var(--action);cursor:pointer;
+  min-height:44px;
+  border-radius:4px;
+}
+.btn-link:hover{
+  color:#17578A;
+  background:linear-gradient(var(--tint),var(--tint)) center/100% 1.75em no-repeat;
+}
+.btn-link:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.btn-link[hidden]{display:none}
+.app[data-theme="dark"] .btn-link{color:#7FB6E0}
+.app[data-theme="dark"] .btn-link:hover{
+  color:#A8CEEC;
+  background:linear-gradient(#2E3549,#2E3549) center/100% 1.75em no-repeat;
+}
+
+/* ---- SCR-113 the iceberg, revised 27 Sept --------------------------- *
+   The drawn iceberg sits behind the layers, masked so it fades in from the
+   left: the words sit on its quiet side. Each closed layer has a veil over
+   its depth of the ice; REVEAL lifts it, so opening a layer shows more
+   iceberg as well as the words. Row and veil heights are the image's own
+   depths (the waterline is 23.9% down iceberg.png). The layers are buttons
+   with a divider, not boxes: the ice is the surface. */
+
+.berg{display:flex;flex-direction:column}
+.berg .sides-note{margin:0 0 12px}
+.berg-box{position:relative;height:520px;border-radius:14px;overflow:hidden}
+.berg-water{position:absolute;left:0;right:0;top:23.9%;bottom:0;background:linear-gradient(#EDF4F9,#DCE8F2)}
+.berg-art{
+  position:absolute;left:calc(70% - 228px);top:0;width:455px;height:100%;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 47%,#000 100%);
+  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 47%,#000 100%);
+}
+.berg-art img{position:absolute;inset:0;width:100%;height:100%;display:block}
+.berg-veil{position:absolute;left:0;right:0;background:#E4EDF4;opacity:.62;transition:opacity .5s}
+.berg-veil[data-veil="0"]{top:23.9%;height:25.1%}
+.berg-veil[data-veil="1"]{top:49%;height:25%}
+.berg-veil[data-veil="2"]{top:74%;height:26%}
+.berg-veil[data-open="yes"]{opacity:0}
+.berg-line{position:absolute;left:0;width:calc(70% - 228px);top:23.9%;border-top:1.5px dashed #9FB6C8}
+.berg-top{position:absolute;left:4px;top:0;height:23.9%;width:420px;max-width:calc(100% - 8px);display:flex;flex-direction:column;justify-content:center}
+.berg-eyebrow{font:500 11px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:var(--muted);margin:0 0 4px}
+.berg-surface{font-weight:500;font-size:17px;line-height:1.4;color:var(--ink);margin:0;text-wrap:pretty}
+
+.layer{
+  position:absolute;left:0;width:436px;max-width:100%;box-sizing:border-box;
+  background:transparent;border:0;border-bottom:1px solid rgba(31,111,173,.18);border-radius:0;
+  padding:12px 8px 12px 4px;text-align:left;cursor:pointer;font-family:inherit;
+  display:flex;flex-direction:column;justify-content:center;gap:6px;
+}
+.layer[data-layer="0"]{top:23.9%;height:25.1%}
+.layer[data-layer="1"]{top:49%;height:25%}
+.layer[data-layer="2"]{top:74%;height:26%;border-bottom-color:transparent}
+.layer:has(.layer-cue:focus-visible){outline:2px solid var(--action);outline-offset:-2px}
+.layer-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;width:100%}
+.layer-name{font-weight:600;font-size:16px;color:var(--ink)}
+.layer-cue{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--action);flex:none}
+.layer:hover .layer-cue{text-decoration:underline;text-underline-offset:3px}
+.layer-text{display:block;font-size:14.5px;line-height:1.45;color:var(--ink);opacity:0;transition:opacity .35s;text-wrap:pretty}
+.layer[data-open="yes"] .layer-text{opacity:1}
+
+.berg-upshot{margin-top:18px}
+.berg-upshot[hidden]{display:none}
+.berg-upshot p{font-size:16px;line-height:1.55;margin:0;max-width:62ch;color:var(--ink);text-wrap:pretty}
+
+/* Phone: the iceberg slides right with a steeper fade, so the text lands on
+   its faint side and the reveal happens in the strong part (option 6c, 27
+   Sept). The box bleeds to the screen edges. */
+@media (max-width:640px){
+  .berg-box{height:640px;margin:0 -18px;border-radius:0}
+  .berg-art{
+    left:calc(94% - 280px);width:560px;
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.3) 42%,#000 72%);
+    mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.3) 42%,#000 72%);
+  }
+  .berg-line{display:none}
+  .berg-top{left:18px;width:230px}
+  .berg-surface{font-size:16px}
+  .layer{left:14px;width:250px;max-width:calc(100% - 28px);padding:12px 6px 12px 4px}
+  .layer-name{font-size:15.5px}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .tier,.layer,.layer-body,.btn-play,.side{transition:none}
+}
+
+
+@media (max-width:640px){
+  .tier{grid-template-columns:minmax(0,1fr)}
+  .tier-head{grid-column:1;grid-row:auto;flex-direction:row;align-items:baseline;gap:10px;margin:0 0 4px}
+  .tier-shows,.tier-qa{grid-column:1;grid-row:auto}
+  /* The rail stays on phones: once the tiers stack, the up/down
+     relationship is the least obvious and the cue matters most. */
+  .ladder{grid-template-columns:26px minmax(0,1fr);gap:0 9px}
+}
+
+/* ---- SCN result · the coach beside the verdict ------------------------ *
+   One pose per band, the same four-layer crossfade as Maya's rail. Sits on
+   the verdict's left, feet on the line the pill sits on. The Coach Says box
+   below drops its small figure: one coach on the screen, not two. */
+/* Desktop: the Coach stands to the right of his feedback, as tall as it,
+   from the headline to the last row, so it reads as him talking. Phone: the
+   text wrapper dissolves and he stands beside the headline as before. */
+.rp-fb{display:flex;gap:28px;align-items:stretch}
+.rp-fb-txt{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:14px}
+.rp-fb .rp-pose{order:2;flex:0 0 auto;height:auto;width:120px;min-height:180px;max-height:504px}
+.rp-fb .rp-pose > img{object-fit:contain;object-position:center bottom}
+.coach-says-bare{grid-template-columns:minmax(0,1fr);padding:14px 18px}
+.rp-used{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.rp-used li{display:flex;flex-direction:column;gap:2px}
+.rp-used-what{font:500 11px 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rp-used-say{font-size:15px;line-height:1.5;color:var(--ink)}
+@media (max-width:600px){
+  .rp-fb{display:grid;grid-template-columns:64px minmax(0,1fr);column-gap:14px;row-gap:14px;align-items:end}
+  .rp-fb-txt{display:contents}
+  .rp-fb .rp-pose{order:0;grid-column:1;grid-row:1;width:64px !important;height:96px;min-height:0}
+  .rp-fb .qz-verdict{grid-column:2;grid-row:1}
+  .rp-fb .qz-coach,.rp-fb .rp-frame,.rp-fb .qz-rows{grid-column:1 / -1}
+}
+
+/* ---- SCN-301 · conversation layout (24 Sept, from the phone review) ---- *
+   Maya speaks from a bubble with a tail. On desktop only her newest bubble
+   has the tail, aimed at the figure's mouth (about 77px down the 252px rail,
+   which sits level with that bubble's top). On a phone the scene becomes a
+   chat: no rail, her face at the bubble's foot, the parent on the right, and
+   the compose area pinned to the bottom of the stage. */
+.rp-child{background:none;padding:0;border-radius:0;display:flex;align-items:flex-end;gap:8px}
+.rp-face{display:none;width:34px;height:34px;flex:none;border-radius:50%;background:#fff;box-shadow:0 0 0 1px #EAD6DE}
+.rp-bub{position:relative;min-width:0;background:#F3E7EC;border-radius:14px;padding:13px 17px}
+/* Off the bottom-left corner itself (that corner squared to 4px so the tail
+   grows out of it), tip 3px above the bubble's foot. js/roleplay.js place()
+   seats the figure so its mouth (about 85px down the rail) meets that tip,
+   whatever the reply's length. Desktop only; the phone has its own tail. */
+@media (min-width:601px){
+.rp-child.is-latest .rp-bub{border-bottom-left-radius:4px}
+.rp-child.is-latest .rp-bub::before{content:"";position:absolute;left:-9px;bottom:0;width:10px;height:16px;background:#F3E7EC;clip-path:polygon(100% 0,100% 100%,0 80%)}
+}
+
+/* No footer while the conversation is on: Back and Start over sit quietly
+   bottom left, beside Say it. The result screen gets the footer back. */
+.app:has(.screen[data-scene]:not([hidden]) .rp-play:not([hidden])) .mod-foot{display:none}
+.rp-acts{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.rp-acts .gap{flex:1}
+.rp-acts .btn{flex:none}
+/* Anchored to the field: the links' tops sit level with Say it's top and
+   they step 4px in from the field's edge. The 44px hit area is kept with
+   an invisible ::before rather than min-height, which centered the text
+   and left it floating. */
+.rp-side{display:flex;gap:18px;align-items:flex-start;margin-left:4px}
+.btn-link.rp-quiet{position:relative;min-height:0;line-height:1.15;font-size:13.5px;color:var(--muted)}
+.btn-link.rp-quiet::before{content:"";position:absolute;inset:-6px -8px -24px}
+.btn-link.rp-quiet:hover{color:var(--action)}
+
+/* A chosen card is a pressed button, not a field. The tint and blue edge
+   mean "you can type here", so they stay on the field alone. */
+.wt-card{touch-action:manipulation}
+.wt-card[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);box-shadow:none}
+.wt-card[aria-pressed="true"] .wt-what{color:#E6B3C6}
+.wt-card[aria-pressed="true"] .wt-say{color:#FFFFFF}
+.wt-card:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+/* Preview: italic words at full ink, plus a small-print label. Never grayed. */
+.qz-fieldwrap{position:relative}
+.qz-field[data-prov]{color:transparent;caret-color:var(--ink)}
+.qz-ghost{position:absolute;inset:0;min-height:0;resize:none;overflow:hidden;
+  background:transparent;border-color:transparent;box-shadow:none;pointer-events:none;
+  white-space:pre-wrap;overflow-wrap:break-word;scrollbar-gutter:stable}
+.qz-field[data-prov]{scrollbar-gutter:stable}
+.qz-ghost em{font-style:italic}
+.qz-ghost[hidden]{display:none}
+.wt-prov{margin:0;align-self:center;flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:500 12px/1.3 'Work Sans',sans-serif;color:var(--muted);text-wrap:pretty}
+.wt-prov[hidden],.rp-side[hidden]{display:none}
+
+@media (max-width:600px){
+  .screen[data-scene]{padding-bottom:0}
+  .rp-body{display:block}
+  .rp-rail{display:none}
+  .rp-log{gap:12px}
+  .rp-face{display:block}
+  .rp-child{max-width:90%}
+  .rp-bub{padding:10px 14px;border-bottom-left-radius:4px}
+  .rp-child .rp-bub::before{content:"";position:absolute;left:-6px;top:auto;bottom:0;width:8px;height:12px;background:#F3E7EC;clip-path:polygon(100% 0,100% 100%,0 100%)}
+  .rp-log .rp-who{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .rp-line{margin:0;font-size:16px}
+  .rp-you{align-self:flex-end;max-width:85%;display:flex;flex-direction:column;align-items:flex-end}
+  .rp-you .rp-line{background:var(--surface);border-radius:14px 14px 4px 14px;padding:10px 14px}
+  .rp-you .rp-note{align-self:stretch;margin-top:6px}
+  .rp-compose{position:sticky;bottom:0;z-index:2;background:var(--ground);margin:0 -18px;padding:10px 18px 12px;border-top:1px solid var(--hair);gap:10px}
+  .wt-pill{align-self:flex-end}
+  .wt-cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;margin:0 -18px;padding:0 18px 2px;scroll-padding:0 18px;scrollbar-width:none}
+  .wt-cards::-webkit-scrollbar{display:none}
+  .wt-card{flex:0 0 76%;scroll-snap-align:start}
+  /* Phone: the label must fit beside Use it and Say it, or the row wraps,
+     the compose bar grows and the cards jump mid double-tap. The italic
+     already says preview, so the lead-in goes. */
+  .wt-prov-lead{display:none}
+  .rp-acts:has(.wt-prov:not([hidden])){flex-wrap:nowrap}
+  .rp-side{gap:14px}
+}
+
+
+/* ==== Section 1, revised (25 Sept): Assess, then Act ==================== */
+
+/* SCR-110. Two path cards; each lists its screens and ticks the read ones. */
+.paths{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.path{padding:16px 18px 18px}
+.path .name{font-size:18px;font-weight:600}
+.path-tag{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum);text-transform:uppercase;white-space:nowrap}
+.path-list{display:flex;flex-direction:column;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair)}
+.path-list > span{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:baseline;font-size:14px;line-height:1.4;color:var(--body)}
+.path-list > span::before{content:"";width:9px;height:9px;border-radius:50%;box-shadow:inset 0 0 0 1.5px #B9C2CE;transform:translateY(-1px)}
+.path-list > span[data-read="yes"]::before{content:"\2713";width:auto;height:auto;box-shadow:none;border-radius:0;font-size:13px;font-weight:600;color:var(--action);transform:none}
+
+/* Act 2, 4, 5: the phrase card, as the parent will meet it in Try It Out. */
+.card-seen{display:flex;flex-direction:column;gap:8px;max-width:420px}
+.card-seen-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin:0}
+.card-static{cursor:default}
+.card-static:hover{border-color:var(--hair)}
+
+/* SCR-114 the shifts, revised 27 Sept. Each card pairs an old frame with a
+   Parent pose; the shift crossfades the pose and the words together. Both
+   texts share one fixed box, so the card never changes size. */
+.shifts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.shift{
+  display:grid;grid-template-columns:84px minmax(0,1fr);gap:18px;align-items:center;
+  text-align:left;font:inherit;color:inherit;cursor:pointer;
+  background:#fff;border:1px solid #C3CBD4;border-radius:var(--r);padding:14px 18px 14px 14px;
+  transition:background .45s,border-color .45s;
+}
+.shift:hover{border-color:var(--action)}
+.shift:has(.shift-cue:focus-visible){outline:2px solid var(--action);outline-offset:2px}
+.shift[data-pressed="true"]{background:var(--tint);border-color:var(--action-dim)}
+.shift-fig{display:block;width:84px;height:150px}
+.shift .xfade > [data-xfade]{transition-duration:.6s}
+.shift-main{display:flex;flex-direction:column;gap:8px;height:150px;min-width:0}
+.shift-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.shift-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum)}
+.shift[data-pressed="true"] .shift-k{color:var(--action)}
+.shift-cue{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--action);white-space:nowrap}
+.shift-txt{position:relative;display:block;flex:1}
+.shift-t{position:absolute;inset:0;font-size:16.5px;line-height:1.45;color:var(--ink);transition:opacity .45s;text-wrap:pretty}
+.shift-new{opacity:0}
+.shift[data-pressed="true"] .shift-old{opacity:0}
+.shift[data-pressed="true"] .shift-new{opacity:1}
+.shifts-note{font-size:13.5px;color:var(--muted);margin:0}
+@media (max-width:860px){.shifts{grid-template-columns:minmax(0,1fr);gap:10px}}
+@media (max-width:640px){
+  .shift{grid-template-columns:62px minmax(0,1fr);gap:14px;padding:12px 14px 12px 10px}
+  .shift-fig{width:62px;height:111px}
+  .shift-main{height:132px;gap:6px}
+  .shift-t{font-size:15.5px;line-height:1.42}
+}
+
+/* Act 1: three steps beside the parent figure. */
+.act-split{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:24px;align-items:start}
+.act-fig{flex:none;margin:0;width:150px;aspect-ratio:2/3}
+@media (max-width:600px){.act-split{grid-template-columns:1fr}.act-fig{width:110px;margin:0 auto}}
+.act-steps{margin:0;padding:0;list-style:none;counter-reset:st;display:flex;flex-direction:column;gap:12px}
+.act-steps li{counter-increment:st;display:grid;grid-template-columns:30px 1fr;gap:12px;font-size:15px;line-height:1.55;color:var(--body);text-wrap:pretty}
+.act-steps li::before{content:counter(st);width:30px;height:30px;border-radius:50%;background:var(--tint);color:var(--action);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center}
+.act-steps strong{color:var(--ink);font-weight:600}
+
+/* Acts 4 and 5: the short rules. */
+.act-rules{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;max-width:62ch}
+.act-rules li{font-size:15px;line-height:1.55;color:var(--body);padding-left:16px;box-shadow:inset 2px 0 0 var(--action-dim);text-wrap:pretty}
+.act-rules strong{color:var(--ink);font-weight:600}
+.act-aside{font-size:13.5px;line-height:1.5;color:var(--muted);margin:0;max-width:60ch;text-wrap:pretty}
+
+/* Act 2: correct first, connect first. The figure is the result. */
+.contrast{display:flex;flex-direction:column;gap:12px}
+.contrast-k{font-size:15px;line-height:1.5;color:var(--body);margin:0}
+.contrast-k strong,.ct-then strong{color:var(--ink);font-weight:600}
+.ct-row{display:grid;grid-template-columns:72px minmax(0,1fr);gap:18px;align-items:center;border-radius:var(--r);padding:12px 18px 12px 12px;background:var(--surface)}
+.ct-row[data-kind="connect"]{background:var(--tint)}
+.ct-fig{width:72px;height:108px;object-fit:contain}
+.ct-txt{display:flex;flex-direction:column;gap:4px}
+.ct-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;text-transform:uppercase;color:var(--plum);margin:0}
+.ct-row[data-kind="connect"] .ct-k{color:var(--action)}
+.ct-say{font-size:16px;line-height:1.45;color:var(--ink);font-weight:500;margin:0;text-wrap:pretty}
+.ct-then{font-size:14px;line-height:1.5;color:var(--body);margin:0;text-wrap:pretty}
+
+/* Act 3: the breathing circle. */
+.breathe{display:flex;gap:26px;align-items:center;flex-wrap:wrap;background:var(--surface);border-radius:16px;padding:20px 22px}
+.br-ring{width:120px;height:120px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1.5px var(--action-dim)}
+.br-dot{width:44px;height:44px;border-radius:50%;background:var(--action-dim);transition:transform 6s ease-in-out,background 1s}
+.br-ring[data-phase="in"] .br-dot{transform:scale(2.5);background:#8FB8DA;transition-duration:4s}
+.br-ring[data-phase="out"] .br-dot{transform:scale(1);transition-duration:6s}
+.br-side{display:flex;flex-direction:column;gap:12px;align-items:flex-start;flex:1 1 240px}
+.br-scene{flex:none;width:170px;height:auto;display:block}
+.br-side .play-caption{flex:none}
+@media (max-width:600px){.br-scene{width:150px;margin:0 auto}}
+@media (prefers-reduced-motion:reduce){.br-dot{transition:none!important}.br-ring[data-phase] .br-dot{transform:none}}
+
+/* SCR-130, on the dark ground. */
+.sum-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+.sum-col{display:flex;flex-direction:column;gap:2px;background:var(--bookend-surface);border-radius:var(--r);padding:16px 18px}
+.sum-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:#D79AB3;margin:0 0 6px}
+.sum-col a{display:flex;gap:10px;align-items:baseline;font-size:15px;line-height:1.4;color:var(--bookend-ink);text-decoration:none;padding:6px 0;border-radius:4px}
+.sum-col a:hover{color:#9FC9E8}
+.sum-col a b{font:500 12px 'IBM Plex Mono',ui-monospace,monospace;color:var(--bookend-soft);width:12px}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}
+a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+
+
+/* ---- Assess, revised 27 Sept -------------------------------------------- *
+   No eyebrows on the Assess screens: the header already says Learn and
+   "Assess 1 of 4". The title sits closer to the header, and on a wide
+   screen the intro paragraphs sit side by side, which roughly halves their
+   height without a measure longer than about 60 characters. */
+.prin-tight{gap:18px}
+.prin-tight .sides{margin:0}
+@media (min-width:1000px){.screen.prin-tight{padding-top:28px}}
+@media (min-width:761px){
+  .prin-tight [data-prin-body]{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 32px}
+  .prin-tight [data-prin-body] > p:only-child{grid-column:1 / -1;max-width:78ch}
+  .prin-tight [data-prin-body] p.screen-body{max-width:none}
+}
+@media (max-width:760px){.prin-tight [data-prin-body]{gap:10px}}
+
+.bs-dot{width:10px;height:10px;border-radius:50%;display:block;flex:none}
+.bs-dot[data-c="0"]{background:#A3506E}
+.bs-dot[data-c="1"]{background:#E1AC3F}
+.bs-dot[data-c="2"]{background:#5E9E6E}
+.bs-dot[data-c="all"]{background:conic-gradient(#A3506E 0 33%,#E1AC3F 0 66%,#5E9E6E 0)}
+.side[aria-pressed="true"] .bs-dot{box-shadow:0 0 0 1.5px #fff}
+.bs .xfade > [data-xfade],.drop .xfade > [data-xfade]{transition-duration:.6s}
+
+/* SCR-111. One figure, which the side toggle swaps (Maya or the Parent, in
+   the same spot), beside the brain. Maya stands at about two-thirds of the
+   Parent's height, feet on the same line. The caption box is fixed so the
+   page does not move as the text changes. */
+.bs{display:flex;flex-direction:column;gap:12px}
+.bs-stage{display:flex;justify-content:center;align-items:flex-end;gap:44px}
+.bs-fig{width:184px;height:330px;flex:none}
+.bs-fig > .bs-child{top:auto;bottom:0;left:16.3%;width:67.4%;height:68.2%}
+.bs-brain{width:352px;height:340px;flex:none}
+.bs-pills{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap}
+.bs-hint{font-size:13.5px;color:var(--muted);margin-right:4px}
+.bs-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;font-size:13.5px}
+.bs-cap{height:158px;box-sizing:border-box;background:var(--surface);border-radius:var(--r);padding:16px 20px;overflow:hidden}
+.bs-k{font:500 11px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:var(--muted);margin:0 0 5px;display:flex;align-items:center;gap:8px}
+.bs-head{font-size:19px;font-weight:600;color:var(--ink);margin:0 0 6px}
+.bs-body{font-size:15px;line-height:1.5;color:var(--body);margin:0 0 6px;text-wrap:pretty}
+.bs-ask{font-size:15px;line-height:1.5;color:var(--ink);margin:0}
+.bs-ask[hidden]{display:none}
+.bs-ask + .bs-ask{margin-top:3px}
+.bs-alias{font-weight:400;color:var(--muted)}
+.bs-ask .k,.dtier-ask .k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum);margin-right:8px}
+
+/* SCR-112. Play and the bar come first so the control is on screen before
+   any scrolling; the caption lives under the brain, at its width. */
+.drop{display:flex;flex-direction:column;gap:16px}
+.drop-play{display:flex;align-items:center;gap:14px;max-width:560px}
+.drop-play .btn-play{flex:none}
+.drop-bar{flex:1;display:flex;gap:4px}
+.drop-bar[hidden]{display:none}
+.drop-seg{flex:1;height:18px;border:0;background:none;padding:6px 0;cursor:pointer}
+.drop-seg span{display:block;height:6px;border-radius:3px;background:#D3DAE2;overflow:hidden}
+.drop-seg i{display:block;height:100%;width:0;background:var(--action)}
+.drop-seg:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.drop-grid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:32px;align-items:start}
+.drop-left{display:flex;flex-direction:column;gap:12px}
+.drop-brain{width:300px;height:290px}
+.drop-cap{height:96px;margin:0;font-size:17px;line-height:1.38;font-weight:500;color:var(--muted);text-wrap:pretty}
+.drop-cap[data-live]{color:var(--ink)}
+.drop-tiers{display:grid;gap:10px}
+.dtier{background:var(--surface);border-radius:var(--r);padding:18px 20px;transition:background .35s,opacity .35s}
+.drop-grid[data-running] .dtier{opacity:.4}
+.drop-grid[data-running] .dtier[data-live]{opacity:1;background:var(--tint)}
+.dtier-name{margin:0 0 8px;display:flex;align-items:center;gap:9px;font-weight:600;font-size:18.5px;color:var(--ink)}
+.dtier-name .bs-dot{width:12px;height:12px}
+.dtier-ask{margin:0;font-size:16px;line-height:1.45;color:var(--ink)}
+
+@media (max-width:760px){
+  .drop-grid{grid-template-columns:minmax(0,1fr);gap:16px}
+  .drop-brain{margin:0 auto}
+}
+/* Tablet: the body wraps to three lines, so the fixed box grows with it. */
+@media (min-width:641px) and (max-width:900px){.bs-cap{height:190px}}
+@media (max-width:640px){
+  .bs .sides .side{flex:1;min-height:44px}
+  .bs-stage{gap:10px}
+  .bs-fig{width:106px;height:190px}
+  .bs-brain{width:228px;height:221px}
+  .bs-pills{display:grid;grid-template-columns:1fr 1fr}
+  .bs-hint{grid-column:1 / -1;text-align:center;margin:0}
+  .bs-pill{min-height:44px;font-size:14px}
+  .bs-cap{height:268px;padding:14px 16px}
+  .bs-head{font-size:18px}
+  .drop-play .btn-play{min-height:44px}
+  .drop-seg{height:44px;padding:19px 0}
+  .drop-brain{width:250px;height:242px}
+  .drop-cap{height:72px}
+  .dtier{padding:13px 16px}
+  .dtier-name{font-size:17px;margin-bottom:5px}
+  .dtier-ask{font-size:15.5px}
+}
+@media (prefers-reduced-motion: reduce){
+  .bs .xfade > [data-xfade],.drop .xfade > [data-xfade],.shift .xfade > [data-xfade],
+  .dtier,.berg-veil,.layer-text,.shift,.shift-t{transition:none}
+}
+
+/* ---- Act, revised 28 Sept --------------------------------------------- *
+   No eyebrows (prin-tight, as Assess). Act 1's steps are buttons: each one
+   tapped moves the Parent a pose toward calm (tense, neutral, calm). Acts 4
+   and 5 put a Parent pose beside the rules, as Act 1 does. Act 2 uses Maya
+   from Assess 1. The figure stays beside the text on a phone too, so the
+   pose changes where the thumb is. */
+.act-split{grid-template-columns:minmax(0,1fr) 168px;gap:28px;align-items:center}
+.act-fig{width:168px;aspect-ratio:335/600;position:relative}
+.act-fig img{width:100%;height:100%;object-fit:contain;display:block}
+.act-steps{display:flex;flex-direction:column;gap:10px}
+.act-steps .bs-hint{margin:0}
+.act-step{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;align-items:start;text-align:left;font:inherit;font-size:15px;line-height:1.55;color:var(--body);background:transparent;border:1px solid var(--hair);border-radius:var(--r);padding:11px 14px;min-height:44px;cursor:pointer;text-wrap:pretty;transition:background .3s,border-color .3s}
+.act-step:hover{border-color:var(--action-dim)}
+.act-step strong{color:var(--ink);font-weight:600}
+.act-n{width:30px;height:30px;border-radius:50%;background:var(--tint);color:var(--action);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .3s,color .3s}
+.act-step[aria-pressed="true"]{background:var(--tint);border-color:var(--action-dim)}
+.act-step[aria-pressed="true"] .act-n{background:var(--action);color:#fff}
+.act-split .act-rules{max-width:none}
+.act-split:has(.act-rules){align-items:start}
+.ct-row{grid-template-columns:76px minmax(0,1fr)}
+.ct-fig{width:76px;height:138px}
+.breathe{display:grid;grid-template-columns:150px 120px minmax(0,1fr);gap:24px;align-items:center}
+.br-scene{width:150px}
+@media (max-width:640px){
+  .act-split{grid-template-columns:minmax(0,1fr) 88px;gap:14px}
+  .act-fig{width:88px;margin:0}
+  .act-step{padding:10px 12px;gap:10px;grid-template-columns:26px minmax(0,1fr)}
+  .act-n{width:26px;height:26px;font-size:13px}
+  .ct-row{grid-template-columns:62px minmax(0,1fr);gap:14px}
+  .ct-fig{width:62px;height:112px}
+  .breathe{grid-template-columns:120px minmax(0,1fr);gap:16px 18px;padding:16px}
+  .br-scene{width:120px;margin:0}
+  .br-ring{justify-self:center}
+  .br-side{grid-column:1 / -1}
+}
+
+/* Act, 28 Sept pass 2 [Marc]. The two-column intro stays on Act 3 only
+   (equal paragraphs); Acts 1, 2, 4, 5 read as one column at the width of
+   the content column beside the figure. Act 1's figure rises beside the
+   intro, so it can be taller. Act 3 loses its tint box: bigger scene,
+   bigger circle, the button and caption under the circle. Acts 4-5: the
+   rules are the content, so they get body-plus type. */
+@media (min-width:761px){
+  .prin-tight .act-body[data-prin-body]{display:flex;flex-direction:column;gap:10px;max-width:calc(100% - 196px)}
+  .prin-tight .act-body[data-prin-body] p.screen-body{max-width:none}
+}
+.act-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.act-col .act-body{max-width:none!important}
+.act-rise{grid-template-columns:minmax(0,1fr) 200px;align-items:end}
+.act-rise .act-fig{width:200px}
+.act-split .act-rules{gap:14px}
+.act-split .act-rules li{font-size:18px;line-height:1.5;padding-left:18px;box-shadow:inset 3px 0 0 var(--action-dim)}
+.breathe{display:grid;grid-template-columns:auto auto;justify-content:center;gap:48px;align-items:center;background:none;padding:4px 0;border-radius:0}
+.br-scene{width:260px}
+.br-col{display:flex;flex-direction:column;align-items:center;gap:16px}
+.br-ring{width:220px;height:220px;box-shadow:inset 0 0 0 2px var(--action-dim)}
+.br-dot{width:80px;height:80px}
+.br-side{flex:none;align-items:center;text-align:center;max-width:260px}
+.br-side .play-caption{min-height:3em;margin:0}
+@media (max-width:640px){
+  /* 1 Oct (Marc): bottom-aligned, the Parent sat far below the steps on a
+     phone. Top-aligned and sticky, so the pose change stays in view. */
+  .act-rise{grid-template-columns:minmax(0,1fr) 96px;align-items:start}
+  .act-rise .act-fig{width:96px;position:sticky;top:12px}
+  .act-split .act-rules li{font-size:16px}
+  .breathe{grid-template-columns:1fr 1fr;gap:12px;padding:0}
+  .br-scene{width:100%;max-width:170px;justify-self:center}
+  .br-ring{width:150px;height:150px}
+  .br-dot{width:54px;height:54px}
+  .br-col{display:contents}
+  .br-side{grid-column:1 / -1;justify-self:center}
+}
+
+/* Acts 4-5, option 1b (28 Sept, "Act 4-5 Mockups.dc.html"): the phrase
+   card is the hero, spoken by the Parent (a tail points at them), and the
+   three rules become captions under it. No interaction. */
+.hero-say{display:grid;grid-template-columns:130px minmax(0,1fr);gap:28px;align-items:end}
+.hero-fig{margin:0;width:130px}
+.hero-fig img{width:100%;height:auto;display:block}
+.hero-card{max-width:none;margin-bottom:24px}
+.hero-card .wt-card{position:relative;background:#fff;border:1.5px solid var(--action-dim);border-radius:18px;padding:22px 28px;gap:8px}
+.hero-card .wt-card::before{content:"";position:absolute;left:-11px;bottom:26px;width:20px;height:20px;background:#fff;border-left:1.5px solid var(--action-dim);border-bottom:1.5px solid var(--action-dim);transform:rotate(45deg)}
+.hero-card .wt-what{font:500 11px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--action)}
+.hero-card .wt-say{font-size:28px;line-height:1.3;font-weight:500;color:var(--ink);text-wrap:pretty}
+.hero-rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;max-width:none}
+.hero-rules li{display:flex;flex-direction:column;gap:6px;box-shadow:none;padding:12px 0 0;border-top:3px solid var(--action-dim);font-size:15px}
+.hero-rules strong{font-size:17px;line-height:1.35}
+@media (max-width:640px){
+  .hero-say{grid-template-columns:78px minmax(0,1fr);gap:16px}
+  .hero-fig{width:78px}
+  .hero-card{margin-bottom:12px}
+  .hero-card .wt-card{padding:16px 18px}
+  .hero-card .wt-card::before{left:-9px;bottom:18px;width:16px;height:16px}
+  .hero-card .wt-say{font-size:21px}
+  .hero-rules{grid-template-columns:1fr;gap:14px}
+}
+
+
+/* ==== Scale-up, 30 Sept [Marc] ========================================== *
+   The module read as fine print on a laptop: 15px body, 30-36px titles,
+   five label sizes between 10 and 13px, figures 130-260px, in a 960px
+   column. Adopted from "Scale-Up Mockup.dc.html", with the eyebrows and
+   body one step larger again than the mockup. One label style everywhere
+   (Work Sans 600, uppercase); the mono kickers are retired. Everything
+   below is an override, so the pre-scale values above stay readable. */
+
+.rail span,.tier-qa .k,.readback-k,.home-k,.rp-who,.berg-eyebrow,.layer-cue,.path-tag,
+.card-seen-k,.shift-k,.shift-cue,.ct-k,.sum-k,.sum-col a b,.bs-k,.bs-ask .k,.dtier-ask .k,
+.hero-card .wt-what,.placeholder .tag,.wt-what,.qz-k,.coach-k,.rp-used-what,.qz-band,.eyebrow{
+  font-family:'Work Sans',system-ui,sans-serif;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+}
+/* "You'll see this card again" comes off: the card speaks for itself. */
+.card-seen-k{display:none}
+
+/* Morning (SCR-100) and the four questions: the scene on the left, the ask
+   on the right, one screen with no scrolling on a laptop. Stacked below. */
+.mn-grid,.qz-ask{display:flex;flex-direction:column;gap:22px}
+.mn-scene,.mn-ask,.qz-lead,.qz-main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.mn-ask{gap:22px}
+.mn .screen-title{max-width:18ch;text-wrap:balance}
+.qz-lead [data-qz-where][hidden]{display:none}
+
+@media (min-width:1000px){
+  :root{--head-h:72px}
+  .mod-head,.mod-foot,.resume{
+    padding-left:max(48px,calc((100% - 1216px) / 2 + 48px));
+    padding-right:max(48px,calc((100% - 1216px) / 2 + 48px));
+  }
+  .mod-foot{padding-top:16px;padding-bottom:16px}
+  .screen{max-width:1216px;padding:56px 48px;gap:28px}
+  .screen.prin-tight{padding-top:44px;gap:24px}
+  .head-name,.head-sub{font-size:17px}
+  .head-status{font-size:15px}
+  .head-prog{gap:6px}
+  .head-prog i{width:28px;height:6px}
+  .head-about,.panel-x{width:38px;height:38px;border-radius:12px;font-size:16px}
+  .head-about::before,.panel-x::before{inset:-3px}
+
+  .eyebrow{font-size:15px}
+  h1.screen-title{font-size:56px;line-height:1.06;letter-spacing:-.022em;font-weight:600;max-width:20ch}
+  p.screen-body{font-size:22px;line-height:1.55;max-width:60ch}
+  [data-prin-body]{gap:14px}
+
+  .btn{min-height:58px;padding:0 32px;border-radius:16px;font-size:18px}
+  .row .btn,.resume .btn{min-height:52px;padding:0 22px;font-size:16px}
+  .btn-link,.door{font-size:18px}
+  .btn-link.rp-quiet{font-size:16px}
+  .door-note,.gate{font-size:18px;line-height:1.5}
+  .resume p{font-size:17px}
+
+  /* Cover */
+  .cover-title{font-size:clamp(64px,7.6vw,112px)}
+  .cover .screen-body{font-size:22px}
+  .cover-art img{max-width:520px}
+  .cover-begin{min-height:62px;padding:0 40px;font-size:19px}
+  .cover-restore summary{font-size:17px}
+  .cover-form label{font-size:16px}
+  .cover-disclaimer{font-size:14px}
+
+  /* Lens and path cards */
+  .lenses{gap:18px}
+  .lens{padding:22px 26px}
+  .lens .name{font-size:21px}
+  .path .name{font-size:24px}
+  .lens .mark{font-size:15px}
+  .lens .blurb{font-size:18px;margin-top:6px}
+  .path-tag{font-size:13px}
+  .path-list{gap:9px;margin-top:16px;padding-top:16px}
+  .path-list > span{font-size:18px;grid-template-columns:22px 1fr}
+  .qz-hub{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}
+
+  /* Morning: one column again (1 Oct, Marc), the same measure as the questions. */
+  .mn-grid{gap:36px;max-width:880px}
+  .mn-scene{gap:28px}
+  .baseline{gap:16px;margin:0}
+  .baseline-q{font-size:28px;line-height:1.2}
+  .baseline-note{font-size:18px}
+  .baseline-in{font-size:20px;min-height:200px;padding:20px 22px;border-radius:16px}
+  .baseline-state{font-size:17px}
+  .readback{padding-left:22px}
+  .readback-k{font-size:14px;margin-bottom:10px}
+  .readback-q{font-size:26px}
+
+  /* Questions: two columns */
+  .qz-ask{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:72px;align-items:start}
+  .qz-lead{gap:22px}
+  .qz-main{gap:24px}
+  .qz-main h1.screen-title{font-size:44px;line-height:1.12;max-width:none;margin:0;text-wrap:balance}
+  .qz-field{font-size:20px;min-height:220px;padding:20px 22px;border-radius:16px}
+  .qz-result{gap:20px}
+  .qz-wrote{font-size:20px;padding:20px 22px}
+  .qz-wrote::before{left:calc(22px - .48em);top:20px}
+  .qz-k{font-size:14px;margin-bottom:10px}
+  .qz-band{font-size:14px;padding:7px 16px}
+  .qz-rows{gap:14px}
+  .qz-row{grid-template-columns:26px minmax(0,1fr);gap:14px}
+  .qz-g{font-size:18px}
+  .qz-t{font-size:19px}
+  .qz-model{padding:20px 24px}
+  .qz-say-lead{font-size:17px}
+  .qz-say-line{font-size:24px}
+  .qz-practice,.qz-claimed{font-size:17px}
+  .qz-coach{font-size:20px}
+
+  /* Coach, safety */
+  .coach-says{grid-template-columns:72px minmax(0,1fr);padding:18px 22px 18px 18px;gap:20px}
+  .coach-fig{width:72px}
+  .coach-k{font-size:13px}
+  .coach-t{font-size:19px}
+  .safety-t{font-size:21px}
+  .safety-link{font-size:20px}
+
+  /* Try It Out */
+  .rp-body{grid-template-columns:220px minmax(0,1fr);gap:36px}
+  .rp-rail{width:220px;height:330px}
+  .rp-log{gap:20px}
+  .rp-bub{padding:16px 20px;border-radius:16px}
+  .rp-who{font-size:13px}
+  .rp-line{font-size:21px;max-width:44ch}
+  .rp-note{font-size:17px;max-width:48ch}
+  .rp-frame{font-size:19px;padding:16px 20px}
+  .wt-pill{font-size:16px;min-height:48px;padding:0 20px}
+  .wt-cards{gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+  .wt-card{padding:16px 18px;gap:7px}
+  .wt-what{font-size:13px}
+  .wt-say{font-size:18px}
+  .wt-prov{font-size:15px}
+  .rp-fb{gap:36px}
+  .rp-fb-txt{gap:20px}
+  .rp-used-what{font-size:13px}
+  .rp-used-say{font-size:18px}
+  .band-in{max-width:720px;gap:18px}
+  .band-note{font-size:16px}
+
+  /* Assess 1 */
+  .side{font-size:17px;padding:12px 22px}
+  .sides-note,.bs-hint{font-size:17px}
+  .bs{gap:18px}
+  .bs-stage{gap:64px}
+  .bs-fig{width:230px;height:412px}
+  .bs-brain{width:440px;height:425px}
+  .bs-pill{font-size:17px;padding:10px 18px}
+  .bs-cap{padding:20px 26px}
+  .bs-k{font-size:14px}
+  .bs-head{font-size:25px}
+  .bs-body,.bs-ask{font-size:19px}
+  .bs-ask .k,.dtier-ask .k{font-size:13px}
+
+  /* Assess 2 */
+  .btn-play{font-size:17px;min-height:50px;padding:0 24px}
+  .drop-play{max-width:720px}
+  .drop-grid{grid-template-columns:400px minmax(0,1fr);gap:44px}
+  .drop-brain{width:380px;height:367px}
+  .drop-cap{height:120px;font-size:21px}
+  .dtier{padding:22px 26px}
+  .dtier-name{font-size:22px}
+  .dtier-ask{font-size:19px}
+
+  /* Assess 3, the iceberg: art scaled 1.2x with the box */
+  .berg-box{height:624px}
+  .berg-art{left:calc(70% - 273px);width:546px}
+  .berg-line{width:calc(70% - 273px)}
+  .berg-top{width:500px}
+  .berg-eyebrow{font-size:13px}
+  .berg-surface{font-size:21px}
+  .layer{width:520px}
+  .layer-name{font-size:20px}
+  .layer-cue{font-size:13px}
+  .layer-text{font-size:18px}
+  .berg-upshot p{font-size:20px}
+
+  /* Assess 4 */
+  .shifts{gap:16px}
+  .shift{grid-template-columns:100px minmax(0,1fr);gap:22px;padding:18px 22px 18px 18px}
+  .shift-fig{width:100px;height:180px}
+  .shift-main{height:180px;gap:10px}
+  .shift-k,.shift-cue{font-size:13px}
+  .shift-t{font-size:20px}
+  .shifts-note{font-size:17px}
+
+  /* Act */
+  .play-caption{font-size:18px}
+  .act-split{grid-template-columns:minmax(0,1fr) 220px;gap:40px}
+  .act-fig{width:220px}
+  .act-rise{grid-template-columns:minmax(0,1fr) 260px}
+  .act-rise .act-fig{width:260px}
+  .prin-tight .act-body[data-prin-body]{max-width:calc(100% - 300px)}
+  .act-step{font-size:19px;padding:14px 18px;grid-template-columns:36px minmax(0,1fr);gap:14px}
+  .act-n{width:36px;height:36px;font-size:16px}
+  .act-split .act-rules li{font-size:21px}
+  .act-aside{font-size:17px}
+  .contrast-k{font-size:19px}
+  .ct-row{grid-template-columns:96px minmax(0,1fr);gap:22px;padding:16px 22px 16px 16px}
+  .ct-fig{width:96px;height:174px}
+  .ct-k{font-size:13px}
+  .ct-say{font-size:21px}
+  .ct-then{font-size:17px}
+  .breathe{gap:64px}
+  .br-scene{width:340px}
+  .br-ring{width:280px;height:280px}
+  .br-dot{width:100px;height:100px}
+  .br-side{max-width:320px}
+  .hero-say{grid-template-columns:180px minmax(0,1fr);gap:36px}
+  .hero-fig{width:180px}
+  .hero-card .wt-card{padding:28px 34px;gap:10px;border-radius:20px}
+  .hero-card .wt-what{font-size:14px}
+  .hero-card .wt-say{font-size:36px}
+  .hero-rules{gap:28px}
+  .hero-rules li{font-size:18px;gap:8px;padding-top:14px}
+  .hero-rules strong{font-size:21px}
+
+  /* Section closes */
+  .sum-cols{gap:18px}
+  .sum-col{padding:20px 24px}
+  .sum-k{font-size:13px}
+  .sum-col a{font-size:19px;padding:8px 0}
+  .sum-col a b{font-size:15px;width:16px}
+  .prin-home{gap:14px;padding-top:18px}
+  .home-row{grid-template-columns:70px 1fr}
+  .home-k{font-size:13px}
+  .home-t{font-size:18px}
+}
+
+/* Tablet: between the phone and the laptop column. */
+@media (min-width:641px) and (max-width:999px){
+  .eyebrow{font-size:14px}
+  h1.screen-title{font-size:44px;line-height:1.08;font-weight:600}
+  p.screen-body{font-size:19px}
+  .btn{min-height:54px;font-size:17px;border-radius:16px}
+}
+
+/* Phone */
+@media (max-width:640px){
+  .eyebrow{font-size:13px}
+  h1.screen-title{font-size:34px;line-height:1.08;letter-spacing:-.02em;font-weight:600}
+  .qz-main h1.screen-title{font-size:26px;line-height:1.18}
+  p.screen-body{font-size:18px;line-height:1.55}
+  .btn{min-height:56px;font-size:17px;border-radius:16px}
+  .baseline-q{font-size:22px}
+  .baseline-in,.qz-field{font-size:17px}
+  .gate,.door{font-size:16px}
+  .lens .name{font-size:17px}
+  .lens .blurb{font-size:15.5px}
+}
+
+
+/* ==== 30 Sept, later [Marc] ============================================= */
+
+/* Credit line: drawer, Cover, Finish. */
+.panel-foot .credit{margin:10px 0 0}
+.panel-foot .credit a,.cover-disclaimer a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.panel-foot .credit a:hover{color:var(--action)}
+.cover-disclaimer a:hover{color:var(--bookend-ink)}
+
+/* Iceberg: one column of body; the note under the two buttons sits 5px in. */
+#scr-113 [data-prin-body]{display:flex;flex-direction:column;gap:14px}
+#scr-113 [data-prin-body] p.screen-body{max-width:62ch}
+.berg .sides-note{margin-left:5px}
+
+/* Learn header: the bars are buttons. The hit area is taller than the bar. */
+.head-prog button{appearance:none;-webkit-appearance:none;border:0;margin:0;padding:0;background:none;display:block;cursor:pointer;position:relative;flex:0 1 auto;min-width:5px}
+.head-prog button::before{content:"";position:absolute;left:-3px;right:-3px;top:-14px;bottom:-14px}
+.head-prog button i{transition:background-color .15s}
+.head-prog button:hover i:not(.on){background:var(--action-dim)}
+.head-prog button:focus-visible{outline:2px solid var(--action);outline-offset:4px;border-radius:3px}
+
+/* Breathe: the circle is a control too. */
+.br-ring{cursor:pointer}
+
+/* SCR-200: the Coach out of the box, large, on the right; the four
+   situations in one column on the left. */
+.qzi-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;align-items:start}
+.qzi-main{display:flex;flex-direction:column;gap:22px;min-width:0}
+.qzi-says{display:flex;flex-direction:column;gap:8px}
+.qzi-says .coach-k{color:var(--plum)}
+.qzi-hub{grid-template-columns:minmax(0,1fr)}
+.qzi-head{display:flex;flex-direction:column;gap:12px}
+.qzi-head h1.screen-title{margin:0}
+/* The Coach's head level with the top of the title: the figure is pulled up
+   by the eyebrow's height, less the transparent strip at the top of the art. */
+.qzi-head .eyebrow{line-height:18px}
+/* 18px eyebrow + 12px gap + ~5px of the title's own leading, less the art's
+   transparent top strip (38 of 840px; 6.75% of the figure's width). */
+.qzi-fig{margin:0;margin-top:calc(35px - 6.75%)}
+.qzi-fig img{display:block;width:100%;height:auto}
+@media (min-width:1000px){.qzi-grid{grid-template-columns:minmax(0,1fr) 340px;gap:72px}.qzi-hub{grid-template-columns:minmax(0,1fr)}.qzi-fig{margin-top:calc(36px - 6.75%)}}
+@media (max-width:760px){
+  .qzi-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .qzi-fig{order:-1;margin-top:0}
+  .qzi-fig img{width:140px}
+}
+
+/* SCR-304, the Bookend. Borrows the Morning grid and the read-back. */
+.bk-result{display:flex;flex-direction:column;gap:12px}
+.bk-result[hidden]{display:none}
+.bk-rows{display:flex;flex-direction:column;gap:10px}
+.app[data-theme="dark"] .bk-row .qz-t{color:var(--bookend-ink)}
+.app[data-theme="dark"] .bk-row .qz-g{color:var(--bookend-soft)}
+.app[data-theme="dark"] .bk-row .qz-g[data-hit="yes"]{color:#9FC9E8}
+.app[data-theme="dark"] .bk-result .qz-k{color:#D79AB3}
+.bk-was{display:block;font-size:.85em;color:var(--bookend-soft);margin-top:2px}
+.bk-analysis{margin:4px 0 0}
+
+/* SCR-400, Finish: the Cover's grid, the embrace with its die-cut edge. */
+.fin-title{max-width:12ch}
+.fin-acts{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.app:has(#scr-400:not([hidden])) .mod-foot{display:none}
+
+/* Try It Out feedback: the bare Coach box is one column. The scale-up's
+   72px figure column was landing on it and squeezing the text to a word a line. */
+.coach-says-bare{grid-template-columns:minmax(0,1fr)}
+/* Gibberish note under a field. */
+.huh{margin:0;font-size:16px;line-height:1.5;color:var(--plum);max-width:56ch;text-wrap:pretty}
+.huh[hidden]{display:none}
+.app[data-theme="dark"] .huh{color:#D79AB3}
+@media (min-width:1000px){.huh{font-size:18px}}
+
+/* One column again for the four questions and the Bookend (30 Sept, Marc):
+   the answer box belongs under the situation, on the left, not in a fixed
+   right-hand column. Morning keeps its two columns. */
+@media (min-width:1000px){
+  .qz-ask{display:flex;flex-direction:column;gap:28px;max-width:880px}
+  .qz-main h1.screen-title{text-wrap:pretty}
+}
+.bk-col{display:flex;flex-direction:column;gap:28px;max-width:880px}
+.bk-scene,.bk-ask{display:flex;flex-direction:column;gap:18px;min-width:0}
+.bk-ask{gap:22px}
+.bk-scene .screen-title{max-width:18ch;text-wrap:balance}
+
+/* Bookend as payoff: the two answers side by side (a comparison, not a
+   form, so two columns earn their place), then the moves table. */
+.bk-col{max-width:1040px}
+.bk-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px}
+.bk-pair .readback{margin:0}
+.bk-now{border-left-color:#9FC9E8}
+.bk-now .readback-k{color:#9FC9E8}
+.bk-empty{margin:0;font-size:18px;line-height:1.5;color:var(--bookend-soft);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.bk-empty[hidden],.readback-q[hidden]{display:none}
+.bk-empty p{margin:0}
+.bk-table{display:flex;flex-direction:column;width:100%;max-width:560px;margin-inline:auto}
+.bk-analysis{text-align:center;margin-inline:auto}
+.bk-tr{display:grid;grid-template-columns:minmax(0,1fr) 88px 88px;align-items:center;padding:10px 0;border-bottom:1px solid #333A50}
+.bk-th{padding-top:0}
+.bk-th span{font-weight:600;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:#D79AB3}
+.bk-name{font-size:19px;color:var(--bookend-ink)}
+.bk-m{text-align:center;font-size:19px;color:var(--bookend-soft)}
+.bk-m[data-hit="yes"]{color:#9FC9E8}
+@media (max-width:640px){.bk-tr{grid-template-columns:minmax(0,1fr) 64px 64px}.bk-name,.bk-m{font-size:16px}.bk-th span{font-size:11px}}
+
+/* Try It Out: the wait between her last reply and the result (1 Oct). */
+.rp-think{align-self:center;display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 0;width:min(320px,80%)}
+.rp-think-t{margin:0;font-size:15px;line-height:1.4;color:var(--muted);text-align:center}
+.rp-think-bar{width:100%;height:4px;border-radius:2px;background:#E4E0D8;overflow:hidden}
+.rp-think-bar i{display:block;height:100%;width:100%;background:var(--action);transform-origin:left;animation:rp-think 2.2s linear both}
+@keyframes rp-think{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.rp-think-bar i{animation-duration:2.2s !important}}
+@media (min-width:1000px){.rp-think-t{font-size:17px}}
+
+/* SCR-500, phrase cards (1 Oct). Composure, said to yourself, sits on the
+   tint so it reads as a different kind of line from the four for the child. */
+.pc-col{display:flex;flex-direction:column;gap:24px;max-width:1040px}
+.pc-jump{display:flex;flex-wrap:wrap;gap:10px}
+.pc-chip{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #C3CBD4;background:#fff;font:500 15px 'Work Sans',sans-serif;color:var(--ink);cursor:pointer}
+.pc-chip:hover{border-color:var(--action);color:var(--action)}
+.pc-chip:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.pc-list{display:flex;flex-direction:column;gap:40px;margin-top:8px}
+.pc-group{display:flex;flex-direction:column;gap:12px}
+.pc-group h2{margin:0;font-weight:575;font-size:24px;line-height:1.2;color:var(--ink)}
+.pc-group h2:focus{outline:none}
+.pc-note{margin:0;font-size:16px;line-height:1.5;color:var(--muted);max-width:60ch;text-wrap:pretty}
+.pc-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px;margin-top:4px}
+.pc-card{background:#fff;border:1px solid var(--hair);border-radius:var(--r);padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.pc-group[data-move="composure"] .pc-card{background:var(--tint);border-color:var(--action-dim)}
+.pc-say{margin:0;font-size:20px;line-height:1.4;color:var(--ink);text-wrap:pretty}
+.pc-school{margin:0;font-size:15px;line-height:1.5;color:var(--muted);text-wrap:pretty}
+.pc-school b{font-weight:600;color:var(--plum)}
+.pc-later{display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:1px solid var(--hair)}
+.pc-later .door-note{margin:0}
+.app:has(#scr-500:not([hidden])) #navNext{visibility:hidden}
+@media (min-width:1000px){.pc-say{font-size:22px}.pc-school{font-size:16px}.pc-group h2{font-size:30px}.pc-note{font-size:18px}.pc-chip{font-size:16px}}
+
+/* The glossary, a second view inside the panel (1 Oct). */
+.panel > .card[hidden],.gl[hidden]{display:none}
+.gl{display:flex;flex-direction:column;gap:12px}
+.gl-back{align-self:flex-start;min-height:44px}
+.gl-lede{margin:0 0 4px;font-size:14.5px;line-height:1.55;color:var(--body)}
+.gl-list .card{margin-bottom:10px}
+.gl-say{display:flex;flex-direction:column;gap:2px;margin-top:10px !important}
+.gl-k{font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
+.gl-q{color:var(--ink)}
+
+/* The printable phrase-card sheet (1 Oct). Hidden on screen; on print from
+   a print button it is the only thing on the page. Two cards across, cut
+   lines dashed, 12pt minimum. */
+.pc-print{display:none}
+@media print{
+  body.pc-printing > *:not(#pcPrint){display:none !important}
+  body.pc-printing #pcPrint{display:block;font-family:'Work Sans',sans-serif;color:#25293C}
+  .pc-print h1{font-weight:575;font-size:20pt;margin:0 0 4pt}
+  .pc-print-note{font-size:12pt;color:#5F6272;margin:0 0 12pt}
+  .pc-print-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px dashed #9AA3AE;border-left:1px dashed #9AA3AE}
+  .pc-print-card{break-inside:avoid;padding:12pt 14pt;border-right:1px dashed #9AA3AE;border-bottom:1px dashed #9AA3AE;display:flex;flex-direction:column;gap:5pt;min-height:1.6in}
+  .pc-print-k{margin:0;font:600 9.5pt 'Work Sans',sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#8E3A57}
+  .pc-print-say{margin:0;font-size:15pt;line-height:1.35}
+  .pc-print-school{margin:0;font-size:12pt;line-height:1.4;color:#5F6272}
+  .pc-print-foot{font-size:8.5pt;color:#5F6272;margin:12pt 0 0}
+}
+
+
+/* ==== Draft 2, 2 Oct [Marc's edit pass on Draft 1] ======================= */
+.btn[hidden],.door[hidden],#skipWrap[hidden]{display:none !important}
+
+/* SCR-100 / SCR-101: no footer; the way on is on the screen. */
+.app:has(#scr-100:not([hidden])) .mod-foot,.app:has(#scr-101:not([hidden])) .mod-foot{display:none}
+.mn-go{display:flex}
+/* SCR-100: eyebrow, scene line and the skip door at one size. */
+#scr-100 .eyebrow,#scr-100 .mn-scene p.screen-body,#scr-100 .door{font-size:16px;line-height:1.5}
+@media (min-width:1000px){#scr-100 .eyebrow,#scr-100 .mn-scene p.screen-body,#scr-100 .door{font-size:18px}}
+
+/* Learn: the intro runs the full width on every screen except Act 1, as on
+   Assess 1. One column throughout (Act 3 was the last two-column intro). */
+@media (min-width:761px){
+  #scr-112 [data-prin-body],#scr-113 [data-prin-body],#scr-114 [data-prin-body],#scr-122 [data-prin-body],
+  #scr-123 [data-prin-body],#scr-124 [data-prin-body],#scr-125 [data-prin-body]{display:flex;flex-direction:column;gap:14px;max-width:none}
+  #scr-112 [data-prin-body] p.screen-body,#scr-113 [data-prin-body] p.screen-body,#scr-114 [data-prin-body] p.screen-body,
+  #scr-122 [data-prin-body] p.screen-body,#scr-123 [data-prin-body] p.screen-body,#scr-124 [data-prin-body] p.screen-body,
+  #scr-125 [data-prin-body] p.screen-body{max-width:78ch}
+}
+
+/* SCR-113: the note sits above the two buttons, and both sit with the iceberg. */
+.berg{margin-top:12px}
+.berg .sides-note{margin:0 0 10px 5px}
+.berg .sides{margin:0 0 10px}
+
+/* SCR-124/125: the bubble's tail at the Parent's mouth (29% down the figure). */
+.hero-say{align-items:start}
+.hero-card{margin-bottom:0}
+.hero-card .wt-card::before{bottom:auto;top:57px}
+@media (min-width:1000px){.hero-card .wt-card::before{top:83px}}
+@media (max-width:640px){.hero-card .wt-card::before{top:32px}}
+
+/* Quiz result: the Coach beside the verdict, one pose per band. */
+.qz-fb{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:24px;align-items:end}
+.qz-fb .rp-pose{width:96px;height:144px}
+.qz-fb .rp-pose > img{object-fit:contain;object-position:center bottom}
+@media (min-width:1000px){.qz-fb{grid-template-columns:minmax(0,1fr) 120px}.qz-fb .rp-pose{width:120px;height:180px}}
+@media (max-width:600px){.qz-fb{grid-template-columns:64px minmax(0,1fr);gap:14px}.qz-fb .rp-pose{order:-1;width:64px;height:96px}}
+
+/* SCR-304: the closing line centered under the table, at its width. */
+#bkAnalysis{max-width:560px;margin-left:auto;margin-right:auto;text-align:center}
+
+/* Drawer: no strokes around the boxes. */
+.panel .card{box-shadow:none}
+/* The code opens to its full length when clicked, selected whole. */
+.code.is-open{white-space:normal;word-break:break-all;overflow:visible;text-overflow:clip}
+.code:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+
+/* ---- SCR-099, option 1c (2 Oct) ----
+   One row per section; the figure you meet there, head and shoulders, in a
+   circle of that section's color. Teal = the Parent (Learn), blue = the
+   Coach (Test Your Knowledge), plum = Maya (Try It Out). */
+.casts{grid-template-columns:minmax(0,1fr);gap:14px}
+.lens.cast{--c:#4FA3A0;--c-ink:#9FD3D0;display:grid;grid-template-columns:112px minmax(0,1fr) auto;gap:26px;align-items:center;padding:16px 26px 16px 16px;border-radius:20px;background:#272C3E;box-shadow:none;border:0}
+.lens.cast[data-cast="check"]{--c:#4A74E0;--c-ink:#A9BEF5}
+.lens.cast[data-cast="practice"]{--c:#C46A8C;--c-ink:#E6B3C6}
+.lens.cast:hover{background:#2E3449;box-shadow:0 0 0 1.5px var(--c)}
+.lens.cast:focus-visible{outline:2px solid var(--c-ink);outline-offset:3px}
+.cast-pic{width:112px;height:112px;border-radius:50%;background:var(--c);overflow:hidden;display:block;position:relative}
+.cast-pic img{position:absolute;left:50%;top:6px;width:150px;height:auto;transform:translateX(-50%)}
+.lens.cast[data-cast="check"] .cast-pic img{top:4px}
+.lens.cast[data-cast="practice"] .cast-pic img{top:8px}
+.cast-txt{display:flex;flex-direction:column;gap:4px;min-width:0}
+.lens.cast .row{gap:12px;flex-wrap:wrap}
+.lens.cast .name{flex:none;font-weight:600;font-size:26px;color:#F4F1EA}
+.lens.cast .mark{font-size:16px;color:var(--c-ink)}
+.lens.cast .blurb{margin-top:0;font-size:18px;line-height:1.45;color:#C3C9D8}
+.cast-go{width:48px;height:48px;border-radius:50%;border:2px solid var(--c);color:var(--c-ink);display:flex;align-items:center;justify-content:center;font-size:22px;transition:background-color .12s ease,color .12s ease}
+.lens.cast:hover .cast-go{background:var(--c);color:#1C2030}
+@media (max-width:999px){
+  .lens.cast .name{font-size:21px}
+  .lens.cast .blurb{font-size:16px}
+}
+@media (max-width:640px){
+  .casts{gap:10px}
+  .lens.cast{grid-template-columns:72px minmax(0,1fr) auto;gap:14px;padding:12px 14px 12px 12px;border-radius:16px}
+  .cast-pic{width:72px;height:72px}
+  .cast-pic img{width:96px;top:4px}
+  .lens.cast[data-cast="check"] .cast-pic img{top:3px}
+  .lens.cast[data-cast="practice"] .cast-pic img{top:5px}
+  .lens.cast .row{gap:2px 8px}
+  .lens.cast .name{font-size:18px}
+  .lens.cast .mark{font-size:14px}
+  .lens.cast .blurb{font-size:15px}
+  .cast-go{width:40px;height:40px;font-size:18px}
+}
+
+/* ---- 1d: the section's figure on its intro (2 Oct) ----
+   SCR-110 reuses the SCR-200 grid (figure right, level with the title; above
+   the title at 140px on a phone). SCR-300 puts Maya beside the band, lower,
+   at her real height against the other two. Eyebrows take the section color. */
+.eyebrow.sec-learn{color:#2C6E6B}
+.eyebrow.sec-check{color:#2B4FAE}
+.band-cast{width:100%;max-width:1040px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:56px;align-items:end}
+.band-cast .band-in{max-width:720px}
+.band-fig{margin:0 0 20px}
+.band-fig img{display:block;width:100%;height:auto}
+@media (min-width:1000px){.band-cast{grid-template-columns:minmax(0,1fr) 260px;gap:72px}}
+@media (max-width:760px){
+  .band-cast{grid-template-columns:minmax(0,1fr);gap:14px}
+  .band-fig{order:-1;margin:0}
+  .band-fig img{width:120px}
+}
+
+/* SCR-099 (2 Oct, Marc): no footer, since the rows are the way on and the header name is the way back.
+   The title sits on one line and the three rows clear the fold on a laptop. */
+.app:has(#scr-099:not([hidden])) .mod-foot{display:none}
+#scr-099 h1.screen-title{max-width:none}
+@media (min-width:1000px){#scr-099{padding-top:44px;gap:22px}#scr-099 .casts{margin-top:6px}}
+/* Rows tightened so all three clear the fold on 768–800px-tall laptops (verifier, 2 Oct). */
+@media (min-width:641px){
+  .casts{gap:10px}
+  .lens.cast{grid-template-columns:96px minmax(0,1fr) auto;gap:22px;padding:12px 24px 12px 12px}
+  .cast-pic{width:96px;height:96px}
+  .cast-pic img{width:128px;top:5px}
+  .lens.cast[data-cast="check"] .cast-pic img{top:3px}
+  .lens.cast[data-cast="practice"] .cast-pic img{top:7px}
+}
+@media (min-width:641px) and (max-height:860px){
+  #scr-099{padding-top:32px;gap:18px}
+  #scr-099 .casts{margin-top:0}
+  .lens.cast{grid-template-columns:88px minmax(0,1fr) auto;gap:20px}
+  .cast-pic{width:88px;height:88px}
+  .cast-pic img{width:118px;top:4px}
+  .lens.cast[data-cast="check"] .cast-pic img{top:3px}
+  .lens.cast[data-cast="practice"] .cast-pic img{top:6px}
+}
+
+/* Draft 2 (Marc). Eyebrows hang optically: the caps' ink starts at the box edge
+   (about 0.4px in) while the title and body ink start about 1-2.5px in, so the
+   eyebrow read as pushed left. A small indent lines the ink up. */
+.eyebrow{text-indent:.12em}
+/* SCR-304: the analysis line spans the moves table and sits on its left edge. */
+.bk-analysis{width:100%;max-width:560px;text-align:left}
+#bkAnalysis{text-align:left}
+
+/* Draft 2 (Marc caught it on SCR-400): browsers don't pass the page font to
+   buttons, so any button class without its own font-family (.door was one)
+   fell back to the system font. Element-level, so every class that sets its
+   own family still wins. */
+button,input,textarea,select{font-family:inherit}
+.door{font-family:'Work Sans',system-ui,sans-serif}
+
+/* SCR-099 reference note (2 Oct, Marc): ways in to the phrase cards and the glossary
+   other than the drawer. Inline text buttons in the dark door blue. */
+.ref-link{background:none;border:0;padding:0;margin:0;font:inherit;color:#9FC9E8;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.ref-link:hover{color:#C4DEF2}
+.ref-link:focus-visible{outline:2px solid #9FC9E8;outline-offset:2px;border-radius:2px}
+.ref-q{display:inline-flex;align-items:center;justify-content:center;width:1.3em;height:1.3em;border-radius:50%;border:1.5px solid currentColor;font-size:.8em;font-weight:600;vertical-align:.08em;line-height:1}
+.say-touch{display:none}
+@media (hover:none) and (pointer:coarse){.say-touch{display:inline}.say-fine{display:none}}
+/* Draft 2 pass 2 (Marc) */
+.code-mail{margin-top:2px}
+.app:has(#scr-500:not([hidden])) .mod-foot{display:none}
+.pc-back{align-self:flex-start;margin-bottom:-8px}
+#baselineKeep[aria-disabled="true"]{cursor:default}
+/* TYK result, desktop: verdict, answer and rows in a narrower column, the Coach large at top right,
+   the top of his cap level with the top of the title's capitals. Below the rows everything runs full width. */
+@media (min-width:1000px){
+  .qz-result{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:56px;row-gap:20px;align-items:start}
+  .qz-result > *{grid-column:1 / -1}
+  .qz-result > .qz-fb{display:contents}
+  .qz-result .qz-verdict,.qz-result > .qz-block,.qz-result > .qz-rows{grid-column:1}
+  .qz-result .qz-verdict{grid-row:1}
+  .qz-result > .qz-block{grid-row:2}
+  .qz-result > .qz-rows{grid-row:3}
+  .qz-result .qz-fb .rp-pose{grid-column:2;grid-row:1 / span 3;width:300px;height:450px;margin-top:-10px;align-self:start}
+  .qz-result .qz-fb .rp-pose > img{object-position:center top}
+}
+
+/* ---- Draft 2, phone pass (Oct 2, Marc) ---- */
+/* SCR-209: Coach Says on the dark ground, like the SCR-130 boxes. His black
+   lines measure about 1.3:1 on #272C3E, so he wears a paper sticker edge. */
+.coach-dark{background:var(--bookend-surface)}
+.coach-dark .coach-k{color:#D79AB3}
+.coach-dark .coach-t{color:var(--bookend-ink)}
+.coach-dark .coach-fig{filter:drop-shadow(1.5px 0 0 #F4F1EA) drop-shadow(-1.5px 0 0 #F4F1EA) drop-shadow(0 1.5px 0 #F4F1EA) drop-shadow(0 -1.5px 0 #F4F1EA)}
+/* SCR-112 rest box: desktop keeps its three boxes. */
+.dtier-rest{display:none}
+.dtier-names{display:flex;flex-wrap:wrap;gap:6px 16px}
+.dtier-names span{display:inline-flex;align-items:center;gap:7px}
+@media (max-width:640px){
+  /* Progress dashes: wider bars, a full-height hit area that meets its
+     neighbor; the name wraps to two lines to make room. */
+  .mod-head:has(#headProg:not([hidden])) .head-name{white-space:normal;font-size:13.5px;line-height:1.15;max-width:7.6em;overflow:visible}
+  .head-prog{gap:8px;margin-left:6px;flex:none}
+  .head-prog i{width:20px;flex:0 0 20px;height:5px}
+  .head-prog button{flex:none}
+  .head-prog button::before{left:-4px;right:-4px;top:-20px;bottom:-20px}
+  /* SCR-112: one box under the brain that follows it, caption below. */
+  .drop-left{display:contents}
+  .drop-brain{order:1}
+  .drop-tiers{order:2;display:grid;grid-template-areas:"t"}
+  .drop-cap{order:3}
+  .drop-tiers .dtier{grid-area:t;display:block;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+  .drop-grid:not([data-running]) .dtier-rest,
+  .drop-grid[data-running] .dtier[data-live]{opacity:1;visibility:visible;transition:opacity .35s}
+}
+
+/* ---- Accessibility pass (Oct 2) ---- */
+/* Blue on the pale-blue tint measured 4.38:1, just under 4.5. Text on the
+   tint takes the darker blue the hovers already use (6.3:1). */
+.act-n,.resume .btn-quiet,.app[data-theme="dark"] .resume .btn-quiet{color:#17578A}
+.act-step[aria-pressed="true"] .act-n{color:#fff}
+.ct-row[data-kind="connect"] .ct-k{color:#17578A}
+/* Doors are a line of text, 20-22px tall: an invisible hit area takes them
+   to 44px without moving anything. */
+.door{position:relative}
+.door::before{content:"";position:absolute;inset:-11px -4px}
+
+/* Focus ring (Oct 2, Marc's keyboard run): buttons had no rule of their own,
+   so Chrome's blue ring vanished against blue buttons on light and Safari's
+   against the dark ground. One ring for both browsers: ink on light, cream on
+   dark, set 3px off the button so the gap shows the ground. */
+.btn:focus-visible,.door:focus-visible,.head-about:focus-visible,.panel-x:focus-visible{outline:3px solid #1C2030;outline-offset:3px}
+.app[data-theme="dark"] .btn:focus-visible,.app[data-theme="dark"] .door:focus-visible,.app[data-theme="dark"] .head-about:focus-visible,
+.app[data-theme="dark"] .btn-link:focus-visible,.app[data-theme="dark"] .side:focus-visible{outline:3px solid #F4F1EA;outline-offset:3px}
+.app[data-theme="dark"] .resume .btn:focus-visible{outline-color:#1C2030}
+
+/* ---- VoiceOver pass (Oct 5) ---- */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Iceberg layers and the four shifts: the box is no longer the button, so
+   VoiceOver reads the label, then the button, then the text. The whole box
+   still takes a click; the ring draws on the box. */
+.layer,.shift{cursor:pointer}
+.layer-cue,.shift-cue{position:relative;background:none;border:0;padding:0;margin:0;cursor:pointer;line-height:inherit}
+.layer-cue:focus-visible,.shift-cue:focus-visible{outline:none}
+.layer-cue::before,.shift-cue::before{content:"";position:absolute;inset:-12px -8px}
+.shift-main{position:relative}
+.shift-cue{position:absolute;top:0;right:0}
