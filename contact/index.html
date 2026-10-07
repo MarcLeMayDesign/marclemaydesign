@@ -19,7 +19,7 @@
     </nav>
   </header>
 
-  <main>
+  <main class="page-contact">
     <div class="hero">
       <div class="hero-text">
         <p class="eyebrow">Contact</p>
@@ -28,6 +28,7 @@
         <p class="lede prose">This goes straight to my inbox. A sentence or two about the work is enough to start.</p>
 
         <form class="contact-form" id="contact-form" action="https://formspree.io/f/xkjggqog" method="POST">
+          <div class="field-pair">
           <div class="field">
             <label for="cf-name">Your name</label>
             <input id="cf-name" name="name" type="text" required="required" autocomplete="name">
@@ -37,6 +38,7 @@
             <label for="cf-email">Email</label>
             <input id="cf-email" name="email" type="email" required="required" autocomplete="email" placeholder="you@company.com">
           </div>
+          </div>
 
           <div class="field">
             <label for="cf-org">Organization <span class="optional">optional</span></label>
@@ -45,7 +47,7 @@
 
           <div class="field">
             <label for="cf-message">What&rsquo;s the work?</label>
-            <textarea id="cf-message" name="message" required="required" rows="5" placeholder="A rough sketch is plenty."></textarea>
+            <textarea id="cf-message" name="message" required="required" rows="4" placeholder="A rough sketch is plenty."></textarea>
           </div>
 
           <input class="gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">

@@ -29,7 +29,9 @@ a:hover{color:#190f1d}
 
 /* The rule is 320px on the case study and everything hanging off it;
    Home and About keep the 420px in site.css. */
-.rule{max-width:320px}
+.rule{max-width:320px;background:var(--clay)}
+/* Citron never on cream (about 1.5:1). site.css uses it for the h1 rule and .panel-head; both are pinned here. */
+.panel-head{color:var(--ink-faint)}
 
 /* ---- working document pages ---- */
 
@@ -235,7 +237,7 @@ a:hover{color:#190f1d}
   display:flex;
   flex-wrap:wrap;
   gap:1rem 1.5rem;
-  align-items:center;
+  align-items:flex-start;
   margin-top:1rem;
   max-width:960px;
 }

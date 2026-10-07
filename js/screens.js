@@ -17,12 +17,13 @@
     if (zoomed) { scale.style.transform = ''; frame.style.height = ''; return; }
     var s = Math.min(1, frame.clientWidth / 960);
     scale.style.transform = 'scale(' + s + ')';
-    frame.style.height = Math.round(640 * s) + 'px';
+    frame.style.height = Math.round(scale.offsetHeight * s) + 'px';
   }
 
   function show(n) {
     step = (n + screens.length) % screens.length;
     screens.forEach(function (el, i) { el.hidden = i !== step; });
+    fit();
     chips.forEach(function (el, i) {
       el.classList.toggle('is-current', i === step);
       el.setAttribute('aria-pressed', i === step ? 'true' : 'false');
@@ -52,7 +53,8 @@
   closeBtn.addEventListener('click', function (e) { e.stopPropagation(); setZoom(false); });
   window.addEventListener('keydown', function (e) { if (e.key === 'Escape' && zoomed) setZoom(false); });
   window.addEventListener('resize', fit);
-  if (typeof ResizeObserver !== 'undefined') { new ResizeObserver(fit).observe(frame); }
+  if (typeof ResizeObserver !== 'undefined') { var ro = new ResizeObserver(fit); ro.observe(frame); ro.observe(scale); }
+  [].forEach.call(frame.querySelectorAll('img'), function (im) { im.addEventListener('load', fit); });
 
   show(0);
   fit();

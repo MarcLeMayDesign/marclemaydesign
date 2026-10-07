@@ -132,7 +132,7 @@ p{max-width:var(--measure);margin:0 0 1rem;color:var(--ink-soft)}
 /* The clay rule under the hero. Decorative; one per page at most. */
 .rule{
   height:5px;
-  background:var(--clay);
+  background:var(--accent);
   width:min(420px,60%);
   margin:clamp(18px,2.4vw,30px) 0;
   border:0;
@@ -360,7 +360,7 @@ div.work-row{cursor:default}
   font:600 13px/1.2 var(--label);
   letter-spacing:.12em;
   text-transform:uppercase;
-  color:var(--ink-faint);
+  color:var(--accent);
   padding-bottom:14px;
   border-bottom:1px solid var(--rule);
 }
@@ -403,6 +403,16 @@ div.work-row{cursor:default}
 /* ---- contact page ---- */
 
 .rule-contact{width:min(320px,60%)}
+
+/* Contact is tightened so Send has a chance above the fold on a laptop (7 Oct). */
+.site-head:has(+ .page-contact){margin-bottom:clamp(20px,2.6vw,36px)}
+.page-contact .eyebrow{margin-bottom:clamp(12px,1.6vw,18px)}
+.page-contact .rule{margin:clamp(14px,1.6vw,20px) 0}
+.page-contact .lede{margin-bottom:clamp(14px,1.8vw,22px)}
+.page-contact .contact-form{gap:clamp(11px,1.2vw,14px)}
+.page-contact .field textarea{min-height:100px}
+.field-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(11px,1.2vw,14px)}
+@media (max-width:560px){.field-pair{grid-template-columns:minmax(0,1fr)}}
 
 .contact-form{
   display:flex;
