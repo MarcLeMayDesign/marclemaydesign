@@ -74,7 +74,7 @@
       result.hidden = false;
       if (!pushed) { history.pushState({ qz: id }, '', location.href); pushed = true; }
       var h = result.querySelector('[data-qz-head]');
-      if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+      if (h) { h.setAttribute('tabindex', '-1'); setTimeout(function () { h.focus({ preventScroll: true }); }, 120); }
     }
 
     function paint(res, text) {
@@ -87,7 +87,8 @@
       if (head) head.textContent = (res.coach && res.coach.head) || '';
       if (pose) pose.to(res.band);
       if (pill) {
-        pill.textContent = M.BANDS[res.band];
+        pill.innerHTML = '<span class="sr-only">Your result: </span>' + M.BANDS[res.band];
+        pill.setAttribute('role', 'text');
         pill.setAttribute('data-band', res.band);
       }
       if (wrote) wrote.textContent = text;
@@ -313,7 +314,7 @@
         var note = result.querySelector('[data-qz-claimed]');
         if (note) note.hidden = false;
         var pill = result.querySelector('[data-qz-band]');
-        if (pill) { pill.textContent = M.BANDS.strong; pill.setAttribute('data-band', 'strong'); }
+        if (pill) { pill.innerHTML = '<span class="sr-only">Your result: </span>' + M.BANDS.strong; pill.setAttribute('role', 'text'); pill.setAttribute('data-band', 'strong'); }
         if (pose) pose.to('strong');
       });
     }

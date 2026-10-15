@@ -1,3 +1,79 @@
+/* ===== VoiceOver helpers (Oct 5, Marc's iPhone pass) ====================
+   CDAH_SAY: one polite live region for announcing a change in words.
+   Flatten: iOS VoiceOver stops at every bold, italic or span inside a
+   paragraph, so a sentence is read in pieces. role="text" (WebKit) makes it
+   one item. Applied to any text block with inline children and no controls,
+   and re-applied as screens rewrite their copy. List items get an inner
+   wrapper, so they keep their list role. */
+(function () {
+  'use strict';
+  var live = null;
+  function mk() {
+    if (live || !document.body) return;
+    live = document.createElement('div');
+    live.className = 'sr-only'; live.setAttribute('aria-live', 'polite');
+    document.body.appendChild(live);
+  }
+  mk();
+  window.CDAH_SAY = function (t) {
+    mk(); if (!live) return;
+    live.textContent = '';
+    setTimeout(function () { live.textContent = t; }, 80);
+  };
+  var SEL = 'p,figcaption,dt,dd,blockquote,.dtier';
+  var INTER = 'a,button,input,textarea,select,[tabindex]:not([tabindex="-1"])';
+  function flatten() {
+    var root = document.body;
+    var a = root.querySelectorAll(SEL), i, e;
+    for (i = 0; i < a.length; i++) {
+      e = a[i];
+      if (e.getAttribute('role') && !e.hasAttribute('data-flat')) continue;
+      var need = !!e.firstElementChild && !e.querySelector(INTER);
+      if (need && !e.hasAttribute('data-flat')) { e.setAttribute('role', 'text'); e.setAttribute('data-flat', ''); }
+      else if (!need && e.hasAttribute('data-flat')) { e.removeAttribute('role'); e.removeAttribute('data-flat'); }
+    }
+    var li = root.querySelectorAll('li');
+    for (i = 0; i < li.length; i++) {
+      e = li[i];
+      if (!e.firstElementChild || e.querySelector(INTER)) continue;
+      if (e.childNodes.length === 1 && e.firstElementChild.hasAttribute('data-flat')) continue;
+      var s = document.createElement('span');
+      s.setAttribute('role', 'text'); s.setAttribute('data-flat', '');
+      while (e.firstChild) s.appendChild(e.firstChild);
+      e.appendChild(s);
+    }
+  }
+  var pend = null;
+  function soon() { if (!pend) pend = setTimeout(function () { pend = null; flatten(); }, 120); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', flatten); else setTimeout(flatten, 0);
+  if (window.MutationObserver) document.addEventListener('DOMContentLoaded', function () {
+    new MutationObserver(soon).observe(document.body, { childList: true, subtree: true });
+  });
+  if (document.readyState !== 'loading' && window.MutationObserver) new MutationObserver(soon).observe(document.body, { childList: true, subtree: true });
+
+  /* Waking the phone puts VoiceOver back at the top of the page. Return
+     focus to the last control used on this screen, or to the screen's
+     eyebrow or title. Never to a text field: that would raise the keyboard. */
+  var last = null;
+  document.addEventListener('focusin', function (e) {
+    var st = document.getElementById('stage');
+    if (st && st.contains(e.target)) last = e.target;
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState !== 'visible') return;
+    setTimeout(function () {
+      var t = last;
+      if (t && /^(INPUT|TEXTAREA)$/.test(t.tagName)) return;
+      if (!t || !document.contains(t) || t.offsetParent === null) {
+        var scr = document.querySelector('#stage .screen:not([hidden])');
+        t = scr && (scr.querySelector('.eyebrow[tabindex]') || scr.querySelector('h1'));
+        if (t && !t.hasAttribute('tabindex')) t.setAttribute('tabindex', '-1');
+      }
+      if (t && t.focus) t.focus({ preventScroll: true });
+    }, 600);
+  });
+})();
+
 /* The shell: router, header, footer nav, the About & reference panel,
    the keyboard. No screen content lives here — screens are sections in
    index.html and their copy comes from /content/. */
@@ -19,10 +95,11 @@
   var elDot    = document.getElementById('headDot');
   var elSub    = document.getElementById('headSub');
   /* The section name in the header goes to that section's opening screen. */
-  var SECTION_HOME = { learn: 'scr-110', check: 'scr-200', practice: 'scr-300' };
+  var SECTION_HOME = { learn: 'lrn-10', check: 'scr-200', practice: 'scr-300' };
   var elStatus = document.getElementById('headStatus');
   var elProg   = document.getElementById('headProg');
   var btnAbout = document.getElementById('aboutBtn');
+  var btnHelp  = document.getElementById('helpBtn');
   var btnBack  = document.getElementById('navBack');
   var btnNext  = document.getElementById('navNext');
 
@@ -114,11 +191,23 @@
             (x.compareDocumentPosition(h) & Node.DOCUMENT_POSITION_FOLLOWING)) { eb = x; break; }
       }
       if (eb) h = eb;
-      h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true });
+      /* Oct 5 (Marc, VoiceOver): the phrase cards start on Back, the first thing on the page. */
+      var pcb = el.querySelector('[data-pc-back]');
+      if (pcb && pcb.offsetParent !== null) h = pcb;
+      if (h.tagName !== 'BUTTON') h.setAttribute('tabindex', '-1');
+      h.focus({ preventScroll: true });
+      /* A door in the panel closes it and hands focus back to its opener. Take it back. */
+      var ft = h;
+      setTimeout(function () {
+        if (current === id && !el.contains(document.activeElement) && !panel.contains(document.activeElement)) ft.focus({ preventScroll: true });
+      }, 400);
     }
     stage.scrollTop = 0;
     /* After focus and the scroll reset, so the fade is not fighting either. */
     if (prevEl !== el) FX.enter(el, { weight: weight, stage: stage, ground: ground });
+    /* Learn AD2 (15 Oct): screens with their own state repaint on arrival (js/learn.js). */
+    var ah = window.CDAH_AFTER_SHOW || [];
+    for (var ak = 0; ak < ah.length; ak++) { try { ah[ak](id, el); } catch (x) {} }
     /* Act 1 (Composure), revised 28 Sept: the parent settles as the steps are
        tapped (tense, then neutral at step 2, calm at step 3). Arriving resets. */
     var af = el.querySelector('[data-act-fig]');
@@ -128,6 +217,8 @@
       var setStep = function (n) {
         for (var b = 0; b < btns.length; b++) btns[b].setAttribute('aria-pressed', b < n ? 'true' : 'false');
         lay.to(n >= 3 ? '3' : n === 2 ? '2' : '0');
+        /* NEW Oct 5: the figure is described, and the change is announced. */
+        af.setAttribute('aria-label', n >= 3 ? 'The Parent, standing calm.' : n === 2 ? 'The Parent, less tense now.' : 'The Parent, standing tense.');
       };
       if (!af._wired) {
         af._wired = true;
@@ -136,6 +227,7 @@
             var cur = 0;
             for (var q = 0; q < btns.length; q++) if (btns[q].getAttribute('aria-pressed') === 'true') cur = q + 1;
             setStep(cur === n ? n - 1 : n);
+            if (window.CDAH_SAY) window.CDAH_SAY(af.getAttribute('aria-label'));
           });
         })(b + 1);
       }
@@ -152,8 +244,13 @@
     if (!from || from === to) return 'normal';
     var f = from.id, t = to.id;
     if (t === 'scr-099' && (f === 'scr-100' || f === 'scr-101')) return 'grand';
-    if (t === 'scr-099') return (f === 'scr-000' || f === 'scr-400' || f === 'scr-130' || f === 'scr-209') ? 'big' : 'normal';
+    if (t === 'scr-099') return (f === 'scr-000' || f === 'scr-400' || f === 'lrn-46' || f === 'scr-209') ? 'big' : 'normal';
     if (f === 'scr-110' && t === 'scr-200') return 'big';
+    /* Learn AD2 (15 Oct): into Learn and out of it are big; a new part is half. */
+    if (f === 'scr-099' && t === 'lrn-10') return 'big';
+    if ((f === 'lrn-46' || f === 'lrn-10') && t === 'scr-200') return 'big';
+    var LP = { 'lrn-11': 1, 'lrn-21': 2, 'lrn-31': 3, 'lrn-41': 4 };
+    if (LP[t] && /^lrn-/.test(f) && f.charAt(4) !== t.charAt(4)) return 'half';
     /* Moderately big (Marc, 2 Oct): phrase cards in and out, the opening screens, a section's last screen → its close. */
     if (f === 'scr-500' || t === 'scr-500') return 'half';
     if ((f === 'scr-000' && t === 'scr-100') || (f === 'scr-100' && t === 'scr-101')) return 'half';
@@ -198,7 +295,7 @@
        (30 Sept, Marc): each one goes to its screen. Try It Out's only show
        progress, since a scene is meant to be played through. */
     var QZ = ['scr-201', 'scr-202', 'scr-203', 'scr-204'];
-    var path = key === 'learn' ? (ASSESS.indexOf(el.id) !== -1 ? ASSESS : ACT.indexOf(el.id) !== -1 ? ACT : null)
+    var path = key === 'learn' ? ['lrn-11', 'lrn-21', 'lrn-31', 'lrn-41']
       : key === 'check' && QZ.indexOf(el.id) !== -1 ? QZ : null;
     for (var k = 1; k <= steps; k++) {
       var i2 = document.createElement('i');
@@ -449,9 +546,20 @@
   }
 
   /* Exposed for the safety check's SR-2, which opens the panel at one card. */
-  window.CDAH_OPEN_PANEL = function () { openPanel(); };
+  window.CDAH_OPEN_PANEL = function (mode) { openPanel(mode || 'help'); };
 
-  function openPanel() {
+  /* Two drawers, one panel (15 Oct, Marc): ? is Help (phrases, glossary, the
+     hurt card), i is About this module (saved place, code, disclaimer). */
+  var opener = btnHelp || btnAbout;
+  var MODE_TITLE = { help: 'Help', about: 'About this module' };
+  function openPanel(mode) {
+    mode = mode === 'about' ? 'about' : 'help';
+    if (!panel.hidden && panel.getAttribute('data-mode') === mode) return;
+    if (!panel.hidden) closePanel(true);
+    panel.setAttribute('data-mode', mode);
+    panel.setAttribute('data-main', MODE_TITLE[mode]);
+    var pt = document.getElementById('panelTitle'); if (pt) pt.textContent = MODE_TITLE[mode];
+    opener = mode === 'about' ? btnAbout : (btnHelp || btnAbout);
     lastFocus = document.activeElement;
     paintSaved();
     codeNow = '';
@@ -473,7 +581,7 @@
   var panelAnim = null;
   function grow(open) {
     if (FX.reduced() || !panel.animate) return null;
-    var b = btnAbout.getBoundingClientRect(), p = panel.getBoundingClientRect();
+    var b = opener.getBoundingClientRect(), p = panel.getBoundingClientRect();
     var x = b.left + b.width / 2 - p.left, y = b.top + b.height / 2 - p.top;
     var r = Math.max(Math.hypot(x, y), Math.hypot(p.width - x, y), Math.hypot(x, p.height - y), Math.hypot(p.width - x, p.height - y));
     var at = ' at ' + x + 'px ' + y + 'px)';
@@ -483,16 +591,16 @@
     return panel.animate(kf, { duration: open ? 440 : 300, easing: open ? 'cubic-bezier(.2,.7,.2,1)' : 'cubic-bezier(.5,0,.75,.3)' });
   }
 
-  function closePanel() {
+  function closePanel(instant) {
     if (panel.hidden) return;
     if (typeof disarm === 'function') disarm();
     elCode.classList.remove('is-open');
     document.removeEventListener('keydown', trap, true);
     var done = function () { panelAnim = null; panel.hidden = true; scrim.hidden = true; };
     if (panelAnim) panelAnim.cancel();
-    panelAnim = grow(false);
+    panelAnim = instant === true ? null : grow(false);
     if (panelAnim) panelAnim.onfinish = done; else done();
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    if (instant !== true && lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
   function trap(e) {
@@ -514,11 +622,12 @@
   elCode.addEventListener('click', selectCode);
   elCode.addEventListener('focus', function () { setTimeout(selectCode, 0); });
 
-  btnAbout.addEventListener('click', openPanel);
+  btnAbout.addEventListener('click', function () { openPanel('about'); });
+  if (btnHelp) btnHelp.addEventListener('click', function () { openPanel('help'); });
   /* SCR-099's reference note (2 Oct): open the drawer straight at the glossary. */
   var titleGloss = document.getElementById('titleGloss');
   var glossOpenBtn = document.getElementById('glossOpen');
-  if (titleGloss && glossOpenBtn) titleGloss.addEventListener('click', function () { H.tap(); openPanel(); glossOpenBtn.click(); });
+  if (titleGloss && glossOpenBtn) titleGloss.addEventListener('click', function () { H.tap(); openPanel('help'); glossOpenBtn.click(); });
   btnX.addEventListener('click', closePanel);
   scrim.addEventListener('click', closePanel);
 
@@ -573,7 +682,12 @@
     if (e.key === 'Escape' && !panel.hidden) { e.preventDefault(); closePanel(); return; }
     if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
       e.preventDefault();
-      if (panel.hidden) openPanel(); else closePanel();
+      if (panel.hidden || panel.getAttribute('data-mode') !== 'help') openPanel('help'); else closePanel();
+      return;
+    }
+    if (e.key === 'i' || e.key === 'I') {
+      e.preventDefault();
+      if (panel.hidden || panel.getAttribute('data-mode') !== 'about') openPanel('about'); else closePanel();
       return;
     }
     if (e.key === 'r' || e.key === 'R') {
@@ -931,6 +1045,27 @@ window.CDAH_FIT = function (topEl, bottomEl) {
   var elK = root.querySelector('[data-bs-kicker]'), elH = root.querySelector('[data-bs-head]');
   var elB = root.querySelector('[data-bs-body]'), elAskRow = root.querySelector('[data-bs-askrow]'), elAsk = root.querySelector('[data-bs-ask]');
   var elNeedRow = root.querySelector('[data-bs-needrow]'), elNeed = root.querySelector('[data-bs-need]');
+  /* NEW Oct 5 (Marc, VoiceOver): the figure and brain are one described image,
+     and each press announces the picture and the caption together. */
+  var stg = root.querySelector('[data-bs-stage]');
+  var FIG = {
+    child:  { all: 'Maya, smiling.', '0': 'Maya, overwhelmed.', '1': 'Maya, upset.', '2': 'Maya, calm and ready to think.' },
+    parent: { all: 'The Parent, standing.', '0': 'The Parent, overwhelmed.', '1': 'The Parent, frustrated.', '2': 'The Parent, calm.' }
+  };
+  var BRAIN = {
+    all: 'The brain shows all three parts.',
+    '0': 'The brain stem, at the base of the brain, is lit up.',
+    '1': 'The limbic system, in the middle of the brain, is lit up.',
+    '2': 'The prefrontal lobes, at the front of the brain, are lit up.'
+  };
+  function stop(x) { x = String(x || '').trim(); return /[.?!”"]$/.test(x) ? x : x + '.'; }
+  function say() {
+    if (!window.CDAH_SAY) return;
+    var t = [stg ? stg.getAttribute('aria-label') : '', stop(elK.textContent), stop(elH.textContent), elB.textContent];
+    if (!elAskRow.hidden) t.push('Asks: ' + elAsk.textContent);
+    if (elNeedRow && !elNeedRow.hidden) t.push('Needs: ' + elNeed.textContent);
+    window.CDAH_SAY(t.join(' '));
+  }
 
   function paint() {
     var i, on;
@@ -943,20 +1078,21 @@ window.CDAH_FIT = function (topEl, bottomEl) {
     for (i = 0; i < pills.length; i++) pills[i].setAttribute('aria-pressed', pills[i].getAttribute('data-step') === step ? 'true' : 'false');
     elDot.setAttribute('data-c', step);
     if (step === 'all') {
-      elK.textContent = 'THREE STATES, THREE PARTS';
+      elK.textContent = 'Three states, three parts';
       elH.innerHTML = D.intro[side][0];
       elB.innerHTML = D.intro[side][1];
       if (elNeedRow) elNeedRow.hidden = true;
       elAskRow.hidden = true;
     } else {
       var s = D.list[+step];
-      elK.textContent = s.part.toUpperCase();
+      elK.textContent = s.part;
       elH.innerHTML = s.name + (s.alias ? ' <span class="bs-alias">&middot; ' + s.alias + '</span>' : '');
       elB.innerHTML = (s[side + 'Desc'] || s.desc) + ' ' + s[side][0];
       elAsk.innerHTML = s[side][1];
       elAskRow.hidden = false;
       if (elNeedRow) { elNeed.innerHTML = s[side][2] || ''; elNeedRow.hidden = !s[side][2]; }
     }
+    if (stg) stg.setAttribute('aria-label', FIG[side][step] + ' ' + BRAIN[step]);
   }
   /* The caption box keeps one height for all eight captions so nothing below
      it jumps. Measured, not fixed in CSS, since the copy changes length. */
@@ -982,8 +1118,8 @@ window.CDAH_FIT = function (topEl, bottomEl) {
   var fitted = false;
   function first() { if (fitted) return; fitted = true; window.CDAH_FIT(root.querySelector('.sides'), cap); }
   window.addEventListener('hashchange', function () { fitted = false; });
-  for (var i = 0; i < sides.length; i++) sides[i].addEventListener('click', function () { side = this.getAttribute('data-side'); paint(); first(); });
-  for (var j = 0; j < pills.length; j++) pills[j].addEventListener('click', function () { step = this.getAttribute('data-step'); paint(); first(); });
+  for (var i = 0; i < sides.length; i++) sides[i].addEventListener('click', function () { side = this.getAttribute('data-side'); paint(); first(); say(); });
+  for (var j = 0; j < pills.length; j++) pills[j].addEventListener('click', function () { step = this.getAttribute('data-step'); paint(); first(); say(); });
 })();
 
 
@@ -1037,14 +1173,26 @@ window.CDAH_FIT = function (topEl, bottomEl) {
     for (var s = 0; s < fills.length; s++) fills[s].style.width = (done || s < i ? 100 : s === i ? Math.min(100, t / dur(i) * 100) : 0) + '%';
   }
   function stopTick() { clearInterval(tick); tick = null; }
+  /* Oct 5 (Marc): keep the screen awake while the drop plays, so auto-lock
+     can't cut it off. Released on pause, finish and leaving. */
+  var lock = null;
+  function wake(on) {
+    try {
+      if (on) {
+        if (!lock && navigator.wakeLock) navigator.wakeLock.request('screen').then(function (l) {
+          lock = l; l.addEventListener('release', function () { lock = null; });
+        }).catch(function () {});
+      } else if (lock) { lock.release(); lock = null; }
+    } catch (e) {}
+  }
   function finish() {
-    stopTick(); i = -1; t = 0; paused = false;
+    stopTick(); wake(false); i = -1; t = 0; paused = false;
     level(null); paintBar(true);
     cap.textContent = DONE; cap.removeAttribute('data-live');
     btn.innerHTML = '&#8634;&#xFE0E; Watch again';
   }
   function go(n) {
-    i = n; t = 0; paused = false;
+    i = n; t = 0; paused = false; wake(true);
     bar.hidden = false;
     level(SEQ[i][0]); cap.textContent = SEQ[i][1]; cap.setAttribute('data-live', 'yes');
     btn.innerHTML = '&#10074;&#10074; Pause'; paintBar(false);
@@ -1060,14 +1208,14 @@ window.CDAH_FIT = function (topEl, bottomEl) {
     }, 50);
   }
   function reset() {
-    stopTick(); i = -1; t = 0; paused = false;
+    stopTick(); wake(false); i = -1; t = 0; paused = false;
     level(null); bar.hidden = true; paintBar(false);
     cap.textContent = IDLE; cap.removeAttribute('data-live');
     btn.innerHTML = '&#9654;&#xFE0E; Watch a drop, and the way back';
   }
   btn.addEventListener('click', function () {
     if (i < 0) { go(0); window.CDAH_FIT(root.querySelector('.drop-play'), root.querySelector('.drop-tiers')); return; }
-    paused = !paused;
+    paused = !paused; wake(!paused);
     btn.innerHTML = paused ? '&#9654;&#xFE0E; Resume' : '&#10074;&#10074; Pause';
   });
   /* Leaving the screen resets it, like the breathing circle. */
@@ -1095,7 +1243,7 @@ window.CDAH_FIT = function (topEl, bottomEl) {
       layers: [
         'She\u2019s been holding it together all morning, and her battery\u2019s running low.',
         'She wants some say in a morning that has already been decided for her.',
-        'She cannot yet stop one thing and start another without help doing it.'
+        'She can\u2019t yet go from playing to getting her shoes on without help.'
       ],
       upshot: 'Not \u201Cstop screaming and put your shoes on\u201D \u2014 but \u201Cthese ones or those ones?\u201D, offered before the shouting starts.'
     },
@@ -1118,13 +1266,18 @@ window.CDAH_FIT = function (topEl, bottomEl) {
   var upText  = document.getElementById('bergUpshotText');
 
   function set(n, open) {
-    layers[n].setAttribute('aria-expanded', open ? 'true' : 'false');
-    layers[n].querySelector('.layer-cue').textContent = open ? 'CLOSE' : 'REVEAL';
+    /* Oct 5 (Marc, VoiceOver): the box holds a label and a Reveal button; the
+       text is silent until it's revealed, then announced. */
+    layers[n].setAttribute('data-open', open ? 'yes' : 'no');
+    var cue = layers[n].querySelector('.layer-cue');
+    cue.setAttribute('aria-expanded', open ? 'true' : 'false');
+    cue.textContent = open ? 'Close' : 'Reveal';
+    layers[n].querySelector('.layer-text').setAttribute('aria-hidden', open ? 'false' : 'true');
     if (veils[n]) veils[n].setAttribute('data-open', open ? 'yes' : 'no');
   }
   function checkAll() {
     var all = true;
-    for (var i = 0; i < layers.length; i++) if (layers[i].getAttribute('aria-expanded') !== 'true') all = false;
+    for (var i = 0; i < layers.length; i++) if (layers[i].getAttribute('data-open') !== 'yes') all = false;
     upshot.hidden = !all;
   }
   function paintCase(key) {
@@ -1139,8 +1292,10 @@ window.CDAH_FIT = function (topEl, bottomEl) {
   for (var i = 0; i < layers.length; i++) {
     (function (n) {
       layers[n].addEventListener('click', function () {
-        set(n, this.getAttribute('aria-expanded') !== 'true');
+        var open = this.getAttribute('data-open') !== 'yes';
+        set(n, open);
         checkAll();
+        if (open && window.CDAH_SAY) window.CDAH_SAY(this.querySelector('.layer-text').textContent + (upshot.hidden ? '' : ' So what changes? ' + upText.textContent));
       });
     })(i);
   }
@@ -1160,7 +1315,7 @@ window.CDAH_FIT = function (topEl, bottomEl) {
   var note = document.querySelector('[data-shifts-note]');
   function count() {
     var n = 0;
-    for (var i = 0; i < items.length; i++) if (items[i].getAttribute('aria-pressed') === 'true') n++;
+    for (var i = 0; i < items.length; i++) if (items[i].getAttribute('data-pressed') === 'true') n++;
     if (!note) return;
     note.textContent = n === 0 ? 'Tap each one to shift it.'
       : n < items.length ? n + ' of ' + items.length + ' shifted. Tap again to see the old frame.'
@@ -1168,16 +1323,20 @@ window.CDAH_FIT = function (topEl, bottomEl) {
   }
   for (var i = 0; i < items.length; i++) {
     items[i].addEventListener('click', function () {
-      var on = this.getAttribute('aria-pressed') !== 'true';
-      this.setAttribute('aria-pressed', on ? 'true' : 'false');
+      /* Oct 5 (Marc, VoiceOver): the box reads as label, words, then the Shift
+         button; a shift announces the new words. */
+      var on = this.getAttribute('data-pressed') !== 'true';
+      this.setAttribute('data-pressed', on ? 'true' : 'false');
+      this.querySelector('.shift-cue').setAttribute('aria-pressed', on ? 'true' : 'false');
       var imgs = this.querySelectorAll('[data-xfade]');
       imgs[0].setAttribute('data-on', on ? 'no' : 'yes');
       imgs[1].setAttribute('data-on', on ? 'yes' : 'no');
       this.querySelector('.shift-old').setAttribute('aria-hidden', on ? 'true' : 'false');
       this.querySelector('.shift-new').setAttribute('aria-hidden', on ? 'false' : 'true');
-      this.querySelector('.shift-k').textContent = on ? 'THE SHIFT' : 'THE OLD FRAME';
-      this.querySelector('.shift-cue').textContent = on ? 'SHIFT BACK' : 'SHIFT IT';
+      this.querySelector('.shift-k').textContent = on ? 'The shift' : 'The old frame';
+      this.querySelector('.shift-cue').textContent = on ? 'Shift back' : 'Shift it';
       count();
+      if (window.CDAH_SAY) window.CDAH_SAY((on ? 'The shift: ' : 'The old frame: ') + this.querySelector(on ? '.shift-new' : '.shift-old').textContent + ' ' + (note ? note.textContent : ''));
     });
   }
 })();

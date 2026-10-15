@@ -88,6 +88,11 @@
       if (h.connect && h.choices && h.at.choices > h.at.connect &&
           ((h.limit && (h.at.limit > h.at.connect || scene.limitAnytime)) || run.limit))
         return { to: 3, key: 'both', reply: '2:both', inOrder: true };
+      /* Oct 5 (Marc): the feeling first, then the limit or the choices, in
+         the same line, is the right order too, even without the third move.
+         She moves to ready, the move counts, and the Coach says so. */
+      if (h.connect && ((h.limit && h.at.limit > h.at.connect) || (h.choices && h.at.choices > h.at.connect)))
+        return { to: 2, key: 'connect', orderOk: true };
       if (h.connect) return { to: 2, key: 'connect' };
       if (h.limit) return { to: 1, key: 'limitOnly' };
       return { to: 1, key: 'none' };
@@ -349,6 +354,11 @@
         cards.appendChild(c);
         cardEls.push(c);
       });
+      /* Oct 5 (Marc, VoiceOver): each card says how to use it. NEW copy. */
+      var hint = el('p', 'sr-only', fine ? 'Press Return to preview it in your reply, and Return again to use it.' : 'Double-tap to preview it in your reply, then choose Use it.');
+      hint.id = id + '-wt-hint';
+      strip.appendChild(hint);
+      for (var ce = 0; ce < cardEls.length; ce++) cardEls[ce].setAttribute('aria-describedby', hint.id);
       pill.addEventListener('click', function () { keepBottom(function () { setStrip(!stripOpen(), true); }); });
       if (useBtn) useBtn.addEventListener('click', function () { keepBottom(commit); });
       /* Enter keeps a preview from anywhere in the scene: on a card, in the
@@ -533,13 +543,14 @@
          tick. This keeps the rows and the band telling the same story. */
       var s = step(run.level, h, run, scene);
       var ready = run.level >= 2 || !!s.inOrder;
+      function inLine(k) { return run.level >= 1 && h.connect && h[k] && h.at[k] > h.at.connect; }
       if (h.fail) run.fail = true;
       else {
         if (h.connect) run.connect = true;
         /* A safety limit doesn't wait (scene.limitAnytime, SCN-302): said at
            any point, it counts. */
-        if (h.limit) { if (ready || scene.limitAnytime) run.limit = true; else run.limitEarly = true; }
-        if (h.choices) { if (ready) run.choices = true; else run.choicesEarly = true; }
+        if (h.limit) { if (ready || inLine('limit') || scene.limitAnytime) run.limit = true; else run.limitEarly = true; }
+        if (h.choices) { if (ready || inLine('choices')) run.choices = true; else run.choicesEarly = true; }
       }
       var rk = s.reply || (run.level + ':' + s.key);
       /* A missing reply must never stall the scene (Oct 2: '0:fail' was missing
@@ -552,6 +563,7 @@
       /* A miss, with the strip closed: the coach offers the phrases in words,
          once per scene, instead of springing the panel open. */
       var note = r.note;
+      if (s.orderOk) note = (note ? note + ' ' : '') + ((window.CDAH_STRINGS || {}).orderOk || 'Good order: the feeling came first, so she could hear what came after it.');  // NEW
       var good = s.key === 'connect' || s.key === 'both' || s.key === 'calm';
       if (!good && words.length && !stripOpen() && !run.offered) {
         run.offered = true;
@@ -605,13 +617,27 @@
         place();
         toBottom();
         busy = false; syncSay();
+        var stripNew = false;
         if (strip && words.length && run.level < 3) {
           var wasHid = strip.hidden;
+          stripNew = wasHid;
           strip.hidden = false;
           if (wasHid && strip.animate && !(FX && FX.reduced())) strip.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
           toBottom();
         }
-        if (run.level === 3 || run.turns >= scene.maxTurns) finish();
+        var ending = run.level === 3 || run.turns >= scene.maxTurns;
+        /* Oct 5 (Marc, VoiceOver on the Mac): the log isn't a live region any
+           more. One message says the turn in order: your line, the Coach's
+           note, her reply, then what's next. */
+        if (window.CDAH_SAY) {
+          var msg = 'You said: ' + raw + ' ' + (note ? 'Coach: ' + note + ' ' : '') + (line ? scene.child + ': ' + line : '');
+          if (!ending) {
+            if (stripNew) msg += ' Words to try is now open to you, after the text box.';  // NEW
+            msg += ' ' + ((run.turns === scene.maxTurns - 1 && scene.lastPrompt) ? scene.lastPrompt : 'Your turn.');  // NEW
+          }
+          window.CDAH_SAY(msg);
+        }
+        if (ending) finish();
         else if (fine) field.focus({ preventScroll: true });
       }, wait);
       /* Say it on a phone drops the keyboard, and it stays down through
@@ -742,7 +768,8 @@
 
       result.querySelector('[data-rp-head]').textContent = copy.head || '';
       var pill = result.querySelector('[data-rp-band]');
-      pill.textContent = M.BANDS[band];
+      pill.innerHTML = '<span class="sr-only">Your result: </span>' + M.BANDS[band];
+      pill.setAttribute('role', 'text');
       pill.setAttribute('data-band', band);
 
       /* Same rule as the quiz: no body on Nearly there, the rows carry it. */
@@ -813,7 +840,9 @@
       if (stage) stage.scrollTop = 0;
       var hd = result.querySelector('[data-rp-head]');
       hd.setAttribute('tabindex', '-1');
-      hd.focus({ preventScroll: true });
+      /* Oct 5 (Marc, VoiceOver): focus straight after unhiding was lost on the
+         Mac, so the result wasn't read from the top. Wait a beat. */
+      setTimeout(function () { if (stage) stage.scrollTop = 0; hd.focus({ preventScroll: true }); }, 120);
     }
 
     /* A resize or rotation reflows the transcript, so Maya is re-seated

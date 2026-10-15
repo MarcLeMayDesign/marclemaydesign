@@ -38,7 +38,8 @@
   function setView(gloss, quiet) {
     for (var i = 0; i < cards.length; i++) cards[i].hidden = gloss;
     view.hidden = !gloss;
-    if (title) title.textContent = gloss ? (view.getAttribute('data-title') || mainTitle) : mainTitle;
+    var main = panel.getAttribute('data-main') || mainTitle;
+    if (title) title.textContent = gloss ? (view.getAttribute('data-title') || main) : main;
     panel.scrollTop = 0;
     if (!quiet) (gloss ? back : open).focus();
   }

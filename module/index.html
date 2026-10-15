@@ -7,7 +7,8 @@
 <meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/module.css?v=20261002j">
+<link rel="stylesheet" href="css/module.css?v=20261015a">
+<link rel="stylesheet" href="css/learn.css?v=20261015a">
 </head>
 <body>
 
@@ -20,7 +21,8 @@
     <span class="head-gap"></span>
     <span class="head-status" id="headStatus"></span>
     <span class="head-prog" id="headProg" hidden></span>
-    <button class="head-about" id="aboutBtn" type="button" title="About this Module" aria-label="About this module">?</button>
+    <button class="head-about head-help" id="helpBtn" type="button" data-tip="Help: glossary and phrases" aria-label="Help: what the words mean, and words for a hard moment">?</button>
+    <button class="head-about head-info" id="aboutBtn" type="button" data-tip="About this module" aria-label="About this module, and your saved place">i</button>
   </header>
 
   <div class="resume" id="resumeStrip" hidden>
@@ -55,7 +57,7 @@
           <details class="cover-restore" id="coverRestore">
             <summary>Started on another device?</summary>
             <form class="cover-form" id="coverForm" novalidate>
-              <label for="coverCode">On your other device, open About &amp; reference (the ? button) and copy your code. Paste it here.</label>
+              <label for="coverCode">On your other device, open About this module (the i button) and copy your code. Paste it here.</label>
               <div class="cover-field">
                 <input id="coverCode" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
                 <button class="btn btn-quiet" id="coverRestoreGo" type="submit">Restore</button>
@@ -74,13 +76,13 @@
       <div class="mn-grid">
       <div class="mn-scene">
         <p class="eyebrow plum">7:40 a.m. &middot; The bus comes in ten minutes</p>
-        <h1 class="screen-title">&ldquo;I&rsquo;m NOT wearing these stupid shoes!&rdquo;</h1>
-        <p class="screen-body">One shoe on, the other kicked across the rug.</p>
+        <h1 class="screen-title">&ldquo;NO! I&rsquo;m NOT going to school!&rdquo;</h1>
+        <p class="screen-body">Five-year-old Maya throws her shoe across the rug. When you reach for her foot, she kicks your hand away.</p>
       </div>
       <div class="mn-ask">
       <div class="baseline" id="baseline">
         <label class="baseline-q" for="baselineText">What would you say?</label>
-        <p class="baseline-note">Not scored, just saved so you can come back to it at the end.</p>
+        <p class="baseline-note">We&rsquo;ll work through this situation throughout the module. For now, just go with your gut. What you say here will be saved so we can come back to it at the end.</p>
         <textarea class="baseline-in" id="baselineText" rows="4" placeholder="In your own words."></textarea>
         <div class="baseline-row">
           <button class="btn" id="baselineKeep" type="button">Keep this</button>
@@ -103,7 +105,7 @@
       <h1 class="screen-title">There are no right answers yet.</h1>
       <p class="screen-body">Hold on to what you wrote. Next, you&rsquo;ll see why mornings like this happen, and the small changes that can make them go differently. You&rsquo;ll get another shot at this scenario at the end of the module, and see how your answer here compares.</p>
       <figure class="readback" id="readback" hidden>
-        <figcaption class="readback-k">WHAT YOU SAID</figcaption>
+        <figcaption class="readback-k">What you said</figcaption>
         <blockquote class="readback-q" id="readbackText"></blockquote>
       </figure>
       <aside class="coach-says coach-dark">
@@ -130,9 +132,9 @@
       <p class="screen-body">The approach your child&rsquo;s school uses every day, brought home. Made by a parent, for parents. Nothing is graded, and nothing is reported to the school.</p>
       <!-- SCR-099 option 1c, picked by Marc 2 Oct: one row per section, each section's figure in a circle of its color. -->
       <nav class="lenses casts" aria-label="The three sections">
-        <a class="lens cast" data-cast="learn" href="#scr-110">
+        <a class="lens cast" data-cast="learn" href="#lrn-10">
           <span class="cast-pic"><img src="assets/img/parent-calm.png" width="336" height="504" alt=""></span>
-          <span class="cast-txt"><span class="row"><span class="name">1 &middot; Learn</span><span class="mark">10 min</span></span><span class="blurb">How to read the hard moments, and strategies for handling them.</span></span>
+          <span class="cast-txt"><span class="row"><span class="name">1 &middot; Learn</span><span class="mark">15 min</span></span><span class="blurb">How to read the hard moments, and strategies for handling them.</span></span>
           <span class="cast-go" aria-hidden="true">&rarr;</span>
         </a>
         <a class="lens cast" data-cast="check" href="#scr-200">
@@ -147,341 +149,414 @@
         </a>
       </nav>
       <!-- NEW 2 Oct [MARC]: replaces "All three are open from the start…". The title links to all the major content. -->
-      <p class="gate"><span class="say-fine">Click on the</span><span class="say-touch">Tap</span> <span class="ref-q" role="img" aria-label="question mark">?</span> at the top right to find <button class="ref-link" type="button" data-show="scr-500">Words for a hard moment</button>, short lines for when you need something to say, and <button class="ref-link" type="button" id="titleGloss">What the words mean</button>, the words your child&rsquo;s school uses. Your saved place is kept there too.</p>
+      <p class="gate"><span role="text"><span class="say-fine">Click on the</span><span class="say-touch">Tap</span> <span class="ref-q" aria-hidden="true">?</span><span class="sr-only">question mark</span> at the top right to find</span> <button class="ref-link" type="button" data-show="scr-500">Words for a hard moment</button>, short lines for when you need something to say, and <button class="ref-link" type="button" id="titleGloss">What the words mean</button>, the words your child&rsquo;s school uses. Your saved place, and a code to pick up on another device, are under <span class="ref-q ref-i" aria-hidden="true">i</span><span class="sr-only">the i button</span>.</p>
     </section>
 
-    <!-- Section 1, revised 25 Sept: two paths. ASSESS reads the moment (four
-         screens), ACT turns the reading into five named moves. The Act titles
-         are the same names the phrase cards and the feedback rows use, so what
-         is taught here is what Try It Out listens for. Copy marked NEW in
-         content/principles.js is Claude's draft for Marc's copy pass. -->
+    <!-- ==== Learn, Alpha Draft 2 (15 Oct) ====================================
+         Rebuilt from "Learn - Alpha Draft 2 Mockup" with Marc's Copy Review edits.
+         Four parts around the three brain states. Interactions in js/learn.js,
+         layout in css/learn.css. Part ticks live in state.learn. -->
 
-    <section class="screen" id="scr-110" data-section="learn" data-status="Overview" hidden>
-      <div class="qzi-grid sec-grid">
-      <div class="qzi-main">
-      <!-- 1d, 2 Oct: the Parent beside the title, as the Coach on SCR-200. Eyebrow NEW. -->
-      <div class="qzi-head"><p class="eyebrow sec-learn">Section 1 of 3</p>
-      <h1 class="screen-title">Assess, then Act</h1></div>
-      <p class="screen-body">First, work out what&rsquo;s going on in your child&rsquo;s brain, and in yours. Then act.</p>
-      <nav class="lenses paths" id="lenses" aria-label="The two parts of Learn">
-        <a class="lens path" href="#scr-111" data-lens-set="scr-111 scr-112 scr-113 scr-114">
-          <span class="row"><span class="name">Assess</span><span class="path-tag">Start here</span><span class="mark">4 screens</span></span>
-          <span class="blurb">How to read a hard moment before you respond to it.</span>
-          <span class="path-list">
-            <span data-lens-item="scr-111">Three brain states</span>
-            <span data-lens-item="scr-112">The drop, and the way back</span>
-            <span data-lens-item="scr-113">Look beneath the behavior</span>
-            <span data-lens-item="scr-114">Four shifts in how you see it</span>
-          </span>
-        </a>
-        <a class="lens path" href="#scr-121" data-lens-set="scr-121 scr-122 scr-123 scr-124 scr-125">
-          <span class="row"><span class="name">Act</span><span class="mark">5 screens</span></span>
-          <span class="blurb">Five moves, in order.</span>
-          <span class="path-list">
-            <span data-lens-item="scr-121">Composure</span>
-            <span data-lens-item="scr-122">Name the Feeling</span>
-            <span data-lens-item="scr-123">Breathe Together</span>
-            <span data-lens-item="scr-124">State the Limit</span>
-            <span data-lens-item="scr-125">Give Two Options</span>
-          </span>
-        </a>
-      </nav>
-      <p class="gate" id="lensGate">Start with Assess to get the full picture. After that, go back to either part whenever you like.</p>
-      <!-- Oct 2 (Marc): a link, not a button; a button here read as the way into Learn. NEW copy. -->
-      <div><a class="btn-link" id="lensGo" href="#scr-200" hidden>Go straight to Test Your Knowledge &rarr;</a></div>
-      </div>
-      <figure class="qzi-fig sec-fig"><img src="assets/img/parent-calm.png" width="336" height="504" alt="The Parent, standing calmly."></figure>
-      </div>
-    </section>
-
-    <section class="screen prin-tight" id="scr-111" data-section="learn" data-status="Assess 1 of 4" data-steps="4" data-step="1" data-principle hidden>
-      <h1 class="screen-title" data-prin-title></h1>
-      <div data-prin-body></div>
-      <div class="bs" data-bstates>
-        <div class="sides">
-          <button class="side" type="button" data-side="child" aria-pressed="true">Where they are</button>
-          <button class="side" type="button" data-side="parent" aria-pressed="false">Where you are</button>
-        </div>
-        <div class="bs-stage" aria-hidden="true">
-          <div class="bs-fig xfade">
-            <img data-xfade data-who="child" data-lvl="all" data-on="yes" class="bs-child" src="assets/img/state-child-contented.png" alt="">
-            <img data-xfade data-who="child" data-lvl="0" data-on="no" class="bs-child" src="assets/img/state-child-overwhelmed.png" alt="">
-            <img data-xfade data-who="child" data-lvl="1" data-on="no" class="bs-child" src="assets/img/state-child-upset.png" alt="">
-            <img data-xfade data-who="child" data-lvl="2" data-on="no" class="bs-child" src="assets/img/state-child-ready.png" alt="">
-            <img data-xfade data-who="parent" data-lvl="all" data-on="no" src="assets/img/state-parent-neutral.png" alt="">
-            <img data-xfade data-who="parent" data-lvl="0" data-on="no" src="assets/img/state-parent-overwhelmed.png" alt="">
-            <img data-xfade data-who="parent" data-lvl="1" data-on="no" src="assets/img/state-parent-frustrated.png" alt="">
-            <img data-xfade data-who="parent" data-lvl="2" data-on="no" src="assets/img/state-parent-calm.png" alt="">
+    <section class="screen" id="lrn-10" data-section="learn" data-status="Overview" data-steps="4" data-step="0" hidden>
+      <div class="ln-split">
+        <div class="ln-col">
+          <div class="ln-stack" data-ln-first>
+            <p class="eyebrow plum">Learn &middot; About 15 minutes</p>
+            <h1 class="screen-title">What&rsquo;s happening in the hard moments?</h1>
+            <p class="screen-body">By the end of Learn, you&rsquo;ll be able to recognize your own brain state and your child&rsquo;s, and learn some tactics for handling a rough situation.</p>
+            <p class="screen-body">We&rsquo;ll work through the 7:40 morning you started with, in four parts:</p>
+            <ol class="ln-parts">
+              <li><span class="n">1</span><span>The three brain states model</span></li>
+              <li><span class="n">2</span><span>Your state first</span></li>
+              <li><span class="n">3</span><span>Your child&rsquo;s state</span></li>
+              <li><span class="n">4</span><span>What their state needs</span></li>
+            </ol>
+            <div><button class="btn" type="button" data-show="lrn-11">Begin Learn</button></div>
           </div>
-          <div class="bs-brain xfade">
-            <img data-xfade data-lvl="all" data-on="yes" src="assets/img/brain-all.png" alt="">
-            <img data-xfade data-lvl="0" data-on="no" src="assets/img/brain-stem.png" alt="">
-            <img data-xfade data-lvl="1" data-on="no" src="assets/img/brain-limbic.png" alt="">
-            <img data-xfade data-lvl="2" data-on="no" src="assets/img/brain-prefrontal.png" alt="">
+          <div class="ln-stack" data-ln-again hidden>
+            <p class="eyebrow plum">Learn &middot; Done</p>
+            <h1 class="screen-title">Learn, at a glance</h1>
+            <p class="screen-body">Go back to any part, or move on.</p>
+            <nav class="ln-review" aria-label="The four parts of Learn">
+              <button type="button" data-show="lrn-11" data-ln-part="0"><span class="n">&#10003;</span><span class="t">The three brain states model</span><span class="r">Review</span></button>
+              <button type="button" data-show="lrn-21" data-ln-part="1"><span class="n">&#10003;</span><span class="t">Your state first</span><span class="r">Review</span></button>
+              <button type="button" data-show="lrn-31" data-ln-part="2"><span class="n">&#10003;</span><span class="t">Your child&rsquo;s state</span><span class="r">Review</span></button>
+              <button type="button" data-show="lrn-41" data-ln-part="3"><span class="n">&#10003;</span><span class="t">What their state needs</span><span class="r">Review</span></button>
+            </nav>
+            <div><button class="btn" type="button" data-show="scr-200">Go on to Bring It Together &rarr;</button></div>
           </div>
+          <aside class="ln-tip">
+            <p class="ln-tip-k">Tip</p>
+            <p><span data-ln-first>Anytime you feel stuck, or need a refresh on what the terms mean, you can</span><span data-ln-again hidden>Remember: if you feel stuck, or need a refresh on what the terms mean, you can</span> <span class="say-fine">click</span><span class="say-touch">tap</span> <button class="ln-tip-q" type="button" data-ln-help aria-label="Help"><span aria-hidden="true">?</span></button> at the top right to open up a glossary and a list of suggested phrases.</p>
+          </aside>
         </div>
-        <div class="bs-pills">
-          <span class="bs-hint">Tap each one:</span>
-          <button class="side bs-pill" type="button" data-step="all" aria-pressed="true"><i class="bs-dot" data-c="all"></i>All three</button>
-          <button class="side bs-pill" type="button" data-step="0" aria-pressed="false"><i class="bs-dot" data-c="0"></i>Overwhelmed</button>
-          <button class="side bs-pill" type="button" data-step="1" aria-pressed="false"><i class="bs-dot" data-c="1"></i>Upset</button>
-          <button class="side bs-pill" type="button" data-step="2" aria-pressed="false"><i class="bs-dot" data-c="2"></i>Ready to think</button>
-        </div>
-        <div class="bs-cap" aria-live="polite">
-          <p class="bs-k"><i class="bs-dot" data-c="all" data-bs-dot></i><span data-bs-kicker>THREE STATES, THREE PARTS</span></p>
-          <p class="bs-head" data-bs-head>Which part is in charge?</p>
-          <p class="bs-body" data-bs-body>Each state is led by a different part of the brain, and the part in charge decides what your child can do right now, and what will reach them.</p>
-          <p class="bs-ask" data-bs-askrow hidden><span class="k">ASKS</span><em data-bs-ask></em></p>
-          <p class="bs-ask" data-bs-needrow hidden><span class="k">NEEDS</span><span data-bs-need></span></p>
-        </div>
+        <figure class="ln-fig"><img src="assets/img/state-parent-neutral.png" alt="A parent standing, relaxed."></figure>
       </div>
-      <div class="prin-home" data-prin-home hidden></div>
     </section>
 
-    <section class="screen prin-tight" id="scr-112" data-section="learn" data-status="Assess 2 of 4" data-steps="4" data-step="2" data-principle hidden>
-      <h1 class="screen-title" data-prin-title></h1>
-      <div class="act-body" data-prin-body></div>
-      <div class="drop" data-drop>
-        <div class="drop-play">
-          <button class="btn-play" type="button" data-drop-play>&#9654;&#xFE0E; Watch a drop, and the way back</button>
-          <div class="drop-bar" data-drop-bar hidden></div>
-        </div>
-        <div class="drop-grid">
-          <div class="drop-left">
-            <div class="drop-brain xfade" aria-hidden="true">
-              <img data-xfade data-lvl="all" data-on="yes" src="assets/img/brain-all.png" alt="">
-              <img data-xfade data-lvl="0" data-on="no" src="assets/img/brain-stem.png" alt="">
-              <img data-xfade data-lvl="1" data-on="no" src="assets/img/brain-limbic.png" alt="">
-              <img data-xfade data-lvl="2" data-on="no" src="assets/img/brain-prefrontal.png" alt="">
+    <section class="screen" id="lrn-11" data-section="learn" data-status="Part 1 of 4" data-steps="4" data-step="1" hidden>
+      <p class="eyebrow plum">Part 1 &middot; The three brain states model</p>
+      <h1 class="screen-title">Three brain states</h1>
+      <p class="screen-body">How we deal with the world around us is governed, in large part, by which of three &ldquo;states&rdquo; our brain is in at a given moment. Each state comes with a different skillset. Conscious Discipline starts with working out which brain state you are in, followed by which state your child is in. Nothing works until we do that.</p>
+      <div class="ln-brain" data-ln-brain>
+        <button class="ln-brain-all" type="button" data-ln-split aria-label="Tap the brain to learn about each state"><img src="assets/img/brain-all.png" alt=""></button>
+        <button class="ln-brain-cue" type="button" data-ln-split tabindex="-1" aria-hidden="true">Tap the brain to learn about each state</button>
+        <div class="ln-states" data-ln-states hidden>
+          <article class="ln-state" data-k="exec">
+            <i class="ln-state-bg" aria-hidden="true"></i>
+            <img src="assets/img/brain-prefrontal.png" alt="The brain, with the prefrontal lobes at the front colored green.">
+            <div class="ln-state-txt">
+              <h2>The Executive State</h2>
+              <p>The higher-reasoning parts of the brain are active. Here we can think rationally, solve problems, and learn new skills.</p>
+              <p class="ln-skill"><strong>Skillset:</strong> seeing more than one side, making reasonable choices, thinking critically about our own actions, setting long-term goals.</p>
             </div>
-            <p class="drop-cap" data-drop-cap aria-live="polite">Watch what happens in the brain when a situation goes wrong.</p>
-          </div>
-          <div class="drop-tiers">
-            <!-- Oct 2 (Marc): phone only. The three boxes become one that follows the brain; at rest it shows this. NEW copy. -->
-            <div class="dtier dtier-rest"><p class="dtier-name">Three states</p><p class="dtier-ask dtier-names"><span><i class="bs-dot" data-c="2"></i>Ready to think</span><span><i class="bs-dot" data-c="1"></i>Upset</span><span><i class="bs-dot" data-c="0"></i>Overwhelmed</span></p></div>
-            <div class="dtier" data-lvl="2"><p class="dtier-name"><i class="bs-dot" data-c="2"></i>Ready to think</p><p class="dtier-ask"><span class="k">ASKS</span><em>&ldquo;What do I do about this?&rdquo;</em></p></div>
-            <div class="dtier" data-lvl="1"><p class="dtier-name"><i class="bs-dot" data-c="1"></i>Upset</p><p class="dtier-ask"><span class="k">ASKS</span><em>&ldquo;Do you still love me?&rdquo;</em></p></div>
-            <div class="dtier" data-lvl="0"><p class="dtier-name"><i class="bs-dot" data-c="0"></i>Overwhelmed</p><p class="dtier-ask"><span class="k">ASKS</span><em>&ldquo;Am I safe?&rdquo;</em></p></div>
-          </div>
+          </article>
+          <article class="ln-state" data-k="emo">
+            <i class="ln-state-bg" aria-hidden="true"></i>
+            <img src="assets/img/brain-limbic.png" alt="The brain, with the limbic system in the middle colored gold.">
+            <div class="ln-state-txt">
+              <h2>The Emotional State</h2>
+              <p>Emotions are in control, and rational thinking is almost impossible. It draws on mental models learned through our upbringing and experience, rather than conscious thought.</p>
+              <p class="ln-skill"><strong>Skillset:</strong> unconsciously accessing long-term memory, feeling emotions.</p>
+            </div>
+          </article>
+          <article class="ln-state" data-k="surv">
+            <i class="ln-state-bg" aria-hidden="true"></i>
+            <img src="assets/img/brain-stem.png" alt="The brain, with the brain stem at the base colored red.">
+            <div class="ln-state-txt">
+              <h2>The Survival State</h2>
+              <p>The oldest parts of the brain, working below awareness to keep us safe. Under stress, the brain drops here.</p>
+              <p class="ln-skill"><strong>Skillset:</strong> fight, flight, or freeze (surrender). Nothing else.</p>
+            </div>
+          </article>
         </div>
-      </div>
-      <div class="prin-home" data-prin-home hidden></div>
-    </section>
-
-    <section class="screen prin-tight" id="scr-113" data-section="learn" data-status="Assess 3 of 4" data-steps="4" data-step="3" data-principle hidden>
-      <h1 class="screen-title" data-prin-title></h1>
-      <div data-prin-body></div>
-      <div class="berg" id="berg">
-        <p class="sides-note">Two moments, the same shape underneath.</p>
-        <div class="sides">
-          <button class="side" type="button" data-case="a" aria-pressed="true">The shoes</button>
-          <button class="side" type="button" data-case="b" aria-pressed="false">The little brother</button>
-        </div>
-        <div class="berg-box">
-          <div class="berg-water" aria-hidden="true"></div>
-          <div class="berg-art" aria-hidden="true">
-            <img src="assets/img/iceberg.png" alt="">
-            <i class="berg-veil" data-veil="0"></i><i class="berg-veil" data-veil="1"></i><i class="berg-veil" data-veil="2"></i>
-          </div>
-          <i class="berg-line" aria-hidden="true"></i>
-          <div class="berg-top">
-            <p class="berg-eyebrow">WHAT YOU SEE</p>
-            <p class="berg-surface" id="bergSurface">She screams that she will not put her shoes on.</p>
-          </div>
-          <button class="layer" type="button" data-layer="0" aria-expanded="false">
-            <span class="layer-head"><span class="layer-name">The feeling underneath</span><span class="layer-cue">REVEAL</span></span>
-            <span class="layer-text">She&rsquo;s been holding it together all morning, and her battery&rsquo;s running low.</span>
-          </button>
-          <button class="layer" type="button" data-layer="1" aria-expanded="false">
-            <span class="layer-head"><span class="layer-name">The unmet need</span><span class="layer-cue">REVEAL</span></span>
-            <span class="layer-text">She wants some say in a morning that has already been decided for her.</span>
-          </button>
-          <button class="layer" type="button" data-layer="2" aria-expanded="false">
-            <span class="layer-head"><span class="layer-name">The missing skill</span><span class="layer-cue">REVEAL</span></span>
-            <span class="layer-text">She cannot yet stop one thing and start another without help doing it.</span>
-          </button>
-        </div>
-        <div class="berg-upshot" id="bergUpshot" hidden><p><strong>So what changes?</strong> <span id="bergUpshotText">Not &ldquo;stop screaming and put your shoes on&rdquo; &mdash; but &ldquo;these ones or those ones?&rdquo;, offered before the shouting starts.</span></p></div>
-      </div>
-      <div class="prin-home" data-prin-home hidden></div>
-    </section>
-
-    <section class="screen prin-tight" id="scr-114" data-section="learn" data-status="Assess 4 of 4" data-steps="4" data-step="4" data-principle hidden>
-      <h1 class="screen-title" data-prin-title></h1>
-      <div class="act-body" data-prin-body></div>
-      <div class="shifts" data-shifts>
-        <button class="shift" type="button" aria-pressed="false">
-          <span class="shift-fig xfade" aria-hidden="true"><img data-xfade data-on="yes" src="assets/img/shift-tense.png" alt=""><img data-xfade data-on="no" src="assets/img/shift-calm.png" alt=""></span>
-          <span class="shift-main">
-            <span class="shift-top"><span class="shift-k">THE OLD FRAME</span><span class="shift-cue">SHIFT IT</span></span>
-            <span class="shift-txt"><span class="shift-t shift-old">&ldquo;He needs to calm down right now so I can explain why that was wrong.&rdquo;</span><span class="shift-t shift-new" aria-hidden="true">&ldquo;One of us has to be calm before any of this works, and it has to be me first.&rdquo;</span></span>
-          </span>
-        </button>
-        <button class="shift" type="button" aria-pressed="false">
-          <span class="shift-fig xfade" aria-hidden="true"><img data-xfade data-on="yes" src="assets/img/shift-scolding.png" alt=""><img data-xfade data-on="no" src="assets/img/shift-gentle-firm.png" alt=""></span>
-          <span class="shift-main">
-            <span class="shift-top"><span class="shift-k">THE OLD FRAME</span><span class="shift-cue">SHIFT IT</span></span>
-            <span class="shift-txt"><span class="shift-t shift-old">&ldquo;If I name her feelings, I&rsquo;m giving in and letting her win.&rdquo;</span><span class="shift-t shift-new" aria-hidden="true">&ldquo;She can&rsquo;t hear the limit until she knows I understood her. The limit doesn&rsquo;t move either way.&rdquo;</span></span>
-          </span>
-        </button>
-        <button class="shift" type="button" aria-pressed="false">
-          <span class="shift-fig xfade" aria-hidden="true"><img data-xfade data-on="yes" src="assets/img/shift-frustrated.png" alt=""><img data-xfade data-on="no" src="assets/img/shift-compassion.png" alt=""></span>
-          <span class="shift-main">
-            <span class="shift-top"><span class="shift-k">THE OLD FRAME</span><span class="shift-cue">SHIFT IT</span></span>
-            <span class="shift-txt"><span class="shift-t shift-old">&ldquo;She&rsquo;s choosing to be difficult and push my buttons.&rdquo;</span><span class="shift-t shift-new" aria-hidden="true">&ldquo;What&rsquo;s really going on here, and how can I help with the problem underneath?&rdquo;</span></span>
-          </span>
-        </button>
-        <button class="shift" type="button" aria-pressed="false">
-          <span class="shift-fig xfade" aria-hidden="true"><img data-xfade data-on="yes" src="assets/img/shift-angry.png" alt=""><img data-xfade data-on="no" src="assets/img/shift-two-options.png" alt=""></span>
-          <span class="shift-main">
-            <span class="shift-top"><span class="shift-k">THE OLD FRAME</span><span class="shift-cue">SHIFT IT</span></span>
-            <span class="shift-txt"><span class="shift-t shift-old">&ldquo;How do I stop this behavior right now?&rdquo;</span><span class="shift-t shift-new" aria-hidden="true">&ldquo;What skill is my child missing, and how do I teach it?&rdquo;</span></span>
-          </span>
-        </button>
-      </div>
-      <p class="shifts-note" data-shifts-note aria-live="polite">Tap each one to shift it.</p>
-      <div class="prin-home" data-prin-home hidden></div>
-    </section>
-
-    <!-- NEW 30 Sept [Marc]: the turn from Assess to Act. Reached by Next from
-         Assess 4; a parent who picks Act from the overview goes straight in. -->
-    <section class="screen band-close" id="scr-120" data-section="learn" data-status="Assess done" hidden>
-      <div class="band-in">
-        <p class="eyebrow">From Assess to Act</p>
-        <h1 class="screen-title">Now you&rsquo;ve assessed your child&rsquo;s state, what&rsquo;s the next move?</h1>
-        <div class="band-acts"><button class="btn" type="button" data-show="scr-121">Continue</button></div>
+        <button class="btn-link ln-again" type="button" data-ln-resplit hidden>See it split again</button>
       </div>
     </section>
 
-    <section class="screen prin-tight" id="scr-121" data-section="learn" data-status="Act 1 of 5" data-steps="5" data-step="1" data-principle hidden>
-      <h1 class="screen-title" data-prin-title></h1>
-      <div class="act-split act-rise">
-        <div class="act-col">
-        <div class="act-body" data-prin-body></div>
-        <div class="act-steps" data-act-steps>
-          <p class="bs-hint">Tap each step:</p>
-          <button class="act-step" type="button" data-to="1" aria-pressed="false"><span class="act-n">1</span><span><strong>Notice it.</strong> Your jaw, your shoulders, your tone of voice. Pick the one that goes first in you.</span></button>
-          <button class="act-step" type="button" data-to="2" aria-pressed="false"><span class="act-n">2</span><span><strong>Stop talking.</strong> When you&rsquo;re that wound up, nothing comes out the way you mean it.</span></button>
-          <button class="act-step" type="button" data-to="3" aria-pressed="false"><span class="act-n">3</span><span><strong>One breath before the next word.</strong> Then decide what you&rsquo;ll say.</span></button>
+    <section class="screen" id="lrn-12" data-section="learn" data-status="Part 1 of 4" data-steps="4" data-step="1" hidden>
+      <div class="ln-split ln-split-even">
+        <div class="ln-col">
+          <p class="eyebrow plum">Part 1 &middot; The three brain states model</p>
+          <h1 class="screen-title">The drop</h1>
+          <p class="screen-body">Under stress, anyone can drop a state, and it can happen fast, especially if you are at low capacity.</p>
+          <p class="screen-body">Capacity is your store of emotional and social energy. Yours can drain after a long day at work, or unbroken hours of childcare. Your child&rsquo;s can drain just from holding it together all day at school.</p>
+          <p class="screen-body ln-motion-only"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the animation to see what triggers a drop in each brain state.</p>
         </div>
-        </div>
-        <figure class="act-fig xfade" data-act-fig aria-hidden="true">
-          <img data-xfade="0" data-on="yes" src="assets/img/state-parent-tense.png" alt="" width="335" height="600">
-          <img data-xfade="2" data-on="no" src="assets/img/state-parent-neutral.png" alt="" width="335" height="600">
-          <img data-xfade="3" data-on="no" src="assets/img/state-parent-calm.png" alt="" width="335" height="600">
-        </figure>
-      </div>
-      <div class="prin-home" data-prin-home hidden></div>
-    </section>
-
-    <section class="screen prin-tight" id="scr-122" data-section="learn" data-status="Act 2 of 5" data-steps="5" data-step="2" data-principle hidden>
-      <h1 class="screen-title" data-prin-title></h1>
-      <div class="act-body" data-prin-body></div>
-      <div class="contrast">
-        <p class="contrast-k">She&rsquo;s at <strong>Upset</strong>: yelling about the shoes. Two ways to answer her.</p>
-        <div class="ct-row" data-kind="correct">
-          <img class="ct-fig" src="assets/img/state-child-overwhelmed.png" alt="" width="221" height="400">
-          <div class="ct-txt">
-            <p class="ct-k">Correct first</p>
-            <p class="ct-say">&ldquo;Stop yelling and put your shoes on. We&rsquo;re going to be late.&rdquo;</p>
-            <p class="ct-then">She drops to <strong>Overwhelmed</strong>. Now it&rsquo;s her body talking, and nothing you say next can reach her.</p>
+        <div class="ln-reel-wrap" data-ln-reel="drop">
+          <div class="ln-reel" role="region" aria-label="The drop, from the Executive State down to the Survival State" tabindex="0">
+            <div class="ln-pane" data-k="exec">
+              <img src="assets/img/brain-prefrontal.png" alt="">
+              <h2>The Executive State</h2>
+              <p class="ln-pane-t">At rest, you are calm and composed, ready to think and learn.</p>
+              <span class="ln-pane-arrow" aria-hidden="true">&darr;</span>
+            </div>
+            <div class="ln-pane" data-k="emo">
+              <img src="assets/img/brain-limbic.png" alt="">
+              <h2>The Emotional State</h2>
+              <p class="ln-pane-t"><strong>Drops to Emotional when:</strong> you feel unloved, left out, misunderstood, or frustrated; you&rsquo;re going through a hard transition; or you&rsquo;re tired and running low on capacity.</p>
+              <span class="ln-pane-arrow" aria-hidden="true">&darr;</span>
+            </div>
+            <div class="ln-pane" data-k="surv">
+              <img src="assets/img/brain-stem.png" alt="">
+              <h2>The Survival State</h2>
+              <p class="ln-pane-t"><strong>Drops to Survival when:</strong> you experience a real threat, or even an irritation that feels like one, or your capacity has run out.</p>
+            </div>
           </div>
-        </div>
-        <div class="ct-row" data-kind="connect">
-          <img class="ct-fig" src="assets/img/state-child-ready.png" alt="" width="221" height="400">
-          <div class="ct-txt">
-            <p class="ct-k">Connect first</p>
-            <p class="ct-say">&ldquo;Looks like those shoes aren&rsquo;t feeling right. Do I get you?&rdquo;</p>
-            <p class="ct-then">She comes up to <strong>Ready to think</strong>. The shoes still go on, but now she can hear you say so.</p>
+          <div class="ln-reel-bar">
+            <button class="btn" type="button" data-ln-play>Show the drop</button>
+            <span class="ln-reel-hint" data-ln-hint hidden>Scroll inside the box to read each state again.</span>
           </div>
         </div>
       </div>
-      <div class="card-seen">
-        <p class="card-seen-k">You&rsquo;ll see this card again in Try It Out</p>
-        <div class="wt-card card-static" data-card-what="Name the feeling"><span class="wt-what">Name the feeling</span><span class="wt-say"></span></div>
-      </div>
-      <div class="prin-home" data-prin-home hidden></div>
     </section>
 
-    <section class="screen prin-tight" id="scr-123" data-section="learn" data-status="Act 3 of 5" data-steps="5" data-step="3" data-principle hidden>
-      <h1 class="screen-title" data-prin-title></h1>
-      <div data-prin-body></div>
-      <div class="breathe" data-breathe>
-        <img class="br-scene" src="assets/img/scene-breathing.png" width="480" height="550" alt="A parent kneels on one knee beside their child. Both have their hands on their bellies and are breathing out slowly together.">
-        <div class="br-col">
-          <div class="br-ring" data-br-ring aria-hidden="true"><span class="br-dot"></span></div>
-          <div class="br-side">
-            <button class="btn-play" type="button" data-br-go>Try one now, three breaths</button>
-            <p class="play-caption" data-br-cap aria-live="polite">In through the nose while the circle grows, out slowly while it shrinks.</p>
+    <section class="screen" id="lrn-13" data-section="learn" data-status="Part 1 of 4" data-steps="4" data-step="1" hidden>
+      <div class="ln-split ln-split-even">
+        <div class="ln-col">
+          <p class="eyebrow plum">Part 1 &middot; The three brain states model</p>
+          <h1 class="screen-title">The way back up</h1>
+          <p class="screen-body">The drop can skip straight to the bottom. The rise can&rsquo;t. Our brains need different things at each state in order to step their way back up.</p>
+          <p class="screen-body ln-motion-only"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the animation to see what triggers a rise from a brain state to the one above it.</p>
+        </div>
+        <div class="ln-reel-wrap" data-ln-reel="rise">
+          <div class="ln-reel" role="region" aria-label="The way back up, from the Survival State to the Executive State" tabindex="0">
+            <div class="ln-pane" data-k="exec">
+              <img src="assets/img/brain-prefrontal.png" alt="">
+              <h2>The Executive State</h2>
+              <p class="ln-pane-t"><strong>Problem solving:</strong> now you&rsquo;re ready to listen, think, and learn. This is where limits and new skills can land.</p>
+            </div>
+            <div class="ln-pane" data-k="emo">
+              <span class="ln-pane-arrow up" aria-hidden="true">&uarr;</span>
+              <img src="assets/img/brain-limbic.png" alt="">
+              <h2>The Emotional State</h2>
+              <p class="ln-pane-t"><strong>Connection:</strong> while in this state, empathy, breathing together, and naming your feelings help you connect with others and with your higher brain functions, moving you up into the Executive State.</p>
+            </div>
+            <div class="ln-pane" data-k="surv">
+              <span class="ln-pane-arrow up" aria-hidden="true">&uarr;</span>
+              <img src="assets/img/brain-stem.png" alt="">
+              <h2>The Survival State</h2>
+              <p class="ln-pane-t"><strong>Safety:</strong> until you feel physically and emotionally safe, you can&rsquo;t process emotions, understand a limit or a consequence, and you can&rsquo;t learn. A sense of safety allows your brain to move up and start feeling emotion.</p>
+            </div>
+          </div>
+          <div class="ln-reel-bar">
+            <button class="btn" type="button" data-ln-play>Show the way up</button>
+            <span class="ln-reel-hint" data-ln-hint hidden>Scroll inside the box to read each state again.</span>
           </div>
         </div>
       </div>
-      <div class="prin-home" data-prin-home hidden></div>
+      <p class="gate ln-bridge">Next: how to recognize your own brain state in a tough moment.</p>
     </section>
 
-    <section class="screen prin-tight" id="scr-124" data-section="learn" data-status="Act 4 of 5" data-steps="5" data-step="4" data-principle hidden>
-      <h1 class="screen-title" data-prin-title></h1>
-      <div class="act-body" data-prin-body></div>
-      <div class="hero-say">
-        <figure class="hero-fig" aria-hidden="true"><img src="assets/img/shift-gentle-firm.png" alt="" width="268" height="480"></figure>
-        <div class="card-seen hero-card">
-          <p class="card-seen-k">You&rsquo;ll see this card again in Try It Out</p>
-          <div class="wt-card card-static" data-card-what="State the limit"><span class="wt-what">State the limit</span><span class="wt-say"></span></div>
-        </div>
+    <section class="screen" id="lrn-21" data-section="learn" data-status="Part 2 of 4" data-steps="4" data-step="2" hidden>
+      <p class="eyebrow plum">Part 2 &middot; Your state first</p>
+      <h1 class="screen-title">Your state first</h1>
+      <p class="screen-body">Your child reads your state before your words reach them. So the first state to recognize is your own. Here&rsquo;s how each one tends to show up in a parent.</p>
+      <div class="ln-cards">
+        <article class="ln-card" data-k="exec">
+          <img src="assets/img/state-parent-calm.png" alt="A calm parent.">
+          <h2>The Executive State</h2>
+          <button class="ln-more" type="button" aria-expanded="false" aria-controls="ln21a" data-ln-more="Show the signs">Show the signs</button>
+          <p class="ln-card-t" id="ln21a" hidden>A calm, composed body and voice. You can listen, see their side, and think about what comes next.</p>
+        </article>
+        <article class="ln-card" data-k="emo">
+          <img src="assets/img/state-parent-frustrated.png" alt="A frustrated parent.">
+          <h2>The Emotional State</h2>
+          <button class="ln-more" type="button" aria-expanded="false" aria-controls="ln21b" data-ln-more="Show the signs">Show the signs</button>
+          <p class="ln-card-t" id="ln21b" hidden>Blame, lectures, sarcasm, keeping score. &ldquo;You always&hellip;&rdquo; Sometimes we sound like the adults who raised us.</p>
+        </article>
+        <article class="ln-card" data-k="surv">
+          <img src="assets/img/state-parent-overwhelmed.png" alt="An overwhelmed parent.">
+          <h2>The Survival State</h2>
+          <button class="ln-more" type="button" aria-expanded="false" aria-controls="ln21c" data-ln-more="Show the signs">Show the signs</button>
+          <p class="ln-card-t" id="ln21c" hidden>A tense body and a raised voice, fists clenched, jaw tight. Words you know you&rsquo;ll regret later. Or the opposite: going quiet, giving up, just wanting it over.</p>
+        </article>
       </div>
-      <ul class="act-rules hero-rules">
-        <li><strong>Say what happens, not what they did wrong.</strong> &ldquo;The shoes go on before the bus,&rdquo; not &ldquo;You&rsquo;re being ridiculous.&rdquo;</li>
-        <li><strong>Tell, don&rsquo;t ask.</strong> &ldquo;Can you put your shoes on?&rdquo; invites a no you&rsquo;ll have to overrule.</li>
-        <li><strong>Say it once.</strong> Repeating it turns the limit into an argument.</li>
-      </ul>
-      <div class="prin-home" data-prin-home hidden></div>
     </section>
 
-    <section class="screen prin-tight" id="scr-125" data-section="learn" data-status="Act 5 of 5" data-steps="5" data-step="5" data-principle hidden>
-      <h1 class="screen-title" data-prin-title></h1>
-      <div class="act-body" data-prin-body></div>
-      <div class="hero-say">
-        <figure class="hero-fig" aria-hidden="true"><img src="assets/img/shift-two-options.png" alt="" width="268" height="480"></figure>
-        <div class="card-seen hero-card">
-          <p class="card-seen-k">You&rsquo;ll see this card again in Try It Out</p>
-          <div class="wt-card card-static" data-card-what="Give two options"><span class="wt-what">Give two options</span><span class="wt-say"></span></div>
+    <section class="screen" id="lrn-22" data-section="learn" data-status="Part 2 of 4" data-steps="4" data-step="2" hidden>
+      <div class="ln-narrow">
+        <p class="eyebrow plum">Part 2 &middot; Back to 7:40 a.m.</p>
+        <h1 class="screen-title">7:40 a.m.: what happens in you?</h1>
+        <p class="screen-body">The bus is ten minutes out. Maya screams, &ldquo;NO! I&rsquo;m NOT going to school!&rdquo; The shoe hits the wall, and when you reach for her foot, she kicks your hand away.</p>
+        <p class="ln-q" id="ln22q">When the shoe hit the wall, what happened in you first? Pick the one closest.</p>
+        <div class="ln-choices" role="group" aria-labelledby="ln22q">
+          <button class="ln-choice" type="button" aria-pressed="false" data-ln-p22="fight" data-k="surv">My body tensed, and I wanted to grab her foot and make it stop.</button>
+          <button class="ln-choice" type="button" aria-pressed="false" data-ln-p22="emo" data-k="emo">I felt hurt and fed up, like she was doing it on purpose.</button>
+          <button class="ln-choice" type="button" aria-pressed="false" data-ln-p22="freeze" data-k="surv">I wanted to give up and let her stay home, just to make it stop.</button>
+          <button class="ln-choice" type="button" aria-pressed="false" data-ln-p22="exec" data-k="exec">I stayed steady and wondered what was going on for her.</button>
+        </div>
+        <div class="ln-fb" data-ln-fb22 hidden aria-live="polite">
+          <aside class="coach-says">
+            <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+            <div class="coach-txt"><p class="coach-k">Coach says</p><p class="coach-t" data-ln-t22></p></div>
+          </aside>
+          <p class="screen-body">Whatever you picked, it isn&rsquo;t a grade. A bus, a shoe and a kick are enough to drop anyone. That&rsquo;s why the next step starts with you.</p>
         </div>
       </div>
-      <ul class="act-rules hero-rules">
-        <li><strong>Both have to be fine with you.</strong> If one of them isn&rsquo;t, it isn&rsquo;t a choice.</li>
-        <li><strong>Wait for Ready to think.</strong> An overwhelmed child can&rsquo;t weigh two things. Name the feeling first.</li>
-        <li><strong>Keep them small.</strong> This or that. Now, or after one more minute.</li>
-      </ul>
-      <div class="prin-home" data-prin-home hidden></div>
     </section>
 
-    <section class="screen" id="scr-130" data-section="learn" data-status="Section close" data-theme="dark" hidden>
-      <p class="eyebrow">End of section 1</p>
-      <h1 class="screen-title">Assess, then Act</h1>
-      <p class="screen-body">Assess is how you read the moment. Act is what you do in it. Test Your Knowledge and Try It Out both listen for the five Act moves, by these names.</p>
-      <div class="sum-cols">
-        <div class="sum-col">
-          <p class="sum-k">ASSESS</p>
-          <a href="#scr-111">Three brain states</a>
-          <a href="#scr-112">The drop, and the way back</a>
-          <a href="#scr-113">Look beneath the behavior</a>
-          <a href="#scr-114">Four shifts in how you see it</a>
+    <section class="screen" id="lrn-23" data-section="learn" data-status="Part 2 of 4" data-steps="4" data-step="2" hidden>
+      <div class="ln-split ln-split-even">
+        <div class="ln-col">
+          <p class="eyebrow plum">Part 2 &middot; Your state first</p>
+          <h1 class="screen-title">Composure</h1>
+          <p class="screen-body">Composure is self-regulation, and it starts with you. You need to be back in your own Executive State before you can help your child reach theirs. Without composure, nothing else lands.</p>
+          <p class="screen-body">It starts with one deep breath, from the diaphragm: in for a few seconds, then out for a few. It&rsquo;s the quickest way to bring your reasoning back online. Your child learns these kinds of breaths at school, and practices them every day.</p>
         </div>
-        <div class="sum-col">
-          <p class="sum-k">ACT</p>
-          <a href="#scr-121"><b>1</b> Composure</a>
-          <a href="#scr-122"><b>2</b> Name the Feeling</a>
-          <a href="#scr-123"><b>3</b> Breathe Together</a>
-          <a href="#scr-124"><b>4</b> State the Limit</a>
-          <a href="#scr-125"><b>5</b> Give Two Options</a>
+        <div class="ln-breathe" data-ln-breathe>
+          <div class="ln-br-left">
+            <div class="ln-circ" data-ln-circ aria-hidden="true">
+              <i class="ln-circ-o"></i><i class="ln-circ-i"></i>
+              <span class="ln-circ-w" data-ln-word>Ready</span>
+            </div>
+            <button class="btn" type="button" data-ln-br>Breathe with me (about 25 seconds)</button>
+          </div>
+          <div class="ln-br-fig" data-ln-poses>
+            <img src="assets/img/state-parent-overwhelmed.png" alt="An overwhelmed parent." data-on="yes">
+            <img src="assets/img/state-parent-frustrated.png" alt="" data-on="no">
+            <img src="assets/img/state-parent-calm.png" alt="" data-on="no">
+          </div>
         </div>
       </div>
-      <p class="gate" id="closeGate" hidden></p>
-      <div class="band-acts">
-        <a class="btn" href="#scr-200">Go on to Test Your Knowledge</a>
-        <a class="btn-link" href="#scr-099">Back to the start</a>
+      <p class="gate ln-bridge">Next: how to recognize your child&rsquo;s state.</p>
+    </section>
+
+    <section class="screen" id="lrn-31" data-section="learn" data-status="Part 3 of 4" data-steps="4" data-step="3" hidden>
+      <p class="eyebrow plum">Part 3 &middot; Your child&rsquo;s state</p>
+      <h1 class="screen-title">Your child&rsquo;s state</h1>
+      <p class="screen-body">Reading your child&rsquo;s state starts with empathy: understanding, without judgment. You&rsquo;re looking for what they feel, not trying to stop it. Each state shows up in a child in its own way, and each one is asking a question. Read below to see signs and behaviors to look for to figure out your child&rsquo;s state.</p>
+      <div class="ln-cards">
+        <article class="ln-card ln-card-child" data-k="exec">
+          <img src="assets/img/state-child-ready.png" alt="A child, calm and ready to talk.">
+          <h2>The Executive State</h2>
+          <p class="ln-ask">&ldquo;What can I learn?&rdquo;</p>
+          <button class="ln-more" type="button" aria-expanded="false" aria-controls="ln31a" data-ln-more="Show the signs">Show the signs</button>
+          <p class="ln-card-t" id="ln31a" hidden>A calm body and voice. Not necessarily a happy voice, but one ready to listen, ready to talk about what happened and hear your side.</p>
+        </article>
+        <article class="ln-card ln-card-child" data-k="emo">
+          <img src="assets/img/state-child-upset.png" alt="An upset child.">
+          <h2>The Emotional State</h2>
+          <p class="ln-ask">&ldquo;Am I loved?&rdquo;</p>
+          <button class="ln-more" type="button" aria-expanded="false" aria-controls="ln31b" data-ln-more="Show the signs">Show the signs</button>
+          <p class="ln-card-t" id="ln31b" hidden>This one shows up mostly in words. Blaming, name-calling, &ldquo;you never,&rdquo; denying it happened, pulling away from you.</p>
+        </article>
+        <article class="ln-card ln-card-child" data-k="surv">
+          <img src="assets/img/state-child-overwhelmed.png" alt="An overwhelmed child.">
+          <h2>The Survival State</h2>
+          <p class="ln-ask">&ldquo;Am I safe?&rdquo;</p>
+          <button class="ln-more" type="button" aria-expanded="false" aria-controls="ln31c" data-ln-more="Show the signs">Show the signs</button>
+          <p class="ln-card-t" id="ln31c" hidden>Fight: hitting, kicking, biting, screaming, tantrums. Flight: running off, hiding. Freeze: going limp, crying, giving up, or going along without taking anything in.</p>
+        </article>
       </div>
-      <p class="gate">A reasonable place to stop, too. Your place is saved either way.</p>
+      <aside class="coach-says ln-coach">
+        <img class="coach-fig" src="assets/img/coach-neutral.png" alt="" width="56" height="84">
+        <div class="coach-txt"><p class="coach-k">Coach says</p><p class="coach-t">Remember, your child only has so much emotional and social capacity to give at a time. Getting ready for school after a rough night&rsquo;s sleep, holding it together for their teachers all day, or simply having to make lots of decisions can drain the battery. Drained, they&rsquo;re much more likely to drop a state.</p></div>
+      </aside>
+    </section>
+
+    <section class="screen" id="lrn-32" data-section="learn" data-status="Part 3 of 4" data-steps="4" data-step="3" hidden>
+      <div class="ln-narrow">
+        <p class="eyebrow plum">Part 3 &middot; Back to 7:40 a.m.</p>
+        <h1 class="screen-title">7:40 a.m.: which state is Maya in?</h1>
+        <p class="screen-body">The same moment, from her side. She screams, &ldquo;NO! I&rsquo;m NOT going to school!&rdquo; Her shoe hits the wall. When you reach for her foot, she kicks.</p>
+        <p class="ln-q" id="ln32q">Pick her state:</p>
+        <div class="ln-pickstates" role="group" aria-labelledby="ln32q">
+          <button class="ln-pickstate" type="button" aria-pressed="false" data-ln-s32="surv" data-k="surv"><img src="assets/img/brain-stem.png" alt=""><span>Survival</span></button>
+          <button class="ln-pickstate" type="button" aria-pressed="false" data-ln-s32="emo" data-k="emo"><img src="assets/img/brain-limbic.png" alt=""><span>Emotional</span></button>
+          <button class="ln-pickstate" type="button" aria-pressed="false" data-ln-s32="exec" data-k="exec"><img src="assets/img/brain-prefrontal.png" alt=""><span>Executive</span></button>
+        </div>
+        <div class="ln-stack" data-ln-clues hidden>
+          <p class="ln-q" id="ln32c">What told you?</p>
+          <div class="ln-choices" role="group" aria-labelledby="ln32c">
+            <button class="ln-choice" type="button" aria-pressed="false" data-ln-c32="words">What she screamed</button>
+            <button class="ln-choice" type="button" aria-pressed="false" data-ln-c32="body">The throw and the kick</button>
+            <button class="ln-choice" type="button" aria-pressed="false" data-ln-c32="late">How late you&rsquo;re running</button>
+          </div>
+        </div>
+        <aside class="coach-says" data-ln-fb32 hidden aria-live="polite">
+          <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84" data-ln-c32img>
+          <div class="coach-txt"><p class="coach-k">Coach says</p><p class="coach-t" data-ln-t32></p></div>
+        </aside>
+      </div>
+      <p class="gate ln-bridge">Next: what each state needs from you, starting at the bottom.</p>
+    </section>
+
+    <section class="screen" id="lrn-41" data-section="learn" data-status="Part 4 of 4" data-steps="4" data-step="4" hidden>
+      <p class="eyebrow plum">Part 4 &middot; What their state needs</p>
+      <h1 class="screen-title">The Survival State: safety first</h1>
+      <p class="screen-body">Few things are harder as a parent than keeping cool when your child is screaming, hitting, or running away. But that is exactly what your child needs when they are in the Survival State: their body is asking, &ldquo;Am I safe right now?&rdquo; If their body is telling them it&rsquo;s not, then no pushback will land, no limits will be heard, and no rules can be taught.</p>
+      <p class="screen-body">We started with our state first: once we&rsquo;ve figured that out, our next move is to bring ourselves into our own Executive State before we can help our child step up into theirs. Spin the wheel below to learn what you can do next.</p>
+      <div class="ln-wheel-row" data-ln-wheel>
+        <div class="ln-wheel-clip">
+          <div class="ln-wheel" tabindex="0" role="group" aria-roledescription="wheel" aria-label="Four moves for the Survival State. Use the arrow buttons or the left and right arrow keys to turn it.">
+            <div class="ln-disc" data-ln-disc>
+              <i class="ln-ticks" aria-hidden="true"></i>
+              <div class="ln-slot" style="--a:0deg"><span class="n">1</span><span class="nm">Compose Yourself</span></div>
+              <div class="ln-slot" style="--a:90deg"><span class="n">2</span><span class="nm">Make It Safe</span></div>
+              <div class="ln-slot" style="--a:180deg"><span class="n">3</span><span class="nm">Describe the Scene</span></div>
+              <div class="ln-slot" style="--a:270deg"><span class="n">4</span><span class="nm">Breathe Together</span></div>
+            </div>
+            <i class="ln-mask" aria-hidden="true"></i>
+            <i class="ln-hub" aria-hidden="true"><span data-ln-hub>1 of 4</span></i>
+            <button class="ln-turn ccw" type="button" data-ln-turn="-1" aria-label="Turn back to the previous move" hidden><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6 15a7.5 7.5 0 1 0 2.2-8.3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path><path d="M6.5 2.5v5h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+            <button class="ln-turn cw" type="button" data-ln-turn="1" aria-label="Turn to the next move"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6 15a7.5 7.5 0 1 0 2.2-8.3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path><path d="M6.5 2.5v5h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          </div>
+        </div>
+        <div class="ln-read" aria-live="polite">
+          <p class="ln-read-k" data-ln-rk>Move 1 of 4</p>
+          <h2 data-ln-rn>Compose Yourself</h2>
+          <p data-ln-rt></p>
+          <div class="ln-dots" aria-hidden="true"><i data-on="yes"></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <aside class="coach-says ln-coach">
+        <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+        <div class="coach-txt"><p class="coach-k">Coach says</p><p class="coach-t">No parenting move is 100% effective every time, and sometimes you just won&rsquo;t have it in you to perfectly handle yet another situation. But be patient! Building a culture of empathy and connection in your own home takes time, and it&rsquo;s never a straight line.</p></div>
+      </aside>
+    </section>
+
+    <section class="screen" id="lrn-42" data-section="learn" data-status="Part 4 of 4" data-steps="4" data-step="4" hidden>
+      <div class="ln-narrow">
+        <p class="eyebrow plum">Part 4 &middot; Back to 7:40 a.m.</p>
+        <h1 class="screen-title">Back to 7:40 a.m.: mid-kick</h1>
+        <p class="screen-body">Say you&rsquo;ve taken a breath, and she&rsquo;s still kicking. Here are two lines a parent might say next. Is each one helpful or hurtful?</p>
+        <div class="ln-lines" data-ln-lines="42"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="lrn-43" data-section="learn" data-status="Part 4 of 4" data-steps="4" data-step="4" hidden>
+      <div class="ln-split ln-split-sticky">
+        <div class="ln-col">
+          <p class="eyebrow plum">Part 4 &middot; What their state needs</p>
+          <h1 class="screen-title">The Emotional State: connection</h1>
+          <p class="screen-body">She&rsquo;s safe now, but now her brain is asking, &ldquo;Am I loved?&rdquo; She drops onto the rug, sobbing, &ldquo;But these shoes feel WEIRD.&rdquo;</p>
+          <p class="screen-body">In the Emotional State, your child may seem calmer. But now their brain is being controlled by their emotions, and their brain is asking, &ldquo;Am I still loved?&rdquo; Those big feelings are going to get in the way of any kind of self-reflection or lessons we want to teach. So here, they need connection. They need to feel understood, know that they are loved, and that they have a say in what happens next. Below are a couple of ways to create that connection.</p>
+          <div class="ln-reveals">
+            <div class="ln-reveal" data-k="emo">
+              <button class="ln-reveal-h" type="button" aria-expanded="false" aria-controls="ln43a" data-ln-more=""><span>Name the Feeling</span></button>
+              <div class="ln-reveal-b" id="ln43a" hidden>
+                <p>Instead of asking what they feel, or why they&rsquo;re upset, name it and check: &ldquo;Those shoes feel wrong. It must be frustrating to think you have to wear them all day. Do I get you?&rdquo;</p>
+                <p>This is a quick way to show that you empathize and aren&rsquo;t judging them. There&rsquo;s no such thing as a &ldquo;wrong&rdquo; feeling. Naming the feeling shows them that it&rsquo;s okay to be feeling it.</p>
+              </div>
+            </div>
+            <div class="ln-reveal" data-k="emo">
+              <button class="ln-reveal-h" type="button" aria-expanded="false" aria-controls="ln43b" data-ln-more=""><span>Give Two Options</span></button>
+              <div class="ln-reveal-b" id="ln43b" hidden>
+                <p>Two positive ways out, both fine with you. They get a say in how they move forward. Depending on your child, a little mild humor might work here too: &ldquo;Sneakers or boots? You pick. Or how about MY shoes? They might fit!&rdquo;</p>
+              </div>
+            </div>
+          </div>
+          <aside class="coach-says ln-coach">
+            <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
+            <div class="coach-txt"><p class="coach-k">Coach says</p><p class="coach-t">The empathy you show your child in this moment also needs to be turned back on yourself. Name your own feelings internally, and be kind to yourself.</p></div>
+          </aside>
+        </div>
+        <figure class="ln-fig"><img src="assets/img/shift-two-options.png" alt="A parent holding out two pairs of shoes."></figure>
+      </div>
+    </section>
+
+    <section class="screen" id="lrn-44" data-section="learn" data-status="Part 4 of 4" data-steps="4" data-step="4" hidden>
+      <div class="ln-narrow">
+        <p class="eyebrow plum">Part 4 &middot; Back to 7:40 a.m.</p>
+        <h1 class="screen-title">Back to 7:40 a.m.: the sobbing</h1>
+        <p class="screen-body">She&rsquo;s stopped kicking and is crying on the rug. Here are two lines a parent might say. Is each one helpful or hurtful?</p>
+        <div class="ln-lines" data-ln-lines="44"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="lrn-45" data-section="learn" data-status="Part 4 of 4" data-steps="4" data-step="4" hidden>
+      <div class="ln-split ln-split-sticky">
+        <div class="ln-col">
+          <p class="eyebrow plum">Part 4 &middot; What their state needs</p>
+          <h1 class="screen-title">The Executive State: now you can solve it</h1>
+          <p class="screen-body">She sniffs, nods, says, &ldquo;No way, your shoes are too big!&rdquo; and picks the boots. Now she can listen and think, and now is the time to teach.</p>
+          <div class="ln-moves" data-k="exec">
+            <div class="ln-move"><h2>The Missing Skill</h2><p>Unwelcome behavior often comes from a missing skill: a safe way to handle a problem. Teach it now, not mid-kick.</p></div>
+            <div class="ln-move"><h2>Limits for next time</h2><p>Now she can learn a limit that helps next time: &ldquo;Kicking hurts. When shoes feel wrong, you can say, &lsquo;Help me.&rsquo;&rdquo;</p></div>
+            <div class="ln-move"><h2>Problem solving</h2><p>Work it out together: &ldquo;Those shoes felt weird this morning. What could we try tomorrow?&rdquo;</p></div>
+          </div>
+        </div>
+        <figure class="ln-fig ln-fig-child"><img src="assets/img/state-child-ready.png" alt="A child, calm and ready to talk."></figure>
+      </div>
+    </section>
+
+    <section class="screen" id="lrn-46" data-section="learn" data-status="Part 4 of 4" data-steps="4" data-step="4" hidden>
+      <div class="ln-split">
+        <div class="ln-col">
+          <p class="eyebrow plum">Part 4 &middot; What their state needs</p>
+          <h1 class="screen-title">The whole picture</h1>
+          <p class="screen-body">Recognize your state, then theirs. Then climb from the bottom, one state at a time.</p>
+          <div class="ln-recap">
+            <div class="ln-recap-row" data-k="exec"><img src="assets/img/brain-prefrontal.png" alt=""><div><p class="ln-recap-h"><strong>The Executive State</strong> <em>&ldquo;What can I learn?&rdquo;</em></p><p>The Missing Skill, limits for next time, problem solving.</p></div></div>
+            <div class="ln-recap-row" data-k="emo"><img src="assets/img/brain-limbic.png" alt=""><div><p class="ln-recap-h"><strong>The Emotional State</strong> <em>&ldquo;Am I loved?&rdquo;</em></p><p>Name the Feeling, Give Two Options.</p></div></div>
+            <div class="ln-recap-row" data-k="surv"><img src="assets/img/brain-stem.png" alt=""><div><p class="ln-recap-h"><strong>The Survival State</strong> <em>&ldquo;Am I safe?&rdquo;</em></p><p>Compose Yourself, Make It Safe, Describe the Scene, Breathe Together.</p></div></div>
+          </div>
+          <div><button class="door ln-door" type="button" data-ln-about>Want to save and open on another device? &rarr;</button></div>
+        </div>
+        <figure class="ln-fig"><img src="assets/img/state-parent-calm.png" alt="A parent standing, smiling."></figure>
+      </div>
+      <p class="gate ln-bridge">Next: Bring It Together, a new moment to try on your own.</p>
     </section>
 
     <!-- TYK intro hub (NEW 26 Sept, package I): the fourth use of the "pick a
@@ -824,7 +899,7 @@
             <img data-xfade="3" data-on="no" src="assets/img/pose-contented.png" alt="" width="168" height="252" style="transform:scale(0.981)">
           </div>
           <div class="rp-main">
-            <div class="rp-log" data-rp-log aria-live="polite"></div>
+            <div class="rp-log" data-rp-log></div>
             <div class="safety" data-rp-safety hidden></div>
             <div class="rp-compose" data-rp-compose>
               <div class="wt" data-wt>
@@ -903,7 +978,7 @@
             <img data-xfade="3" data-on="no" src="assets/img/pose-contented.png" alt="" width="168" height="252" style="transform:scale(0.981)">
           </div>
           <div class="rp-main">
-            <div class="rp-log" data-rp-log aria-live="polite"></div>
+            <div class="rp-log" data-rp-log></div>
             <div class="safety" data-rp-safety hidden></div>
             <div class="rp-compose" data-rp-compose>
               <div class="wt" data-wt>
@@ -982,7 +1057,7 @@
             <img data-xfade="3" data-on="no" src="assets/img/pose-contented.png" alt="" width="168" height="252" style="transform:scale(0.981)">
           </div>
           <div class="rp-main">
-            <div class="rp-log" data-rp-log aria-live="polite"></div>
+            <div class="rp-log" data-rp-log></div>
             <div class="safety" data-rp-safety hidden></div>
             <div class="rp-compose" data-rp-compose>
               <div class="wt" data-wt>
@@ -1124,13 +1199,13 @@
 
 <div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" hidden>
   <div class="panel-head">
-    <h2 id="panelTitle">About &amp; reference</h2>
+    <h2 id="panelTitle">Help</h2>
     <span class="saved" id="panelSaved"></span>
     <span class="gap"></span>
     <button class="panel-x" id="panelX" type="button" aria-label="Close"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg></button>
   </div>
 
-  <div class="card">
+  <div class="card" data-for="about">
     <h3>Your place is saved.</h3>
     <p>This module remembers where you are and everything you have written. As long as you use the same device and browser, you can close the module and come back to it. Nothing is sent anywhere: the scoring runs on your own computer, so what you type never leaves it, and nothing is reported to the school.</p>
     <p class="sub">Using a different device?</p>
@@ -1152,7 +1227,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" data-for="help">
     <h3>Words for a hard moment</h3>
     <p>Twenty-one short lines for when you need something to say right now.</p>
     <div class="row">
@@ -1160,7 +1235,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" data-for="help">
     <h3>What the words mean</h3>
     <p>Ten words and phrases your child&rsquo;s school uses, each paired with a phrase you can actually say.</p>
     <div class="row">
@@ -1168,48 +1243,49 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" data-for="about">
     <h3>Nobody is grading you</h3>
     <p>There is no pass mark, cumulative score, or report. You will receive feedback as you go, and you can retake anything as many times as you like.</p>
   </div>
 
-  <div class="card" id="panelHurt">
+  <div class="card" id="panelHurt" data-for="help">
     <h3>&ldquo;But what if my child is the one being hurt?&rdquo;</h3>
     <p>This module is about teaching a skill over time. It never means leaving a child unprotected. If someone is being hurt, stop it first, physically if you have to. The teaching comes later, once everyone is calm.</p>
   </div>
 
   <div class="gl" id="panelGloss" data-title="What the words mean" hidden>
-    <button class="btn-link gl-back" type="button" data-gl-back>&larr; About &amp; reference</button>
+    <button class="btn-link gl-back" type="button" data-gl-back>&larr; Help</button>
     <p class="gl-lede">The words your child&rsquo;s school uses, in plain English first, each with something you can say.</p>
     <div class="gl-list" data-gl-list></div>
   </div>
 
   <div class="panel-foot">
-    <p class="keys">Press <strong>?</strong> for this panel. Press <strong>R</strong> for words to try, once you are practicing.</p>
-    <p class="disclaimer">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.</p>
-    <p class="credit">Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay</a>, instructional designer and real-life dad of a 5-year-old.</p>
+    <p class="keys" data-for="help">Press <strong aria-hidden="true">?</strong><span class="sr-only">the question mark key</span> for this panel, and <strong>i</strong> for About this module. Press <strong>R</strong> for words to try, once you are practicing.</p>
+    <p class="disclaimer" data-for="about">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.</p>
+    <p class="credit" data-for="about">Created by <a href="https://marclemaydesign.com" target="_blank" rel="noopener">Marc LeMay</a>, instructional designer and real-life dad of a 5-year-old.</p>
   </div>
 </div>
 
-<script src="content/strings.js?v=20261002j"></script>
-<script src="content/principles.js?v=20261002j"></script>
-<script src="content/quiz.js?v=20261002j"></script>
-<script src="content/safety.js?v=20261002j"></script>
-<script src="content/scenarios.js?v=20261002j"></script>
-<script src="content/bookend.js?v=20261002j"></script>
-<script src="content/phrases.js?v=20261002j"></script>
-<script src="content/glossary.js?v=20261002j"></script>
-<script src="js/board.js?v=20261002j"></script>
-<script src="js/state.js?v=20261002j"></script>
-<script src="js/haptics.js?v=20261002j"></script>
-<script src="js/fx.js?v=20261002j"></script>
-<script src="js/principles.js?v=20261002j"></script>
-<script src="js/safety.js?v=20261002j"></script>
-<script src="js/matcher.js?v=20261002j"></script>
-<script src="js/quiz.js?v=20261002j"></script>
-<script src="js/roleplay.js?v=20261002j"></script>
-<script src="js/app.js?v=20261002j"></script>
-<script src="js/phrases.js?v=20261002j"></script>
-<script src="js/glossary.js?v=20261002j"></script>
+<script src="content/strings.js?v=20261015a"></script>
+<script src="content/principles.js?v=20261015a"></script>
+<script src="content/quiz.js?v=20261015a"></script>
+<script src="content/safety.js?v=20261015a"></script>
+<script src="content/scenarios.js?v=20261015a"></script>
+<script src="content/bookend.js?v=20261015a"></script>
+<script src="content/phrases.js?v=20261015a"></script>
+<script src="content/glossary.js?v=20261015a"></script>
+<script src="js/board.js?v=20261015a"></script>
+<script src="js/state.js?v=20261015a"></script>
+<script src="js/haptics.js?v=20261015a"></script>
+<script src="js/fx.js?v=20261015a"></script>
+<script src="js/principles.js?v=20261015a"></script>
+<script src="js/safety.js?v=20261015a"></script>
+<script src="js/matcher.js?v=20261015a"></script>
+<script src="js/quiz.js?v=20261015a"></script>
+<script src="js/roleplay.js?v=20261015a"></script>
+<script src="js/app.js?v=20261015a"></script>
+<script src="js/phrases.js?v=20261015a"></script>
+<script src="js/glossary.js?v=20261015a"></script>
+<script src="js/learn.js?v=20261015a"></script>
 </body>
 </html>

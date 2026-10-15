@@ -926,13 +926,13 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
 .layer[data-layer="0"]{top:23.9%;height:25.1%}
 .layer[data-layer="1"]{top:49%;height:25%}
 .layer[data-layer="2"]{top:74%;height:26%;border-bottom-color:transparent}
-.layer:focus-visible{outline:2px solid var(--action);outline-offset:-2px}
+.layer:has(.layer-cue:focus-visible){outline:2px solid var(--action);outline-offset:-2px}
 .layer-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;width:100%}
 .layer-name{font-weight:600;font-size:16px;color:var(--ink)}
 .layer-cue{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--action);flex:none}
 .layer:hover .layer-cue{text-decoration:underline;text-underline-offset:3px}
 .layer-text{display:block;font-size:14.5px;line-height:1.45;color:var(--ink);opacity:0;transition:opacity .35s;text-wrap:pretty}
-.layer[aria-expanded="true"] .layer-text{opacity:1}
+.layer[data-open="yes"] .layer-text{opacity:1}
 
 .berg-upshot{margin-top:18px}
 .berg-upshot[hidden]{display:none}
@@ -1102,20 +1102,20 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
   transition:background .45s,border-color .45s;
 }
 .shift:hover{border-color:var(--action)}
-.shift:focus-visible{outline:2px solid var(--action);outline-offset:2px}
-.shift[aria-pressed="true"]{background:var(--tint);border-color:var(--action-dim)}
+.shift:has(.shift-cue:focus-visible){outline:2px solid var(--action);outline-offset:2px}
+.shift[data-pressed="true"]{background:var(--tint);border-color:var(--action-dim)}
 .shift-fig{display:block;width:84px;height:150px}
 .shift .xfade > [data-xfade]{transition-duration:.6s}
 .shift-main{display:flex;flex-direction:column;gap:8px;height:150px;min-width:0}
 .shift-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .shift-k{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--plum)}
-.shift[aria-pressed="true"] .shift-k{color:var(--action)}
+.shift[data-pressed="true"] .shift-k{color:var(--action)}
 .shift-cue{font:500 10.5px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.09em;color:var(--action);white-space:nowrap}
 .shift-txt{position:relative;display:block;flex:1}
 .shift-t{position:absolute;inset:0;font-size:16.5px;line-height:1.45;color:var(--ink);transition:opacity .45s;text-wrap:pretty}
 .shift-new{opacity:0}
-.shift[aria-pressed="true"] .shift-old{opacity:0}
-.shift[aria-pressed="true"] .shift-new{opacity:1}
+.shift[data-pressed="true"] .shift-old{opacity:0}
+.shift[data-pressed="true"] .shift-new{opacity:1}
 .shifts-note{font-size:13.5px;color:var(--muted);margin:0}
 @media (max-width:860px){.shifts{grid-template-columns:minmax(0,1fr);gap:10px}}
 @media (max-width:640px){
@@ -2001,3 +2001,15 @@ button,input,textarea,select{font-family:inherit}
 .app[data-theme="dark"] .btn:focus-visible,.app[data-theme="dark"] .door:focus-visible,.app[data-theme="dark"] .head-about:focus-visible,
 .app[data-theme="dark"] .btn-link:focus-visible,.app[data-theme="dark"] .side:focus-visible{outline:3px solid #F4F1EA;outline-offset:3px}
 .app[data-theme="dark"] .resume .btn:focus-visible{outline-color:#1C2030}
+
+/* ---- VoiceOver pass (Oct 5) ---- */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Iceberg layers and the four shifts: the box is no longer the button, so
+   VoiceOver reads the label, then the button, then the text. The whole box
+   still takes a click; the ring draws on the box. */
+.layer,.shift{cursor:pointer}
+.layer-cue,.shift-cue{position:relative;background:none;border:0;padding:0;margin:0;cursor:pointer;line-height:inherit}
+.layer-cue:focus-visible,.shift-cue:focus-visible{outline:none}
+.layer-cue::before,.shift-cue::before{content:"";position:absolute;inset:-12px -8px}
+.shift-main{position:relative}
+.shift-cue{position:absolute;top:0;right:0}
