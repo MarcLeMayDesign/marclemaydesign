@@ -144,8 +144,8 @@ window.CDAH_SCENES = {
 
     rows: {
       composure: { hit: 'You kept your own composure \u2014 no threat, no raised voice, no bargaining the limit away.',
-                   miss: 'Composure \u2014 start here next time. The other three only work from a calm voice.',
-                   name: 'Composure' },
+                   miss: 'Compose Yourself \u2014 start here next time. The other three only work from a calm voice.',
+                   name: 'Compose Yourself' },
       connect:   { hit: 'You connected before correcting.',
                    miss: 'Her feeling didn\u2019t get named before the rule.',
                    name: 'Name the feeling' },
@@ -208,7 +208,7 @@ window.CDAH_SCENES = {
 
     words: [
       { what: 'Name the feeling', say: 'You were hoping it\u2019d be Grandma today. That\u2019s a big disappointment.' },
-      { what: 'State the limit',  say: 'I won\u2019t let you kick my seat. I need to drive us home safely.' },
+      { what: 'Make It Safe',  say: 'I won\u2019t let you kick my seat. I need to drive us home safely.' },
       { what: 'Give two options',  say: 'You can stomp on your seat or squeeze your Bun-Bun. You pick.' }
     ],
 
@@ -263,15 +263,15 @@ window.CDAH_SCENES = {
 
     rows: {
       composure: { hit: 'You kept your composure \u2014 you didn\u2019t take \u201cnot you\u201d personally, and nothing you said asked her to look after your feelings.',
-                   miss: 'Composure \u2014 start here next time. The other three only work from a calm voice.',
-                   name: 'Composure' },
+                   miss: 'Compose Yourself \u2014 start here next time. The other three only work from a calm voice.',
+                   name: 'Compose Yourself' },
       connect:   { hit: 'You named what she was hoping for.',
                    miss: 'What she was hoping for didn\u2019t get named.',
                    name: 'Name the feeling' },
       limit:     { hit: 'You said the limit, and why: her feet stay still so you can drive safely.',
                    miss: 'The kicking didn\u2019t get a limit. In a car this one isn\u2019t optional \u2014 it\u2019s about everyone\u2019s safety, and she needs to hear it plainly.',
                    early: 'You said the limit.',
-                   name: 'State the limit' },
+                   name: 'Make It Safe' },
       choices:   { hit: 'You gave the angry feeling two safe places to go.',
                    miss: 'No two choices offered. The feeling still needs somewhere to go that isn\u2019t your seat.',
                    early: 'You offered choices, but before she felt heard, so she couldn\u2019t use them yet.',
@@ -284,9 +284,13 @@ window.CDAH_SCENES = {
      What the parent says here is what the Bookend (SCR-304) puts beside
      their first answer. Structure after the original spec; wording new. */
   'scn-303': {
-    start: 1,
-    maxTurns: 3,
-    opening: '(one shoe on, the other kicked across the rug) I\u2019m NOT wearing these stupid shoes! They feel WEIRD!',
+    /* 16 Oct: opens on the Hook line, so Maya starts in the Survival State,
+       as at 7:40 in Learn (3.2). One more turn for the climb; a safety limit
+       counts whenever it's said. // CHECK Marc */
+    start: 0,
+    maxTurns: 4,
+    limitAnytime: true,
+    opening: '(her shoe hits the wall, and she kicks your hand away) NO! I\u2019m NOT going to school!',
     child: 'Maya',
     lastPrompt: 'Your last reply.',
 
@@ -306,12 +310,17 @@ window.CDAH_SCENES = {
         accept: ['feel weird', 'feels weird', 'weird', 'scratchy', 'itchy', 'tight', 'uncomfortable', 'dont feel right',
                  'dont like how', 'you dont want', 'dont want to wear', 'hard', 'tough', 'frustrated', 'upset', 'mad',
                  'annoyed', 'i know', 'i hear you', 'i get it', 'i understand', 'i can see', 'feel', 'feeling',
-                 'feels', 'hate those', 'hate them']
+                 'feels', 'hate those', 'hate them',
+                 /* 16 Oct: the Hook line */
+                 'dont want to go', 'not going to school', 'dont want school', 'school is hard', 'big feelings']
       },
       limit: {
         accept: ['shoes go on', 'shoes are going on', 'shoes on', 'need shoes', 'need your shoes', 'have to wear',
                  'need to wear', 'time to go', 'its time', 'the bus', 'bus is coming', 'need to leave', 'have to leave',
-                 'we are leaving', 'were leaving', 'feet need', 'feet safe', 'keep your feet safe', 'cant go without']
+                 'we are leaving', 'were leaving', 'feet need', 'feet safe', 'keep your feet safe', 'cant go without',
+                 /* 16 Oct: Make It Safe, for the kick */
+                 'wont let you kick', 'not going to let you kick', 'no kicking', 'kicking hurts', 'i wont let you',
+                 'keep you safe', 'keep us safe', 'keep my hands safe', 'stop kicking']
       },
       choices: {
         accept: ['left or right', 'left one or', 'right one or', 'which shoe', 'which one first', 'you or me',
@@ -321,6 +330,7 @@ window.CDAH_SCENES = {
     },
 
     words: [
+      { what: 'Make It Safe',     say: 'I won\u2019t let you kick. I\u2019m right here.' },  // NEW 16 Oct (Learn 4.2)
       { what: 'Name the feeling', say: 'Those shoes feel really weird right now.' },
       { what: 'State the limit',  say: 'Shoes go on before the bus comes.' },
       { what: 'Give two options',  say: 'Left one first or right one first? You pick.' }
@@ -352,13 +362,13 @@ window.CDAH_SCENES = {
                          note: 'Choices without the limit said out loud turn into a negotiation.' },
       '2:both':        { child: '(she sniffs and holds out her foot) \u2026Okay. Help me?',  // NEW 2 Oct (Marc: "Loosen my left shoe" answered a choice he never offered)
                          note: 'One limit, two ways in. The shoes went on.' },
-      '0:still':       { child: '(she lies flat on the rug)',
-                         again: '(she covers her face with both arms)',
+      '0:still':       { child: '(she kicks at the air) NO! NO! NO!',  // NEW 16 Oct
+                         again: '(she pulls her feet away, screaming)',
                          note: 'She\u2019s past words. Keep your voice low and slow, and keep it short, even with the bus coming.' },
       '0:fail':        { child: '(she wails and drums her heels on the rug)',
                          again: '(she rolls away from you)',
                          note: 'She was already past words, and that pushed her further away.' },
-      '0:calm':        { child: '(still on the rug, quieter) \u2026They feel weird.',
+      '0:calm':        { child: '(she stops kicking and drops onto the rug, sobbing) But these shoes feel WEIRD.',  // NEW 16 Oct, Learn 4.3's line
                          note: 'Your calm reached her before any words did.' }
     },
 
@@ -377,8 +387,8 @@ window.CDAH_SCENES = {
 
     rows: {
       composure: { hit: 'You kept your composure \u2014 no threat, no bribe, no hurry in your voice.',
-                   miss: 'Composure \u2014 start here next time. The other three only work from a calm voice.',
-                   name: 'Composure' },
+                   miss: 'Compose Yourself \u2014 start here next time. The other three only work from a calm voice.',
+                   name: 'Compose Yourself' },
       connect:   { hit: 'You named how the shoes felt before the rule.',
                    miss: 'How the shoes felt didn\u2019t get named before the rule.',
                    name: 'Name the feeling' },

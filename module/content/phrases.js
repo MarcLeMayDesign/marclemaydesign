@@ -27,7 +27,7 @@ window.CDAH_PHRASES = {
   printFoot: "Conscious Discipline at Home \u00b7 An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.",
 
   moves: [
-    { id: "composure", title: "Composure", note: "Say these to yourself, before you say anything to your child.",
+    { id: "composure", title: "Compose Yourself", note: "Say these to yourself, before you say anything to your child.",
       cards: [
         { say: "Stop talking. One breath first.",
           school: "Teachers often pause before they answer an upset child. Your child has seen that pause many times." },
@@ -41,16 +41,21 @@ window.CDAH_PHRASES = {
           school: "A quiet, slow voice is the one your child is used to hearing when things go wrong at school." }
       ] },
 
-    { id: "feeling", title: "Name the Feeling", note: "Say what you see before you say what happens next.",
+    /* 16 Oct: Learn's Survival moves, in Learn's order. */
+    { id: "safe", title: "Make It Safe", note: "Stop anything dangerous. Say only the limit that stops it.",
       cards: [
-        { say: "You\u2019re really disappointed.",
-          school: "Your child is learning names for feelings in class, so this is a word they already know." },
-        { say: "Your fists are tight and your face is red. You look really angry.",
+        { say: "I won\u2019t let you hit. Hitting hurts.",
+          school: "Classroom limits are mostly about safety, and they\u2019re said simply. Your child will recognize the short version." },
+        { say: "I won\u2019t let you kick. I\u2019m right here.",   // NEW 16 Oct (Learn 4.2)
+          school: "Teachers stay close when they stop something unsafe. Staying near tells a child they\u2019re still safe with you." }
+      ] },
+
+    { id: "describe", title: "Describe the Scene", note: "Say what you see, without judgment.",
+      cards: [
+        { say: "Your fists are tight and your face is red.",
           school: "Teachers often describe what they see before saying anything else. It tells a child they\u2019ve been noticed." },
-        { say: "You were almost finished. That's so frustrating, I get it.",
-          school: "Feeling first, problem second is the order your child hears all day." },
-        { say: "It\u2019s okay to be mad. I\u2019m right here.",
-          school: "In many classrooms every feeling is allowed. The limits are on what we do with it." }
+        { say: "You\u2019re crying, and your feet are kicking.",   // NEW 16 Oct
+          school: "Describing, not judging, is something your child\u2019s teachers practice every day." }
       ] },
 
     { id: "breathe", title: "Breathe Together", note: "When words won\u2019t reach, breathe first and let them follow.",
@@ -65,16 +70,14 @@ window.CDAH_PHRASES = {
           school: "Short pictures like this one are common in class, because a five-year-old can hold onto them." }
       ] },
 
-    { id: "limit", title: "State the Limit", note: "Once they feel heard: plainly, once, in as few words as you can.",
+    { id: "feeling", title: "Name the Feeling", note: "Name it and check. There\u2019s no such thing as a wrong feeling.",
       cards: [
-        { say: "I won\u2019t let you hit. Hitting hurts.",
-          school: "Classroom limits are mostly about safety, and they\u2019re said simply. Your child will recognize the short version." },
-        { say: "The answer is no. You can be upset about it.",
-          school: "Teachers hold a limit without asking the child to be happy about it." },
-        { say: "I hear you. And it\u2019s still bedtime.",
-          school: "Your child is used to hearing that being understood and getting a yes are two different things." },
-        { say: "It\u2019s time to go. We\u2019re leaving the park now.",
-          school: "Transitions are announced plainly at school, often with a warning first. Try a five-minute heads-up next time." }
+        { say: "You\u2019re really disappointed.",
+          school: "Your child is learning names for feelings in class, so this is a word they already know." },
+        { say: "You were almost finished. That's so frustrating, I get it.",
+          school: "Feeling first, problem second is the order your child hears all day." },
+        { say: "It\u2019s okay to be mad. I\u2019m right here.",
+          school: "In many classrooms every feeling is allowed. The limits are on what we do with it." }
       ] },
 
     { id: "options", title: "Give Two Options", note: "Two choices, both fine with you. The limit stays; they choose the how.",
@@ -87,6 +90,17 @@ window.CDAH_PHRASES = {
           school: "Small jobs and small choices help a child feel capable, and they get a lot of both at school." },
         { say: "You can pick, or I can pick. Which one?",
           school: "If a child won\u2019t choose, the adult chooses calmly. The limit holds either way." }
+      ] },
+
+    /* 16 Oct: the non-safety limits. Learn has no named move for these yet. // CHECK Marc */
+    { id: "limit", title: "State the Limit", note: "Once they feel heard: plainly, once, in as few words as you can.",
+      cards: [
+        { say: "The answer is no. You can be upset about it.",
+          school: "Teachers hold a limit without asking the child to be happy about it." },
+        { say: "I hear you. And it\u2019s still bedtime.",
+          school: "Your child is used to hearing that being understood and getting a yes are two different things." },
+        { say: "It\u2019s time to go. We\u2019re leaving the park now.",
+          school: "Transitions are announced plainly at school, often with a warning first. Try a five-minute heads-up next time." }
       ] }
   ]
 };

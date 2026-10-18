@@ -8,14 +8,14 @@
 
 /* ---- the two drawers: ? Help, i About ---- */
 .panel[data-mode="help"] [data-for="about"],.panel[data-mode="about"] [data-for="help"]{display:none !important}
-.head-info{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700}
+.head-info{font-family:Georgia,'Times New Roman',serif;font-style:normal;font-weight:700}
 .head-about[data-tip]::after{
   content:attr(data-tip);position:absolute;top:calc(100% + 10px);right:-4px;z-index:60;
   white-space:nowrap;background:var(--ink);color:#fff;font:500 13px/1.2 'Work Sans',sans-serif;font-style:normal;
   padding:7px 10px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .15s ease .25s;
 }
 @media (hover:hover){.head-about[data-tip]:hover::after,.head-about[data-tip]:focus-visible::after{opacity:1}}
-.ref-i{font-family:Georgia,serif;font-style:italic;font-weight:700}
+.ref-i{font-family:Georgia,serif;font-style:normal;font-weight:700}
 
 /* ---- shared ---- */
 .ln-split{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;align-items:start}

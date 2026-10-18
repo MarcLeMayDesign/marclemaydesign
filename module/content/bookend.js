@@ -36,13 +36,13 @@ window.CDAH_BOOKEND = {
   /* NEW 1 Oct, Claude's drafts for Marc. The count is the Scene 3 answer
      only: Composure counts as used unless something broke it. */
   analysis: {
-    all:  'All four, on the same morning you started with. This time you went in order: calm first, then the feeling, then the limit, then a choice.',
+    all:  'All four, on the same morning you started with. This time you went in order: calm yourself first, then make it safe, then the feeling, then a choice.',  // 16 Oct: reordered to Learn's moves // CHECK
     some: 'Some of the moves made it in. The ones marked Not used are the ones to reach for first next time, and the phrase cards have a line for each.',
     none: 'None of the moves showed up this time. Don\u2019t worry about it. A school morning is the hardest place to practice. Try Scene 3 again, or start with one line from the phrase cards.'
   },
 
   moves: [
-    { id: 'composure', name: 'Composure',
+    { id: 'composure', name: 'Compose Yourself',
       breaks: ['or else', 'right now or', 'because i said', 'i said so', 'how many times',
                'told you already', 'dont make me', 'last warning', 'im counting', 'one two three',
                '1 2 3', 'grounded', 'punish', 'naughty', 'bad girl', 'bad boy', 'spoiled',
@@ -52,11 +52,17 @@ window.CDAH_BOOKEND = {
       accept: ['you dont want', 'you really dont', 'you hate', 'you dont like', 'hard', 'tough',
                'i know', 'i can see', 'i get it', 'i understand', 'i hear you', 'feel', 'feeling',
                'feels', 'frustrated', 'upset', 'mad', 'angry', 'sad', 'annoyed', 'annoying',
-               'scratchy', 'uncomfortable', 'weird', 'dont feel right', 'itchy', 'tight'] },
+               'scratchy', 'uncomfortable', 'weird', 'dont feel right', 'itchy', 'tight',
+               /* 16 Oct: the Hook line */
+               'dont want to go', 'not going to school', 'school is hard', 'big feelings'] },
     /* Breathe Together is left out (30 Sept, Marc): nobody writes a breath
        into an answer, and Try It Out doesn't listen for it either. */
-    { id: 'limit', name: 'State the Limit',
-      accept: ['shoes go on', 'shoes are going on', 'shoes on', 'need shoes', 'need your shoes',
+    /* 16 Oct: the Hook kicks, so the limit row is Learn's Make It Safe. The
+       shoe/bus limits are kept until Marc rules on them. // CHECK */
+    { id: 'limit', name: 'Make It Safe',
+      accept: ['wont let you kick', 'not going to let you kick', 'no kicking', 'kicking hurts',
+               'i wont let you', 'keep you safe', 'keep us safe', 'stop kicking', 'not ok to kick', 'not okay to kick',
+               'shoes go on', 'shoes are going on', 'shoes on', 'need shoes', 'need your shoes',
                'have to wear', 'need to wear', 'we need to go', 'we have to go', 'need to leave',
                'have to leave', 'bus', 'its time', 'time to go', 'we are leaving', 'were leaving',
                'feet need', 'outside needs'] },

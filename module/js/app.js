@@ -243,7 +243,7 @@
     if (opts && opts.fx) return opts.fx;
     if (!from || from === to) return 'normal';
     var f = from.id, t = to.id;
-    if (t === 'scr-099' && (f === 'scr-100' || f === 'scr-101')) return 'grand';
+    if (t === 'scr-099' && f === 'scr-100') return 'grand';
     if (t === 'scr-099') return (f === 'scr-000' || f === 'scr-400' || f === 'lrn-46' || f === 'scr-209') ? 'big' : 'normal';
     if (f === 'scr-110' && t === 'scr-200') return 'big';
     /* Learn AD2 (15 Oct): into Learn and out of it are big; a new part is half. */
@@ -253,7 +253,7 @@
     if (LP[t] && /^lrn-/.test(f) && f.charAt(4) !== t.charAt(4)) return 'half';
     /* Moderately big (Marc, 2 Oct): phrase cards in and out, the opening screens, a section's last screen → its close. */
     if (f === 'scr-500' || t === 'scr-500') return 'half';
-    if ((f === 'scr-000' && t === 'scr-100') || (f === 'scr-100' && t === 'scr-101')) return 'half';
+    if (f === 'scr-000' && t === 'scr-100') return 'half';
     if ((f === 'scr-125' && t === 'scr-130') || (f === 'scr-204' && t === 'scr-209')) return 'half';
     if (f === 'scr-099' && (t === 'scr-110' || t === 'scr-200' || t === 'scr-300')) return 'big';
     if ((f === 'scr-130' && t === 'scr-200') || (f === 'scr-209' && t === 'scr-300')) return 'big';
@@ -542,6 +542,7 @@
 
   function paintSaved() {
     var at = S.savedAt();
+    if (!elSaved) return;  /* 16 Oct (Marc): removed from the drawer head */
     elSaved.textContent = at ? (T.panel.savedPrefix + ' ' + relTime(at)) : '';
   }
 
@@ -907,14 +908,17 @@
      and the skip door steps aside, so the way on is unmistakable. */
   var goBtn = document.getElementById('baselineGo');
   var skipW = document.getElementById('skipWrap');
+  /* 16 Oct (Marc): SCR-101 cut; its Coach shows under the field once saved. */
+  var coach = document.getElementById('baselineCoach');
   /* Draft 2 pass 2 (Marc): the button itself says "Kept" and stops working
      until the text changes, rather than a "Kept." note beside it. */
   function paintKept(on) {
     if (goBtn) goBtn.hidden = !on;
     if (skipW) skipW.hidden = on;
+    if (coach) { coach.hidden = !on; if (!on) coach.classList.remove('is-in'); }
     if (keep) {
       keep.className = on ? 'btn btn-quiet' : 'btn';
-      keep.textContent = on ? 'Kept' : 'Keep this';
+      keep.textContent = on ? 'Saved' : 'Save';
       if (on) keep.setAttribute('aria-disabled', 'true'); else keep.removeAttribute('aria-disabled');
     }
     if (note && on) note.textContent = '';
@@ -957,7 +961,7 @@
     keep.addEventListener('click', function () {
       if (keep.getAttribute('aria-disabled') === 'true') return;
       var text = field.value.replace(/\s+$/, '');
-      if (!text) { if (note) note.textContent = 'Nothing to keep yet.'; field.focus(); return; }
+      if (!text) { if (note) note.textContent = 'Nothing to save yet.'; field.focus(); return; }
       /* The baseline is where a parent is most likely to write something
          true about their own week. Checked first; on a fire, nothing kept. */
       if (window.CDAH_SAFETY && bSafe) {
@@ -972,6 +976,7 @@
       S.answer('baseline', text);
       H.tap();
       paintKept(true);
+      if (coach) coach.classList.add('is-in');
       paintReadback();
       if (goBtn) goBtn.focus();
     });

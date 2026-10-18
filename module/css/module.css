@@ -1761,6 +1761,14 @@ a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-heigh
 .gl-back{align-self:flex-start;min-height:44px}
 .gl-lede{margin:0 0 4px;font-size:14.5px;line-height:1.55;color:var(--body)}
 .gl-list .card{margin-bottom:10px}
+.gl-h{font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.gl-h:first-child{margin-top:0}
+.gl-item h4{font-weight:600;font-size:15px;color:var(--ink);margin:0 0 4px}
+/* 16 Oct (Marc): long definitions clamp at three lines with See more. */
+.gl-def{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+.gl-def.is-open{display:block;-webkit-line-clamp:unset;line-clamp:none;overflow:visible}
+.gl-more{background:none;border:0;padding:4px 0;margin:2px 0 0;font:inherit;font-size:14px;font-weight:500;color:var(--action);cursor:pointer;text-decoration:underline;text-underline-offset:3px;min-height:32px}
+.gl-more[hidden]{display:none}
 .gl-say{display:flex;flex-direction:column;gap:2px;margin-top:10px !important}
 .gl-k{font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
 .gl-q{color:var(--ink)}
@@ -1786,8 +1794,14 @@ a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-heigh
 /* ==== Draft 2, 2 Oct [Marc's edit pass on Draft 1] ======================= */
 .btn[hidden],.door[hidden],#skipWrap[hidden]{display:none !important}
 
-/* SCR-100 / SCR-101: no footer; the way on is on the screen. */
-.app:has(#scr-100:not([hidden])) .mod-foot,.app:has(#scr-101:not([hidden])) .mod-foot{display:none}
+/* SCR-100: no footer; the way on is on the screen. */
+.app:has(#scr-100:not([hidden])) .mod-foot{display:none}
+/* SCR-100 (16 Oct, Marc): SCR-101 cut; its Coach fades in under the field on Save. */
+.mn-coach{margin-top:0}
+.mn-coach[hidden]{display:none}
+.mn-coach.is-in{animation:mnCoachIn .6s ease-out both}
+@keyframes mnCoachIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mn-coach.is-in{animation:none}}
 .mn-go{display:flex}
 /* SCR-100: eyebrow, scene line and the skip door at one size. */
 #scr-100 .eyebrow,#scr-100 .mn-scene p.screen-body,#scr-100 .door{font-size:16px;line-height:1.5}

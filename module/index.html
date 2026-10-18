@@ -7,8 +7,8 @@
 <meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/module.css?v=20261015a">
-<link rel="stylesheet" href="css/learn.css?v=20261015a">
+<link rel="stylesheet" href="css/module.css?v=20261016a">
+<link rel="stylesheet" href="css/learn.css?v=20261016a">
 </head>
 <body>
 
@@ -85,13 +85,21 @@
         <p class="baseline-note">We&rsquo;ll work through this situation throughout the module. For now, just go with your gut. What you say here will be saved so we can come back to it at the end.</p>
         <textarea class="baseline-in" id="baselineText" rows="4" placeholder="In your own words."></textarea>
         <div class="baseline-row">
-          <button class="btn" id="baselineKeep" type="button">Keep this</button>
+          <button class="btn" id="baselineKeep" type="button">Save</button>
           <span class="baseline-state" id="baselineState" aria-live="polite"></span>
-          <!-- Draft 2 (2 Oct, Marc): no footer on SCR-100/101; the way on is here. -->
-          <button class="btn" id="baselineGo" type="button" data-show="scr-101" hidden>Continue &rarr;</button>
+          <!-- 16 Oct [MARC]: SCR-101 cut; Continue goes straight to the title. -->
+          <button class="btn" id="baselineGo" type="button" data-show="scr-099" hidden>Continue &rarr;</button>
         </div>
         <div class="safety" id="baselineSafety" hidden></div>
       </div>
+      <!-- 16 Oct [MARC]: the Coach from SCR-101, faded in after Save. -->
+      <aside class="coach-says coach-dark mn-coach" id="baselineCoach" aria-live="polite" hidden>
+        <img class="coach-fig" src="assets/img/coach-happy.png" alt="" width="56" height="84">
+        <div class="coach-txt">
+          <p class="coach-k">Coach says</p>
+          <p class="coach-t">Good start! You&rsquo;ll meet this same morning again at the end, and I&rsquo;ll be right there with you.</p>
+        </div>
+      </aside>
       <div id="skipWrap">
         <!-- Live 26 Sept: goes to the title (SCR-099), baseline left unanswered; SCR-304 falls back to a general reflection prompt. Hidden once an answer is kept (Draft 2). -->
         <button class="door" id="skipBaseline" type="button">I&rsquo;d rather start with the module &rarr;</button>
@@ -100,29 +108,7 @@
       </div>
     </section>
 
-    <section class="screen" id="scr-101" data-theme="dark" hidden>
-      <p class="eyebrow plum">A typical morning</p>
-      <h1 class="screen-title">There are no right answers yet.</h1>
-      <p class="screen-body">Hold on to what you wrote. Next, you&rsquo;ll see why mornings like this happen, and the small changes that can make them go differently. You&rsquo;ll get another shot at this scenario at the end of the module, and see how your answer here compares.</p>
-      <figure class="readback" id="readback" hidden>
-        <figcaption class="readback-k">What you said</figcaption>
-        <blockquote class="readback-q" id="readbackText"></blockquote>
-      </figure>
-      <aside class="coach-says coach-dark">
-        <img class="coach-fig" src="assets/img/coach-happy.png" alt="" width="56" height="84">
-        <div class="coach-txt">
-          <p class="coach-k">Coach says</p>
-          <!-- NEW 2 Oct (Claude, for Marc): encouragement, not a verdict. -->
-          <p class="coach-t">Good start. Hang on to that. You&rsquo;ll meet this same morning again at the end, and I&rsquo;ll be right there with you.</p>
-        </div>
-      </aside>
-      <div class="mn-go"><button class="btn" type="button" data-show="scr-099">Continue &rarr;</button></div>
-      <div>
-        <button class="door" id="hardMoment" type="button" data-show="scr-500">I&rsquo;m in a hard moment right now &rarr;</button>
-        <!-- NEW 1 Oct: the door is live. -->
-        <p class="door-note">Short lines to use in the next ten minutes. The module will be here when things are calmer.</p>
-      </div>
-    </section>
+    <!-- SCR-101 cut 16 Oct [MARC]: its Coach moved onto SCR-100. -->
 
     <!-- Trimmed 26 Sept: the audience line, the time line and the disclaimer
          now live on COVER (and the disclaimer in the About panel). -->
@@ -149,7 +135,7 @@
         </a>
       </nav>
       <!-- NEW 2 Oct [MARC]: replaces "All three are open from the start…". The title links to all the major content. -->
-      <p class="gate"><span role="text"><span class="say-fine">Click on the</span><span class="say-touch">Tap</span> <span class="ref-q" aria-hidden="true">?</span><span class="sr-only">question mark</span> at the top right to find</span> <button class="ref-link" type="button" data-show="scr-500">Words for a hard moment</button>, short lines for when you need something to say, and <button class="ref-link" type="button" id="titleGloss">What the words mean</button>, the words your child&rsquo;s school uses. Your saved place, and a code to pick up on another device, are under <span class="ref-q ref-i" aria-hidden="true">i</span><span class="sr-only">the i button</span>.</p>
+      <p class="gate"><span role="text"><span class="say-fine">Click on the</span><span class="say-touch">Tap</span> <span class="ref-q" aria-hidden="true">?</span><span class="sr-only">question mark</span> at the top right to find</span> <button class="ref-link" type="button" id="titleGloss">What the words mean</button>, the terms from Learn and the words your child&rsquo;s school uses, and <button class="ref-link" type="button" data-show="scr-500">Words for a hard moment</button>, short lines for when you need something to say. Your saved place, and a code to pick up on another device, are under <span class="ref-q ref-i" aria-hidden="true">i</span><span class="sr-only">the i button</span>.</p>
     </section>
 
     <!-- ==== Learn, Alpha Draft 2 (15 Oct) ====================================
@@ -1125,7 +1111,7 @@
     <section class="screen" id="scr-304" data-theme="dark" data-status="" hidden>
       <div class="bk-col">
         <p class="eyebrow plum" data-bk="eyebrow"></p>
-        <h1 class="screen-title">&ldquo;I&rsquo;m NOT wearing these stupid shoes!&rdquo;</h1>
+        <h1 class="screen-title">&ldquo;NO! I&rsquo;m NOT going to school!&rdquo;</h1>
         <p class="screen-body" data-bk="intro"></p>
         <div class="bk-pair">
           <figure class="readback bk-then">
@@ -1200,7 +1186,6 @@
 <div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" hidden>
   <div class="panel-head">
     <h2 id="panelTitle">Help</h2>
-    <span class="saved" id="panelSaved"></span>
     <span class="gap"></span>
     <button class="panel-x" id="panelX" type="button" aria-label="Close"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg></button>
   </div>
@@ -1228,18 +1213,18 @@
   </div>
 
   <div class="card" data-for="help">
-    <h3>Words for a hard moment</h3>
-    <p>Twenty-one short lines for when you need something to say right now.</p>
+    <h3>What the words mean</h3>
+    <p>The terms from Learn, then other words your child&rsquo;s school uses, in plain English, most with a phrase you can actually say.</p>
     <div class="row">
-      <button class="btn btn-quiet" id="panelPhrases" type="button">Open the phrase cards</button>
+      <button class="btn btn-quiet" id="glossOpen" type="button">Open the glossary</button>
     </div>
   </div>
 
   <div class="card" data-for="help">
-    <h3>What the words mean</h3>
-    <p>Ten words and phrases your child&rsquo;s school uses, each paired with a phrase you can actually say.</p>
+    <h3>Words for a hard moment</h3>
+    <p>Twenty-three short lines for when you need something to say right now.</p>
     <div class="row">
-      <button class="btn btn-quiet" id="glossOpen" type="button">Open the glossary</button>
+      <button class="btn btn-quiet" id="panelPhrases" type="button">Open the phrase cards</button>
     </div>
   </div>
 
@@ -1255,7 +1240,7 @@
 
   <div class="gl" id="panelGloss" data-title="What the words mean" hidden>
     <button class="btn-link gl-back" type="button" data-gl-back>&larr; Help</button>
-    <p class="gl-lede">The words your child&rsquo;s school uses, in plain English first, each with something you can say.</p>
+    <p class="gl-lede">The terms Learn teaches, then other words your child&rsquo;s school uses. Plain English first, most with something you can say.</p>
     <div class="gl-list" data-gl-list></div>
   </div>
 
@@ -1266,26 +1251,26 @@
   </div>
 </div>
 
-<script src="content/strings.js?v=20261015a"></script>
-<script src="content/principles.js?v=20261015a"></script>
-<script src="content/quiz.js?v=20261015a"></script>
-<script src="content/safety.js?v=20261015a"></script>
-<script src="content/scenarios.js?v=20261015a"></script>
-<script src="content/bookend.js?v=20261015a"></script>
-<script src="content/phrases.js?v=20261015a"></script>
-<script src="content/glossary.js?v=20261015a"></script>
-<script src="js/board.js?v=20261015a"></script>
-<script src="js/state.js?v=20261015a"></script>
-<script src="js/haptics.js?v=20261015a"></script>
-<script src="js/fx.js?v=20261015a"></script>
-<script src="js/principles.js?v=20261015a"></script>
-<script src="js/safety.js?v=20261015a"></script>
-<script src="js/matcher.js?v=20261015a"></script>
-<script src="js/quiz.js?v=20261015a"></script>
-<script src="js/roleplay.js?v=20261015a"></script>
-<script src="js/app.js?v=20261015a"></script>
-<script src="js/phrases.js?v=20261015a"></script>
-<script src="js/glossary.js?v=20261015a"></script>
-<script src="js/learn.js?v=20261015a"></script>
+<script src="content/strings.js?v=20261016a"></script>
+<script src="content/principles.js?v=20261016a"></script>
+<script src="content/quiz.js?v=20261016a"></script>
+<script src="content/safety.js?v=20261016a"></script>
+<script src="content/scenarios.js?v=20261016a"></script>
+<script src="content/bookend.js?v=20261016a"></script>
+<script src="content/phrases.js?v=20261016a"></script>
+<script src="content/glossary.js?v=20261016a"></script>
+<script src="js/board.js?v=20261016a"></script>
+<script src="js/state.js?v=20261016a"></script>
+<script src="js/haptics.js?v=20261016a"></script>
+<script src="js/fx.js?v=20261016a"></script>
+<script src="js/principles.js?v=20261016a"></script>
+<script src="js/safety.js?v=20261016a"></script>
+<script src="js/matcher.js?v=20261016a"></script>
+<script src="js/quiz.js?v=20261016a"></script>
+<script src="js/roleplay.js?v=20261016a"></script>
+<script src="js/app.js?v=20261016a"></script>
+<script src="js/phrases.js?v=20261016a"></script>
+<script src="js/glossary.js?v=20261016a"></script>
+<script src="js/learn.js?v=20261016a"></script>
 </body>
 </html>
