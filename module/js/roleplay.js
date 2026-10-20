@@ -132,6 +132,15 @@
     var rail    = FX && FX.layers(railEl);
     var pose    = FX && FX.layers(result.querySelector('[data-rp-pose]'));
     var railY   = 0;
+    /* The state glow (16 Oct [MARC]): a faint glow in Maya's state color behind
+       her on the rail. Only here and on 2.3, never where a parent is asked to
+       read a state. Glow-only colors; 0.08, 53px blur, offset -6 / 15. */
+    var GLOW = ['184,58,58', '214,186,58', '97,169,113', '97,169,113'];
+    function glow(l) {
+      if (!railEl) return;
+      var c = GLOW[l] || GLOW[2];
+      railEl.style.filter = 'drop-shadow(-6px 15px 24px rgba(' + c + ',.08)) drop-shadow(-6px 15px 53px rgba(' + c + ',.06))';
+    }
     /* Desktop: the result's Coach is as tall as his feedback, so his width
        follows the text's height (2:3). CSS can't size a flex item's width
        from its stretched height, so it is set here and on resize. */
@@ -154,7 +163,10 @@
 
     var run;
     var busy = false;   // Maya is typing
-    var prov = null;    // the Words to try card being previewed, or null
+    var prov = null;    // the Words to try cards being previewed (indexes, in the order picked), or null
+    /* 19 Oct (Marc): Shift+click adds a card to the preview, so several can
+       go in at once, in the order picked. A plain click still previews one. */
+    function only(i) { return !!prov && prov.length === 1 && prov[0] === i; }
     var draft = '';     // what the parent had typed before a preview
     var provLbl = section.querySelector('[data-wt-prov]');
     /* The label takes Back/Start over's place in the button row while a
@@ -284,14 +296,21 @@
       return t + (/[.!?\u2026,;:\u201D"')]$/.test(t) ? ' ' : '. ') + add;
     }
 
-    function preview(i) {
+    function preview(i, add) {
       if (prov === null) draft = field.value;
-      prov = i;
-      field.value = join(draft, words[i].say);
+      if (add && prov) {
+        if (prov.indexOf(i) === -1) prov = prov.concat([i]);
+        else {
+          prov = prov.filter(function (x) { return x !== i; });
+          if (!prov.length) { clearPreview(true); return; }
+        }
+      } else prov = [i];
+      var said = prov.reduce(function (acc, x) { return join(acc, words[x].say); }, '');
+      field.value = join(draft, said);
       field.setAttribute('data-prov', '');
-      drawGhost(draft, words[i].say);
+      drawGhost(draft, said);
       if (provLbl) { showLbl(true); field.setAttribute('aria-describedby', provLbl.id); }
-      for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', k === i ? 'true' : 'false');
+      for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', prov.indexOf(k) !== -1 ? 'true' : 'false');
       if (useBtn) useBtn.hidden = false;
       syncSay();
     }
@@ -336,15 +355,16 @@
            previews and never takes it back off; Enter is handled below. */
         c.addEventListener('click', function (e) {
           if (busy) return;
-          if (e.detail === 0) { if (prov !== i) keepBottom(function () { preview(i); }); return; }
+          if (e.detail === 0) { if (!only(i)) keepBottom(function () { preview(i); }); return; }
+          if (e.shiftKey) { lastTap = 0; keepBottom(function () { preview(i, true); }); return; }
           var now = Date.now();
           keepBottom(function () {
             /* Two quick taps on the same card keep it, whatever state it
                was in: the first tap on a previewed card clears it, the
                second puts it back and keeps it. */
-            if (lastCard === i && now - lastTap < 500) { lastTap = 0; if (prov !== i) preview(i); commit(); return; }
+            if (lastCard === i && now - lastTap < 500) { lastTap = 0; if (!prov || prov.indexOf(i) === -1) preview(i, !!prov); commit(); return; }
             lastTap = now; lastCard = i;
-            if (prov === i) clearPreview(true); else preview(i);
+            if (only(i)) clearPreview(true); else preview(i);
           });
         });
         c.addEventListener('dragstart', function (e) {
@@ -375,7 +395,7 @@
         if (card) {
           e.preventDefault();
           var ci = cardEls.indexOf(card);
-          keepBottom(function () { if (prov === ci) commit(); else preview(ci); });
+          keepBottom(function () { if (prov && prov.indexOf(ci) !== -1) commit(); else preview(ci, e.shiftKey); });
           return;
         }
         if (prov === null) return;
@@ -444,6 +464,7 @@
       log.innerHTML = '';
       addChild(scene.opening, run.level);
       if (rail) rail.to(String(run.level));
+      glow(run.level);
       if (field) { field.value = ''; field.placeholder = FIRST_PH; }
       busy = false;
       /* Words to try waits until she has answered once: the first line is
@@ -605,6 +626,7 @@
         if (run.turns === scene.maxTurns - 1 && scene.lastPrompt) field.placeholder = scene.lastPrompt;
         /* Pose and position change together: one gesture, not two. */
         if (rail) rail.to(String(run.level));
+        glow(run.level);
         /* Draft 2 (Marc, after the shake was dropped): on a drop, the new
            pose sinks into place as it fades in, so the drop reads in her
            body rather than in the screen. 8px, heavy ease-in; desktop rail

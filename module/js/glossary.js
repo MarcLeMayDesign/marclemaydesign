@@ -3,7 +3,8 @@
    Help rather than closing (5e, Sept 10). Closing the panel resets it.
 
    16 Oct (Marc): two groups, each A–Z, "Brain State:" terms pinned first;
-   long definitions clamp at three lines with See more. */
+   long definitions clamp at three lines with See more.
+   19 Oct (Marc): one line, and a say line counts as one. */
 (function () {
   var G = window.CDAH_GLOSSARY;
   var panel = document.getElementById('panel');
@@ -47,13 +48,13 @@
     m.setAttribute('aria-expanded', 'false');
     m.setAttribute('aria-controls', d.id);
     m.addEventListener('click', function () {
-      var on = !d.classList.contains('is-open');
-      d.classList.toggle('is-open', on);
+      var on = !c.classList.contains('is-open');
+      c.classList.toggle('is-open', on);
       m.textContent = on ? 'See less' : 'See more';
       m.setAttribute('aria-expanded', on ? 'true' : 'false');
     });
     c.appendChild(m);
-    mores.push({ d: d, m: m });
+    mores.push({ d: d, m: m, c: c, say: !!g.say });
     if (g.say) {
       var s = el('p', 'gl-say');
       s.appendChild(el('span', 'gl-k', g.to === 'yourself' ? 'Say to yourself' : 'Try saying'));
@@ -68,12 +69,13 @@
   list.appendChild(el('h3', 'gl-h', L.length ? 'Other terms your child\u2019s school uses' : 'Terms your child\u2019s school uses'));
   sorted(G).forEach(item);
 
-  /* Only a definition that actually overflows three lines gets See more.
-     Measured when the view is showing, since a hidden box has no height. */
+  /* See more only where there's more than one line: a definition that
+     overflows its one line, or any term with a say line. Measured when the
+     view is showing, since a hidden box has no height. */
   function measure() {
     mores.forEach(function (x) {
-      if (x.d.classList.contains('is-open')) return;
-      x.m.hidden = x.d.scrollHeight <= x.d.clientHeight + 1;
+      if (x.c.classList.contains('is-open')) return;
+      x.m.hidden = !x.say && x.d.scrollHeight <= x.d.clientHeight + 1;
     });
   }
   window.addEventListener('resize', function () { if (!view.hidden) measure(); });

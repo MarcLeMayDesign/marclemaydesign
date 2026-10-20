@@ -20,7 +20,7 @@ window.CDAH_STRINGS = {
      section the header shows productName alone. */
   sections: {
     learn:    { name: "Learn" },
-    check:    { name: "Test Your Knowledge" },
+    check:    { name: "Bring It Together" },   // 19 Oct: replaces Test Your Knowledge
     practice: { name: "Try It Out" }
   },
 

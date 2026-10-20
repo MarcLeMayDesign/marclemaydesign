@@ -161,7 +161,6 @@
     if (!opts || !opts.silent) S.reached(id);
     paintLenses();
     paintQuizHub();
-    if (id === 'scr-209') paintSummary();
     /* Each move is a history entry, so the phone's Back button steps back
        through screens like the module's own Back. Load and resume replace
        instead, so Back from the first screen still leaves the module. */
@@ -254,7 +253,7 @@
     /* Moderately big (Marc, 2 Oct): phrase cards in and out, the opening screens, a section's last screen → its close. */
     if (f === 'scr-500' || t === 'scr-500') return 'half';
     if (f === 'scr-000' && t === 'scr-100') return 'half';
-    if ((f === 'scr-125' && t === 'scr-130') || (f === 'scr-204' && t === 'scr-209')) return 'half';
+    if ((f === 'scr-125' && t === 'scr-130') || (f === 'scr-201' && t === 'scr-209')) return 'half';
     if (f === 'scr-099' && (t === 'scr-110' || t === 'scr-200' || t === 'scr-300')) return 'big';
     if ((f === 'scr-130' && t === 'scr-200') || (f === 'scr-209' && t === 'scr-300')) return 'big';
     if (t === 'scr-304' && from.getAttribute('data-section') === 'practice') return 'big';
@@ -417,7 +416,7 @@
        skips "End of section 2" and lands on Section 3's own intro, which
        offers the scenes to try again. The picker under a Section 2 eyebrow
        read as if it belonged to Section 2. */
-    if (delta === 1 && current === 'scr-204' && indexOf('scr-300') !== -1 && scenesDone()) { show('scr-300'); return; }
+    /* 19 Oct: scr-209 is Bring It Together's Look back now; TYK is gone. */
     /* Screens marked data-direct-only are doors, not stops: linear nav
        steps over them in both directions. */
     var i = indexOf(current) + delta;
@@ -720,7 +719,16 @@
   document.getElementById('coverBegin').addEventListener('click', function () { H.tap(); go(1); });
   document.getElementById('skipBaseline').addEventListener('click', function () { H.tap(); show('scr-099'); });
 
+  /* 19 Oct (Marc): opening the restore form pushes the disclaimer down,
+     not the title up. The grid's centered top is pinned while it's open. */
+  var cvGrid = document.querySelector('#scr-000 .cover-grid');
+  cvMore.querySelector('summary').addEventListener('click', function () {
+    if (cvMore.open || !cvGrid) return;
+    cvGrid.style.marginTop = getComputedStyle(cvGrid).marginTop;
+    cvGrid.style.marginBottom = 'auto';
+  });
   cvMore.addEventListener('toggle', function () {
+    if (!cvMore.open && cvGrid) { cvGrid.style.marginTop = ''; cvGrid.style.marginBottom = ''; }
     if (cvMore.open && !cvNote.textContent) coverNote(S.hasProgress() ? REPLACES.trim() : '');
   });
 

@@ -1,0 +1,103 @@
+/* Bring It Together (19 Oct). Loads after learn.css; only scr-200, scr-201
+   (the two scenarios) and scr-209 (Look back) use it. Steps are built by
+   js/bit.js. */
+
+/* Scene: the copy column is narrower so the picture can be bigger [MARC]. */
+.bt-head{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:center}
+.bt-head-t{display:flex;flex-direction:column;gap:16px;min-width:0}
+.bt-head-t p.screen-body{max-width:52ch}
+.bt-lead{color:var(--muted)!important}
+.bt-fig{margin:0;display:flex;justify-content:center;order:-1}
+.bt-fig img{width:170px;height:auto;display:block;-webkit-user-drag:none;user-select:none}
+
+.bt-steps{display:flex;flex-direction:column;gap:0;max-width:900px}
+.bt-step{display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--hair);padding:26px 0 30px}
+.bt-beat{display:flex;flex-direction:column;gap:8px;background:var(--k-tint);border-radius:var(--r);padding:20px 22px;margin-bottom:6px}
+.bt-beat-k{margin:0;font:600 12px 'Work Sans',sans-serif;letter-spacing:.09em;text-transform:uppercase;color:var(--k-ink)}
+.bt-beat-t{margin:0;font-size:17px;line-height:1.55;color:var(--ink);text-wrap:pretty}
+.bt-k{margin:0;font:600 12px 'Work Sans',sans-serif;letter-spacing:.09em;text-transform:uppercase;color:var(--action)}
+.bt-q{margin:0;font-weight:600;font-size:20px;line-height:1.3;color:var(--ink);text-wrap:pretty}
+.bt-sub{margin:0;font-weight:600;font-size:16px;color:var(--ink)}
+
+/* The three brain buttons. Hover tints each in its own state's color, and the
+   picture can't be dragged off: the image takes no pointer events [MARC]. */
+.bt-picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:620px}
+.bt-pick{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 14px;border:0;border-radius:var(--r);background:var(--surface);box-shadow:inset 0 0 0 2px transparent;cursor:pointer;font:600 15px 'Work Sans',sans-serif;color:var(--ink);transition:background .2s ease,box-shadow .2s ease;user-select:none;-webkit-user-select:none}
+.bt-pick img{width:80%;max-width:130px;height:auto;display:block;pointer-events:none;-webkit-user-drag:none}
+.bt-pick:hover{background:var(--k-tint)}
+.bt-pick[aria-pressed="true"]{background:var(--k-tint);box-shadow:inset 0 0 0 2px var(--k-dot)}
+.bt-pick:focus-visible{outline:3px solid var(--action);outline-offset:2px}
+
+.bt-in{min-height:96px}
+.bt-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bt-row .btn{flex:none}
+.bt-keys{font-size:14px;color:var(--muted)}
+@media (hover:none){.bt-keys{display:none}}
+
+.bt-coach{align-items:start}
+.bt-coach .coach-txt{gap:10px}
+.bt-yn{display:flex;gap:10px;flex-wrap:wrap}
+.bt-yn .btn{flex:none}
+.bt-selfpick{min-height:46px;padding:0 18px;border:0;border-radius:12px;background:var(--k-tint);box-shadow:inset 0 0 0 1.5px var(--k-dot);color:var(--ink);font:600 15px 'Work Sans',sans-serif;cursor:pointer}
+.bt-model{display:flex;flex-direction:column;gap:4px;background:#fff;border-radius:12px;padding:14px 18px}
+.bt-model-k{margin:0;font:600 12px 'Work Sans',sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#17578A}
+.bt-model-t{margin:0;font-size:17px;line-height:1.45;color:var(--ink)}
+
+/* Continue: a quiet text link with a down caret, not a button [MARC]. */
+.bt-cont{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 4px;border:0;background:none;cursor:pointer;color:var(--action);font:600 17px 'Work Sans',sans-serif}
+.bt-cont i{width:9px;height:9px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;rotate:45deg;translate:0 -3px}
+.bt-cont:hover span{text-decoration:underline;text-underline-offset:4px}
+.bt-cont:focus-visible{outline:3px solid var(--action);outline-offset:2px;border-radius:8px}
+
+.bt-tail{display:flex;flex-direction:column;gap:18px}
+.bt-tail:empty{display:none}
+.bt-band{display:flex;flex-direction:column;gap:10px;background:#fff;border-radius:var(--r);box-shadow:inset 0 0 0 1.5px var(--hair);padding:18px 20px}
+.bt-band-h{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.bt-band-w{font-weight:600;font-size:17px;color:var(--ink)}
+.bt-pill{padding:5px 13px;border-radius:999px;font-weight:600;font-size:14px}
+.bt-pill[data-band="strong"]{background:#E4EEE5;color:#2F6B47}
+.bt-pill[data-band="nearly"]{background:#FBEFD6;color:#8A5A0B}
+.bt-pill[data-band="notyet"]{background:#F3E6EB;color:#8E3A57}
+.bt-crit{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;font-size:16px;line-height:1.45;color:var(--ink)}
+.bt-crit .bt-mark{font-weight:600;color:var(--muted)}
+.bt-crit[data-ok="yes"] .bt-mark{color:#2F6B47}
+.bt-band-note{margin:0;font-size:14px;color:var(--muted)}
+
+/* Look back (scr-209), on the dark ground. */
+.lb-col{display:flex;flex-direction:column;gap:18px;max-width:900px}
+.lb-col [hidden]{display:none}
+.lb-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lb-card{display:flex;flex-direction:column;gap:8px;background:var(--bookend-surface);border-radius:var(--r);padding:18px 20px;min-height:110px}
+.lb-now{box-shadow:inset 0 0 0 1.5px #3A5A80}
+.lb-k{margin:0;font:600 12px 'Work Sans',sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#ADB4C6}
+.lb-now .lb-k{color:#8EC3EA}
+.lb-t{margin:0;font-size:17px;line-height:1.5;color:var(--bookend-ink);text-wrap:pretty}
+.lb-q{font-weight:600;font-size:18px;line-height:1.35;color:var(--bookend-ink);text-wrap:pretty}
+.lb-q-note{font-weight:400;font-size:15px;color:var(--bookend-soft)}
+
+@media (min-width:1000px){
+  .bt-head{grid-template-columns:minmax(0,1fr) 320px;gap:48px}
+  .bt-fig{order:0}
+  .bt-fig img{width:320px}
+  .bt-step{gap:16px;padding:32px 0 36px}
+  .bt-beat{padding:24px 26px}
+  .bt-beat-k,.bt-k{font-size:13px}
+  .bt-beat-t{font-size:21px}
+  .bt-q{font-size:26px;line-height:1.25}
+  .bt-sub{font-size:19px}
+  .bt-pick{font-size:17px}
+  .bt-keys{font-size:15px}
+  .bt-model-k{font-size:13px}
+  .bt-model-t{font-size:21px}
+  .bt-cont{font-size:19px}
+  .bt-band{padding:22px 24px}
+  .bt-band-w{font-size:19px}
+  .bt-pill{font-size:15px}
+  .bt-crit{font-size:18px}
+  .bt-band-note{font-size:15px}
+  .lb-col{gap:24px}
+  .lb-k{font-size:13px}
+  .lb-t{font-size:20px}
+  .lb-q{font-size:24px}
+  .lb-q-note{font-size:17px}
+}

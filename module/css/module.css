@@ -1764,9 +1764,10 @@ a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-heigh
 .gl-h{font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
 .gl-h:first-child{margin-top:0}
 .gl-item h4{font-weight:600;font-size:15px;color:var(--ink);margin:0 0 4px}
-/* 16 Oct (Marc): long definitions clamp at three lines with See more. */
-.gl-def{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
-.gl-def.is-open{display:block;-webkit-line-clamp:unset;line-clamp:none;overflow:visible}
+/* 19 Oct (Marc): anything over one line folds behind See more; the say line counts as a line. */
+.gl-def{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;line-clamp:1;overflow:hidden}
+.gl-item.is-open .gl-def{display:block;-webkit-line-clamp:unset;line-clamp:none;overflow:visible}
+.gl-item:not(.is-open) .gl-say{display:none}
 .gl-more{background:none;border:0;padding:4px 0;margin:2px 0 0;font:inherit;font-size:14px;font-weight:500;color:var(--action);cursor:pointer;text-decoration:underline;text-underline-offset:3px;min-height:32px}
 .gl-more[hidden]{display:none}
 .gl-say{display:flex;flex-direction:column;gap:2px;margin-top:10px !important}
@@ -2027,3 +2028,7 @@ button,input,textarea,select{font-family:inherit}
 .layer-cue::before,.shift-cue::before{content:"";position:absolute;inset:-12px -8px}
 .shift-main{position:relative}
 .shift-cue{position:absolute;top:0;right:0}
+
+/* 19 Oct: the state glow behind Maya on the Try It Out rail eases between states. */
+.rp-rail{transition:filter 1.4s ease}
+@media (prefers-reduced-motion:reduce){.rp-rail{transition:none}}

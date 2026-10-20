@@ -20,7 +20,7 @@ window.CDAH_PHRASES = {
   jump: "Go to",
   schoolK: "At school:",
   later: "When things are calmer, the module explains why these work.",
-  laterGo: "Start the module \u2192",
+  laterGo: "Back to the title screen \u2192",   // 19 Oct [MARC]: the cards are reached from Help now
   print: "Print the phrase cards",                                    // NEW 1 Oct
   printTitle: "Words for a hard moment",                              // NEW
   printNote: "Cut along the dashed lines. Keep one where the hard moments happen: the fridge, the car, by the front door.", // NEW

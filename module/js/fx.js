@@ -62,6 +62,8 @@
     c = c.filter(function (n) {
       if (!seen(n) || n.closest('.cast-pic')) return false;
       if (n.tagName === 'IMG' && n.closest('.xfade')) return false;
+      /* 2.3's stacked poses (19 Oct): the rise would lift the hidden ones to full opacity. */
+      if (n.closest('[data-ln-poses]')) return false;
       return n.getBoundingClientRect().height >= 110;
     });
     return outer(c);
