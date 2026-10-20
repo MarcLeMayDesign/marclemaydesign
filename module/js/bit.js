@@ -38,7 +38,11 @@
   function n(t, list) { var x = norm(t); return list.filter(function (w) { return x.indexOf(w) !== -1; }).length; }
   /* Where in the answer a group first shows up (-1: not at all). */
   function at(t, list) { var x = norm(t), m = -1; list.forEach(function (w) { var i = x.indexOf(w); if (i !== -1 && (m === -1 || i < m)) m = i; }); return m; }
+  /* 20 Oct: "not okay", "not calm at all", "can't breathe" must not read as
+     Executive. A calm word after a negation is dropped before counting. */
+  var NEG = /\b(not|never|isnt|arent|wasnt|dont feel|doesnt feel|cant|cannot|hardly|barely|far from)\s+(\w+\s+){0,2}?(calm|steady|breath\w*|fine|okay|ok|curious|patient|relaxed|clear)\b/g;
   function read(t) {
+    t = norm(t).replace(NEG, ' ');
     var a = n(t, W.surv), b = n(t, W.emo), c = n(t, W.exec);
     if (!a && !b && !c) return null;
     if (a >= b && a >= c) return 'surv';
@@ -55,6 +59,16 @@
   var COMP = ['breath', 'breathe', 'calm', 'myself', 'compose', 'pause', 'count'];
   var SAFE = ['wont let', 'stop', 'throw', 'dirt', 'safe', 'hands', 'hold', 'step back', 'out of range', 'away from', 'block', 'limit', 'move back'];
   var THREAT = ['no playground', 'leaving without', 'punish', 'time out', 'timeout', 'consequence', 'no more', 'take away', 'lost', 'never again', 'next time we wont'];
+  var DESC = ['i see', 'i can see', 'i notice', 'youre on the', 'you are on the', 'on the ground', 'your hands', 'your face', 'your fists', 'your feet', 'your legs', 'youre throwing', 'you are throwing', 'youre crying', 'youre so mad', 'you are so mad', 'hands are full', 'describe'];
+  var BREA = ['breathe together', 'breathe with', 'breath with', 'breathing with', 'with me', 'school breath', 'belly breath', 'smell the flower', 'blow out', 'in and out'];
+  /* "Describing what you see" etc. for the Coach's credit line. */
+  function extras(t) {
+    var d = h(t, DESC), b = h(t, BREA);
+    return d && b ? 'And you described the scene and breathed with her: the other two Survival moves. Both help her feel seen and safe.'
+      : d ? 'And you described the scene, calmly, without judging it. That helps her feel seen, and it\u2019s the first step to connection.'
+      : b ? 'And you breathed with her. Your slower breath gives her body something to follow.'
+      : '';
+  }
   var ARGUE = ['i told you', 'you had', 'i gave you', 'i warned', 'you knew', 'you agreed', 'thats fair', 'thats what you said', 'five minute warning', '5-minute warning', '5 minute warning'];
 
   var SCN = {
@@ -81,7 +95,7 @@
           return { ok: false, t: 'Not yet. A child who\u2019s ready to think can wait for an answer. \u201cYou NEVER get me anything\u201d is the Emotional State, and a long day has drained her capacity.' };
         } },
       { id: '1c', type: 'text', tag: 'What she needs', label: 'What would you do and say first?', ph: 'First I\u2019d\u2026 then I\u2019d say\u2026',
-        model: '\u201cYou really wanted that chocolate. It\u2019s so hard when the answer is no, at the end of a long day. We\u2019re not buying it today.\u201d',
+        model: '(a breath first, then down to her level) \u201cYou really wanted that chocolate. It\u2019s so hard when the answer is no, at the end of a long day. We\u2019re not buying it today.\u201d',
         crit: [['You put yourself first, then connection.', 'The moves: you first, then connection.'], ['Your words named her feeling first.', 'Your words: name her feeling before the no.']],
         ev: function (p, t) {
           var comp = h(t, ['breath', 'breathe', 'calm', 'myself', 'compose', 'pause', 'my own', 'me first', 'count']);
@@ -114,10 +128,10 @@
         ev: function (p, t) {
           var drop = h(t, ['drop', 'fell', 'fall', 'went from', 'straight', 'skip', 'jump', 'down to', 'all the way', 'flip', 'switch', 'lost it', 'melt', 'bottom']);
           var trig = h(t, ['transition', 'time to go', 'leav', 'stop', 'end', 'five minutes', '5 minutes', 'more time', 'promise', 'said i could', 'thought', 'unfair', 'fun', 'play']);
-          if (p === 'surv') return { ok: true, t: (drop && trig ? 'Exactly. She dropped from Executive straight to Survival, skipping Emotional on the way down. The trigger was the transition: leaving something she loved. Throwing dirt is her fight response.'
-            : drop ? 'Yes, a drop: from Executive straight to Survival. What set it off? Leaving. A hard transition is one of the triggers.'
+          if (p === 'surv') return { ok: true, t: (drop && trig ? 'Exactly. She dropped from Executive straight to Survival, skipping Emotional on the way down. Leaving set it off, and to her it was a broken promise (\u201cYou SAID\u2026\u201d). An irritation that feels like a threat can drop a child to Survival. Throwing dirt is her fight response.'
+            : drop ? 'Yes, a drop: from Executive straight to Survival. What set it off? Leaving, and to her it felt like a broken promise (\u201cYou SAID\u2026\u201d). An irritation that feels like a threat can drop a child all the way, and the drop can skip straight to the bottom.'
             : trig ? 'Yes, leaving set it off. Name what happened in her brain, too: she dropped from Executive straight down to Survival. The throwing is fight.'
-            : 'Yes, she\u2019s in Survival now: throwing dirt is a fight response. What happened is the drop, from Executive straight to the bottom, set off by having to leave.') + WARN };
+            : 'Yes, she\u2019s in Survival now: throwing dirt is a fight response. What happened is the drop, from Executive straight to the bottom. Having to leave felt like a broken promise to her, and an irritation that feels like a threat can do that.') + WARN };
           if (p === 'emo') return { ok: false, t: 'Her words sound Emotional (\u201cYou SAID\u2026\u201d), but watch her body: on the ground, throwing dirt at you. That\u2019s fight, the Survival State. She dropped all the way, in seconds.' };
           return { ok: false, t: 'Not anymore. Five minutes ago, yes. Throwing dirt is a fight response: she dropped from Executive straight to Survival.' };
         } },
@@ -140,11 +154,12 @@
           var bad = [at(t, THREAT), at(t, ARGUE)].filter(function (i) { return i >= 0; });
           var g0 = good.length ? Math.min.apply(null, good) : -1, b0 = bad.length ? Math.min.apply(null, bad) : -1;
           var inOrder = b0 === -1 || (g0 !== -1 && g0 < b0);
-          var ok = comp && safe && inOrder;
+          var ok = comp && safe && inOrder, ex = extras(t);
           return { ok: ok, t: ok && b0 !== -1 ? 'That\u2019s the order for the Survival State, and you did it first: Compose Yourself, then Make It Safe. Her brain is asking \u201cAm I safe?\u201d, and a calm limit answers it. The five minutes can wait, though. From Survival she can\u2019t hear reasons yet. Once she\u2019s climbed to the Emotional State, they have a better chance of landing.'
-            : ok ? 'That\u2019s the order for the Survival State: Compose Yourself, then Make It Safe. Her brain is asking \u201cAm I safe?\u201d, and a calm limit answers it. Describing what you see, or breathing together, can come next.'
+            : ok ? 'That\u2019s the order for the Survival State: Compose Yourself, then Make It Safe. Her brain is asking \u201cAm I safe?\u201d, and a calm limit answers it. ' + (ex || 'Describing what you see, or breathing together, can come next.')
             : b0 !== -1 && !inOrder ? 'She can\u2019t hear reasons or consequences from the Survival State, so they can\u2019t come first. Lead with the moves that help her feel safe: you first, then Make It Safe. The five minutes can come later.'
-            : safe ? 'Good: Make It Safe comes early here, with dirt flying. Don\u2019t skip yourself, though. One breath first, so the limit comes out calm.'
+            : safe ? 'Good: Make It Safe comes early here, with dirt flying. Don\u2019t skip yourself, though. One breath first, so the limit comes out calm.' + (ex ? ' ' + ex : '')
+            : comp && ex ? 'Good start: you first. ' + ex + ' With dirt flying, though, Make It Safe needs to be in there too: \u201cI won\u2019t let you throw dirt.\u201d'
             : comp ? 'Good start: you first. Then safety. She\u2019s throwing things, so the next move is Make It Safe: \u201cI won\u2019t let you throw dirt.\u201d'
             : 'Think back to Part 4. For the Survival State: Compose Yourself, Make It Safe, Describe the Scene, Breathe Together.' };
         } },
@@ -167,6 +182,24 @@
             : p === 'surv' ? 'Look at her body: the throwing has stopped. Sobbing and \u201cI never get to\u2026\u201d are the Emotional State. She\u2019s climbed one step. '
             : 'Not yet. She\u2019s calmer, but sobbing and \u201cI never get to finish anything\u201d are the Emotional State. She can\u2019t problem-solve yet. ';
           return { ok: okS && okC, oks: [okS, okC], t: st + mv };
+        } },
+      /* 20 Oct [MARC]: the top of the climb is assessed too (LO3). */
+      { id: '2f', type: 'pick', tag: 'Next time', beatK: 'In the car',
+        beat: 'You\u2019ve made it to the car. She\u2019s buckled in, calm, looking out the window. \u201cCan we come back tomorrow?\u201d',
+        label: 'She\u2019s calm. What now?', pickQ: 'Which state is she in now?', textLabel: 'What would you say now?', ph: 'Now that she\u2019s calm, I\u2019d say\u2026',
+        model: '\u201cLeaving was really hard today. Next time I say five minutes, you get to pick your last slide. Which one will it be?\u201d',
+        crit: [['You saw her back in the Executive State.', 'Her state: she\u2019s back in the Executive State.'], ['You used the calm to teach for next time.', 'Next time: teach the skill, a limit for next time, or solve it together.']],
+        ev: function (p, t) {
+          var teach = h(t, ['next time', 'tomorrow', 'what could', 'what can we', 'what would help', 'lets figure', 'lets think', 'lets plan', 'figure out', 'a plan', 'idea', 'you can say', 'you could say', 'you can tell me', 'when you feel', 'when its time', 'instead', 'pick your last', 'last slide', 'last turn', 'one more', 'practice', 'together', 'throwing dirt hurts', 'dirt hurts', 'not for throwing', 'ask me', 'try']);
+          var no = h(t, ['punish', 'time out', 'timeout', 'consequence', 'no playground', 'no more playground', 'never again', 'take away', 'lost', 'you ruined', 'embarrass', 'bad girl', 'you should be', 'ashamed', 'next time we wont', 'not coming back']);
+          var okS = p === 'exec', okT = teach && !no;
+          var st = okS ? 'Yes. She\u2019s back in the Executive State: calm, talking, asking about tomorrow. Her thinking brain is online. '
+            : p === 'emo' ? 'Look again: she\u2019s calm, and she\u2019s asking a question about tomorrow. That\u2019s the Executive State. She\u2019s climbed all the way back. '
+            : 'Not anymore. She\u2019s quiet, buckled in, asking about tomorrow. That\u2019s the Executive State. ';
+          var mv = no ? 'A consequence now would feel like the drop all over again. Now is the time to teach, not to punish: the skill she was missing, a limit for next time, or a plan together.'
+            : okT ? 'And you used the calm to teach for next time. Now it can land.'
+            : 'This is the moment to teach, while she can listen and think: The Missing Skill, Limits for Next Time, or Problem Solving.';
+          return { ok: okS && okT, oks: [okS, okT], t: st + mv };
         } }
     ] }
   };

@@ -765,6 +765,8 @@ p.screen-body{font-size:15px;line-height:1.6;color:var(--body);max-width:62ch;ma
    the provisional state is carried by ground, never by graying the words. */
 .wt{display:flex;flex-direction:column;gap:10px}
 .wt[hidden],.wt-cards[hidden],[data-wt-use][hidden]{display:none}
+.wt-lead{margin:0;font-size:14.5px;line-height:1.45;color:var(--ink);text-wrap:pretty}
+.wt-lead[hidden]{display:none}
 .wt-pill{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:transparent;box-shadow:inset 0 0 0 1.5px #C3CBD4;color:var(--action);font:600 13.5px/1 'Work Sans',sans-serif;cursor:pointer}
 .wt-pill:hover{box-shadow:inset 0 0 0 1.5px var(--action-dim)}
 .wt-pill svg{transition:transform .3s cubic-bezier(.2,.7,.2,1)}

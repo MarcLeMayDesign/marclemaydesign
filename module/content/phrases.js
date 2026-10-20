@@ -76,31 +76,23 @@ window.CDAH_PHRASES = {
           school: "Your child is learning names for feelings in class, so this is a word they already know." },
         { say: "You were almost finished. That's so frustrating, I get it.",
           school: "Feeling first, problem second is the order your child hears all day." },
+        { say: "You wish you could stay up. And it\u2019s still bedtime.",
+          school: "Your child is used to hearing that being understood and getting a yes are two different things." },
         { say: "It\u2019s okay to be mad. I\u2019m right here.",
           school: "In many classrooms every feeling is allowed. The limits are on what we do with it." }
       ] },
 
-    { id: "options", title: "Give Two Options", note: "Two choices, both fine with you. The limit stays; they choose the how.",
+    /* 20 Oct [MARC]: State the Limit folded in here, as on Learn 4.3. */
+    { id: "options", title: "Give Two Options", note: "Two positive ways out, both within your stated limit. They choose the how, not the limit.",
       cards: [
-        { say: "Hop to the car or walk like a robot? You pick.",
+        { say: "It\u2019s time to go. Hop to the car or walk like a robot? You pick.",
           school: "Choices get a class through transitions all day. Your child is practiced at picking one." },
-        { say: "Pajamas first or teeth first?",
+        { say: "It\u2019s bedtime. Pajamas first or teeth first?",
           school: "Teachers often offer the order rather than the whether. The thing still happens." },
         { say: "You can carry your backpack, or I can. You decide.",
           school: "Small jobs and small choices help a child feel capable, and they get a lot of both at school." },
-        { say: "You can pick, or I can pick. Which one?",
+        { say: "We\u2019re leaving now. You pick how, or I can pick. Which one?",
           school: "If a child won\u2019t choose, the adult chooses calmly. The limit holds either way." }
-      ] },
-
-    /* 16 Oct: the non-safety limits. Learn has no named move for these yet. // CHECK Marc */
-    { id: "limit", title: "State the Limit", note: "Once they feel heard: plainly, once, in as few words as you can.",
-      cards: [
-        { say: "The answer is no. You can be upset about it.",
-          school: "Teachers hold a limit without asking the child to be happy about it." },
-        { say: "I hear you. And it\u2019s still bedtime.",
-          school: "Your child is used to hearing that being understood and getting a yes are two different things." },
-        { say: "It\u2019s time to go. We\u2019re leaving the park now.",
-          school: "Transitions are announced plainly at school, often with a warning first. Try a five-minute heads-up next time." }
       ] }
   ]
 };

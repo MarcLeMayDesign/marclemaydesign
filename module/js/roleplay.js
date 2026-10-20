@@ -22,7 +22,31 @@
   var DATA = window.CDAH_SCENES;
   if (!DATA || !M) return;
 
-  var ORDER = ['composure', 'connect', 'limit', 'choices'];
+  /* 20 Oct [MARC]: the rows follow Learn's moves. The limit is folded into
+     Give Two Options (two ways out inside a limit you've said); the Survival
+     row shows only if she was in the Survival State, the Executive row only
+     if she got there. */
+  var ORDER = ['composure', 'surv', 'connect', 'choices', 'exec'];
+  /* Learn 4.1 and 4.5, the same in every scene. A scene can add to them. */
+  var BASE = {
+    safe: ['wont let you', 'not going to let you', 'i wont let', 'keep you safe', 'keep us safe', 'youre safe', 'you are safe',
+           'im right here', 'i am right here', 'im here', 'right here with you', 'im not going anywhere', 'stay close'],
+    describe: ['i see', 'i can see your', 'i notice', 'youre on the', 'you are on the', 'your face', 'your hands', 'your feet',
+               'your legs', 'your fists', 'your body', 'your shoe', 'youre kicking', 'you are kicking', 'youre crying', 'you are crying',
+               'youre screaming', 'you are screaming', 'youre shaking', 'you threw', 'you kicked', 'face down', 'tears'],
+    breathe: ['breathe', 'breath', 'breathing', 'in and out', 'smell the flower', 'blow out', 'belly'],
+    exec: ['next time', 'tomorrow', 'what could we', 'what can we', 'what could you', 'what can you', 'what would help',
+           'lets figure', 'lets think', 'lets plan', 'figure out', 'a plan', 'idea', 'ideas', 'you can say', 'you could say',
+           'you can tell me', 'when you feel', 'instead of', 'instead', 'help me', 'practice', 'try']
+  };
+  function list(scene, k) { return BASE[k].concat((scene.criteria[k] && scene.criteria[k].accept) || []); }
+  /* Her level, as the brain state Words to try follows: 0 Survival,
+     1-2 Emotional (2 is heard, not yet moving), 3 Executive. */
+  function bucket(lv) { return lv <= 0 ? 'surv' : lv >= 3 ? 'exec' : 'emo'; }
+  var SURV_NOTE = { safe: 'You made it safe, calmly, and stayed close.',
+                    describe: 'You described what you saw, without judging it, and she felt seen.',
+                    breathe: 'Breathing slowly gave her body something to follow.' };
+  var SURV_DID = { safe: 'made it safe', describe: 'described the scene', breathe: 'breathed with her', calm: 'kept it short and calm' };
 
   /* Shouting is read from the raw text, before normalizing throws case
      away. "I", "OK" and "TV" are not shouting. */
@@ -65,6 +89,10 @@
     var at = { connect: hitAt(hay, c.connect.accept), limit: hitAt(hay, c.limit.accept), choices: hitAt(hay, c.choices.accept) };
     return {
       fail: shouting(raw) || hitAny(hay, c.composure.breaks),
+      safe: hitAny(hay, list(scene, 'safe')),
+      describe: hitAny(hay, list(scene, 'describe')),
+      breathe: hitAny(hay, list(scene, 'breathe')),
+      exec: hitAny(hay, list(scene, 'exec')),
       connect: at.connect !== -1,
       limit: at.limit !== -1,
       choices: at.choices !== -1,
@@ -78,28 +106,27 @@
      does not move her until she has felt heard. */
   function step(level, h, run, scene) {
     if (h.fail) return { to: Math.max(0, level - 1), key: 'fail' };
-    if (level === 0) return (h.connect || h.words <= 10) ? { to: 1, key: 'calm' } : { to: 0, key: 'still' };
+    /* Survival: Learn 4.1's moves bring her up, or a short calm line. Naming
+       the feeling in a long line doesn't reach her yet. */
+    if (level === 0) {
+      var mv = h.safe ? 'safe' : h.describe ? 'describe' : h.breathe ? 'breathe' : h.words <= 10 ? 'calm' : '';
+      return mv ? { to: 1, key: 'calm', move: mv } : { to: 0, key: 'still' };
+    }
+    /* Executive: one line to teach for next time, then the scene ends. */
+    if (level === 3) return { to: 3, key: h.exec ? 'exec' : 'none' };
+    /* Give Two Options sits inside a limit: said in this line or earlier. */
+    var lim = h.limit || run.limitSaid;
     if (level === 1) {
-      /* Draft 2 pass 2 (Marc, SCN-302): one line that names the feeling and
-         THEN gives the limit and the choices is the order Learn teaches, said
-         in one breath. The feeling comes first in the line, so she has heard
-         it before the rest arrives: it counts, and she can stop. A limit
-         said before the feeling still has to wait (except a safety limit). */
-      if (h.connect && h.choices && h.at.choices > h.at.connect &&
-          ((h.limit && (h.at.limit > h.at.connect || scene.limitAnytime)) || run.limit))
+      if (h.connect && h.choices && h.at.choices > h.at.connect && lim &&
+          (!h.limit || h.at.limit > h.at.connect || run.limitSaid))
         return { to: 3, key: 'both', reply: '2:both', inOrder: true };
-      /* Oct 5 (Marc): the feeling first, then the limit or the choices, in
-         the same line, is the right order too, even without the third move.
-         She moves to ready, the move counts, and the Coach says so. */
       if (h.connect && ((h.limit && h.at.limit > h.at.connect) || (h.choices && h.at.choices > h.at.connect)))
         return { to: 2, key: 'connect', orderOk: true };
       if (h.connect) return { to: 2, key: 'connect' };
       if (h.limit) return { to: 1, key: 'limitOnly' };
       return { to: 1, key: 'none' };
     }
-    /* At ready, the limit and the choices can arrive in separate lines:
-       what she heard on an earlier turn at this level still holds. */
-    if ((h.limit || run.limit) && (h.choices || run.choices)) return { to: 3, key: 'both' };
+    if (h.choices && lim) return { to: 3, key: 'both' };
     if (h.limit) return { to: 2, key: 'limitOnly' };
     if (h.choices) return { to: 2, key: 'choicesOnly' };
     return { to: 2, key: 'connectAgain' };
@@ -135,7 +162,8 @@
     /* The state glow (16 Oct [MARC]): a faint glow in Maya's state color behind
        her on the rail. Only here and on 2.3, never where a parent is asked to
        read a state. Glow-only colors; 0.08, 53px blur, offset -6 / 15. */
-    var GLOW = ['184,58,58', '214,186,58', '97,169,113', '97,169,113'];
+    /* 20 Oct: level 2 (heard, not yet moving) is still the Emotional State. */
+    var GLOW = ['184,58,58', '214,186,58', '214,186,58', '97,169,113'];
     function glow(l) {
       if (!railEl) return;
       var c = GLOW[l] || GLOW[2];
@@ -236,7 +264,9 @@
     var pill   = section.querySelector('[data-wt-toggle]');
     var cards  = section.querySelector('[data-wt-cards]');
     var useBtn = section.querySelector('[data-wt-use]');
-    var words  = scene.words || [];
+    var WSET = scene.words || {};
+    var words  = [];
+    var wBucket = null;
     var cardEls = [];
     var lastTap = 0, lastCard = -1;
 
@@ -259,6 +289,7 @@
     function setStrip(open, remember) {
       if (!pill) return;
       pill.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (wtLead) wtLead.hidden = !open || wBucket !== 'exec';
       if (!open) clearPreview(true);
       slide(open);
     }
@@ -338,46 +369,68 @@
       }
     }
 
-    if (strip && words.length) {
-      section.querySelector('[data-wt-count]').textContent = words.length;
+    /* 20 Oct [MARC]: the cards follow her state. Survival gets Learn 4.1's
+       moves, Emotional gets 4.3's, Executive gets 4.5's. */
+    var wtHint = null, wtLead = null;
+    var EXEC_LEAD = 'She\u2019s calm and ready to learn. One more line: teach the missing skill, a limit for next time, or solve it together.';
+    function setWords(lv) {
+      var b = bucket(lv);
+      if (b === wBucket) return;
+      wBucket = b;
+      clearPreview(true);
+      words = WSET[b] || [];
+      cards.innerHTML = '';
+      cardEls = [];
+      var cnt = section.querySelector('[data-wt-count]');
+      if (cnt) cnt.textContent = words.length;
+      /* 20 Oct [MARC]: in Executive the cards say why there's one more turn. */
+      if (strip && cards) {
+        if (!wtLead) { wtLead = el('p', 'wt-lead', EXEC_LEAD); strip.insertBefore(wtLead, cards); }
+        wtLead.hidden = b !== 'exec' || !stripOpen();
+      }
       words.forEach(function (w, i) {
-        var c = el('button', 'wt-card');
-        c.type = 'button';
-        c.setAttribute('aria-pressed', 'false');
-        c.draggable = true;
-        c.appendChild(el('span', 'wt-what', w.what));
-        /* Said words carry quotation marks on the card, the module's rule
-           for speech; the phrase goes into the field without them. */
-        c.appendChild(el('span', 'wt-say', '\u201C' + w.say + '\u201D'));
-        /* Touch: a quick second tap on the same card keeps it, same as Use
-           it; a slow one takes the preview back off. Same for a mouse
-           double-click. Space (a click with detail 0) is one tap that
-           previews and never takes it back off; Enter is handled below. */
-        c.addEventListener('click', function (e) {
-          if (busy) return;
-          if (e.detail === 0) { if (!only(i)) keepBottom(function () { preview(i); }); return; }
-          if (e.shiftKey) { lastTap = 0; keepBottom(function () { preview(i, true); }); return; }
-          var now = Date.now();
-          keepBottom(function () {
-            /* Two quick taps on the same card keep it, whatever state it
-               was in: the first tap on a previewed card clears it, the
-               second puts it back and keeps it. */
-            if (lastCard === i && now - lastTap < 500) { lastTap = 0; if (!prov || prov.indexOf(i) === -1) preview(i, !!prov); commit(); return; }
-            lastTap = now; lastCard = i;
-            if (only(i)) clearPreview(true); else preview(i);
+          var c = el('button', 'wt-card');
+          c.type = 'button';
+          c.setAttribute('aria-pressed', 'false');
+          c.draggable = true;
+          c.appendChild(el('span', 'wt-what', w.what));
+          /* Said words carry quotation marks on the card, the module's rule
+             for speech; the phrase goes into the field without them. */
+          c.appendChild(el('span', 'wt-say', '\u201C' + w.say + '\u201D'));
+          /* Touch: a quick second tap on the same card keeps it, same as Use
+             it; a slow one takes the preview back off. Same for a mouse
+             double-click. Space (a click with detail 0) is one tap that
+             previews and never takes it back off; Enter is handled below. */
+          c.addEventListener('click', function (e) {
+            if (busy) return;
+            if (e.detail === 0) { if (!only(i)) keepBottom(function () { preview(i); }); return; }
+            if (e.shiftKey) { lastTap = 0; keepBottom(function () { preview(i, true); }); return; }
+            var now = Date.now();
+            keepBottom(function () {
+              /* Two quick taps on the same card keep it, whatever state it
+                 was in: the first tap on a previewed card clears it, the
+                 second puts it back and keeps it. */
+              if (lastCard === i && now - lastTap < 500) { lastTap = 0; if (!prov || prov.indexOf(i) === -1) preview(i, !!prov); commit(); return; }
+              lastTap = now; lastCard = i;
+              if (only(i)) clearPreview(true); else preview(i);
+            });
           });
+          c.addEventListener('dragstart', function (e) {
+            clearPreview(true);
+            e.dataTransfer.setData('text/plain', w.say);
+          });
+          cards.appendChild(c);
+          cardEls.push(c);
         });
-        c.addEventListener('dragstart', function (e) {
-          clearPreview(true);
-          e.dataTransfer.setData('text/plain', w.say);
-        });
-        cards.appendChild(c);
-        cardEls.push(c);
-      });
+      if (wtHint) for (var ce = 0; ce < cardEls.length; ce++) cardEls[ce].setAttribute('aria-describedby', wtHint.id);
+    }
+    if (strip && cards) {
+      setWords(scene.start);
       /* Oct 5 (Marc, VoiceOver): each card says how to use it. NEW copy. */
       var hint = el('p', 'sr-only', fine ? 'Press Return to preview it in your reply, and Return again to use it.' : 'Double-tap to preview it in your reply, then choose Use it.');
       hint.id = id + '-wt-hint';
       strip.appendChild(hint);
+      wtHint = hint;
       for (var ce = 0; ce < cardEls.length; ce++) cardEls[ce].setAttribute('aria-describedby', hint.id);
       pill.addEventListener('click', function () { keepBottom(function () { setStrip(!stripOpen(), true); }); });
       if (useBtn) useBtn.addEventListener('click', function () { keepBottom(commit); });
@@ -459,8 +512,10 @@
     }
 
     function reset() {
-      run = { level: scene.start, turns: 0, fail: false, connect: false, limit: false,
-              choices: false, lines: [], used: [] };
+      run = { level: scene.start, turns: 0, fail: false, connect: false, limitSaid: false,
+              choices: false, lines: [], used: [], wasSurv: scene.start === 0, did: [], reached: scene.start === 3, exec: false };
+      wBucket = null;
+      if (cards) setWords(scene.start);
       log.innerHTML = '';
       addChild(scene.opening, run.level);
       if (rail) rail.to(String(run.level));
@@ -546,7 +601,7 @@
       /* Gibberish: nothing hit, composure intact, no English in it. She
          doesn't answer and no turn is used. */
       var MM = window.CDAH_MATCH;
-      if (MM && MM.nonsense && !h.fail && !h.connect && !h.limit && !h.choices && MM.nonsense(raw)) {
+      if (MM && MM.nonsense && !h.fail && !h.connect && !h.limit && !h.choices && !h.safe && !h.describe && !h.breathe && !h.exec && MM.nonsense(raw)) {
         MM.huh(field, ((window.CDAH_STRINGS || {}).huh || {}).roleplay);
         return;
       }
@@ -557,7 +612,7 @@
          two cards stacked in one line count twice. */
       for (var wi = 0; wi < words.length; wi++) {
         var at = raw.indexOf(words[wi].say);
-        while (at !== -1) { run.used.push(wi); at = raw.indexOf(words[wi].say, at + 1); }
+        while (at !== -1) { run.used.push(words[wi]); at = raw.indexOf(words[wi].say, at + 1); }
       }
       /* A limit or choices said before she has felt heard don't land, so
          they don't count yet: that row reads "said too early" rather than a
@@ -566,12 +621,19 @@
       var ready = run.level >= 2 || !!s.inOrder;
       function inLine(k) { return run.level >= 1 && h.connect && h[k] && h.at[k] > h.at.connect; }
       if (h.fail) run.fail = true;
-      else {
+      else if (run.level === 0) {
+        if (s.move && run.did.indexOf(s.move) === -1) run.did.push(s.move);
+      } else if (run.level === 3) {
+        if (h.exec) run.exec = true;
+      } else {
         if (h.connect) run.connect = true;
-        /* A safety limit doesn't wait (scene.limitAnytime, SCN-302): said at
-           any point, it counts. */
-        if (h.limit) { if (ready || inLine('limit') || scene.limitAnytime) run.limit = true; else run.limitEarly = true; }
-        if (h.choices) { if (ready || inLine('choices')) run.choices = true; else run.choicesEarly = true; }
+        var limNow = h.limit || run.limitSaid;
+        if (h.limit) run.limitSaid = true;
+        if (h.choices) {
+          if (!limNow) run.choicesNoLimit = true;
+          else if (ready || inLine('choices')) run.choices = true;
+          else run.choicesEarly = true;
+        }
       }
       var rk = s.reply || (run.level + ':' + s.key);
       /* A missing reply must never stall the scene (Oct 2: '0:fail' was missing
@@ -584,8 +646,13 @@
       /* A miss, with the strip closed: the coach offers the phrases in words,
          once per scene, instead of springing the panel open. */
       var note = r.note;
+      var STR = window.CDAH_STRINGS || {};
+      if (s.key === 'calm' && SURV_NOTE[s.move]) note = SURV_NOTE[s.move];
+      else if (run.level >= 1 && run.level < 3 && !s.inOrder && s.key !== 'both' && (h.describe || h.breathe) && !h.fail)
+        note = (h.describe ? 'Describing what you see helps her feel seen. ' : 'Breathing together helps. ') + (note || '');
+      if (s.to === 3 && run.level < 3) note = (note ? note + ' ' : '') + (STR.execNext || 'She\u2019s calm now, in the Executive State. One more line: what could she learn for next time?');
       if (s.orderOk) note = (note ? note + ' ' : '') + ((window.CDAH_STRINGS || {}).orderOk || 'Good order: the feeling came first, so she could hear what came after it.');  // NEW
-      var good = s.key === 'connect' || s.key === 'both' || s.key === 'calm';
+      var good = s.key === 'connect' || s.key === 'both' || s.key === 'calm' || s.key === 'exec';
       if (!good && words.length && !stripOpen() && !run.offered) {
         run.offered = true;
         note = (note ? note + ' ' : '') + 'There are ' + ['', 'one phrasing', 'two phrasings', 'three phrasings', 'four phrasings'][Math.min(words.length, 4)] +
@@ -593,6 +660,8 @@
       }
       var fromLevel = run.level;
       run.level = s.to;
+      if (s.to === 0) run.wasSurv = true;
+      if (s.to === 3) run.reached = true;
       run.turns++;
       if (resetBtn) resetBtn.hidden = false;
       H.tap();
@@ -623,7 +692,9 @@
            rather than replacing it, so the log moves once, not twice. */
         if (line && dots) land(dots, line, run.level);
         else { if (dots) dots.remove(); if (line) addChild(line, run.level); }
-        if (run.turns === scene.maxTurns - 1 && scene.lastPrompt) field.placeholder = scene.lastPrompt;
+        var lastOne = run.level === 3 || run.turns === scene.maxTurns - 1;
+        if (lastOne && scene.lastPrompt) field.placeholder = scene.lastPrompt;
+        if (cards) setWords(run.level);
         /* Pose and position change together: one gesture, not two. */
         if (rail) rail.to(String(run.level));
         glow(run.level);
@@ -640,14 +711,17 @@
         toBottom();
         busy = false; syncSay();
         var stripNew = false;
-        if (strip && words.length && run.level < 3) {
+        if (strip && words.length && !(fromLevel === 3)) {
           var wasHid = strip.hidden;
           stripNew = wasHid;
           strip.hidden = false;
+          if (run.level === 3) { setStrip(true); if (wtLead) wtLead.hidden = false; }
           if (wasHid && strip.animate && !(FX && FX.reduced())) strip.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
           toBottom();
         }
-        var ending = run.level === 3 || run.turns >= scene.maxTurns;
+        /* Reaching the Executive State always earns one more line (20 Oct
+           [MARC]); a line said from there ends the scene. */
+        var ending = fromLevel === 3 || (run.level < 3 && run.turns >= scene.maxTurns);
         /* Oct 5 (Marc, VoiceOver on the Mac): the log isn't a live region any
            more. One message says the turn in order: your line, the Coach's
            note, her reply, then what's next. */
@@ -655,7 +729,8 @@
           var msg = 'You said: ' + raw + ' ' + (note ? 'Coach: ' + note + ' ' : '') + (line ? scene.child + ': ' + line : '');
           if (!ending) {
             if (stripNew) msg += ' Words to try is now open to you, after the text box.';  // NEW
-            msg += ' ' + ((run.turns === scene.maxTurns - 1 && scene.lastPrompt) ? scene.lastPrompt : 'Your turn.');  // NEW
+            if (run.level === 3) msg += ' ' + EXEC_LEAD;
+            msg += ' ' + ((lastOne && scene.lastPrompt) ? scene.lastPrompt : 'Your turn.');  // NEW
           }
           window.CDAH_SAY(msg);
         }
@@ -730,11 +805,26 @@
       else app.removeAttribute('data-rp-ending');
     }
 
+    function activeRows() {
+      return ORDER.filter(function (k) {
+        if (!scene.rows[k]) return false;
+        if (k === 'surv') return run.wasSurv;
+        if (k === 'exec') return run.reached;
+        return true;
+      });
+    }
+    function passedRow(k) {
+      if (k === 'composure') return !run.fail;
+      if (k === 'surv') return run.did.length > 0;
+      return !!run[k];
+    }
+
     function finish() {
       hold(true);
       compose.hidden = true;
       var cap = run.fail;
-      var missed = (run.connect ? 0 : 1) + (run.limit ? 0 : 1) + (run.choices ? 0 : 1);
+      var rowsOn = activeRows();
+      var missed = rowsOn.filter(function (k) { return k !== 'composure' && !passedRow(k); }).length;
       /* Strong needs her to have actually got there. All four hit in the
          wrong order (the limit before she felt heard) leaves her stuck, and
          that is Nearly there, not Strong. */
@@ -776,12 +866,12 @@
           cardsBox.querySelector('[data-rp-cards-t]').textContent = copy.coach || '';
           var seen = {};
           for (var u = 0; u < run.used.length; u++) {
-            var wi = run.used[u];
-            if (seen[wi]) continue;
-            seen[wi] = true;
+            var w = run.used[u];
+            if (seen[w.say]) continue;
+            seen[w.say] = true;
             var li = el('li');
-            li.appendChild(el('span', 'rp-used-what', words[wi].what));
-            li.appendChild(el('span', 'rp-used-say', '\u201C' + words[wi].say + '\u201D'));
+            li.appendChild(el('span', 'rp-used-what', w.what));
+            li.appendChild(el('span', 'rp-used-say', '\u201C' + w.say + '\u201D'));
             list.appendChild(li);
           }
         }
@@ -805,28 +895,34 @@
 
       var rows = result.querySelector('[data-rp-rows]');
       rows.innerHTML = '';
-      for (var i = 0; i < ORDER.length; i++) {
-        var k = ORDER[i], row = scene.rows[k];
-        var passed = k === 'composure' ? !run.fail : run[k];
+      var rowsOn = activeRows();
+      for (var i = 0; i < rowsOn.length; i++) {
+        var k = rowsOn[i], row = scene.rows[k];
+        var passed = passedRow(k);
         var p = el('p', 'qz-row');
         var g = el('span', 'qz-g');
         g.setAttribute('aria-hidden', 'true');
         var t = el('span', 'qz-t');
         var sr = el('span', 'sr');
         if (cap && k !== 'composure') {
-          /* Composure failed: the other three are named, greyed, unticked. */
+          /* Composure failed: the other moves are named, greyed, unticked. */
           p.setAttribute('data-passed', 'muted');
           g.textContent = '\u00b7';
           sr.textContent = 'Later. ';
           t.appendChild(sr);
           t.appendChild(document.createTextNode(row.name));
         } else {
-          var early = !passed && run[k + 'Early'] && row.early;
+          var alt = passed ? null : (k === 'choices' && run.choicesNoLimit && row.nolimit) ? row.nolimit : (run[k + 'Early'] && row.early) ? row.early : null;
+          var hit = row.hit;
+          if (k === 'surv' && passed) {
+            var did = run.did.map(function (m) { return SURV_DID[m]; });
+            hit = 'In the Survival State, you ' + (did.length > 1 ? did.slice(0, -1).join(', ') + ' and ' + did[did.length - 1] : did[0]) + ', and she came back up.';
+          }
           p.setAttribute('data-passed', passed ? 'yes' : 'no');
           g.textContent = passed ? '\u2713' : '\u2014';
           sr.textContent = passed ? 'Covered. ' : 'Not yet. ';
           t.appendChild(sr);
-          t.appendChild(document.createTextNode(passed ? row.hit : early ? row.early : row.miss));
+          t.appendChild(document.createTextNode(passed ? hit : alt || row.miss));
         }
         p.appendChild(g); p.appendChild(t);
         rows.appendChild(p);

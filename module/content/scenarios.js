@@ -18,9 +18,15 @@
               (a word of three or more letters in capitals, or "!!").
    replies    keyed "level:what happened". Her line, then the coach's note.
               The note names the move and never a number.
-   words      the Words to try strip. It appears after her first reply.
+   words      the Words to try strip, by her state (20 Oct [MARC]): surv = Learn
+              4.1's moves, emo = 4.3's (the limit folded into Give Two Options),
+              exec = 4.5's. It appears after her first reply.
+   safe / describe / breathe / exec   optional extra accept lists; the shared
+              ones are in js/roleplay.js (BASE).
    results    the end screen. Composure failing replaces everything else:
-              one row to start with, the other three greyed out.
+              one row to start with, the other moves greyed out.
+   Reaching the Executive State always earns one more line, to teach for
+   next time. That line ends the scene (replies 3:exec, 3:none, 3:fail).
 
    NOTE, for Marc: the Strong and plain Not yet results heads, and every
    reply except the three taken from the read-through and the pose
@@ -83,11 +89,19 @@ window.CDAH_SCENES = {
        in the order they work. `what` is the small label, `say` is the line
        that goes into the field. Each `say` is checked against the accept
        lists above, so using one really does count. */
-    words: [
-      { what: 'Name the feeling', say: 'It\u2019s really hard to stop when you\u2019re almost done.' },  // NEW
-      { what: 'State the limit',  say: 'The tablet is going off now. It\u2019s time for bath.' },        // NEW
-      { what: 'Give two options',  say: 'You can pause it or save it. You pick.' }                        // NEW
-    ],
+    words: {
+      surv: [
+        { what: 'Make It Safe',      say: 'I won\u2019t let you kick the couch. I\u2019m right here.' },
+        { what: 'Describe the Scene', say: 'You\u2019re face-down in the cushion, and your feet are kicking.' },
+        { what: 'Breathe Together',  say: 'I\u2019m taking a slow breath. Breathe with me if you want.' } ],
+      emo: [
+        { what: 'Name the Feeling',  say: 'It\u2019s really hard to stop when you\u2019re almost done.' },
+        { what: 'Give Two Options',  say: 'The tablet is going off now. You can pause it or save it. You pick.' } ],
+      exec: [
+        { what: 'The Missing Skill',    say: 'When it\u2019s hard to stop, you can say, \u201cI need one minute to save it.\u201d' },
+        { what: 'Limits for Next Time', say: 'Tomorrow, when the timer rings, the tablet goes off.' },
+        { what: 'Problem Solving',      say: 'Stopping was really hard tonight. What could help tomorrow?' } ]
+    },
 
     replies: {
       '1:fail':        { child: '(she throws herself face-down on the couch) NO! You\u2019re so MEAN!',
@@ -122,12 +136,18 @@ window.CDAH_SCENES = {
                          again: '(she kicks the arm of the couch, face still hidden)',
                          note: 'She was already past words, and that pushed her further away.' },
       '0:calm':        { child: '(still face-down, quieter) \u2026I was almost done.',
-                         note: 'Your calm reached her before any words did.' }        // NEW
+                         note: 'Your calm reached her before any words did.' },       // NEW
+      '3:exec':        { child: '(leaning on you) \u2026Can I set the timer myself tomorrow?',
+                         note: 'She was calm enough to learn, and you taught for next time.' },
+      '3:none':        { child: '(she hands you the tablet) \u2026Okay.',
+                         note: 'She stopped. Now that she\u2019s calm is the time to teach for next time.' },
+      '3:fail':        { child: '(she pulls away) You\u2019re still MAD at me.',
+                         note: 'She\u2019d made it back up, and the heat in that brought her down again.' }
     },
 
     results: {
       strong:    { head: 'She stopped, and nobody lost',                             // NEW
-                   body: 'You named the feeling, said the limit plainly, and gave her two ways to move inside it \u2014 without your voice going up.' },
+                   body: 'You named the feeling, gave her two ways to stop inside the limit, and used the calm after to teach for next time \u2014 without your voice going up.' },
       /* Strong, reached mostly on the Words to try cards sent as written (two
          or more phrases). Same band, same ticks. The Coach names what each
          phrase did and asks for the parent's own words: the cards show the
@@ -144,33 +164,35 @@ window.CDAH_SCENES = {
 
     rows: {
       composure: { hit: 'You kept your own composure \u2014 no threat, no raised voice, no bargaining the limit away.',
-                   miss: 'Compose Yourself \u2014 start here next time. The other three only work from a calm voice.',
+                   miss: 'Compose Yourself \u2014 start here next time. The other moves only work from a calm voice.',
                    name: 'Compose Yourself' },
+      surv:      { miss: 'She stayed in the Survival State. There, she needs to feel safe before anything else: Make It Safe, Describe the Scene, or Breathe Together.',
+                   name: 'Make It Safe, Describe the Scene, Breathe Together' },
       connect:   { hit: 'You connected before correcting.',
                    miss: 'Her feeling didn\u2019t get named before the rule.',
-                   name: 'Name the feeling' },
-      limit:     { hit: 'You said the limit out loud.',
-                   miss: 'The limit didn\u2019t get said. If you only sympathize and never say the limit, a five-year-old hears \u201cyes.\u201d',
-                   early: 'You said the limit, but before she felt heard, so it didn\u2019t land yet.',  // NEW
-                   name: 'State the limit' },
-      choices:   { hit: 'You gave her two ways to move.',
-                   miss: 'No two choices offered. Two acceptable ways to stop let her do it without losing.',
-                   early: 'You offered choices, but before she felt heard, so she couldn\u2019t use them yet.',  // NEW
-                   name: 'Give two options' }
+                   name: 'Name the Feeling' },
+      choices:   { hit: 'You gave her two ways to stop, inside the limit.',
+                   miss: 'No two options inside a limit. If you only sympathize and never say the limit, a five-year-old hears \u201cyes.\u201d Say the limit, then two acceptable ways to stop.',
+                   nolimit: 'You offered choices, but the limit wasn\u2019t said, so they turned into a negotiation. Two options sit inside a limit you\u2019ve said out loud.',
+                   early: 'You offered choices, but before she felt heard, so she couldn\u2019t use them yet.',
+                   name: 'Give Two Options' },
+      exec:      { hit: 'Once she was calm, you used it to teach for next time.',
+                   miss: 'She got to the Executive State, and that was the moment to teach: The Missing Skill, Limits for Next Time, or Problem Solving.',
+                   name: 'The Missing Skill, Limits for Next Time, Problem Solving' }
     }
   },
 
   /* ===== SCN-302 · Scenario 2 · The pickup line (NEW, 30 Sept) ==========
      Marc's scene: the parent's own hurt. Maya, the same child all week.
      Parked in the pickup line, so you can turn round but can't get down to
-     her level: the voice carries all of it. The limit is SAFETY, not
-     manners (kicking the driver's seat), so it is the one scene where a
-     limit said before she feels heard still counts: limitAnytime. */
+     her level: the voice carries all of it.
+     20 Oct [MARC]: she starts in the Emotional State, words only, and won't
+     buckle. A sharp reply drops her to Survival, and only then does the
+     kicking start (Learn 3.1: kicking is fight). The limit is the buckle. */
   'scn-302': {
     start: 1,
     maxTurns: 3,
-    limitAnytime: true,
-    opening: '(kicking the back of your seat) I don\u2019t want YOU! I wanted Grandma to pick me up, not YOU!',
+    opening: '(arms crossed, glaring out the window, buckle not done) I don\u2019t want YOU! I wanted Grandma to pick me up, not YOU!',
     child: 'Maya',
     lastPrompt: 'Your last reply.',
 
@@ -195,49 +217,59 @@ window.CDAH_SCENES = {
                  'feel', 'feeling', 'big feelings', 'you love grandma', 'love grandma']
       },
       limit: {
-        accept: ['kick', 'kicking', 'kicks', 'feet stay', 'feet still', 'stay still', 'keep your feet', 'feet down',
-                 'feet on the floor', 'feet off', 'i wont let you', 'safe', 'safely', 'safety', 'drive', 'driving',
-                 'the seat', 'my seat']
+        accept: ['buckle', 'buckled', 'seatbelt', 'seat belt', 'straps', 'clip', 'click it', 'before we drive',
+                 'before i drive', 'cant drive', 'can\u2019t drive', 'drive home', 'going home', 'were going home',
+                 'we are going home', 'grandma isnt', 'grandma is not', 'not coming today', 'its me today',
+                 'im picking you up', 'i am picking you up', 'time to go', 'its time']
       },
       choices: {
-        accept: ['or you can', 'you can stomp', 'stomp', 'squeeze', 'or squeeze', 'you pick', 'you choose',
-                 'you can choose', 'which one', 'which do you', 'would you rather', 'do you want to', 'either',
-                 'your choice', 'you decide', 'push your feet', 'press your feet']
-      }
+        accept: ['or you can', 'or should i', 'or i can', 'you or me', 'yourself or', 'by yourself or', 'you pick',
+                 'you choose', 'you can choose', 'which one', 'which do you', 'would you rather', 'do you want to',
+                 'either', 'your choice', 'you decide', 'pick the song', 'pick the music', 'hold bun', 'squeeze bun']
+      },
+      safe: { accept: ['kick', 'kicking', 'feet still', 'feet down', 'keep your feet', 'safely', 'safety', 'my seat'] }
     },
 
-    words: [
-      { what: 'Name the feeling', say: 'You were hoping it\u2019d be Grandma today. That\u2019s a big disappointment.' },
-      { what: 'Make It Safe',  say: 'I won\u2019t let you kick my seat. I need to drive us home safely.' },
-      { what: 'Give two options',  say: 'You can stomp on your seat or squeeze your Bun-Bun. You pick.' }
-    ],
+    words: {
+      surv: [
+        { what: 'Make It Safe',      say: 'I won\u2019t let you kick my seat. I\u2019m right here.' },
+        { what: 'Describe the Scene', say: 'Your feet are kicking hard, and your face is all scrunched up.' },
+        { what: 'Breathe Together',  say: 'I\u2019m taking a big breath. Want to do your school breath with me?' } ],
+      emo: [
+        { what: 'Name the Feeling',  say: 'You were hoping it\u2019d be Grandma today. That\u2019s a big disappointment.' },
+        { what: 'Give Two Options',  say: 'Your buckle goes on before we drive. Do you want to click it yourself, or should I? You pick.' } ],
+      exec: [
+        { what: 'The Missing Skill',    say: 'When you\u2019re disappointed, you can tell me, \u201cI wanted Grandma.\u201d I\u2019ll listen.' },
+        { what: 'Limits for Next Time', say: 'Next time, the buckle goes on first, even when you\u2019re sad.' },
+        { what: 'Problem Solving',      say: 'You really miss Grandma. What could we do to see her this week?' } ]
+    },
 
     replies: {
-      '1:fail':        { child: '(kicks harder) I want GRANDMA!',
-                         again: '(face pressed to the window) Go AWAY.',
-                         note: 'She heard the sting in your voice, not the words.' },
-      '1:none':        { child: '(kick) I don\u2019t WANT you! I want GRANDMA!',
-                         again: '(kick, kick) GRANDMA!',
-                         note: 'Nothing yet names what she was hoping for, and the kicking hasn\u2019t been stopped.' },
-      '1:limitOnly':   { child: '(the kick stops halfway) But I WANTED Grandma.',
+      '1:fail':        { child: '(she starts kicking the back of your seat, hard) I want GRANDMA!',
+                         again: '(kick, kick) Go AWAY!',
+                         note: 'She heard the sting in your voice, not the words, and the kicking started.' },
+      '1:none':        { child: 'I don\u2019t WANT you! I want GRANDMA!',
+                         again: '(louder) GRANDMA!',
+                         note: 'Nothing yet names what she was hoping for.' },
+      '1:limitOnly':   { child: 'But I WANTED Grandma.',
                          again: 'You don\u2019t even care.',
-                         note: 'Safety first was right. Now she needs to hear that you get it.' },
-      '1:connect':     { child: '(the kicking slows) \u2026Grandma always brings the fruit snacks.',
+                         note: 'The limit is clear, but it arrived before she felt heard.' },
+      '1:connect':     { child: '(her arms loosen) \u2026Grandma always brings the fruit snacks.',
                          note: 'You named what she was hoping for, and you didn\u2019t take \u201cnot you\u201d personally.' },
-      '2:fail':        { child: '(kicks again) See? You\u2019re MEAN. That\u2019s why I want Grandma.',
-                         again: '(arms crossed, one more kick) I\u2019m not talking to you.',
+      '2:fail':        { child: '(arms crossed again) See? You\u2019re MEAN. That\u2019s why I want Grandma.',
+                         again: '(turning to the window) I\u2019m not talking to you.',
                          note: 'You had her, and then the hurt came through.' },
       '2:connectAgain':{ child: 'Yeah. Can we go to Grandma\u2019s house?',
-                         again: '(foot swinging close to your seat) Can we, though?',
-                         note: 'She knows you understand. Now she needs to hear where her feet go.' },
-      '2:limitOnly':   { child: '(foot hovering) But my legs are ANGRY.',
-                         again: '(quieter) They\u2019re still angry.',
-                         note: 'The limit is said. Nothing gives those angry legs somewhere to go.' },
-      '2:choicesOnly': { child: 'I pick\u2026 stomping. On your seat!',
-                         again: 'Squeezing your seat with my feet!',
-                         note: 'Choices without the limit said out loud turn into a loophole.' },
-      '2:both':        { child: '(the kicking stops) \u2026Can we get fruit snacks?',  // NEW 2 Oct: as above
-                         note: 'A limit that keeps you both safe, and two places for the feeling to go. She stopped kicking.' },
+                         again: '(buckle still undone) Can we, though?',
+                         note: 'She knows you understand. Now she needs to hear what happens next.' },
+      '2:limitOnly':   { child: '(holding the buckle, not clicking it) But I don\u2019t WANT to go home.',
+                         again: '(quieter) I still don\u2019t want to.',
+                         note: 'The limit is said. Nothing in it gives her a way to move.' },
+      '2:choicesOnly': { child: 'I pick\u2026 Grandma\u2019s house!',
+                         again: 'I choose no buckle!',
+                         note: 'Choices without the limit said out loud turn into a negotiation.' },
+      '2:both':        { child: '(click) \u2026Can we get fruit snacks?',
+                         note: 'Two real choices inside one limit, and the buckle went on.' },
       '0:still':       { child: '(she screams and kicks with both feet)',
                          again: '(she buries her face in her backpack)',
                          note: 'She\u2019s past words. Keep your voice low and slow, and keep it short. You don\u2019t have to drive off yet.' },
@@ -245,37 +277,45 @@ window.CDAH_SCENES = {
                          again: '(she kicks with both feet, hard)',
                          note: 'She was already past words, and that pushed her further away.' },
       '0:calm':        { child: '(the kicking slows, quieter) \u2026I wanted Grandma.',
-                         note: 'Your calm reached her before any words did.' }
+                         note: 'Your calm reached her before any words did.' },
+      '3:exec':        { child: '(holding Bun-Bun, quieter) \u2026Can Grandma come on Saturday?',
+                         note: 'She was calm enough to learn, and you used it.' },
+      '3:none':        { child: '(she looks out the window) \u2026Okay. Let\u2019s go.',
+                         note: 'She\u2019s ready. Now that she\u2019s calm is the time to teach for next time.' },
+      '3:fail':        { child: '(her face crumples) You\u2019re still MAD.',
+                         note: 'She\u2019d made it back up, and the sting in that brought her down again.' }
     },
 
     results: {
       strong:    { head: 'It wasn\u2019t about you, and you knew it',
-                   body: 'You heard the disappointment, stopped the kicking to keep everyone safe, and gave her feelings somewhere to go. And you didn\u2019t take \u201cnot you\u201d personally.' },
+                   body: 'You heard the disappointment, gave her two ways to buckle up inside the limit, and used the calm to teach for next time. And you didn\u2019t take \u201cnot you\u201d personally.' },
       cards:     { head: 'It wasn\u2019t about you, and you knew it',
                    coach: 'Those were my words, and they worked. Now try it again in your own.' },
       nearly:    { head: 'You stayed with her' },
-      notyet:    { head: 'She\u2019s still kicking',
+      notyet:    { head: 'She\u2019s still stuck on Grandma',
                    body: 'The scene ended with her still stuck. Start with the first row below that isn\u2019t ticked \u2014 the others build on it.' },
       composure: { head: 'This one got under your skin',
-                   body: '\u201cNot you\u201d is built to sting, and it did. That\u2019s normal. But once your voice changed, she heard the hurt, not the limit, and the kicking had a reason to keep going.',
+                   body: '\u201cNot you\u201d is built to sting, and it did. That\u2019s normal. But once your voice changed, she heard the hurt, not the limit, and her feelings had nowhere to go but her feet.',
                    frame: '<strong>The old frame.</strong> She\u2019s rejecting me, and she needs to know it hurt. What\u2019s actually happening: she held it together all day. Kids often fall apart with the person they feel safest with. It feels like rejection, but it means she trusts you.' }
     },
 
     rows: {
       composure: { hit: 'You kept your composure \u2014 you didn\u2019t take \u201cnot you\u201d personally, and nothing you said asked her to look after your feelings.',
-                   miss: 'Compose Yourself \u2014 start here next time. The other three only work from a calm voice.',
+                   miss: 'Compose Yourself \u2014 start here next time. The other moves only work from a calm voice.',
                    name: 'Compose Yourself' },
+      surv:      { miss: 'She stayed in the Survival State. There, she needs to feel safe before anything else: Make It Safe, Describe the Scene, or Breathe Together.',
+                   name: 'Make It Safe, Describe the Scene, Breathe Together' },
       connect:   { hit: 'You named what she was hoping for.',
                    miss: 'What she was hoping for didn\u2019t get named.',
-                   name: 'Name the feeling' },
-      limit:     { hit: 'You said the limit, and why: her feet stay still so you can drive safely.',
-                   miss: 'The kicking didn\u2019t get a limit. In a car this one isn\u2019t optional \u2014 it\u2019s about everyone\u2019s safety, and she needs to hear it plainly.',
-                   early: 'You said the limit.',
-                   name: 'Make It Safe' },
-      choices:   { hit: 'You gave the angry feeling two safe places to go.',
-                   miss: 'No two choices offered. The feeling still needs somewhere to go that isn\u2019t your seat.',
+                   name: 'Name the Feeling' },
+      choices:   { hit: 'You gave her two ways to buckle up, inside the limit.',
+                   miss: 'No two options inside a limit. Say the limit (the buckle goes on), then two acceptable ways to do it.',
+                   nolimit: 'You offered choices, but the limit wasn\u2019t said, so they turned into a negotiation. Two options sit inside a limit you\u2019ve said out loud.',
                    early: 'You offered choices, but before she felt heard, so she couldn\u2019t use them yet.',
-                   name: 'Give two options' }
+                   name: 'Give Two Options' },
+      exec:      { hit: 'Once she was calm, you used it to teach for next time.',
+                   miss: 'She got to the Executive State, and that was the moment to teach: The Missing Skill, Limits for Next Time, or Problem Solving.',
+                   name: 'The Missing Skill, Limits for Next Time, Problem Solving' }
     }
   },
 
@@ -285,11 +325,9 @@ window.CDAH_SCENES = {
      their first answer. Structure after the original spec; wording new. */
   'scn-303': {
     /* 16 Oct: opens on the Hook line, so Maya starts in the Survival State,
-       as at 7:40 in Learn (3.2). One more turn for the climb; a safety limit
-       counts whenever it's said. // CHECK Marc */
+       as at 7:40 in Learn (3.2). One more turn for the climb. */
     start: 0,
     maxTurns: 4,
-    limitAnytime: true,
     opening: '(her shoe hits the wall, and she kicks your hand away) NO! I\u2019m NOT going to school!',
     child: 'Maya',
     lastPrompt: 'Your last reply.',
@@ -317,11 +355,10 @@ window.CDAH_SCENES = {
       limit: {
         accept: ['shoes go on', 'shoes are going on', 'shoes on', 'need shoes', 'need your shoes', 'have to wear',
                  'need to wear', 'time to go', 'its time', 'the bus', 'bus is coming', 'need to leave', 'have to leave',
-                 'we are leaving', 'were leaving', 'feet need', 'feet safe', 'keep your feet safe', 'cant go without',
-                 /* 16 Oct: Make It Safe, for the kick */
-                 'wont let you kick', 'not going to let you kick', 'no kicking', 'kicking hurts', 'i wont let you',
-                 'keep you safe', 'keep us safe', 'keep my hands safe', 'stop kicking']
+                 'we are leaving', 'were leaving', 'feet need', 'cant go without', 'before the bus']
       },
+      /* 20 Oct: Make It Safe, for the kick, now scored as a Survival move. */
+      safe: { accept: ['no kicking', 'kicking hurts', 'stop kicking', 'keep my hands safe', 'feet safe'] },
       choices: {
         accept: ['left or right', 'left one or', 'right one or', 'which shoe', 'which one first', 'you or me',
                  'by yourself or', 'yourself or', 'or i can help', 'or should i', 'do you want to', 'would you rather',
@@ -329,12 +366,19 @@ window.CDAH_SCENES = {
       }
     },
 
-    words: [
-      { what: 'Make It Safe',     say: 'I won\u2019t let you kick. I\u2019m right here.' },  // NEW 16 Oct (Learn 4.2)
-      { what: 'Name the feeling', say: 'Those shoes feel really weird right now.' },
-      { what: 'State the limit',  say: 'Shoes go on before the bus comes.' },
-      { what: 'Give two options',  say: 'Left one first or right one first? You pick.' }
-    ],
+    words: {
+      surv: [
+        { what: 'Make It Safe',      say: 'I won\u2019t let you kick. I\u2019m right here.' },
+        { what: 'Describe the Scene', say: 'Your shoe went flying, and your feet are kicking hard.' },
+        { what: 'Breathe Together',  say: 'I\u2019m taking a big belly breath. Show me your school breath?' } ],
+      emo: [
+        { what: 'Name the Feeling',  say: 'Those shoes feel really weird right now.' },
+        { what: 'Give Two Options',  say: 'Shoes go on before the bus comes. Left one first or right one first? You pick.' } ],
+      exec: [
+        { what: 'The Missing Skill',    say: 'When something feels scratchy, you can show me where, and we\u2019ll fix it.' },
+        { what: 'Limits for Next Time', say: 'Kicking hurts. When shoes feel wrong, you can say, \u201cHelp me.\u201d' },
+        { what: 'Problem Solving',      say: 'Those shoes felt weird this morning. What could we try tomorrow?' } ]
+    },
 
     replies: {
       '1:fail':        { child: '(she throws the other shoe) NO! You\u2019re MEAN!',
@@ -369,12 +413,18 @@ window.CDAH_SCENES = {
                          again: '(she rolls away from you)',
                          note: 'She was already past words, and that pushed her further away.' },
       '0:calm':        { child: '(she stops kicking and drops onto the rug, sobbing) But these shoes feel WEIRD.',  // NEW 16 Oct, Learn 4.3's line
-                         note: 'Your calm reached her before any words did.' }
+                         note: 'Your calm reached her before any words did.' },
+      '3:exec':        { child: '(wiggling her toes) \u2026Maybe the socks with no bumps?',
+                         note: 'She was calm enough to learn, and you taught for next time.' },
+      '3:none':        { child: '(she stands up, shoes on) \u2026Okay. Bus?',
+                         note: 'Shoes on. Now that she\u2019s calm is the time to teach for next time.' },
+      '3:fail':        { child: '(she sits back down) You\u2019re grumpy.',
+                         note: 'She\u2019d made it back up, and the hurry in that brought her down again.' }
     },
 
     results: {
       strong:    { head: 'Shoes on, out the door',
-                   body: 'You named the feeling, said the limit plainly, and gave her two ways in \u2014 with the bus coming, and without your voice going up.' },
+                   body: 'You helped her feel safe, named the feeling, gave her two ways in inside the limit, and used the calm to teach for next time \u2014 with the bus coming, and without your voice going up.' },
       cards:     { head: 'Shoes on, out the door',
                    coach: 'Those were my words, and they worked. Now try it again in your own.' },
       nearly:    { head: 'You stayed with her' },
@@ -387,19 +437,21 @@ window.CDAH_SCENES = {
 
     rows: {
       composure: { hit: 'You kept your composure \u2014 no threat, no bribe, no hurry in your voice.',
-                   miss: 'Compose Yourself \u2014 start here next time. The other three only work from a calm voice.',
+                   miss: 'Compose Yourself \u2014 start here next time. The other moves only work from a calm voice.',
                    name: 'Compose Yourself' },
+      surv:      { miss: 'She stayed in the Survival State. There, she needs to feel safe before anything else: Make It Safe, Describe the Scene, or Breathe Together.',
+                   name: 'Make It Safe, Describe the Scene, Breathe Together' },
       connect:   { hit: 'You named how the shoes felt before the rule.',
                    miss: 'How the shoes felt didn\u2019t get named before the rule.',
-                   name: 'Name the feeling' },
-      limit:     { hit: 'You said the limit out loud: the shoes go on.',
-                   miss: 'The limit didn\u2019t get said. If you only sympathize and never say the limit, a five-year-old hears \u201cno shoes today.\u201d',
-                   early: 'You said the limit, but before she felt heard, so it didn\u2019t land yet.',
-                   name: 'State the limit' },
-      choices:   { hit: 'You gave her two ways in.',
-                   miss: 'No two choices offered. Two acceptable ways to put shoes on let her do it without losing.',
+                   name: 'Name the Feeling' },
+      choices:   { hit: 'You gave her two ways in, inside the limit: the shoes go on.',
+                   miss: 'No two options inside a limit. If you only sympathize and never say the limit, a five-year-old hears \u201cno shoes today.\u201d',
+                   nolimit: 'You offered choices, but the limit wasn\u2019t said, so they turned into a negotiation. Two options sit inside a limit you\u2019ve said out loud.',
                    early: 'You offered choices, but before she felt heard, so she couldn\u2019t use them yet.',
-                   name: 'Give two options' }
+                   name: 'Give Two Options' },
+      exec:      { hit: 'Once she was calm, you used it to teach for next time.',
+                   miss: 'She got to the Executive State, and that was the moment to teach: The Missing Skill, Limits for Next Time, or Problem Solving.',
+                   name: 'The Missing Skill, Limits for Next Time, Problem Solving' }
     }
   }
 };
