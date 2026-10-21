@@ -293,9 +293,11 @@
     /* In Learn and Test Your Knowledge the bars are a map as well as a gauge
        (30 Sept, Marc): each one goes to its screen. Try It Out's only show
        progress, since a scene is meant to be played through. */
-    var QZ = ['scr-201', 'scr-202', 'scr-203', 'scr-204'];
+    /* 20 Oct [MARC]: Bring It Together and Try It Out get Learn's bars too,
+       one per scenario, each going to its scenario. */
     var path = key === 'learn' ? ['lrn-11', 'lrn-21', 'lrn-31', 'lrn-41']
-      : key === 'check' && QZ.indexOf(el.id) !== -1 ? QZ : null;
+      : key === 'check' ? ['scr-200', 'scr-201']
+      : key === 'practice' ? ['scn-301', 'scn-302', 'scn-303'] : null;
     for (var k = 1; k <= steps; k++) {
       var i2 = document.createElement('i');
       if (k === step) i2.className = 'on';
@@ -1447,9 +1449,13 @@ window.CDAH_FIT = function (topEl, bottomEl) {
       for (var j = 0; j < (list || []).length; j++) if (hay.indexOf(' ' + M.prep(list[j]).trim() + ' ') !== -1) return true;
       return false;
     };
-    B.moves.forEach(function (m) {
-      out[m.id] = m.breaks ? (!!raw.trim() && !shouting(raw) && !any(m.breaks)) : any(m.accept);
-    });
+    B.moves.forEach(function (m) { if (!m.breaks) out[m.id] = any(m.accept); });
+    /* 20 Oct [MARC]: "blah" got a Compose Yourself tick. Composure now needs
+       evidence: no break, no shouting, not gibberish, and at least one other
+       move in the answer. */
+    var other = B.moves.some(function (m) { return !m.breaks && out[m.id]; });
+    var junk = M.nonsense ? M.nonsense(raw) : false;
+    B.moves.forEach(function (m) { if (m.breaks) out[m.id] = !!raw.trim() && !junk && other && !shouting(raw) && !any(m.breaks); });
     return out;
   }
   function first() { var a = S.get().answers || {}; return typeof a.baseline === 'string' ? a.baseline.replace(/\s+$/, '') : ''; }

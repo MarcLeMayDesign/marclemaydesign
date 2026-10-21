@@ -34,9 +34,14 @@
   var PART = { 'lrn-11': 1, 'lrn-12': 1, 'lrn-13': 1, 'lrn-21': 2, 'lrn-22': 2, 'lrn-23': 2, 'lrn-31': 3, 'lrn-32': 3,
     'lrn-41': 4, 'lrn-42': 4, 'lrn-43': 4, 'lrn-44': 4, 'lrn-45': 4, 'lrn-46': 4 };
   var NAMES = ['The three brain states model', 'Your state first', 'Your child\u2019s state', 'What their state needs'];
+  /* 20 Oct [MARC]: a part also counts as done once its last screen has been
+     reached. Before, a reel played only partway (or a skipped check) kept
+     1.0's "welcome back" screen from ever appearing. */
+  var LAST = { 'lrn-13': 0, 'lrn-23': 1, 'lrn-32': 2, 'lrn-46': 3 };
   function parts() {
-    var l = L(), h = l.h || {};
-    return [!!(l.drop && l.rise), !!l.p22, !!(l.s32 && l.c32), !!(h['42-0'] && h['42-1'] && h['44-0'] && h['44-1'])];
+    var l = L(), h = l.h || {}, s = l.seen || {};
+    return [!!(l.drop && l.rise) || !!s[0], !!l.p22 || !!s[1], !!(l.s32 && l.c32) || !!s[2],
+      !!(h['42-0'] && h['42-1'] && h['44-0'] && h['44-1']) || !!s[3]];
   }
   function current() { return location.hash.slice(1); }
   function paintBars() {
@@ -228,7 +233,7 @@
   var T22 = {
     fight: 'That\u2019s the Survival State: your body getting ready to fight. It\u2019s the most common drop at 7:40 a.m., and the one to watch out for first.',
     freeze: 'That\u2019s the Survival State too. Freeze (surrender) is giving up to make it stop. It\u2019s quieter than fight, but it\u2019s the same drop.',
-    emo: 'That\u2019s the Emotional State. Taking it personally is the clue: \u201Con purpose\u201D is a story your feelings are telling you, not what\u2019s going on in her brain.',
+    emo: 'That\u2019s the Emotional State. Taking it personally is the clue: \u2018on purpose\u2019 is a story your feelings are telling you, not what\u2019s going on in her brain.',
     exec: 'That\u2019s the Executive State: you can still think and wonder. If that\u2019s you, good. Under this much stress, most of us drop at least one state.'
   };
   function paint22(anim) {
@@ -247,7 +252,7 @@
   function t32(s, c) {
     if (!s || !c) return '';
     if (s === 'surv' && c === 'body') return 'Yes. Her body told you. The throw and the kick are her fight response, and fight is the Survival State. Her words alone could have been Emotional.';
-    if (s === 'surv' && c === 'words') return 'Right state. But look at her body, not just her words. \u201CI\u2019m not going\u201D could be Emotional. The throw and the kick are a fight response, and fight is Survival.';
+    if (s === 'surv' && c === 'words') return 'Right state. But look at her body, not just her words. \u2018I\u2019m not going\u2019 could be Emotional. The throw and the kick are a fight response, and fight is Survival.';
     if (s === 'surv') return 'Right state. Being late is your stress, though, not her signal. Her body is the clue: the throw and the kick are her fight response.';
     if (s === 'emo') return 'Her words could be Emotional, but her body says more. The throw and the kick are her fight response. That\u2019s the Survival State.';
     return 'Not yet. A child who\u2019s ready to think can talk it through. Throwing and kicking are a fight response: the Survival State.';
@@ -368,12 +373,12 @@
 
   var LINES = {
     '42': [
-      ['I won\u2019t let you kick. I\u2019m right here.', 'help', 'A safety limit, said once, and you stay close. That answers \u201CAm I safe right now?\u201D with yes.'],
-      ['Fine! Then you can stay home by yourself!', 'hurt', 'A threat to leave her makes \u201CAm I safe right now?\u201D harder to answer, and drops her further.']
+      ['I won\u2019t let you kick. I\u2019m right here.', 'help', 'A safety limit, said once, and you stay close. That answers \u2018Am I safe right now?\u2019 with yes.'],
+      ['Fine! Then you can stay home by yourself!', 'hurt', 'A threat to leave her makes \u2018Am I safe right now?\u2019 harder to answer, and drops her further.']
     ],
     '44': [
-      ['Why are you so upset? They\u2019re just shoes.', 'hurt', 'A why-question asks her to reason, and she can\u2019t yet. \u201CJust shoes\u201D tells her the feeling is wrong.'],
-      ['Those shoes feel all wrong today. Do I get you?', 'help', 'It names the feeling and checks in. That answers \u201CAm I still loved?\u201D with yes.']
+      ['Why are you so upset? They\u2019re just shoes.', 'hurt', 'A why-question asks her to reason, and she can\u2019t yet. \u2018Just shoes\u2019 tells her the feeling is wrong.'],
+      ['Those shoes feel all wrong today. Do I get you?', 'help', 'It names the feeling and checks in. That answers \u2018Am I still loved?\u2019 with yes.']
     ]
   };
   $$('[data-ln-lines]').forEach(function (host) {
@@ -445,7 +450,9 @@
     paintBars();
   }
   (window.CDAH_AFTER_SHOW = window.CDAH_AFTER_SHOW || []).push(function (id) {
+    if (id === 'scn-303') { morning(id); return; }  /* 20 Oct [MARC]: the 7:40 panel fades in here too */
     if (!/^lrn-/.test(id)) return;
+    if (LAST[id] != null && !(L().seen || {})[LAST[id]]) { var sn = {}, cs = L().seen || {}, q; for (q in cs) sn[q] = cs[q]; sn[LAST[id]] = true; save({ seen: sn }); }
     paintBars();
     if (id === 'lrn-10') paintHome();
     if (splits[id]) splits[id].paint();

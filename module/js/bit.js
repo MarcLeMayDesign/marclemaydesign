@@ -79,22 +79,22 @@
           emo: 'It sounds like the Emotional State. Feeling judged, or that it\u2019s unfair, is the clue: it\u2019s about how this looks and feels to you. Does that sound right?',
           exec: 'It sounds like you\u2019re steady, in the Executive State. With a stranger watching, that\u2019s not easy. Does that sound right?' },
         first: {
-          surv: 'Then your first move is for you: Compose Yourself. One deep belly breath before a word comes out. \u201cI\u2019ve got this. She needs me.\u201d',
-          emo: 'Then your first move is for you: Compose Yourself. Notice the feeling, name it to yourself (\u201cI\u2019m embarrassed\u201d), and take one breath before you answer her.',
+          surv: 'Then your first move is for you: Compose Yourself. One deep belly breath before a word comes out. \u2018I\u2019ve got this. She needs me.\u2019',
+          emo: 'Then your first move is for you: Compose Yourself. Notice the feeling, name it to yourself (\u2018I\u2019m embarrassed\u2019), and take one breath before you answer her.',
           exec: 'Then hold on to it. Your calm is the first thing she\u2019ll read. Keep breathing, and turn to her.' } },
       { id: '1b', type: 'pick', tag: 'Maya', label: 'Which brain state is Maya in?', textLabel: 'What were the clues?', ph: 'What did you see or hear that told you?',
         crit: ['You read her state as Emotional.', 'Her state: she\u2019s in the Emotional State.'],
         ev: function (p, t) {
           var words = h(t, ['never', 'anything', 'shout', 'yell', 'words', 'said', 'saying', 'what she', 'blam']);
           var cap = h(t, ['tired', 'long day', 'full day', 'school', 'ballet', 'all afternoon', 'all day', 'end of the day', '5:30', 'hungry', 'capacity', 'drained', 'ran out', 'run out', 'held it together', 'holding it together', 'errand']);
-          if (p === 'emo') return { ok: true, t: words && cap ? 'Yes. \u201cYou NEVER get me anything\u201d is the Emotional State talking: it shows up mostly in words. And you caught the capacity clue too: a full day at school, then ballet. She\u2019s running on empty.'
-            : words ? 'Yes, her words gave it away: \u201cyou never\u201d is how the Emotional State talks. One more clue worth seeing: she\u2019s been holding it together all day, so her capacity is low.'
-            : cap ? 'Yes. And you saw her capacity running out: a full day, then ballet. Listen to her words as well: \u201cyou NEVER\u201d is how the Emotional State talks.'
-            : 'Right state. Look at the clues, too: \u201cyou NEVER\u201d is how the Emotional State talks, and a full day at school has drained her capacity.' };
-          if (p === 'surv') return { ok: false, t: 'Close, but listen to her. She\u2019s shouting words at you, not hitting or running. \u201cYou NEVER get me anything\u201d is the Emotional State. She could still drop to Survival if this goes badly.' };
-          return { ok: false, t: 'Not yet. A child who\u2019s ready to think can wait for an answer. \u201cYou NEVER get me anything\u201d is the Emotional State, and a long day has drained her capacity.' };
+          if (p === 'emo') return { ok: true, t: words && cap ? 'Yes. \u2018You NEVER get me anything\u2019 is the Emotional State talking: it shows up mostly in words. And you caught the capacity clue too: a full day at school, then ballet. She\u2019s running on empty.'
+            : words ? 'Yes, her words gave it away: \u2018you never\u2019 is how the Emotional State talks. One more clue worth seeing: she\u2019s been holding it together all day, so her capacity is low.'
+            : cap ? 'Yes. And you saw her capacity running out: a full day, then ballet. Listen to her words as well: \u2018you NEVER\u2019 is how the Emotional State talks.'
+            : 'Right state. Look at the clues, too: \u2018you NEVER\u2019 is how the Emotional State talks, and a full day at school has drained her capacity.' };
+          if (p === 'surv') return { ok: false, t: 'Close, but listen to her. She\u2019s shouting words at you, not hitting or running. \u2018You NEVER get me anything\u2019 is the Emotional State. She could still drop to Survival if this goes badly.' };
+          return { ok: false, t: 'Not yet. A child who\u2019s ready to think can wait for an answer. \u2018You NEVER get me anything\u2019 is the Emotional State, and a long day has drained her capacity.' };
         } },
-      { id: '1c', type: 'text', tag: 'What she needs', label: 'What would you do and say first?', ph: 'First I\u2019d\u2026 then I\u2019d say\u2026',
+      { id: '1c', type: 'text', tag: 'What she needs', remind: 'emo', label: 'What would you do and say first?', ph: 'First I\u2019d\u2026 then I\u2019d say\u2026',
         model: '(a breath first, then down to her level) \u201cYou really wanted that chocolate. It\u2019s so hard when the answer is no, at the end of a long day. We\u2019re not buying it today.\u201d',
         crit: [['You put yourself first, then connection.', 'The moves: you first, then connection.'], ['Your words named her feeling first.', 'Your words: name her feeling before the no.']],
         ev: function (p, t) {
@@ -106,7 +106,7 @@
           var okM = comp && conn && !threat, okW = named && !shout && !threat;
           return { ok: okM && okW, oks: [okM, okW], t: threat && !conn ? 'A consequence won\u2019t land while she\u2019s in the Emotional State; she can\u2019t hear it yet. What she needs first is connection: name the feeling, or give her two options.'
             : shout ? 'That has some heat in it, and she\u2019ll hear the heat before the words. Take your breath first, then try it again, a little lower and slower.'
-            : okM && okW ? 'That\u2019s the order: you first, then connection. And your words named her feeling before the no. In the Emotional State she\u2019s asking \u201cAm I loved?\u201d, and that answers it. The limit can come next, and it can stay a no.'
+            : okM && okW ? 'That\u2019s the order: you first, then connection. And your words named her feeling before the no. In the Emotional State she\u2019s asking \u2018Am I loved?\u2019, and that answers it. The limit can come next, and it can stay a no.'
             : conn ? 'Good move for her state: connection is exactly what the Emotional State needs. Don\u2019t skip yourself, though. With someone watching, one breath first.'
             : comp ? 'Good start: you first. Then what does she need? In the Emotional State, connection. Say what she\u2019s feeling, or give her two options, before the no.'
             : 'Think back to Part 4. For you: Compose Yourself. For her, in the Emotional State: Name the Feeling, or Give Two Options.' };
@@ -118,7 +118,7 @@
         ev: function (p, t) {
           var sign = h(t, ['okay', 'thank', 'smil', 'laugh', 'happy', 'ran off', 'runs off', 'back to', 'agree', 'listen', 'calm', 'play', 'heard', 'polite', 'fine', 'great']);
           if (p === 'exec') return { ok: true, t: sign ? 'Yes, the Executive State. She heard a limit, agreed to it, even said thank you, and went back to playing. Her thinking brain is online.' : 'Yes, the Executive State. Look at the signs, too: she heard a limit, agreed to it, and thanked you. That takes a thinking brain.' };
-          if (p === 'emo') return { ok: false, t: 'Not here. Nothing in this moment is asking \u201cAm I loved?\u201d She heard the limit, agreed, and said thank you. That\u2019s the Executive State.' };
+          if (p === 'emo') return { ok: false, t: 'Not here. Nothing in this moment is asking \u2018Am I loved?\u2019 She heard the limit, agreed, and said thank you. That\u2019s the Executive State.' };
           return { ok: false, t: 'Not here. She\u2019s smiling, talking, agreeing. Survival is a body in fight, flight or freeze. This is the Executive State.' };
         } },
       { id: '2b', type: 'pick', tag: 'The drop', beatK: 'Five minutes later',
@@ -128,11 +128,11 @@
         ev: function (p, t) {
           var drop = h(t, ['drop', 'fell', 'fall', 'went from', 'straight', 'skip', 'jump', 'down to', 'all the way', 'flip', 'switch', 'lost it', 'melt', 'bottom']);
           var trig = h(t, ['transition', 'time to go', 'leav', 'stop', 'end', 'five minutes', '5 minutes', 'more time', 'promise', 'said i could', 'thought', 'unfair', 'fun', 'play']);
-          if (p === 'surv') return { ok: true, t: (drop && trig ? 'Exactly. She dropped from Executive straight to Survival, skipping Emotional on the way down. Leaving set it off, and to her it was a broken promise (\u201cYou SAID\u2026\u201d). An irritation that feels like a threat can drop a child to Survival. Throwing dirt is her fight response.'
-            : drop ? 'Yes, a drop: from Executive straight to Survival. What set it off? Leaving, and to her it felt like a broken promise (\u201cYou SAID\u2026\u201d). An irritation that feels like a threat can drop a child all the way, and the drop can skip straight to the bottom.'
+          if (p === 'surv') return { ok: true, t: (drop && trig ? 'Exactly. She dropped from Executive straight to Survival, skipping Emotional on the way down. Leaving set it off, and to her it was a broken promise (\u2018You SAID\u2026\u2019). An irritation that feels like a threat can drop a child to Survival. Throwing dirt is her fight response.'
+            : drop ? 'Yes, a drop: from Executive straight to Survival. What set it off? Leaving, and to her it felt like a broken promise (\u2018You SAID\u2026\u2019). An irritation that feels like a threat can drop a child all the way, and the drop can skip straight to the bottom.'
             : trig ? 'Yes, leaving set it off. Name what happened in her brain, too: she dropped from Executive straight down to Survival. The throwing is fight.'
             : 'Yes, she\u2019s in Survival now: throwing dirt is a fight response. What happened is the drop, from Executive straight to the bottom. Having to leave felt like a broken promise to her, and an irritation that feels like a threat can do that.') + WARN };
-          if (p === 'emo') return { ok: false, t: 'Her words sound Emotional (\u201cYou SAID\u2026\u201d), but watch her body: on the ground, throwing dirt at you. That\u2019s fight, the Survival State. She dropped all the way, in seconds.' };
+          if (p === 'emo') return { ok: false, t: 'Her words sound Emotional (\u2018You SAID\u2026\u2019), but watch her body: on the ground, throwing dirt at you. That\u2019s fight, the Survival State. She dropped all the way, in seconds.' };
           return { ok: false, t: 'Not anymore. Five minutes ago, yes. Throwing dirt is a fight response: she dropped from Executive straight to Survival.' };
         } },
       { id: '2c', type: 'self', tag: 'You', label: 'The dirt hits your pants. What\u2019s happening in you, in your body and in your head?', ph: 'I want to grab her arm\u2026',
@@ -142,10 +142,10 @@
           exec: 'It sounds like you\u2019re steady, in the Executive State. With dirt flying, that\u2019s not easy. Does that sound right?' },
         first: {
           surv: 'Then your first move is for you: Compose Yourself. Step back out of range, and take one deep belly breath before you say a word.',
-          emo: 'Then your first move is for you: Compose Yourself. Name the feeling to yourself (\u201cI\u2019m so frustrated, I gave her a warning\u201d), and take one breath.',
+          emo: 'Then your first move is for you: Compose Yourself. Name the feeling to yourself (\u2018I\u2019m so frustrated, I gave her a warning\u2019), and take one breath.',
           exec: 'Then hold on to it. She needs your calm before she needs anything else.' } },
       /* 19 Oct [MARC]: the question names "first", and the Coach reads in order. */
-      { id: '2d', type: 'text', tag: 'What she needs', label: 'What would you do or say first to help Maya rise out of the Survival State?', ph: 'First I\u2019d\u2026',
+      { id: '2d', type: 'text', tag: 'What she needs', remind: 'surv', label: 'What would you do or say first to help Maya rise out of the Survival State?', ph: 'First I\u2019d\u2026',
         model: '(a breath, then down on one knee, out of range) \u201cI won\u2019t let you throw dirt at me. You\u2019re on the ground, your hands are full, you\u2019re so mad. I\u2019m right here.\u201d',
         crit: ['Your first moves put you first, then safety.', 'First moves: you first, then make it safe.'],
         ev: function (p, t) {
@@ -155,15 +155,15 @@
           var g0 = good.length ? Math.min.apply(null, good) : -1, b0 = bad.length ? Math.min.apply(null, bad) : -1;
           var inOrder = b0 === -1 || (g0 !== -1 && g0 < b0);
           var ok = comp && safe && inOrder, ex = extras(t);
-          return { ok: ok, t: ok && b0 !== -1 ? 'That\u2019s the order for the Survival State, and you did it first: Compose Yourself, then Make It Safe. Her brain is asking \u201cAm I safe?\u201d, and a calm limit answers it. The five minutes can wait, though. From Survival she can\u2019t hear reasons yet. Once she\u2019s climbed to the Emotional State, they have a better chance of landing.'
-            : ok ? 'That\u2019s the order for the Survival State: Compose Yourself, then Make It Safe. Her brain is asking \u201cAm I safe?\u201d, and a calm limit answers it. ' + (ex || 'Describing what you see, or breathing together, can come next.')
+          return { ok: ok, t: ok && b0 !== -1 ? 'That\u2019s the order for the Survival State, and you did it first: Compose Yourself, then Make It Safe. Her brain is asking \u2018Am I safe?\u2019, and a calm limit answers it. The five minutes can wait, though. From Survival she can\u2019t hear reasons yet. Once she\u2019s climbed to the Emotional State, they have a better chance of landing.'
+            : ok ? 'That\u2019s the order for the Survival State: Compose Yourself, then Make It Safe. Her brain is asking \u2018Am I safe?\u2019, and a calm limit answers it. ' + (ex || 'Describing what you see, or breathing together, can come next.')
             : b0 !== -1 && !inOrder ? 'She can\u2019t hear reasons or consequences from the Survival State, so they can\u2019t come first. Lead with the moves that help her feel safe: you first, then Make It Safe. The five minutes can come later.'
             : safe ? 'Good: Make It Safe comes early here, with dirt flying. Don\u2019t skip yourself, though. One breath first, so the limit comes out calm.' + (ex ? ' ' + ex : '')
-            : comp && ex ? 'Good start: you first. ' + ex + ' With dirt flying, though, Make It Safe needs to be in there too: \u201cI won\u2019t let you throw dirt.\u201d'
-            : comp ? 'Good start: you first. Then safety. She\u2019s throwing things, so the next move is Make It Safe: \u201cI won\u2019t let you throw dirt.\u201d'
+            : comp && ex ? 'Good start: you first. ' + ex + ' With dirt flying, though, Make It Safe needs to be in there too: \u2018I won\u2019t let you throw dirt.\u2019'
+            : comp ? 'Good start: you first. Then safety. She\u2019s throwing things, so the next move is Make It Safe: \u2018I won\u2019t let you throw dirt.\u2019'
             : 'Think back to Part 4. For the Survival State: Compose Yourself, Make It Safe, Describe the Scene, Breathe Together.' };
         } },
-      { id: '2e', type: 'pick', tag: 'The climb', beatK: 'A minute later',
+      { id: '2e', type: 'pick', tag: 'The climb', remind: 'pick', beatK: 'A minute later',
         beat: 'You took your breath and stayed close. The dirt stops. She sits in the sand and sobs, \u201cI wasn\u2019t DONE. I never get to finish ANYTHING.\u201d',
         label: 'Where is she now, and what does she need?', pickQ: 'Which state is she in now?', textLabel: 'What would you do and say now?', ph: 'I\u2019d sit down next to her and say\u2026',
         model: '(sitting down beside her) \u201cYou weren\u2019t done. It\u2019s so hard to stop when you\u2019re having fun. Do you want to walk to the car, or ride on my back?\u201d',
@@ -173,18 +173,18 @@
           var opts = h(t, [' or ', 'two options', 'two choices', 'choose', 'pick', 'you decide', 'which']);
           var no = h(t, ['i told you', 'you had', 'i gave you', 'i warned', 'you knew', 'you agreed', 'punish', 'time out', 'timeout', 'consequence', 'no more', 'take away', 'lost', 'stop crying', 'big girl', 'no big deal', 'just a playground']);
           var okS = p === 'emo', okC = (conn || opts) && !no;
-          var mv = no ? 'Reasons and consequences still can\u2019t land: she\u2019s asking \u201cAm I still loved?\u201d Connection first: name the feeling.'
-            : conn && opts ? 'And you gave her connection: you named the feeling and gave her a say. That answers \u201cAm I still loved?\u201d'
+          var mv = no ? 'Reasons and consequences still can\u2019t land: she\u2019s asking \u2018Am I still loved?\u2019 Connection first: name the feeling.'
+            : conn && opts ? 'And you gave her connection: you named the feeling and gave her a say. That answers \u2018Am I still loved?\u2019'
             : conn ? 'Naming the feeling is the right move. Two options can come next, so she gets a say in how you leave.'
             : opts ? 'Two options gives her a say. Name the feeling first, so she knows you get it.'
             : 'What she needs now is connection: Name the Feeling, or Give Two Options.';
           var st = okS ? 'Yes. She\u2019s climbed to the Emotional State: the dirt is down, and the words are back. '
-            : p === 'surv' ? 'Look at her body: the throwing has stopped. Sobbing and \u201cI never get to\u2026\u201d are the Emotional State. She\u2019s climbed one step. '
-            : 'Not yet. She\u2019s calmer, but sobbing and \u201cI never get to finish anything\u201d are the Emotional State. She can\u2019t problem-solve yet. ';
+            : p === 'surv' ? 'Look at her body: the throwing has stopped. Sobbing and \u2018I never get to\u2026\u2019 are the Emotional State. She\u2019s climbed one step. '
+            : 'Not yet. She\u2019s calmer, but sobbing and \u2018I never get to finish anything\u2019 are the Emotional State. She can\u2019t problem-solve yet. ';
           return { ok: okS && okC, oks: [okS, okC], t: st + mv };
         } },
       /* 20 Oct [MARC]: the top of the climb is assessed too (LO3). */
-      { id: '2f', type: 'pick', tag: 'Next time', beatK: 'In the car',
+      { id: '2f', type: 'pick', tag: 'Next time', remind: 'pick', beatK: 'In the car',
         beat: 'You\u2019ve made it to the car. She\u2019s buckled in, calm, looking out the window. \u201cCan we come back tomorrow?\u201d',
         label: 'She\u2019s calm. What now?', pickQ: 'Which state is she in now?', textLabel: 'What would you say now?', ph: 'Now that she\u2019s calm, I\u2019d say\u2026',
         model: '\u201cLeaving was really hard today. Next time I say five minutes, you get to pick your last slide. Which one will it be?\u201d',
@@ -204,11 +204,30 @@
     ] }
   };
 
+  /* The reminder's moves, from Learn 4.1, 4.3 and 4.5. */
+  var REM = {
+    surv: [['Compose Yourself', 'Catch yourself before your voice goes up. A deep belly breath first.'],
+           ['Make It Safe', 'Stop anything dangerous. State only the limit that stops it.'],
+           ['Describe the Scene', 'Calmly say what you see, without judgment.'],
+           ['Breathe Together', 'Breathe slowly, and invite them to breathe with you.']],
+    emo:  [['Name the Feeling', 'Name it and check, instead of asking what or why. There\u2019s no wrong feeling.'],
+           ['Give Two Options', 'Two positive ways out, both within your stated limit. They choose the how, not the limit.']],
+    exec: [['The Missing Skill', 'Teach a safe way to handle the problem, now that they can learn.'],
+           ['Limits for Next Time', 'A limit that helps next time, said while they can hear it.'],
+           ['Problem Solving', 'Work it out together: what could you try next time?']]
+  };
+
   /* ---- state ----------------------------------------------------------- */
-  function B() { var b = S.get().bit || {}; ['val', 'asked', 'pick', 'conf', 'self', 'cont', 'band'].forEach(function (k) { b[k] = b[k] || {}; }); return b; }
+  function B() { var b = S.get().bit || {}; ['val', 'asked', 'pick', 'conf', 'self', 'cont', 'band', 'rem'].forEach(function (k) { b[k] = b[k] || {}; }); return b; }
   function put(k, id, v) { var b = B(), o = {}, x; for (x in b[k]) o[x] = b[k][x]; o[id] = v; b[k] = o; S.set({ bit: b }); }
   function reduced() { return !!(FX && FX.reduced && FX.reduced()); }
   function fade(nd, ms, delay) { if (nd && nd.animate && !reduced()) nd.animate([{ opacity: 0, translate: '0 6px' }, { opacity: 1, translate: '0 0' }], { duration: ms || 320, delay: delay || 0, easing: 'ease-out', fill: 'backwards' }); }
+  /* 21 Oct, 508 pass: a safety response is read out and takes focus, as the
+     Coach's answer would; otherwise a screen reader user hears nothing. */
+  function announce(n) {
+    n.tabIndex = -1; n.focus({ preventScroll: true });
+    if (window.CDAH_SAY) window.CDAH_SAY(n.textContent);
+  }
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
 
   function done(st) {
@@ -249,7 +268,7 @@
           btn.setAttribute('aria-pressed', p === k ? 'true' : 'false');
           var im = el('img'); im.src = IMG + C[k].img; im.alt = ''; im.draggable = false;
           btn.appendChild(im); btn.appendChild(el('span', null, C[k].name));
-          btn.addEventListener('click', function () { H.tap(); put('pick', st.id, k); put('asked', st.id, ''); paint(st.id); });
+          btn.addEventListener('click', function () { H.tap(); put('pick', st.id, k); put('asked', st.id, ''); paint(st.id, 'pick:' + k); });
           g.appendChild(btn);
         });
         sec.appendChild(g);
@@ -266,8 +285,15 @@
       sendBtn.disabled = !canSend();
       function send() {
         if (!canSend()) return;
-        H.tap();
         var t = ta.value;
+        /* 20 Oct [MARC]: the safety check runs here too, first. On a fire
+           nothing is sent or saved, and the Coach's slot holds the response. */
+        if (window.CDAH_SAFETY && t.trim()) {
+          var sr = window.CDAH_SAFETY.check(t, { context: st.type === 'self' ? 'baseline' : 'roleplay' });
+          if (sr) { window.CDAH_SAFETY.render(safe, sr, function () { safe.hidden = true; ta.focus(); }); safe.hidden = false; announce(safe); if (window.CDAH_FIT) window.CDAH_FIT(safe, safe); return; }
+        }
+        safe.hidden = true;
+        H.tap();
         if (st.type === 'self') { put('asked', st.id, read(t) || 'none'); put('conf', st.id, null); put('self', st.id, null); }
         else put('asked', st.id, t.trim() ? t : ' ');
         paint(st.id, 'coach');
@@ -276,6 +302,34 @@
       row.appendChild(sendBtn);
       row.appendChild(el('span', 'bt-keys', 'or \u2318/Ctrl + Return'));
       sec.appendChild(row);
+      var safe = el('div', 'safety'); safe.hidden = true; sec.appendChild(safe);
+      /* 20 Oct [MARC, 1b]: "Need a reminder?", collapsed until asked. The
+         Words to try pill and cards, holding Learn's move names and short
+         definitions, never a line to copy. On a pick step it shows only
+         once a state is picked, and for that state, so it can't give the
+         read away. */
+      var rk = st.remind === 'pick' ? p : st.remind;
+      if (rk && REM[rk]) {
+        var open = !!b.rem[st.id], rid = 'bt-rem-' + st.id;
+        var pl = el('button', 'wt-pill bt-rem-pill'); pl.type = 'button';
+        pl.setAttribute('aria-expanded', open ? 'true' : 'false'); pl.setAttribute('aria-controls', rid);
+        pl.innerHTML = 'Need a reminder? <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+        row.appendChild(pl);
+        var rc = el('div', 'bt-rem'); rc.id = rid; rc.setAttribute('data-k', rk); rc.hidden = !open;
+        REM[rk].forEach(function (m, j) {
+          var cd = el('div', 'bt-rem-card');
+          cd.appendChild(el('span', 'bt-rem-k', C[rk].name + ' \u00b7 move ' + (j + 1)));
+          cd.appendChild(el('span', 'bt-rem-n', m[0]));
+          cd.appendChild(el('span', 'bt-rem-d', m[1]));
+          rc.appendChild(cd);
+        });
+        sec.appendChild(rc);
+        pl.addEventListener('click', function () {
+          H.tap(); var o = !B().rem[st.id]; put('rem', st.id, o);
+          pl.setAttribute('aria-expanded', o ? 'true' : 'false'); rc.hidden = !o;
+          if (o) { fade(rc, 280); if (window.CDAH_FIT) window.CDAH_FIT(pl, rc); }
+        });
+      }
       var c = coachNode(st);
       if (c) sec.appendChild(c);
       if (st.type !== 'self' && a && !b.cont[st.id]) {
@@ -290,7 +344,7 @@
     function coachNode(st) {
       var b = B(), a = b.asked[st.id];
       if (!a) return null;
-      var box = el('aside', 'coach-says bt-coach'); box.setAttribute('aria-live', 'polite');
+      var box = el('aside', 'coach-says bt-coach');  /* read out by paint() via CDAH_SAY, not a live region: it's rebuilt each time */
       var fig = el('img', 'coach-fig'); fig.alt = ''; fig.width = 56; fig.height = 84;
       var txt = el('div', 'coach-txt');
       txt.appendChild(el('p', 'coach-k', 'Coach says'));
@@ -359,6 +413,19 @@
       return box;
     }
 
+    /* 20 Oct [MARC]: the step that just opened always comes up to the top
+       third of the screen, after layout settles. CDAH_FIT skipped it whenever
+       its first line was already on screen, so it could stay below the fold. */
+    function lift(nd) {
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        var stg = document.getElementById('stage'); if (!stg) return;
+        var sr = stg.getBoundingClientRect(), r = nd.getBoundingClientRect();
+        if (r.top >= sr.top && r.top <= sr.top + sr.height * 0.3) return;
+        var y = Math.max(0, stg.scrollTop + r.top - sr.top - 16);
+        stg.scrollTo({ top: y, behavior: reduced() ? 'auto' : 'smooth' });
+      }); });
+    }
+
     /* Rebuild the steps. `at` is the step that changed; `what` says where
        to take the parent: its new Coach box, or the step that just opened. */
     function paint(at, what) {
@@ -373,14 +440,22 @@
       }
       if (!at) return;
       var me = list.querySelector('[data-step-id="' + at + '"]');
+      /* 21 Oct, 508 pass: paint() rebuilds the step, so the button that was
+         pressed is gone and focus fell to the page. Put it somewhere real:
+         the pressed pick, or the Coach's answer (read out). */
+      if (me && what && what.indexOf('pick:') === 0) { var pk = me.querySelector('.bt-pick[data-k="' + what.slice(5) + '"]'); if (pk) pk.focus({ preventScroll: true }); return; }
+      if (me && (what === 'coach' || !what)) {
+        var cb = me.querySelector('.bt-coach');
+        if (cb) { cb.tabIndex = -1; cb.focus({ preventScroll: true }); if (window.CDAH_SAY) window.CDAH_SAY(cb.textContent.replace(/^Coach says/, 'Coach says: ')); }
+      }
       if (what === 'coach' && me) {
         var c = me.querySelector('.bt-coach'); fade(c, 360);
         if (window.CDAH_FIT) window.CDAH_FIT(c, me.querySelector('.bt-cont') || c);
       }
       if (what === 'next') {
         var nxt = me && me.nextElementSibling;
-        if (nxt) { fade(nxt, 420); if (window.CDAH_FIT) window.CDAH_FIT(nxt, nxt.querySelector('.bt-in') || nxt); var f = nxt.querySelector('.bt-pick, .bt-in'); if (f) f.focus({ preventScroll: true }); }
-        else if (all) { fade(tail, 420); if (window.CDAH_FIT) window.CDAH_FIT(tail, tail); }
+        if (nxt) { fade(nxt, 420); lift(nxt); var f = nxt.querySelector('.bt-pick, .bt-in'); if (f) f.focus({ preventScroll: true }); }
+        else if (all) { fade(tail, 420); lift(tail); }
       }
     }
     return { paint: paint };
@@ -397,17 +472,39 @@
   function paintLook() {
     if (!look) return;
     var a = S.get().answers || {}, hook = typeof a.baseline === 'string' ? a.baseline.trim() : '';
-    var now = (B().asked['2d'] || '').trim();
+    /* 20 Oct [MARC]: three moments. Each scenario's closing answer: the
+       checkout's 1c, the playground's 2f (in the car). */
+    var now1 = (B().asked['1c'] || '').trim(), now = (B().asked['2f'] || '').trim();
     look.querySelectorAll('[data-lb-had]').forEach(function (n) { n.hidden = !hook; });
     look.querySelectorAll('[data-lb-skip]').forEach(function (n) { n.hidden = !!hook; });
     look.querySelector('[data-lb-then]').textContent = hook ? '\u201C' + hook + '\u201D' : '';
+    look.querySelector('[data-lb-now1]').textContent = now1 ? '\u201C' + now1 + '\u201D' : '';
     look.querySelector('[data-lb-now]').textContent = now ? '\u201C' + now + '\u201D' : '';
     var f = look.querySelector('[data-lb-field]');
     if (document.activeElement !== f) f.value = B().a5 || '';
+    lbKept(!!f.value && f.value === (B().a5 || ''));
+  }
+  /* 20 Oct [MARC]: saved on Save, as on the hook, so writing lands somewhere. */
+  function lbKept(on) {
+    var k = look && look.querySelector('[data-lb-save]'); if (!k) return;
+    k.className = on ? 'btn btn-quiet' : 'btn';
+    k.textContent = on ? 'Saved' : 'Save';
+    if (on) k.setAttribute('aria-disabled', 'true'); else k.removeAttribute('aria-disabled');
   }
   if (look) {
-    var lf = look.querySelector('[data-lb-field]');
-    lf.addEventListener('input', function () { var b = B(); b.a5 = lf.value; S.set({ bit: b }); });
+    var lf = look.querySelector('[data-lb-field]'), ls = look.querySelector('[data-lb-state]'), lsafe = look.querySelector('[data-lb-safety]');
+    lf.addEventListener('input', function () { if (ls) ls.textContent = ''; lbKept(!!lf.value && lf.value === (B().a5 || '')); });
+    look.querySelector('[data-lb-save]').addEventListener('click', function () {
+      if (this.getAttribute('aria-disabled') === 'true') return;
+      var t = lf.value.replace(/\s+$/, '');
+      if (!t) { if (ls) ls.textContent = 'Nothing to save yet.'; lf.focus(); return; }
+      if (window.CDAH_SAFETY && lsafe) {
+        var sr = window.CDAH_SAFETY.check(t, { context: 'baseline' });
+        if (sr) { if (ls) ls.textContent = ''; window.CDAH_SAFETY.render(lsafe, sr, function () { lsafe.hidden = true; lf.focus(); }); lsafe.hidden = false; announce(lsafe); return; }
+        lsafe.hidden = true;
+      }
+      H.tap(); var bb = B(); bb.a5 = t; S.set({ bit: bb }); lf.value = t; lbKept(true);
+    });
   }
 
   (window.CDAH_AFTER_SHOW = window.CDAH_AFTER_SHOW || []).push(function (id) {

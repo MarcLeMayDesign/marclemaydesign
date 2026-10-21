@@ -35,6 +35,11 @@
                'your legs', 'your fists', 'your body', 'your shoe', 'youre kicking', 'you are kicking', 'youre crying', 'you are crying',
                'youre screaming', 'you are screaming', 'youre shaking', 'you threw', 'you kicked', 'face down', 'tears'],
     breathe: ['breathe', 'breath', 'breathing', 'in and out', 'smell the flower', 'blow out', 'belly'],
+    /* 20 Oct [MARC]: sharp lines every scene treats as lost composure. */
+    breaks: ['shut up', 'stupid', 'brat', 'knock it off', 'cut it out', 'whats wrong with you',
+             'what is wrong with you', 'stop it', 'stop that', 'i said no', 'go to your room'],
+    /* A short line only counts as calm if it isn't an order. */
+    demand: ['stop', 'quit', 'no', 'now', 'calm down', 'listen', 'come here', 'get up', 'hurry', 'enough', 'put', 'do it'],
     exec: ['next time', 'tomorrow', 'what could we', 'what can we', 'what could you', 'what can you', 'what would help',
            'lets figure', 'lets think', 'lets plan', 'figure out', 'a plan', 'idea', 'ideas', 'you can say', 'you could say',
            'you can tell me', 'when you feel', 'instead of', 'instead', 'help me', 'practice', 'try']
@@ -88,7 +93,8 @@
     var c = scene.criteria;
     var at = { connect: hitAt(hay, c.connect.accept), limit: hitAt(hay, c.limit.accept), choices: hitAt(hay, c.choices.accept) };
     return {
-      fail: shouting(raw) || hitAny(hay, c.composure.breaks),
+      fail: shouting(raw) || hitAny(hay, c.composure.breaks) || hitAny(hay, BASE.breaks),
+      demand: hitAny(hay, BASE.demand),
       safe: hitAny(hay, list(scene, 'safe')),
       describe: hitAny(hay, list(scene, 'describe')),
       breathe: hitAny(hay, list(scene, 'breathe')),
@@ -109,7 +115,7 @@
     /* Survival: Learn 4.1's moves bring her up, or a short calm line. Naming
        the feeling in a long line doesn't reach her yet. */
     if (level === 0) {
-      var mv = h.safe ? 'safe' : h.describe ? 'describe' : h.breathe ? 'breathe' : h.words <= 10 ? 'calm' : '';
+      var mv = h.safe ? 'safe' : h.describe ? 'describe' : h.breathe ? 'breathe' : (h.words <= 10 && !h.demand) ? 'calm' : '';
       return mv ? { to: 1, key: 'calm', move: mv } : { to: 0, key: 'still' };
     }
     /* Executive: one line to teach for next time, then the scene ends. */
@@ -124,6 +130,7 @@
         return { to: 2, key: 'connect', orderOk: true };
       if (h.connect) return { to: 2, key: 'connect' };
       if (h.limit) return { to: 1, key: 'limitOnly' };
+      if (scene.dropFirst && run.turns === 0) return { to: 0, key: 'drop' };
       return { to: 1, key: 'none' };
     }
     if (h.choices && lim) return { to: 3, key: 'both' };
@@ -342,7 +349,7 @@
       drawGhost(draft, said);
       if (provLbl) { showLbl(true); field.setAttribute('aria-describedby', provLbl.id); }
       for (var k = 0; k < cardEls.length; k++) cardEls[k].setAttribute('aria-pressed', prov.indexOf(k) !== -1 ? 'true' : 'false');
-      if (useBtn) useBtn.hidden = false;
+      if (useBtn) { useBtn.hidden = false; useBtn.textContent = prov.length > 1 ? 'Use these' : 'Use it'; }  /* 20 Oct [MARC] */
       syncSay();
     }
 
@@ -871,6 +878,7 @@
             seen[w.say] = true;
             var li = el('li');
             li.appendChild(el('span', 'rp-used-what', w.what));
+            li.appendChild(document.createTextNode(' '));
             li.appendChild(el('span', 'rp-used-say', '\u201C' + w.say + '\u201D'));
             list.appendChild(li);
           }

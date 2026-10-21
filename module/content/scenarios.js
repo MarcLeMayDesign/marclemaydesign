@@ -37,7 +37,7 @@ window.CDAH_SCENES = {
   'scn-301': {
     start: 1,
     maxTurns: 3,
-    opening: 'Five more minutes. FIVE MORE MINUTES. I\u2019m almost done!',
+    opening: 'One more minute. ONE MORE MINUTE. I\u2019m almost done!',
     child: 'Maya',
     /* The field's placeholder on the parent's final reply, so the end of the
        scene never arrives as a surprise. */
@@ -98,7 +98,7 @@ window.CDAH_SCENES = {
         { what: 'Name the Feeling',  say: 'It\u2019s really hard to stop when you\u2019re almost done.' },
         { what: 'Give Two Options',  say: 'The tablet is going off now. You can pause it or save it. You pick.' } ],
       exec: [
-        { what: 'The Missing Skill',    say: 'When it\u2019s hard to stop, you can say, \u201cI need one minute to save it.\u201d' },
+        { what: 'The Missing Skill',    say: 'When it\u2019s hard to stop, you can say, \u2018I need one minute to save it.\u2019' },
         { what: 'Limits for Next Time', say: 'Tomorrow, when the timer rings, the tablet goes off.' },
         { what: 'Problem Solving',      say: 'Stopping was really hard tonight. What could help tomorrow?' } ]
     },
@@ -107,10 +107,10 @@ window.CDAH_SCENES = {
       '1:fail':        { child: '(she throws herself face-down on the couch) NO! You\u2019re so MEAN!',
                          again: '(face still in the cushion) Go AWAY! I DON\u2019T wanna talk to you!',  // NEW
                          note: 'She heard the heat, not the words.' },               // NEW
-      '1:none':        { child: 'Five more minutes! Please please please!',
-                         again: '(louder) Please! Just FIVE!',  // NEW
+      '1:none':        { child: 'One more minute! Please please please!',
+                         again: '(louder) Please! Just ONE!',  // NEW
                          note: 'Nothing here names what she\u2019s feeling yet.' },   // NEW
-      '1:limitOnly':   { child: 'But I\u2019m ALMOST DONE. Just five minutes!',
+      '1:limitOnly':   { child: 'But I\u2019m ALMOST DONE. Just one more minute!',
                          again: 'You\u2019re not even listening to me!',  // NEW
                          note: 'The limit is clear, but it arrived before she felt heard.' }, // NEW
       '1:connect':     { child: 'So then I can finish it. You said it\u2019s hard, so let me finish it.',
@@ -124,7 +124,7 @@ window.CDAH_SCENES = {
       '2:limitOnly':   { child: 'But it\u2019s not fair. I\u2019m almost done.',
                          again: '(quieter) It\u2019s still not fair.',  // NEW
                          note: 'The limit is said. Nothing in it gives her a way to move.' }, // NEW
-      '2:choicesOnly': { child: 'Okay, I pick\u2026 five more minutes!',
+      '2:choicesOnly': { child: 'Okay, I pick\u2026 one more minute!',
                          again: 'I choose\u2026 not stopping!',  // NEW
                          note: 'Choices without the limit said out loud turn into a negotiation.' }, // NEW
       '2:both':        { child: '(a big sigh) Fine. \u2026Can I finish it tomorrow?',  // NEW 2 Oct: no longer names a choice she may not have been given
@@ -172,7 +172,7 @@ window.CDAH_SCENES = {
                    miss: 'Her feeling didn\u2019t get named before the rule.',
                    name: 'Name the Feeling' },
       choices:   { hit: 'You gave her two ways to stop, inside the limit.',
-                   miss: 'No two options inside a limit. If you only sympathize and never say the limit, a five-year-old hears \u201cyes.\u201d Say the limit, then two acceptable ways to stop.',
+                   miss: 'No two options inside a limit. If you only sympathize and never say the limit, a five-year-old hears \u2018yes.\u2019 Say the limit, then two acceptable ways to stop.',
                    nolimit: 'You offered choices, but the limit wasn\u2019t said, so they turned into a negotiation. Two options sit inside a limit you\u2019ve said out loud.',
                    early: 'You offered choices, but before she felt heard, so she couldn\u2019t use them yet.',
                    name: 'Give Two Options' },
@@ -192,6 +192,8 @@ window.CDAH_SCENES = {
   'scn-302': {
     start: 1,
     maxTurns: 3,
+    /* 20 Oct [MARC]: a first reply with nothing helpful in it drops her. */
+    dropFirst: true,
     opening: '(arms crossed, glaring out the window, buckle not done) I don\u2019t want YOU! I wanted Grandma to pick me up, not YOU!',
     child: 'Maya',
     lastPrompt: 'Your last reply.',
@@ -239,7 +241,7 @@ window.CDAH_SCENES = {
         { what: 'Name the Feeling',  say: 'You were hoping it\u2019d be Grandma today. That\u2019s a big disappointment.' },
         { what: 'Give Two Options',  say: 'Your buckle goes on before we drive. Do you want to click it yourself, or should I? You pick.' } ],
       exec: [
-        { what: 'The Missing Skill',    say: 'When you\u2019re disappointed, you can tell me, \u201cI wanted Grandma.\u201d I\u2019ll listen.' },
+        { what: 'The Missing Skill',    say: 'When you\u2019re disappointed, you can tell me, \u2018I wanted Grandma.\u2019 I\u2019ll listen.' },
         { what: 'Limits for Next Time', say: 'Next time, the buckle goes on first, even when you\u2019re sad.' },
         { what: 'Problem Solving',      say: 'You really miss Grandma. What could we do to see her this week?' } ]
     },
@@ -248,6 +250,8 @@ window.CDAH_SCENES = {
       '1:fail':        { child: '(she starts kicking the back of your seat, hard) I want GRANDMA!',
                          again: '(kick, kick) Go AWAY!',
                          note: 'She heard the sting in your voice, not the words, and the kicking started.' },
+      '1:drop':        { child: '(she starts kicking the back of your seat) NO! I want GRANDMA!',
+                         note: 'Nothing in that told her she was heard, and she dropped. Now the kicking starts.' },
       '1:none':        { child: 'I don\u2019t WANT you! I want GRANDMA!',
                          again: '(louder) GRANDMA!',
                          note: 'Nothing yet names what she was hoping for.' },
@@ -255,7 +259,7 @@ window.CDAH_SCENES = {
                          again: 'You don\u2019t even care.',
                          note: 'The limit is clear, but it arrived before she felt heard.' },
       '1:connect':     { child: '(her arms loosen) \u2026Grandma always brings the fruit snacks.',
-                         note: 'You named what she was hoping for, and you didn\u2019t take \u201cnot you\u201d personally.' },
+                         note: 'You named what she was hoping for, and you didn\u2019t take \u2018not you\u2019 personally.' },
       '2:fail':        { child: '(arms crossed again) See? You\u2019re MEAN. That\u2019s why I want Grandma.',
                          again: '(turning to the window) I\u2019m not talking to you.',
                          note: 'You had her, and then the hurt came through.' },
@@ -288,19 +292,19 @@ window.CDAH_SCENES = {
 
     results: {
       strong:    { head: 'It wasn\u2019t about you, and you knew it',
-                   body: 'You heard the disappointment, gave her two ways to buckle up inside the limit, and used the calm to teach for next time. And you didn\u2019t take \u201cnot you\u201d personally.' },
+                   body: 'You heard the disappointment, gave her two ways to buckle up inside the limit, and used the calm to teach for next time. And you didn\u2019t take \u2018not you\u2019 personally.' },
       cards:     { head: 'It wasn\u2019t about you, and you knew it',
                    coach: 'Those were my words, and they worked. Now try it again in your own.' },
       nearly:    { head: 'You stayed with her' },
       notyet:    { head: 'She\u2019s still stuck on Grandma',
                    body: 'The scene ended with her still stuck. Start with the first row below that isn\u2019t ticked \u2014 the others build on it.' },
       composure: { head: 'This one got under your skin',
-                   body: '\u201cNot you\u201d is built to sting, and it did. That\u2019s normal. But once your voice changed, she heard the hurt, not the limit, and her feelings had nowhere to go but her feet.',
+                   body: '\u2018Not you\u2019 is built to sting, and it did. That\u2019s normal. But once your voice changed, she heard the hurt, not the limit, and her feelings had nowhere to go but her feet.',
                    frame: '<strong>The old frame.</strong> She\u2019s rejecting me, and she needs to know it hurt. What\u2019s actually happening: she held it together all day. Kids often fall apart with the person they feel safest with. It feels like rejection, but it means she trusts you.' }
     },
 
     rows: {
-      composure: { hit: 'You kept your composure \u2014 you didn\u2019t take \u201cnot you\u201d personally, and nothing you said asked her to look after your feelings.',
+      composure: { hit: 'You kept your composure \u2014 you didn\u2019t take \u2018not you\u2019 personally, and nothing you said asked her to look after your feelings.',
                    miss: 'Compose Yourself \u2014 start here next time. The other moves only work from a calm voice.',
                    name: 'Compose Yourself' },
       surv:      { miss: 'She stayed in the Survival State. There, she needs to feel safe before anything else: Make It Safe, Describe the Scene, or Breathe Together.',
@@ -376,7 +380,7 @@ window.CDAH_SCENES = {
         { what: 'Give Two Options',  say: 'Shoes go on before the bus comes. Left one first or right one first? You pick.' } ],
       exec: [
         { what: 'The Missing Skill',    say: 'When something feels scratchy, you can show me where, and we\u2019ll fix it.' },
-        { what: 'Limits for Next Time', say: 'Kicking hurts. When shoes feel wrong, you can say, \u201cHelp me.\u201d' },
+        { what: 'Limits for Next Time', say: 'Kicking hurts. When shoes feel wrong, you can say, \u2018Help me.\u2019' },
         { what: 'Problem Solving',      say: 'Those shoes felt weird this morning. What could we try tomorrow?' } ]
     },
 
@@ -445,7 +449,7 @@ window.CDAH_SCENES = {
                    miss: 'How the shoes felt didn\u2019t get named before the rule.',
                    name: 'Name the Feeling' },
       choices:   { hit: 'You gave her two ways in, inside the limit: the shoes go on.',
-                   miss: 'No two options inside a limit. If you only sympathize and never say the limit, a five-year-old hears \u201cno shoes today.\u201d',
+                   miss: 'No two options inside a limit. If you only sympathize and never say the limit, a five-year-old hears \u2018no shoes today.\u2019',
                    nolimit: 'You offered choices, but the limit wasn\u2019t said, so they turned into a negotiation. Two options sit inside a limit you\u2019ve said out loud.',
                    early: 'You offered choices, but before she felt heard, so she couldn\u2019t use them yet.',
                    name: 'Give Two Options' },
