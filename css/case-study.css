@@ -1,36 +1,38 @@
-/* marclemaydesign.com — cream ground
-   Loaded AFTER site.css, by the case study and its working documents only.
-   Home, About and Contact stay on the plum ground in site.css.
+/* marclemaydesign.com — the module ground (21 Oct [MARC]; was cream)
+   Loaded AFTER site.css, by the case study / write-up, its working documents
+   and Rise. Other Work loads it for layout only; other-work.css restores the plum palette. Home, About and Contact stay on the plum ground in site.css.
 
-   Identity:
-     ground   cream          #f0eee9
-     ink      near-black     #1a1a1a
-     accent   terracotta     #8f4632   links
-     accent2  clay rule      #c4705a   the rule under the h1 only
-     muted    #6b665e                  captions, labels, secondary text
+   Same palette as the module (module/css/module.css) and every document that
+   travels with it; the site typefaces stay.
+     ground   #FAFBFC     filled boxes #F1F4F7
+     ink      #25293C     body #3B3E4C     muted #5F6272
+     links    #1F6FAD     hover #25293C
+     rule     #1F6FAD     the h1 rule only
+     labels   plum #8E3A57  uppercase labels
+     hair     #DEE3E9
 
-   Citron never appears on cream — it measures about 1.5:1 and cannot
-   carry a link.
+   Citron never appears here — on a light ground it cannot carry a link.
 */
 
 :root{
-  --ground:#f0eee9;
-  --ground-hover:#f6f4f0;
-  --ink:#1a1a1a;
-  --ink-soft:#4a463f;
-  --ink-mid:#6b665e;
-  --ink-faint:#8a857c;
-  --rule:#d8d4cd;
-  --accent:#8f4632;
-  --clay:#c4705a;
+  --ground:#FAFBFC;
+  --ground-hover:#F1F4F7;
+  --ink:#25293C;
+  --ink-soft:#3B3E4C;
+  --ink-mid:#5F6272;
+  --ink-faint:#8E3A57;
+  --rule:#DEE3E9;
+  --accent:#1F6FAD;
+  --clay:#1F6FAD;
+  --plum:#8E3A57;
 }
 
-a:hover{color:#190f1d}
+a:hover{color:#25293C}
 
 /* The rule is 320px on the case study and everything hanging off it;
    Home and About keep the 420px in site.css. */
 .rule{max-width:320px;background:var(--clay)}
-/* Citron never on cream (about 1.5:1). site.css uses it for the h1 rule and .panel-head; both are pinned here. */
+/* Citron never on the light ground. site.css uses it for the h1 rule and .panel-head; both are pinned here. */
 .panel-head{color:var(--ink-faint)}
 
 /* ---- working document pages ---- */
@@ -81,7 +83,7 @@ a:hover{color:#190f1d}
   border-bottom:1px solid var(--accent);
 }
 
-.doc-siblings a:hover{color:#190f1d}
+.doc-siblings a:hover{color:#25293C}
 
 .doc-siblings p{
   margin:.25rem 0 0;
@@ -110,7 +112,7 @@ a:hover{color:#190f1d}
   overflow-y:hidden;
   border:1px solid var(--rule);
   border-radius:6px;
-  background:#EDEAE3;
+  background:#F1F4F7;
   -webkit-overflow-scrolling:touch;
 }
 
@@ -123,7 +125,7 @@ a:hover{color:#190f1d}
 /* doc-page is a print shell that normally owns the viewport: it floors at
    8.5in + 48px of desk padding, paints its own grey desk, and reserves
    100vh. Embedded in a site page all three fight the column, so the desk
-   becomes the cream ground and the paper is allowed to fit the measure. */
+   becomes the page ground and the paper is allowed to fit the measure. */
 .doc-body doc-page{
   min-width:0;
   padding-left:8px;
@@ -179,7 +181,7 @@ a:hover{color:#190f1d}
   background:var(--ground-hover);
   color:var(--ink-soft);
 }
-.chip:hover{background:#f4e9e4}
+.chip:hover{background:#DFEAF5}
 .chip.is-current{background:var(--ink);color:var(--ground)}
 
 .screen-hint{
@@ -188,7 +190,7 @@ a:hover{color:#190f1d}
   font:600 11.5px/1.4 var(--label);
   letter-spacing:.11em;
   text-transform:uppercase;
-  color:var(--ink-mid);
+  color:var(--plum);
 }
 
 /* The frame crops; the inner block is scaled to the column by js/screens.js.
@@ -196,7 +198,7 @@ a:hover{color:#190f1d}
 .screen-frame{
   overflow:hidden;
   border-radius:6px;
-  background:#EDEAE3;
+  background:#F1F4F7;
   cursor:zoom-in;
   max-width:960px;
 }
@@ -253,7 +255,7 @@ a:hover{color:#190f1d}
   padding:.5rem .875rem;
   font:500 14px var(--sans);
 }
-.stepbtn:hover{background:#f4e9e4;border-color:var(--clay)}
+.stepbtn:hover{background:#DFEAF5;border-color:var(--clay)}
 
 .step-captions{flex:1;min-width:16rem}
 .cs .step-caption{margin:0;font-size:14px;color:var(--ink-mid);max-width:52ch}
@@ -276,7 +278,7 @@ a:hover{color:#190f1d}
   font:600 12px/1 var(--label);
   letter-spacing:.11em;
   text-transform:uppercase;
-  color:var(--ink-mid);
+  color:var(--plum);
 }
 
 .cs .fact-text{margin:0;max-width:none;font-size:15px;line-height:1.5;color:var(--ink-soft)}
@@ -321,13 +323,13 @@ a:hover{color:#190f1d}
   font:600 12px/1 var(--label);
   letter-spacing:.11em;
   text-transform:uppercase;
-  color:var(--ink-mid);
+  color:var(--plum);
 }
 
 .dec-title{font:700 19px/1.25 var(--sans);letter-spacing:-.01em;margin:0 0 .5rem}
 .cs .dec-did{margin:0;max-width:none;font-size:16px;line-height:1.55;color:var(--ink)}
 
-.dec-instead{background:#f4e9e4;border-radius:.5rem;padding:1rem 1.125rem}
+.dec-instead{background:#DFEAF5;border-radius:.5rem;padding:1rem 1.125rem}
 
 .dec-instead-label{
   margin:0 0 .5rem;
@@ -335,7 +337,7 @@ a:hover{color:#190f1d}
   font:600 12px/1 var(--label);
   letter-spacing:.11em;
   text-transform:uppercase;
-  color:var(--accent);
+  color:var(--plum);
 }
 
 .cs .dec-rejected{margin:0 0 .5rem;max-width:none;font-size:15px;line-height:1.55;color:var(--ink);font-weight:500}
@@ -364,7 +366,7 @@ a:hover{color:#190f1d}
   font:600 12px/1.4 var(--label);
   letter-spacing:.11em;
   text-transform:uppercase;
-  color:var(--ink-mid);
+  color:var(--plum);
 }
 
 /* ---- transfers ---- */
@@ -425,7 +427,7 @@ a:hover{color:#190f1d}
   font:600 14px/1 var(--label);
   letter-spacing:.12em;
   text-transform:uppercase;
-  color:var(--accent);
+  color:var(--plum);
 }
 
 
@@ -447,7 +449,7 @@ a:hover{color:#190f1d}
 
 .slide-frame{
   aspect-ratio:16/9;
-  background:#e6e2da;
+  background:#F1F4F7;
   border:1px solid var(--rule);
   border-radius:6px;
   overflow:hidden;
@@ -467,7 +469,7 @@ a:hover{color:#190f1d}
   font:600 12px/1.4 var(--label);
   letter-spacing:.11em;
   text-transform:uppercase;
-  color:var(--ink-mid);
+  color:var(--plum);
 }
 
 .pass-toggle{display:flex;gap:.375rem}
@@ -481,7 +483,7 @@ a:hover{color:#190f1d}
   background:var(--ground);
   color:var(--ink-soft);
 }
-.pass:hover{background:#f4e9e4}
+.pass:hover{background:#DFEAF5}
 .pass.is-current{background:var(--ink);color:var(--ground)}
 
 .slide-note{min-width:0}
@@ -492,7 +494,7 @@ a:hover{color:#190f1d}
   font:600 12px/1 var(--label);
   letter-spacing:.11em;
   text-transform:uppercase;
-  color:var(--accent);
+  color:var(--plum);
 }
 
 .note-title{font:700 19px/1.25 var(--sans);letter-spacing:-.01em;margin:0 0 .625rem}
@@ -535,6 +537,6 @@ a:hover{color:#190f1d}
   border-bottom:2px solid var(--clay);
   padding-bottom:3px;
 }
-.rise-open:hover{color:#190f1d}
+.rise-open:hover{color:#25293C}
 
 .rise .site-foot .disclaimer{max-width:60ch;margin:0 0 1rem}

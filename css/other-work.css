@@ -1,0 +1,34 @@
+/* Other Work: the site's own palette (plum ground, citron accent), not the module's.
+   21 Oct [MARC]: the module palette is reserved for the module and what travels with it.
+   Loaded AFTER case-study.css, which this page still uses for its layout classes
+   (.cs, .ow, .facts, .slides…). This file only puts site.css's colors back. */
+
+:root{
+  --ground:#190f1d;
+  --ground-hover:#1f1424;
+  --ink:#ffffff;
+  --ink-soft:#d6cbd9;
+  --ink-mid:#b79cbd;
+  --ink-faint:#9d86a3;
+  --rule:#35243a;
+  --accent:#cbe45a;
+  --clay:#cbe45a;
+  --plum:#cbe45a;
+}
+
+a:hover{color:var(--accent)}
+
+/* The h1 rule is citron on plum; Other Work's h1 is short, so it keeps case-study's 320px. */
+.rule{background:var(--accent)}
+.panel-head{color:var(--accent)}
+
+/* Uppercase labels: citron on plum, as on Home (since 7 Oct). */
+.fact-label,.note-move,.slide-num{color:var(--accent)}
+
+/* Slides sit on a flat panel of lighter plum: one shape, no stroke, no shadow. */
+.slide-frame{background:#5a4560;border:0;aspect-ratio:auto;padding:12px;box-sizing:border-box}
+.slide-frame img{height:auto}
+/* No rule above each slide row: the space between rows separates them. */
+.slide-row{border-top:0}
+.pass:hover{background:#2a1d30}
+.pass.is-current{background:var(--ink);color:var(--ground)}

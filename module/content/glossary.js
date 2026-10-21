@@ -55,6 +55,9 @@ window.CDAH_GLOSSARY_LEARN = [
     say: "Sneakers or boots? You pick.", to: "child" },
   { term: "The Missing Skill", at: "4.5", tested: "BIT, Try It Out",
     plain: "Unwelcome behavior often comes from a missing skill: a safe way to handle a problem. Teach it once your child can listen and think, not mid-kick." },
+  { term: "Limits for Next Time", at: "4.5", tested: "BIT, Try It Out",
+    plain: "A rule about long-term behavior that can only be learned from the child\u2019s Executive brain state.",   // [MARC, 21 Oct]
+    say: "Kicking hurts. When shoes feel wrong, you can say, \u2018Help me.\u2019", to: "child" },  // say: lifted from Marc's 4.5 copy // CHECK Marc
   { term: "Problem Solving", at: "1.3, 4.5", tested: "BIT, Try It Out",
     plain: "Once your child is ready to listen, think, and learn, work out together what to try next time.",
     say: "Those shoes felt weird this morning. What could we try tomorrow?", to: "child" }
