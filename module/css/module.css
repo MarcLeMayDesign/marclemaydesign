@@ -1810,6 +1810,7 @@ a.btn-link{text-decoration:none;display:inline-flex;align-items:center;min-heigh
 
 /* SCR-100: no footer; the way on is on the screen. */
 .app:has(#scr-100:not([hidden])) .mod-foot{display:none}
+.baseline-go:has(#baselineGo[hidden]){display:none}
 /* SCR-100 (16 Oct, Marc): SCR-101 cut; its Coach fades in under the field on Save. */
 .mn-coach{margin-top:0}
 .mn-coach[hidden]{display:none}
@@ -2045,3 +2046,15 @@ button,input,textarea,select{font-family:inherit}
 /* 19 Oct: the state glow behind Maya on the Try It Out rail eases between states. */
 .rp-rail{transition:filter 1.4s ease}
 @media (prefers-reduced-motion:reduce){.rp-rail{transition:none}}
+
+/* 21 Oct [MARC], phone pass */
+@media (max-width:760px){
+  /* ? and i: bigger buttons, 50px targets. */
+  .head-about{width:34px;height:34px;border-radius:10px;font-size:15px}
+  .head-about::before{inset:-8px}
+  /* Learn, first visit: Back/Next wait below the screen until the bottom is reached (js/app.js footLatch). */
+  .app[data-foot="wait"] .mod-foot:not(:focus-within){position:fixed;left:0;right:0;bottom:0;transform:translateY(110%)}
+}
+
+/* 21 Oct [MARC]: Bring It Together has no footer, phone or desktop; the header bars and the screen's own buttons move you on. */
+.app:has(#scr-200:not([hidden])) .mod-foot,.app:has(#scr-201:not([hidden])) .mod-foot{display:none}

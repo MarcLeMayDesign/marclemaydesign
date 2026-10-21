@@ -97,6 +97,9 @@
       H.tap();
       var from = all.querySelector('img').getBoundingClientRect();
       land();
+      /* 21 Oct [MARC, VoiceOver]: say what the split did, and land on the first box. */
+      say('It splits into three: ' + cards.map(function (c) { return c.querySelector('h2').textContent; }).join(', ') + '.');
+      if (cards[0]) { cards[0].tabIndex = -1; cards[0].focus({ preventScroll: true }); }
       if (reduced() || !list.animate) { save(kv(key, true)); paintAfter(key, false); return; }
       var z = zoomOf(list);
       cards.forEach(function (c, n) {
@@ -222,6 +225,19 @@
       btn.textContent = paused ? 'Resume' : 'Pause';
     });
     box.addEventListener('click', function () { if (box.getAttribute('data-state') === 'locked' && i < 0) go(0); });
+    /* 21 Oct [MARC]: the arrow in a pane is a control too: it starts the
+       reel, or once it has played, moves to the next pane. */
+    $$('.ln-pane-arrow', box).forEach(function (ar) {
+      ar.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var st = box.getAttribute('data-state');
+        if (st === 'locked' && i < 0) { H.tap(); go(0); return; }
+        if (st === 'free') {
+          var pane = ar.closest('.ln-pane'), nx = pane && pane.nextElementSibling;
+          if (nx) { H.tap(); box.scrollTo({ top: nx.offsetTop, behavior: reduced() ? 'auto' : 'smooth' }); }
+        }
+      });
+    });
     box.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && box.getAttribute('data-state') === 'locked' && i < 0) { e.preventDefault(); go(0); } });
     window.addEventListener('hashchange', function () { if (i >= 0) idle(); });
     return { idle: idle };
@@ -243,8 +259,19 @@
     $('[data-ln-t22]').textContent = T22[v] || '';
     if (anim && T22[v]) fade(fb, 320);
   }
+  /* 21 Oct [MARC]: bring the Coach's reply into view after a pick, without
+     pushing the question off the top. */
+  function reveal(n) {
+    requestAnimationFrame(function () {
+      var st = document.getElementById('stage'); if (!st || !n || n.hidden) return;
+      var sr = st.getBoundingClientRect(), r = n.getBoundingClientRect();
+      if (r.bottom <= sr.bottom - 12) return;
+      var d = Math.min(r.bottom - sr.bottom + 20, r.top - sr.top - 12);
+      if (d > 0) st.scrollTo({ top: st.scrollTop + d, behavior: reduced() ? 'auto' : 'smooth' });
+    });
+  }
   $$('[data-ln-p22]').forEach(function (b) {
-    b.addEventListener('click', function () { H.tap(); save({ p22: b.getAttribute('data-ln-p22') }); paint22(true); });
+    b.addEventListener('click', function () { H.tap(); save({ p22: b.getAttribute('data-ln-p22') }); paint22(true); reveal($('[data-ln-fb22]')); });
   });
 
   /* ---- 3.2 Maya's state, and the clue -------------------------------- */
@@ -270,8 +297,8 @@
     $('[data-ln-c32img]').src = 'assets/img/' + (s === 'surv' && c === 'body' ? 'coach-encouraging-sticker.png' : 'coach-thinking-sticker.png');
     if (anim && t) fade(fb, 320);
   }
-  $$('[data-ln-s32]').forEach(function (b) { b.addEventListener('click', function () { H.tap(); save({ s32: b.getAttribute('data-ln-s32') }); paint32(true); }); });
-  $$('[data-ln-c32]').forEach(function (b) { b.addEventListener('click', function () { H.tap(); save({ c32: b.getAttribute('data-ln-c32') }); paint32(true); }); });
+  $$('[data-ln-s32]').forEach(function (b) { b.addEventListener('click', function () { H.tap(); save({ s32: b.getAttribute('data-ln-s32') }); paint32(true); reveal(L().c32 ? $('[data-ln-fb32]') : $('[data-ln-clues]')); }); });
+  $$('[data-ln-c32]').forEach(function (b) { b.addEventListener('click', function () { H.tap(); save({ c32: b.getAttribute('data-ln-c32') }); paint32(true); reveal($('[data-ln-fb32]')); }); });
 
   /* ---- 2.3 breathe with me --------------------------------------------
      19 Oct (Marc): the dark circle fills the light one on each breath in and
@@ -359,8 +386,10 @@
           if (arrows[k + 1]) fade(arrows[k + 1], 320, 260);
           var next = arrows[k + 1] || $('[data-ln-after="' + key + '"]');
           if (window.CDAH_FIT) window.CDAH_FIT(steps[k], next && !next.hidden ? next : steps[k]);
-          var h = steps[k].querySelector('h2');
-          if (arrows[k + 1]) arrows[k + 1].focus({ preventScroll: true }); else if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); }
+          /* 21 Oct [MARC, VoiceOver]: land on the box that opened ("Move 2 of
+             4"), not the next arrow, which comes after it in reading order. */
+          var h = steps[k].querySelector('.ln-step-k') || steps[k].querySelector('h2');
+          if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); }
         };
         if (reduced()) go(); else setTimeout(go, 240);
       });

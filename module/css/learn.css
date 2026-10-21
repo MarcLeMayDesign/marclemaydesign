@@ -84,6 +84,8 @@
 .ln-pane-t strong{color:var(--k-ink);font-weight:600}
 .ln-pane-arrow{position:absolute;bottom:10px;left:50%;translate:-50% 0;font-size:22px;line-height:1;color:var(--k-ink);opacity:.7}
 .ln-pane-arrow.up{bottom:auto;top:10px}
+.ln-pane-arrow{cursor:pointer;padding:8px 14px;margin-bottom:-8px}
+.ln-state:focus,.ln-step-k:focus{outline:none}
 .ln-reel-bar{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
 .ln-reel-bar .btn[hidden]{display:none}
 .ln-reel-bar{flex-wrap:nowrap}
@@ -319,4 +321,14 @@
   .ln-move{padding:18px 24px}
   .ln-recap-row{grid-template-columns:96px minmax(0,1fr);padding:12px 22px 12px 10px}
   .ln-recap-h{font-size:21px}
+}
+
+/* 21 Oct [MARC]: on a phone, 4.1 / 4.3 / 4.5 put a small figure beside the
+   headline instead of under the moves, where it kept moving as boxes opened. */
+@media (max-width:760px){
+  #lrn-41 .ln-split,#lrn-43 .ln-split,#lrn-45 .ln-split{position:relative}
+  #lrn-41 .ln-fig,#lrn-43 .ln-fig,#lrn-45 .ln-fig{position:absolute;top:0;right:0;width:64px}
+  #lrn-41 .ln-fig img,#lrn-43 .ln-fig img,#lrn-45 .ln-fig img{width:64px}
+  #lrn-41 .ln-col>.eyebrow,#lrn-43 .ln-col>.eyebrow,#lrn-45 .ln-col>.eyebrow,
+  #lrn-41 h1.screen-title,#lrn-43 h1.screen-title,#lrn-45 h1.screen-title{padding-right:76px}
 }

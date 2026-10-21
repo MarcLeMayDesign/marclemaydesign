@@ -194,7 +194,13 @@
       var pcb = el.querySelector('[data-pc-back]');
       if (pcb && pcb.offsetParent !== null) h = pcb;
       if (h.tagName !== 'BUTTON') h.setAttribute('tabindex', '-1');
+      /* 21 Oct [MARC, VoiceOver]: after Back or Next in the footer, VoiceOver
+         stayed on the button, which never leaves the page. Blur it, then
+         land again once the new screen has faded in. */
+      var fromFoot = document.activeElement === btnNext || document.activeElement === btnBack;
+      if (fromFoot) document.activeElement.blur();
       h.focus({ preventScroll: true });
+      if (fromFoot) { var hf = h; setTimeout(function () { if (current === id) { hf.blur(); hf.focus({ preventScroll: true }); } }, 320); }
       /* A door in the panel closes it and hands focus back to its opener. Take it back. */
       var ft = h;
       setTimeout(function () {
@@ -202,6 +208,7 @@
       }, 400);
     }
     stage.scrollTop = 0;
+    footLatch(id, el);
     /* After focus and the scroll reset, so the fade is not fighting either. */
     if (prevEl !== el) FX.enter(el, { weight: weight, stage: stage, ground: ground });
     /* Learn AD2 (15 Oct): screens with their own state repaint on arrival (js/learn.js). */
@@ -397,6 +404,27 @@
       closeGate.hidden = left === 0;
     }
   }
+
+  /* 21 Oct [MARC]: on a phone, a Learn screen's first visit hides Back/Next
+     until the parent has scrolled to the bottom, so the picture or the
+     interaction below the words isn't skipped. Once reached, the footer
+     latches, and stays for that screen on every later visit. Keyboard and
+     VoiceOver users still reach it: focus inside it brings it up (CSS). */
+  var footMQ = window.matchMedia ? window.matchMedia('(max-width:760px)') : null, footId = null;
+  function footSeen() { return S.get().footSeen || {}; }
+  function footDone() {
+    if (!footId) return;
+    var o = {}, c = footSeen(), k; for (k in c) o[k] = c[k]; o[footId] = true;
+    S.set({ footSeen: o }); footId = null; app.removeAttribute('data-foot');
+  }
+  function footCheck() { if (footId && stage.scrollTop + stage.clientHeight >= stage.scrollHeight - 24) footDone(); }
+  function footLatch(id, el) {
+    footId = null; app.removeAttribute('data-foot');
+    if (!footMQ || !footMQ.matches || el.getAttribute('data-section') !== 'learn' || id === 'lrn-10' || footSeen()[id]) return;
+    footId = id; app.setAttribute('data-foot', 'wait');
+    setTimeout(footCheck, 450);
+  }
+  stage.addEventListener('scroll', footCheck, { passive: true });
 
   function paintNav(i) {
     btnBack.disabled = i === 0 && trail.length < 2;
@@ -988,7 +1016,7 @@
       paintKept(true);
       if (coach) coach.classList.add('is-in');
       paintReadback();
-      if (goBtn) goBtn.focus();
+      /* 21 Oct [MARC, VoiceOver]: focus stays on Save; the next swipe is the Coach, then Continue. */
     });
   }
 

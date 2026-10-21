@@ -258,7 +258,8 @@
         bt.appendChild(el('p', 'bt-beat-k', st.beatK)); bt.appendChild(el('p', 'bt-beat-t', st.beat));
         sec.appendChild(bt);
       }
-      sec.appendChild(el('p', 'bt-k', 'Step ' + (i + 1) + ' of ' + total + ' \u00b7 ' + st.tag));
+      var hk = el('h2', 'bt-k', 'Step ' + (i + 1) + ' of ' + total + ' \u00b7 ' + st.tag); hk.id = 'bt-k-' + st.id; sec.appendChild(hk);
+      sec.setAttribute('aria-labelledby', hk.id);
       var q = el('p', 'bt-q', st.label); q.id = 'bt-q-' + st.id; sec.appendChild(q);
       if (st.type === 'pick') {
         if (st.pickQ) sec.appendChild(el('p', 'bt-sub', st.pickQ));
@@ -268,7 +269,7 @@
           btn.setAttribute('aria-pressed', p === k ? 'true' : 'false');
           var im = el('img'); im.src = IMG + C[k].img; im.alt = ''; im.draggable = false;
           btn.appendChild(im); btn.appendChild(el('span', null, C[k].name));
-          btn.addEventListener('click', function () { H.tap(); put('pick', st.id, k); put('asked', st.id, ''); paint(st.id, 'pick:' + k); });
+          btn.addEventListener('click', function () { H.tap(); put('pick', st.id, k); put('asked', st.id, ''); paint(st.id, 'pick'); });
           g.appendChild(btn);
         });
         sec.appendChild(g);
@@ -303,41 +304,54 @@
       row.appendChild(el('span', 'bt-keys', 'or \u2318/Ctrl + Return'));
       sec.appendChild(row);
       var safe = el('div', 'safety'); safe.hidden = true; sec.appendChild(safe);
-      /* 20 Oct [MARC, 1b]: "Need a reminder?", collapsed until asked. The
-         Words to try pill and cards, holding Learn's move names and short
-         definitions, never a line to copy. On a pick step it shows only
-         once a state is picked, and for that state, so it can't give the
-         read away. */
-      var rk = st.remind === 'pick' ? p : st.remind;
-      if (rk && REM[rk]) {
-        var open = !!b.rem[st.id], rid = 'bt-rem-' + st.id;
-        var pl = el('button', 'wt-pill bt-rem-pill'); pl.type = 'button';
-        pl.setAttribute('aria-expanded', open ? 'true' : 'false'); pl.setAttribute('aria-controls', rid);
-        pl.innerHTML = 'Need a reminder? <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
-        row.appendChild(pl);
-        var rc = el('div', 'bt-rem'); rc.id = rid; rc.setAttribute('data-k', rk); rc.hidden = !open;
-        REM[rk].forEach(function (m, j) {
-          var cd = el('div', 'bt-rem-card');
-          cd.appendChild(el('span', 'bt-rem-k', C[rk].name + ' \u00b7 move ' + (j + 1)));
-          cd.appendChild(el('span', 'bt-rem-n', m[0]));
-          cd.appendChild(el('span', 'bt-rem-d', m[1]));
-          rc.appendChild(cd);
-        });
-        sec.appendChild(rc);
-        pl.addEventListener('click', function () {
-          H.tap(); var o = !B().rem[st.id]; put('rem', st.id, o);
-          pl.setAttribute('aria-expanded', o ? 'true' : 'false'); rc.hidden = !o;
-          if (o) { fade(rc, 280); if (window.CDAH_FIT) window.CDAH_FIT(pl, rc); }
-        });
-      }
-      var c = coachNode(st);
-      if (c) sec.appendChild(c);
-      if (st.type !== 'self' && a && !b.cont[st.id]) {
-        var go = el('button', 'bt-cont'); go.type = 'button';
-        go.innerHTML = '<span>Continue</span><i aria-hidden="true"></i>';
-        go.addEventListener('click', function () { H.tap(); put('cont', st.id, true); paint(st.id, 'next'); });
-        sec.appendChild(go);
-      }
+      /* 21 Oct [MARC, VoiceOver]: everything that changes after a Send, a pick
+         or a Continue lives in one container that is refilled in place. The
+         question, the field and Send are never rebuilt, so VoiceOver keeps
+         its place instead of falling back to the top of the screen. */
+      var dyn = el('div', 'bt-dyn'); sec.appendChild(dyn);
+      sec._fill = function () {
+        var b = B(), a = b.asked[st.id], p = b.pick[st.id];
+        sendBtn.textContent = a ? 'Send again' : 'Send';
+        sendBtn.disabled = !canSend();
+        sec.querySelectorAll('.bt-pick').forEach(function (x) { x.setAttribute('aria-pressed', x.getAttribute('data-k') === p ? 'true' : 'false'); });
+        var old = row.querySelector('.bt-rem-pill'); if (old) row.removeChild(old);
+        dyn.innerHTML = '';
+        /* 20 Oct [MARC, 1b]: "Need a reminder?", collapsed until asked. On a
+           pick step it shows only once a state is picked, and for that state,
+           so it can't give the read away. */
+        var rk = st.remind === 'pick' ? p : st.remind;
+        if (rk && REM[rk]) {
+          var open = !!b.rem[st.id], rid = 'bt-rem-' + st.id;
+          var pl = el('button', 'wt-pill bt-rem-pill'); pl.type = 'button';
+          pl.setAttribute('aria-expanded', open ? 'true' : 'false'); pl.setAttribute('aria-controls', rid);
+          pl.innerHTML = 'Need a reminder? <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+          row.appendChild(pl);
+          var rc = el('div', 'bt-rem'); rc.id = rid; rc.setAttribute('data-k', rk); rc.hidden = !open;
+          rc.setAttribute('role', 'list'); rc.setAttribute('aria-label', 'Moves for the ' + C[rk].name + ' State');
+          REM[rk].forEach(function (m, j) {
+            var cd = el('div', 'bt-rem-card'); cd.setAttribute('role', 'listitem');
+            cd.appendChild(el('span', 'bt-rem-k', C[rk].name + ' \u00b7 move ' + (j + 1)));
+            cd.appendChild(el('span', 'bt-rem-n', m[0]));
+            cd.appendChild(el('span', 'bt-rem-d', m[1]));
+            rc.appendChild(cd);
+          });
+          dyn.appendChild(rc);
+          pl.addEventListener('click', function () {
+            H.tap(); var o = !B().rem[st.id]; put('rem', st.id, o);
+            pl.setAttribute('aria-expanded', o ? 'true' : 'false'); rc.hidden = !o;
+            if (o) { fade(rc, 280); if (window.CDAH_FIT) window.CDAH_FIT(pl, rc); }
+          });
+        }
+        var c = coachNode(st);
+        if (c) dyn.appendChild(c);
+        if (st.type !== 'self' && a && !b.cont[st.id]) {
+          var go = el('button', 'bt-cont'); go.type = 'button';
+          go.innerHTML = '<span>Continue</span><i aria-hidden="true"></i>';
+          go.addEventListener('click', function () { H.tap(); put('cont', st.id, true); paint(st.id, 'next'); });
+          dyn.appendChild(go);
+        }
+      };
+      sec._fill();
       return sec;
     }
 
@@ -358,7 +372,7 @@
           var yn = el('div', 'bt-yn');
           [['Yes, that\u2019s me', 'yes'], ['Not quite', 'no']].forEach(function (o) {
             var btn = el('button', 'btn btn-quiet', o[0]); btn.type = 'button';
-            btn.addEventListener('click', function () { H.tap(); put('conf', st.id, o[1]); paint(st.id, o[1] === 'yes' ? 'next' : null); });
+            btn.addEventListener('click', function () { H.tap(); put('conf', st.id, o[1]); paint(st.id, o[1] === 'yes' ? 'next' : 'retry'); });
             yn.appendChild(btn);
           });
           txt.appendChild(yn);
@@ -428,36 +442,52 @@
 
     /* Rebuild the steps. `at` is the step that changed; `what` says where
        to take the parent: its new Coach box, or the step that just opened. */
+    function shownIds() {
+      var out = [];
+      for (var i = 0; i < total; i++) { out.push(sc.steps[i].id); if (!done(sc.steps[i])) break; }
+      return out;
+    }
+    function paintTail() {
+      tail.innerHTML = '';
+      if (!sc.steps.every(done)) return false;
+      tail.appendChild(bandNode());
+      var nx = el('div'), btn = el('button', 'btn', sc.nextLabel); btn.type = 'button'; btn.setAttribute('data-show', sc.next);
+      nx.appendChild(btn); tail.appendChild(nx);
+      return true;
+    }
+    function land(n) { if (!n) return; n.tabIndex = -1; n.focus({ preventScroll: true }); }
+    /* `at` is the step that changed; `what` says where to take the parent.
+       With no `at` (arrival, restart) everything is rebuilt. Otherwise only
+       that step's changing part is refilled, and later steps are added or
+       removed to match (21 Oct, VoiceOver). */
     function paint(at, what) {
-      list.innerHTML = ''; tail.innerHTML = '';
-      var shown = 0;
-      for (var i = 0; i < total; i++) { list.appendChild(stepNode(sc.steps[i], i)); shown = i; if (!done(sc.steps[i])) break; }
-      var all = sc.steps.every(done);
-      if (all) {
-        tail.appendChild(bandNode());
-        var nx = el('div'), btn = el('button', 'btn', sc.nextLabel); btn.type = 'button'; btn.setAttribute('data-show', sc.next);
-        nx.appendChild(btn); tail.appendChild(nx);
+      var me = at && list.querySelector('[data-step-id="' + at + '"]');
+      if (!me) {
+        list.innerHTML = '';
+        shownIds().forEach(function (id) { var k = idx(id); list.appendChild(stepNode(sc.steps[k], k)); });
+        paintTail();
+        return;
       }
-      if (!at) return;
-      var me = list.querySelector('[data-step-id="' + at + '"]');
-      /* 21 Oct, 508 pass: paint() rebuilds the step, so the button that was
-         pressed is gone and focus fell to the page. Put it somewhere real:
-         the pressed pick, or the Coach's answer (read out). */
-      if (me && what && what.indexOf('pick:') === 0) { var pk = me.querySelector('.bt-pick[data-k="' + what.slice(5) + '"]'); if (pk) pk.focus({ preventScroll: true }); return; }
-      if (me && (what === 'coach' || !what)) {
-        var cb = me.querySelector('.bt-coach');
-        if (cb) { cb.tabIndex = -1; cb.focus({ preventScroll: true }); if (window.CDAH_SAY) window.CDAH_SAY(cb.textContent.replace(/^Coach says/, 'Coach says: ')); }
-      }
-      if (what === 'coach' && me) {
+      me._fill();
+      var want = shownIds();
+      Array.prototype.slice.call(list.children).forEach(function (n) { if (want.indexOf(n.getAttribute('data-step-id')) === -1) list.removeChild(n); });
+      want.forEach(function (id) { if (!list.querySelector('[data-step-id="' + id + '"]')) { var k = idx(id); list.appendChild(stepNode(sc.steps[k], k)); } });
+      var all = paintTail();
+      if (what === 'coach') {
         var c = me.querySelector('.bt-coach'); fade(c, 360);
         if (window.CDAH_FIT) window.CDAH_FIT(c, me.querySelector('.bt-cont') || c);
+        /* Focus stays on Send; the answer is read out once. VoiceOver's next
+           swipe goes on to the Coach box and Continue. */
+        if (c && window.CDAH_SAY) window.CDAH_SAY(c.textContent.replace(/^Coach says/, 'Coach says: '));
       }
+      if (what === 'retry') land(me.querySelector('.bt-selfpick'));
       if (what === 'next') {
-        var nxt = me && me.nextElementSibling;
-        if (nxt) { fade(nxt, 420); lift(nxt); var f = nxt.querySelector('.bt-pick, .bt-in'); if (f) f.focus({ preventScroll: true }); }
-        else if (all) { fade(tail, 420); lift(tail); }
+        var nxt = me.nextElementSibling;
+        if (nxt) { fade(nxt, 420); lift(nxt); land(nxt.firstElementChild); }
+        else if (all) { fade(tail, 420); lift(tail); land(tail.querySelector('.bt-band-w')); }
       }
     }
+    function idx(id) { for (var i = 0; i < total; i++) if (sc.steps[i].id === id) return i; return -1; }
     return { paint: paint };
   }
 
@@ -493,6 +523,8 @@
   }
   if (look) {
     var lf = look.querySelector('[data-lb-field]'), ls = look.querySelector('[data-lb-state]'), lsafe = look.querySelector('[data-lb-safety]');
+    /* 21 Oct [MARC]: Cmd/Ctrl+Return saves, as in Bring It Together. */
+    lf.addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); look.querySelector('[data-lb-save]').click(); } });
     lf.addEventListener('input', function () { if (ls) ls.textContent = ''; lbKept(!!lf.value && lf.value === (B().a5 || '')); });
     look.querySelector('[data-lb-save]').addEventListener('click', function () {
       if (this.getAttribute('aria-disabled') === 'true') return;

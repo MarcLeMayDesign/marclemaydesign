@@ -7,9 +7,9 @@
 <meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/module.css?v=20261021a">
-<link rel="stylesheet" href="css/learn.css?v=20261021a">
-<link rel="stylesheet" href="css/bit.css?v=20261021a">
+<link rel="stylesheet" href="css/module.css?v=20261021c">
+<link rel="stylesheet" href="css/learn.css?v=20261021c">
+<link rel="stylesheet" href="css/bit.css?v=20261021c">
 </head>
 <body>
 
@@ -89,7 +89,6 @@
           <button class="btn" id="baselineKeep" type="button">Save</button>
           <span class="baseline-state" id="baselineState" aria-live="polite"></span>
           <!-- 16 Oct [MARC]: SCR-101 cut; Continue goes straight to the title. -->
-          <button class="btn" id="baselineGo" type="button" data-show="scr-099" hidden>Continue &rarr;</button>
         </div>
         <div class="safety" id="baselineSafety" hidden></div>
       </div>
@@ -101,6 +100,8 @@
           <p class="coach-t">Good start! You&rsquo;ll meet this same morning again at the end, and I&rsquo;ll be right there with you.</p>
         </div>
       </aside>
+      <!-- 21 Oct [MARC, VoiceOver]: Continue sits after the Coach, so the order heard is Save, the Coach, Continue. -->
+      <div class="baseline-go"><button class="btn" id="baselineGo" type="button" data-show="scr-099" hidden>Continue &rarr;</button></div>
       <div id="skipWrap">
         <!-- Live 26 Sept: goes to the title (SCR-099), baseline left unanswered; SCR-304 falls back to a general reflection prompt. Hidden once an answer is kept (Draft 2). -->
         <button class="door" id="skipBaseline" type="button">I&rsquo;d rather start with the module &rarr;</button>
@@ -189,7 +190,7 @@
       <p class="screen-body">How we deal with the world around us is governed, in large part, by which of three &ldquo;states&rdquo; our brain is in at a given moment. Each state comes with a different skillset. Conscious Discipline starts with working out which brain state you are in, followed by which state your child is in. Nothing works until we do that.</p>
       <div class="ln-brain" data-ln-brain="split">
         <button class="ln-brain-all" type="button" data-ln-split aria-label="Show the three brain states"><img src="assets/img/brain-all.png" alt=""></button>
-        <button class="ln-brain-cue" type="button" data-ln-split tabindex="-1" aria-hidden="true"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the brain to learn about each state</button>
+        <span class="ln-brain-cue" data-ln-split aria-hidden="true"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the brain to learn about each state</span>
         <div class="ln-states" data-ln-states hidden>
           <article class="ln-state" data-k="exec">
             <i class="ln-state-bg" aria-hidden="true"></i>
@@ -308,7 +309,7 @@
       <p class="screen-body">Your child reads your state before your words reach them. So the first state to recognize is your own. Here&rsquo;s how each one tends to show up in a parent.</p>
       <div class="ln-brain ln-who" data-ln-brain="split21">
         <button class="ln-brain-all" type="button" data-ln-split aria-label="Show how each state shows up in a parent"><img src="assets/img/state-parent-calm.png" alt=""></button>
-        <button class="ln-brain-cue" type="button" data-ln-split tabindex="-1" aria-hidden="true"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the parent to see how each state shows up</button>
+        <span class="ln-brain-cue" data-ln-split aria-hidden="true"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the parent to see how each state shows up</span>
         <div class="ln-states" data-ln-states hidden>
           <article class="ln-state" data-k="exec">
             <i class="ln-state-bg" aria-hidden="true"></i>
@@ -399,7 +400,7 @@
       <p class="screen-body">Reading your child&rsquo;s state starts with empathy: understanding, without judgment. You&rsquo;re looking for what they feel, not trying to stop it. Each state shows up in a child in its own way, and each one is asking a question. Read below to see signs and behaviors to look for to figure out your child&rsquo;s state.</p>
       <div class="ln-brain ln-who ln-who-child" data-ln-brain="split31">
         <button class="ln-brain-all" type="button" data-ln-split aria-label="Show how each state shows up in a child"><img src="assets/img/state-child-ready.png" alt=""></button>
-        <button class="ln-brain-cue" type="button" data-ln-split tabindex="-1" aria-hidden="true"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the child to see how each state shows up</button>
+        <span class="ln-brain-cue" data-ln-split aria-hidden="true"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the child to see how each state shows up</span>
         <div class="ln-states" data-ln-states hidden>
           <article class="ln-state" data-k="exec">
             <i class="ln-state-bg" aria-hidden="true"></i>
@@ -479,7 +480,7 @@
           <p class="eyebrow plum">Part 4 &middot; What their state needs</p>
           <h1 class="screen-title">The Survival State: safety first</h1>
           <p class="screen-body">Few things are harder as a parent than keeping cool when your child is screaming, hitting, or running away. But in the Survival State, their body is asking, &ldquo;Am I safe right now?&rdquo; If their body is telling them it&rsquo;s not, then no pushback will land, no limits will be heard, and no rules can be taught.</p>
-          <p class="screen-body">Once you&rsquo;ve figured out your own state and determined that your child is in Survival, there are a few concrete actions that will help them rise a level. <span class="say-fine">Click</span><span class="say-touch">Tap</span> the arrow below to find out more.</p>
+          <p class="screen-body">Once you&rsquo;ve figured out your own state and determined that your child is in Survival, there are four moves that will help them rise a level. <span class="say-fine">Click</span><span class="say-touch">Tap</span> the arrows below to learn about each one.</p>
           <div class="ln-steps" data-ln-steps="st41" data-k="surv">
             <button class="ln-arrow" type="button" data-ln-go aria-label="Show move 1 of 4"><i aria-hidden="true"></i></button>
             <div class="ln-step" hidden><p class="ln-step-k">Move 1 of 4</p><h2>Compose Yourself</h2><p>Catch yourself before your voice goes up. Deep belly breaths. Say to yourself: &ldquo;I&rsquo;ve got this. I&rsquo;m the parent, they need me. Getting angry and yelling back won&rsquo;t do any good right now.&rdquo;</p></div>
@@ -516,7 +517,7 @@
           <p class="eyebrow plum">Part 4 &middot; What their state needs</p>
           <h1 class="screen-title">The Emotional State: connection</h1>
           <p class="screen-body">The kicking has stopped, but now she drops to the rug, sobbing, &ldquo;You NEVER listen to me. These shoes feel WEIRD.&rdquo;</p>
-          <p class="screen-body">In the Emotional State, your child may seem calmer. But now their brain is being controlled by their emotions, and their brain is asking, &ldquo;Am I still loved?&rdquo; Those big feelings are going to get in the way of any kind of self-reflection or lessons we want to teach. So here, they need connection. They need to feel understood, know that they are loved, and that they have a say in what happens next. Below are a couple of ways to create that connection.</p>
+          <p class="screen-body">In the Emotional State, your child may seem calmer. But now their brain is being controlled by their emotions, and their brain is asking, &ldquo;Am I still loved?&rdquo; Those big feelings are going to get in the way of any kind of self-reflection or lessons we want to teach. So here, they need connection. They need to feel understood, know that they are loved, and that they have a say in what happens next. <span class="say-fine">Click</span><span class="say-touch">Tap</span> below to see a couple ways to create that connection.</p>
           <div class="ln-steps" data-ln-steps="st43" data-k="emo">
             <button class="ln-arrow" type="button" data-ln-go aria-label="Show move 1 of 2"><i aria-hidden="true"></i></button>
             <div class="ln-step" hidden><p class="ln-step-k">Move 1 of 2</p><h2>Name the Feeling</h2><p>Instead of asking what they feel, or why they&rsquo;re upset, name it and check: &ldquo;You&rsquo;re trying to tell me the shoes feel wrong, and I&rsquo;m not hearing you. It must be frustrating to feel that way. Do I get you?&rdquo;</p><p>This is a quick way to show that you empathize and aren&rsquo;t judging them. There&rsquo;s no such thing as a &ldquo;wrong&rdquo; feeling. Naming the feeling shows them that it&rsquo;s okay to be feeling it.</p></div>
@@ -1059,25 +1060,25 @@
   </div>
 </div>
 
-<script src="content/strings.js?v=20261021a"></script>
-<script src="content/principles.js?v=20261021a"></script>
-<script src="content/safety.js?v=20261021a"></script>
-<script src="content/scenarios.js?v=20261021a"></script>
-<script src="content/bookend.js?v=20261021a"></script>
-<script src="content/phrases.js?v=20261021a"></script>
-<script src="content/glossary.js?v=20261021a"></script>
-<script src="js/board.js?v=20261021a"></script>
-<script src="js/state.js?v=20261021a"></script>
-<script src="js/haptics.js?v=20261021a"></script>
-<script src="js/fx.js?v=20261021a"></script>
-<script src="js/principles.js?v=20261021a"></script>
-<script src="js/safety.js?v=20261021a"></script>
-<script src="js/matcher.js?v=20261021a"></script>
-<script src="js/roleplay.js?v=20261021a"></script>
-<script src="js/app.js?v=20261021a"></script>
-<script src="js/phrases.js?v=20261021a"></script>
-<script src="js/glossary.js?v=20261021a"></script>
-<script src="js/learn.js?v=20261021a"></script>
-<script src="js/bit.js?v=20261021a"></script>
+<script src="content/strings.js?v=20261021c"></script>
+<script src="content/principles.js?v=20261021c"></script>
+<script src="content/safety.js?v=20261021c"></script>
+<script src="content/scenarios.js?v=20261021c"></script>
+<script src="content/bookend.js?v=20261021c"></script>
+<script src="content/phrases.js?v=20261021c"></script>
+<script src="content/glossary.js?v=20261021c"></script>
+<script src="js/board.js?v=20261021c"></script>
+<script src="js/state.js?v=20261021c"></script>
+<script src="js/haptics.js?v=20261021c"></script>
+<script src="js/fx.js?v=20261021c"></script>
+<script src="js/principles.js?v=20261021c"></script>
+<script src="js/safety.js?v=20261021c"></script>
+<script src="js/matcher.js?v=20261021c"></script>
+<script src="js/roleplay.js?v=20261021c"></script>
+<script src="js/app.js?v=20261021c"></script>
+<script src="js/phrases.js?v=20261021c"></script>
+<script src="js/glossary.js?v=20261021c"></script>
+<script src="js/learn.js?v=20261021c"></script>
+<script src="js/bit.js?v=20261021c"></script>
 </body>
 </html>
