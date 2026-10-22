@@ -23,6 +23,7 @@ header a:focus-visible,footer a:focus-visible{outline-color:#9FC3DF}
 .nav{color:#C3C9D8;text-decoration:none;padding:6px 0}.nav:hover{color:#fff}
 .btn-p:hover{background:#2A80C2 !important;color:#fff !important}
 .btn-g:hover{border-color:#C3C9D8 !important;color:#fff !important}
+.hero-shot img{transition:transform .2s ease}.hero-shot:hover img{transform:scale(1.015)}
 a.doc:hover span:first-child{color:#25293C !important;text-decoration:underline;text-underline-offset:4px}
 </style>
 </head>
@@ -49,7 +50,7 @@ a.doc:hover span:first-child{color:#25293C !important;text-decoration:underline;
             <a class="btn-g" href="decision-record/" style="color:#F4F1EA;text-decoration:none;font-weight:600;font-size:16px;padding:13px 22px;border-radius:8px;border:1px solid #4A5068" >Read the design record</a>
           </div>
         </div>
-        <div style="border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px #2F3549,0 24px 60px -20px rgba(70,16,40,.7),0 17px 82px -27px rgba(142,58,87,.35)"><img src="img/beta-01.webp" width="1600" height="949" decoding="async" fetchpriority="high" alt="The module’s title screen: Conscious Discipline at Home, with the parent and Maya sitting together." style="display:block;width:100%;height:auto"></div>
+        <a href="../module/" class="hero-shot" style="display:block;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px #2F3549,0 24px 60px -20px rgba(70,16,40,.7),0 17px 82px -27px rgba(142,58,87,.35)"><img src="img/beta-01.webp" width="1600" height="949" decoding="async" fetchpriority="high" alt="Try the beta: the module’s title screen, Conscious Discipline at Home, with the parent and Maya sitting together." data-nozoom="1" style="display:block;width:100%;height:auto"></a>
       </div>
       <div style="max-width:1120px;margin:56px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:24px 32px">
         <div style="display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#ADB4C6">Role</div><div style="font-size:15px;line-height:1.5;color:#F4F1EA">Sole designer: analysis, objectives, assessment, script, visuals, build</div></div>
@@ -271,7 +272,6 @@ a.doc:hover span:first-child{color:#25293C !important;text-decoration:underline;
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:0 40px">
         <a class="doc" href="decision-record/" style="display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #DEE3E9;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#1F6FAD">Design Decision Record <span aria-hidden="true">→</span></span><span style="font-size:15px;line-height:1.5;color:#5F6272">Every call, what it replaced, and why</span></a>
         <a class="doc" href="functional-spec/" style="display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #DEE3E9;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#1F6FAD">Functional spec <span aria-hidden="true">→</span></span><span style="font-size:15px;line-height:1.5;color:#5F6272">How the scored parts read an answer</span></a>
-        <a class="doc" href="flow-board/" style="display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #DEE3E9;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#1F6FAD">Flow board <span aria-hidden="true">→</span></span><span style="font-size:15px;line-height:1.5;color:#5F6272">Every screen, and the paths between them</span></a>
         <a class="doc" href="visual-design/" style="display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #DEE3E9;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#1F6FAD">Visual design <span aria-hidden="true">→</span></span><span style="font-size:15px;line-height:1.5;color:#5F6272">Palette, type, the cast, and the character sheet</span></a>
         <a class="doc" href="../rise/" style="display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #DEE3E9;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#1F6FAD">Rise 360 sample <span aria-hidden="true">→</span></span><span style="font-size:15px;line-height:1.5;color:#5F6272">A few module elements, rebuilt in a single day with an authoring tool</span></a>
       </div>
@@ -293,7 +293,7 @@ a.doc:hover span:first-child{color:#25293C !important;text-decoration:underline;
 <script>
 /* Every screenshot opens full size: click, or Enter/Space when focused. Esc, a click, or × closes. */
 (function () {
-document.querySelectorAll('img[src^="img/"]').forEach(img => {
+document.querySelectorAll('img[src^="img/"]:not([data-nozoom])').forEach(img => {
       img.style.cursor = 'zoom-in'; img.tabIndex = 0; img.dataset.zoom = '1';
       img.setAttribute('role', 'button');
       img.setAttribute('aria-label', (img.alt || 'Screenshot') + ' (open full size)');

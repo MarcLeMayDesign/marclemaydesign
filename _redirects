@@ -1,3 +1,7 @@
+/case-study/flow-board /module-write-up/ 301
+/case-study/flow-board/ /module-write-up/ 301
+/module-write-up/flow-board /module-write-up/ 301
+/module-write-up/flow-board/ /module-write-up/ 301
 /case-study /module-write-up/ 301
 /case-study/ /module-write-up/ 301
 /case-study/* /module-write-up/:splat 301
