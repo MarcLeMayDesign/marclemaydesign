@@ -1,0 +1,3 @@
+/case-study /module-write-up/ 301
+/case-study/ /module-write-up/ 301
+/case-study/* /module-write-up/:splat 301
