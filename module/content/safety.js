@@ -1,4 +1,4 @@
-/* content/safety.js — the six safety responses.
+/* content/safety.js — the seven safety responses (SR-7 added 21 Oct).
    THIS IS A FILE YOU EDIT, and the one where a missing phrase matters most.
    Copy is final from "Safety Responses - Spec and Drafts" (20 Sept); edit the
    words there first, then here.
@@ -153,6 +153,41 @@ window.CDAH_SAFETY_DATA = {
       say: 'Setting the exercise aside for a moment. You matter here too, not only as somebody\u2019s parent. The 988 Suicide &amp; Crisis Lifeline is free, confidential, and answers texts as well as calls \u2014 <strong>988</strong>. If this was just a hard day talking rather than something more, that\u2019s all right too; the question is still below whenever you want it.',
       again: 'Still here, and 988 still answers \u2014 call or text, any time.',
       action: { label: 'Call or text 988', href: 'tel:988' } },
+
+    /* 21 Oct [MARC]: physical harm in the answer itself. SR-1 is homeOnly, so
+       "I'd grab her arm, twist it and push her to the ground" about the
+       scripted child went through and was scored. Not homeOnly, for the same
+       reason as SR-6: rough hands on the practice child is exactly the moment
+       this is for. Checked after SR-1 to SR-4 (a real disclosure gets the more
+       serious reply) and before SR-6. grab / push / throw / drag stay out of
+       the verbs, as in SR-1 ("I'd grab her hand and go", "throw her shoe in
+       the closet"); their rough forms are listed as phrases instead. */
+    { id: 'SR-7',
+      phrases: ['push her to the ground', 'push him to the ground', 'push her to the floor', 'push him to the floor',
+                'push her down', 'push him down', 'push her over', 'push him over', 'push her away hard', 'push him away hard',
+                'shove her down', 'shove him down', 'knock her down', 'knock him down', 'knock her over', 'knock him over',
+                'throw her down', 'throw him down', 'throw her on', 'throw him on', 'throw her against', 'throw him against',
+                'throw her across', 'throw him across', 'pin her down', 'pin him down',
+                'grab her by the hair', 'grab him by the hair', 'by her hair', 'by his hair', 'pull her hair', 'pull his hair',
+                'by the throat', 'by her throat', 'by his throat', 'by the neck', 'by her neck', 'by his neck',
+                'grab her hard', 'grab him hard', 'grab her arm hard', 'grab his arm hard',
+                'twist her arm', 'twist his arm', 'twist it', 'drag her by', 'drag him by'],
+      pattern: {
+        window: 8,
+        subjects: ['i', 'id', 'ill', 'im', 'ive'],
+        others: ['he', 'she', 'they', 'you', 'we', 'hes', 'shes', 'theyre', 'youre', 'someone', 'somebody', 'maya'],
+        verbs: ['hit', 'slap', 'slapped', 'smack', 'smacked', 'spank', 'spanked', 'shake', 'shook',
+                'punch', 'punched', 'kick', 'kicked', 'beat', 'whack', 'whacked', 'swat', 'swatted',
+                'twist', 'twisted', 'yank', 'yanked', 'shove', 'shoved', 'choke', 'choked', 'strangle',
+                'pinch', 'pinched', 'slam', 'slammed', 'squeeze', 'squeezed', 'hurt'],
+        objects: ['him', 'her', 'them', 'maya', 'his arm', 'her arm', 'his wrist', 'her wrist'],
+        negate: ['never', 'not', 'wouldnt', 'dont', 'didnt', 'wont', 'cant', 'couldnt', 'shouldnt', 'no', 'without'],
+        unless: ['feelings', 'hand', 'hands', 'up', 'awake', 'tight']
+      },
+      /* CHECK Marc: copy drafted 21 Oct, in the voice of SR-6. */
+      say: 'Setting the exercise aside for a moment. What you\u2019ve described would hurt a child, so it isn\u2019t something this module will score, even in practice. If moments like this are closer to real than you\u2019d like, the National Parent Helpline is free and confidential, and it\u2019s there for ordinary hard weeks too: call or text <strong>1-855-427-2736</strong>. Nothing you type here leaves your device. The question is still below whenever you want it.',
+      again: 'The helpline is still there if you want it: <strong>1-855-427-2736</strong>, call or text. The question is below.',
+      action: { label: 'Call or text 1-855-427-2736', href: 'tel:18554272736' } },
 
     /* Harsh language. Not homeOnly: a parent swearing at the scripted
        child in a role-play is exactly the moment this is for. Checked after

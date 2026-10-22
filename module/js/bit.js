@@ -291,9 +291,11 @@
            nothing is sent or saved, and the Coach's slot holds the response. */
         if (window.CDAH_SAFETY && t.trim()) {
           var sr = window.CDAH_SAFETY.check(t, { context: st.type === 'self' ? 'baseline' : 'roleplay' });
-          if (sr) { window.CDAH_SAFETY.render(safe, sr, function () { safe.hidden = true; ta.focus(); }); safe.hidden = false; announce(safe); if (window.CDAH_FIT) window.CDAH_FIT(safe, safe); return; }
+          /* 21 Oct [MARC]: the last answer's Coach reply hides while the safety
+             response shows, so nothing on screen reads as a score for this text. */
+          if (sr) { dyn.hidden = true; window.CDAH_SAFETY.render(safe, sr, function () { safe.hidden = true; dyn.hidden = false; ta.focus(); }); safe.hidden = false; announce(safe); if (window.CDAH_FIT) window.CDAH_FIT(safe, safe); return; }
         }
-        safe.hidden = true;
+        safe.hidden = true; dyn.hidden = false;
         H.tap();
         if (st.type === 'self') { put('asked', st.id, read(t) || 'none'); put('conf', st.id, null); put('self', st.id, null); }
         else put('asked', st.id, t.trim() ? t : ' ');
