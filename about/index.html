@@ -4,8 +4,39 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About &mdash; Marc LeMay</title>
-<meta name="description" content="Marc LeMay &mdash; instructional and learning experience designer. Twenty years teaching music theory; now designing learning for people who didn&rsquo;t choose to be in the room.">
+<meta name="description" content="About Marc LeMay, instructional and learning experience designer.">
 <link rel="stylesheet" href="../css/site.css">
+<!-- 30 Oct [MARC]: rebuilt with Marc's own copy. Page-only rules below. -->
+<style>
+.wrap{container-type:inline-size}
+.hero:has(.about-h1){display:grid;grid-template-columns:minmax(0,1fr) clamp(180px,22cqi,260px);gap:0 clamp(28px,4.5vw,64px);grid-template-rows:auto auto auto 1fr;align-items:start}
+.hero:has(.about-h1) .hero-text{display:contents}
+.hero:has(.about-h1) .about-h1{grid-column:1;grid-row:1;align-self:end}
+.hero:has(.about-h1) .rule,.hero:has(.about-h1) .prose{grid-column:1}
+.hero:has(.about-h1) .about-photo{grid-column:2;grid-row:1/span 4;margin:0;min-width:0}
+.about-photo img{aspect-ratio:4/3;object-fit:cover;object-position:50% 22%}
+@container (max-width:740px){
+  .hero:has(.about-h1){grid-template-columns:minmax(0,1fr) clamp(96px,30cqi,200px);gap:0 clamp(12px,3cqi,24px);align-items:end}
+  .hero:has(.about-h1) .about-h1{font-size:clamp(26px,8cqi,48px)}
+  .hero:has(.about-h1) .about-photo{grid-row:1}
+  .hero:has(.about-h1) .about-photo img{aspect-ratio:1/1}
+  .hero:has(.about-h1) .photo-note{display:none}
+  .hero:has(.about-h1) .rule,.hero:has(.about-h1) .prose{grid-column:1/-1}
+}
+.sec{margin-top:clamp(48px,6vw,88px)}
+.hero + .sec{margin-top:clamp(28px,3.4vw,44px)}
+.sec h2{margin:0 0 clamp(18px,2.4vw,26px);padding-bottom:14px;border-bottom:1px solid var(--rule);max-width:none}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,64px);align-items:start}
+.cols h3{margin:0 0 4px;font:700 clamp(17px,1.4vw,20px)/1.3 var(--sans);color:var(--ink)}
+.list{list-style:none;margin:0;padding:0}
+.list li{font:400 clamp(16px,1.25vw,18px)/1.5 var(--sans);color:var(--ink-soft);padding:clamp(11px,1.3vw,15px) 0;border-bottom:1px solid var(--rule);text-wrap:pretty}
+.skills{background:var(--ground-hover);border:1px solid var(--rule);border-radius:8px;padding:clamp(20px,2.6vw,30px) clamp(18px,2.4vw,28px);margin-left:-5px}
+.skills h2{font-size:clamp(19px,1.8vw,24px);border:0;padding:0;margin:0 0 14px}
+.skills-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 24px}
+.skills-grid p{margin:0;max-width:none;font-size:clamp(15px,1.15vw,17px);line-height:1.55}
+.skills-k{font-weight:700;color:var(--ink) !important}
+@media (max-width:560px){.skills-grid{grid-template-columns:minmax(0,1fr);gap:4px}.skills-grid p:nth-child(3){margin-top:10px}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -14,7 +45,7 @@
     <a class="site-name" href="../">Marc LeMay</a>
     <nav class="site-nav">
       <a href="../#work">Work</a>
-      <a href="../about/" aria-current="page">About</a>
+      <a href="./" aria-current="page">About</a>
       <a href="../contact/">Contact</a>
     </nav>
   </header>
@@ -22,56 +53,93 @@
   <main>
     <div class="hero">
       <div class="hero-text">
-        <p class="eyebrow">About</p>
-        <h1 class="about-h1">Meet the designer</h1>
+        <h1 class="about-h1">Meet the Designer</h1>
         <hr class="rule rule-contact">
-        <p class="prose"><b>Twenty years teaching music theory:</b> four of them as full-time faculty at Georgia State University. Before that, a PhD in composition at the University of Pennsylvania, a Master&rsquo;s at Michigan, and courses taught at Rowan, Penn, Michigan, and UAB.</p>
-        <p class="prose">Most of that work was translation. Music theory arrives as dense scholarship written by theorists for theorists, and my students were performers and composers who needed to use it. So a lecture became a sequence: open with a passage the usual tools can&rsquo;t explain, hold the resolution back until someone wants it, then teach the tool and its limits together so students leave with judgment instead of a procedure. A SME handing over a hundred pages and a deadline is the same problem.</p>
-        <p class="prose">I resigned my position at GSU to support my wife&rsquo;s academic career and to be the primary caretaker at home. I&rsquo;d make the same choice again. But it did mean my own career came down to whatever a second academic could find in one city, which in Tallahassee meant part-time work at Florida State, contract by contract, with no path forward.</p>
-        <p class="prose">I&rsquo;ve spent my career so far trying to invigorate music theory curricula that have barely changed in over a century: the same exercises, the same lack of historical and cultural contextualization, for students who go into the classes reluctantly. Some of that work stuck. Most of it met resistance from an entrenched system.</p>
-        <p class="prose"><b>Now I want to move faster</b>: a position where a design that isn&rsquo;t working gets fixed in days, and where saying it isn&rsquo;t working is part of the job. I&rsquo;m based in Tallahassee, spend a portion of each year in London, and work remotely from both.</p>
+        <p class="prose">My twin passions are education and creative collaboration.</p>
       </div>
       <div class="about-photo">
         <img src="../img/marc-about.jpg" alt="Marc LeMay" width="900" height="1200">
-        <p class="photo-note">Black Dog Caf&eacute;, Tallahassee. The usual spot.</p>
+        <p class="photo-note">Black Dog Caf&eacute;, Tallahassee</p>
       </div>
     </div>
 
-    <section class="panel">
-      <div class="panel-head"><span>What I do</span></div>
-      <div class="do-groups">
-        <div class="do-group">
-          <p class="do-label">Design</p>
-          <ul>
-            <li>Curriculum and module design</li>
-            <li>Assessment and rubric design</li>
-            <li>Instructional writing</li>
+    <section class="sec">
+      <h2>As an Educator</h2>
+      <div class="cols">
+        <div>
+          <h3>At a glance</h3>
+          <ul class="list">
+            <li>20 years, 6 universities, more than 1,200 students</li>
+            <li>13 courses built from scratch</li>
+            <li>Consistent 4–5 out of 5 on student evaluations</li>
+            <li>8 courses moved online in D2L Brightspace (18 course runs, 2020–2022): recorded and captioned video lectures, authored quizzes and discussion boards, and tracked engagement analytics</li>
+            <li>MOOC content contributor and public lecturer for two opera premieres by Opera Philadelphia</li>
+            <li>Tailor-made private lessons to over 500 students, adults and children</li>
           </ul>
         </div>
-        <div class="do-group">
-          <p class="do-label">Build</p>
-          <ul>
-            <li>Prototyping in HTML</li>
-            <li>Free-text assessment design</li>
-            <li>Rise 360</li>
-          </ul>
-        </div>
-        <div class="do-group">
-          <p class="do-label">With people</p>
-          <ul>
-            <li>Project management to a brief</li>
-            <li>SME collaboration</li>
-            <li>Teaching and facilitation</li>
+        <div>
+          <h3>Teaching Philosophy and Style</h3>
+          <ul class="list">
+            <li>Close alignment with learning objectives</li>
+            <li>Assessments designed to test deep engagement, not just memorization: mostly analytical writing and creative projects, rather than exams</li>
+            <li>Translating complex theoretical material into digestible, engaging learning, especially for learners who come to the material skeptical</li>
+            <li>Strong public-facing communication skills, which carry into instructional design, learning facilitation, and AI prompting</li>
+            <li>Appreciation for gray areas: real knowledge production often involves addressing multiple conflicting ideas at once</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section class="panel">
-      <div class="panel-head"><span>The other half of the practice</span></div>
-      <div class="two-col">
-        <p class="prose">I compose and arrange music on commission, and that work is my second design practice. A commission is a project run end to end: a brief, an ensemble with particular musical strengths and branding, a premiere date that will not move, and a deliverable score in which every detail has to be considered before anyone plays a note. None of the constraints are mine. Evaluation begins in the rehearsal space.</p>
-        <p class="prose prose-quiet">Recent commissions from the American Patriots Project, the BrassTaps Duo, and the Chicago-based CHAI Collaborative Ensemble. Earlier work includes a dance drama for six musicians and ten dancers, an iPhone soundwalk through Center City Philadelphia, and a multimedia collaboration shown in Philadelphia and Brussels.</p>
+    <section class="sec">
+      <h2>As a Designer</h2>
+      <div class="cols">
+        <div>
+          <h3>At a glance</h3>
+          <ul class="list">
+            <li>25 years as a composer, arranger, songwriter, and sound designer</li>
+            <li>33 contemporary classical pieces composed, many on commission, across a variety of instrumentations</li>
+            <li>30 plays (music and/or sound design), 3 film scores, 2 albums (orchestral arrangements)</li>
+            <li>8 large multimedia collaboration projects</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Design Skills</h3>
+          <ul class="list">
+            <li><strong style="color:var(--ink);font-weight:700">Constant adaptation to new technology:</strong> engraving software, digital audio workstations, synthesizers, and much more.</li>
+            <li><strong style="color:var(--ink);font-weight:700">Big picture:</strong> envisioning the structure of an entire piece before any note is written, crafting flow from section to section that is both logical and engaging</li>
+            <li><strong style="color:var(--ink);font-weight:700">Micro-decisions:</strong> thousands of details, each decided to work in the moment and align with the piece’s aesthetic goals, just as every aspect of my learning modules aligns with their learning objectives</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>As a Business Professional</h2>
+      <div class="cols">
+        <ul class="list">
+          <li><strong style="color:var(--ink);font-weight:700">Project management:</strong> every piece has been a project with stakeholders whose needs I have to meet, including delivering finished work on time and to spec</li>
+          <li><strong style="color:var(--ink);font-weight:700">Creative collaboration:</strong> my favorite part of any design project; I’ve worked with dozens of visual artists, choreographers, dancers, theatre artists, filmmakers, and other creative professionals. I love being part of a team working toward the same goal</li>
+        </ul>
+        <div>
+          <h3>Leadership</h3>
+          <ul class="list">
+            <li>As Director of Undergraduate Studies at GSU, I oversaw the curricula for 350 students and 40 full-time faculty, and chaired curriculum committees</li>
+            <li>Also at GSU, as one of four College of the Arts fellows on the university’s Quality Enhancement Plan, I reported assessment data from five course sections and audited curricula against career-readiness competencies</li>
+            <li>As faculty at GSU, I designed and conducted 27 individualized music theory comprehensive exams for graduate students, and mentored 9 aspiring professionals about to hit the field through their capstone projects, graduate recitals, and graduate school and job applications</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="skills">
+        <h2>Skills and Tools</h2>
+        <div class="skills-grid">
+          <p class="skills-k">Design</p>
+          <p>Needs analysis · learning objectives · curriculum and course design · rubric and assessment design · rules-based scoring · storyboarding · program assessment and reporting · accessibility (Section 508, WCAG 2.1 AA)</p>
+          <p class="skills-k">Tools</p>
+          <p>Rise 360 · Microsoft 365 (PowerPoint, advanced; Teams; SharePoint) · Canvas · D2L Brightspace · Figma · Pro Tools · Final Cut Pro · DaVinci Resolve · AI-assisted build and drafting (Claude, ChatGPT, Gemini)</p>
+        </div>
       </div>
     </section>
   </main>

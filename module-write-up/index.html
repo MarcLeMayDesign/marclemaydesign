@@ -20,7 +20,7 @@ a:focus-visible,img[data-zoom]:focus-visible,button:focus-visible{outline:3px so
 header a:focus-visible,footer a:focus-visible{outline-color:#9FC3DF}
 .skip{position:absolute;left:12px;top:-60px;background:#F4F1EA;color:#1C2030;padding:10px 16px;border-radius:6px;font-weight:700;z-index:10;text-decoration:none}
 .skip:focus{top:12px}
-.nav{color:#C3C9D8;text-decoration:none;padding:6px 0}.nav:hover{color:#fff}
+.nav{color:#C3C9D8;text-decoration:none;padding:6px 0}.nav:hover{color:#fff}.foot-a:hover{color:#9FC3DF !important}
 .btn-p:hover{background:#2A80C2 !important;color:#fff !important}
 .btn-g:hover{border-color:#C3C9D8 !important;color:#fff !important}
 .hero-shot img{transition:transform .2s ease}.hero-shot:hover img{transform:scale(1.015)}
@@ -28,266 +28,172 @@ a.doc:hover span:first-child{color:#25293C !important;text-decoration:underline;
 </style>
 </head>
 <body>
+<style>@media (max-width:700px){.tr{grid-template-columns:minmax(0,1fr) !important}}.facts>div{flex:0 1 230px;min-width:180px}</style>
+<!-- 30 Oct [MARC]: rebuilt with Marc's own copy. -->
 <div style="font-family:'Public Sans',system-ui,sans-serif;color:#3B3E4C;background:#FAFBFC;font-size:17px;line-height:1.65">
-
-  
-
-  
-    <header style="background:#1C2030;color:#F4F1EA;padding:28px clamp(20px,5vw,40px) 64px">
+  <header style="background:#1C2030;color:#F4F1EA;padding:28px clamp(20px,5vw,40px) 72px">
     <a class="skip" href="#main">Skip to content</a>
     <nav aria-label="Site" style="max-width:1120px;margin:0 auto 56px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 28px;font-family:Karla,system-ui,sans-serif;font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase">
       <a class="nav" href="../" style="color:#F4F1EA">Marc LeMay</a>
       <span style="display:flex;flex-wrap:wrap;gap:8px 28px"><a class="nav" href="../#work" aria-current="page" style="color:#F4F1EA">Work</a><a class="nav" href="../about/">About</a><a class="nav" href="../contact/">Contact</a></span>
     </nav>
-      <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
-        <div style="display:flex;flex-direction:column;gap:20px">
-          <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;font-weight:700;color:#D79AB3">E-LEARNING MODULE · BETA · OCTOBER 2026</div>
-          <h1 style="margin:0;font-size:clamp(36px,5vw,54px);line-height:1.04;font-weight:800;letter-spacing:-.03em;color:#F4F1EA;text-wrap:balance">No multiple choice, no scores, and a parent’s own words</h1>
-          <div style="width:min(320px,60%);height:5px;background:#1F6FAD"></div>
-          <p style="margin:0;font-size:19px;line-height:1.55;color:#C3C9D8;text-wrap:pretty">Conscious Discipline at Home is a self-paced module that teaches parents what to do when their young child melts down. I designed, wrote, and built it, from the learning objectives to the code. It’s live in beta.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px">
-            <a class="btn-p" href="../module/" style="background:#1F6FAD;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 24px;border-radius:8px">Try the beta</a>
-            <a class="btn-g" href="decision-record/" style="color:#F4F1EA;text-decoration:none;font-weight:600;font-size:16px;padding:13px 22px;border-radius:8px;border:1px solid #4A5068" >Read the design record</a>
-          </div>
+    <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <h1 style="margin:0;font-size:clamp(36px,5vw,54px);line-height:1.04;font-weight:800;letter-spacing:-.03em;color:#F4F1EA;text-wrap:balance">Conscious Discipline at Home</h1>
+        <div style="width:min(320px,60%);height:5px;background:#1F6FAD"></div>
+        <p style="margin:0;font-size:19px;line-height:1.55;color:#C3C9D8;text-wrap:pretty">Conscious Discipline at Home is a free, self-paced eLearning module that introduces parents to Conscious Discipline, a framework for de-escalation and behavioral development used by many schools. As a parent of a child at a CD school, I know personally how important this framework is, but we as parents don’t typically receive any formal training. I made this module to help us understand what our kids’ school is teaching and give us a safe way to practice it so we can reinforce the method at home.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px">
+          <a class="btn-p" href="../module/" style="background:#1F6FAD;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 24px;border-radius:8px">Try the Module</a>
         </div>
-        <a href="../module/" class="hero-shot" style="display:block;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px #2F3549,0 24px 60px -20px rgba(70,16,40,.7),0 17px 82px -27px rgba(142,58,87,.35)"><img src="img/beta-01.webp" width="1600" height="949" decoding="async" fetchpriority="high" alt="Try the beta: the module’s title screen, Conscious Discipline at Home, with the parent and Maya sitting together." data-nozoom="1" style="display:block;width:100%;height:auto"></a>
       </div>
-      <div style="max-width:1120px;margin:56px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:24px 32px">
-        <div style="display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#ADB4C6">Role</div><div style="font-size:15px;line-height:1.5;color:#F4F1EA">Sole designer: analysis, objectives, assessment, script, visuals, build</div></div>
+      <a href="../module/" class="hero-shot" style="display:block;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px #2F3549,0 24px 60px -20px rgba(70,16,40,.7),0 17px 82px -27px rgba(142,58,87,.35)"><img src="img/beta-01.webp" width="1600" height="949" decoding="async" fetchpriority="high" alt="Try the module: the title screen, Conscious Discipline at Home, with the parent and Maya sitting together." data-nozoom="1" style="display:block;width:100%;height:auto"></a>
+    </div>
+      <div style="max-width:1120px;margin:56px auto 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px 40px" class="facts">
+        <div style="display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#ADB4C6">Role</div><div style="font-size:15px;line-height:1.5;color:#F4F1EA">Sole designer: analysis, objectives, assessment, script, visuals, build</div><div style="font-size:15px;line-height:1.5;color:#F4F1EA">Concept to beta in six weeks</div></div>
         <div style="display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#ADB4C6">Learners</div><div style="font-size:15px;line-height:1.5;color:#F4F1EA">Parents of kindergarteners whose school uses the program</div></div>
         <div style="display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#ADB4C6">Length</div><div style="font-size:15px;line-height:1.5;color:#F4F1EA">About 45 minutes, in as many sittings as they like</div></div>
-        <div style="display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#ADB4C6">Timeline</div><div style="font-size:15px;line-height:1.5;color:#F4F1EA">Concept to beta in six weeks</div></div>
+        
         <div style="display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#ADB4C6">Tested with</div><div style="font-size:15px;line-height:1.5;color:#F4F1EA">A parent think-aloud and two principals, with a SME review and beta parents next</div></div>
       </div>
-    </header>
-  
-
-  
+  </header>
 
   <main id="main" tabindex="-1" style="padding:0 clamp(20px,5vw,40px);outline:none">
 
-    <section style="max-width:1120px;margin:0 auto;padding:88px 0 0;display:flex;flex-direction:column;gap:28px">
-      <div style="max-width:680px;display:flex;flex-direction:column;gap:12px">
-        <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;font-weight:700;color:#8E3A57">What it is</div>
-        <h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">One hard morning, three sections, and the same morning again</h2>
-        <p style="margin:0;text-wrap:pretty">It opens at 7:40 a.m., with the bus ten minutes out and a shoe thrown across the room, and asks the parent what they’d say. At the end it brings them back to 7:40 to compare their first answer with their last.</p>
+    <section style="max-width:1120px;margin:0 auto;padding:56px 0 0;display:flex;flex-direction:column;gap:28px">
+      <div style="max-width:680px;display:flex;flex-direction:column;gap:14px"><h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">Structure</h2><p style="margin:0;text-wrap:pretty">The module comes in three parts, with each aligned to a specific learning objective I developed for the project:</p></div>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px 56px;align-items:start;padding-top:28px;border-top:1px solid #DEE3E9">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:flex-end;gap:14px"><span aria-hidden="true" style="font-size:64px;line-height:.82;font-weight:800;letter-spacing:-.04em;color:#1F6FAD">1</span><h3 style="margin:0;font-size:24px;line-height:1.1;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Learn</h3></div>
+          <p style="margin:0;text-wrap:pretty">Introduces Conscious Discipline concepts in the order a parent would need them during a tough situation. After a bit of scientific background, the parent learns how to assess their own brain state in the moment, regain composure, assess their child’s brain state, and choose what helps the child at each state. Each part includes mini-assessments to test knowledge along the way.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px"><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-03.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Learn: three brain states, each in a tinted card with its brain illustration." style="display:block;width:100%;height:auto"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end"><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-07.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Learn, Part 3: your child’s state, with Maya’s pose and the question each state asks." style="display:block;width:100%;height:auto"></div><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-19-helpful-check.webp" width="1600" height="953" decoding="async" loading="lazy" alt="A Learn check: two lines a parent might say mid-kick, each marked helpful or hurtful, with the Coach’s reply." style="display:block;width:100%;height:auto"></div></div></div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:28px">
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 9px 26px -14px rgba(28,52,104,.30)"><img src="img/beta-03.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Learn: three brain states, each in a tinted card with its brain illustration." style="display:block;width:100%;height:auto"></div>
-          <div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:19px;font-weight:800;color:#25293C">1 · Learn</span><span style="font-family:Karla,system-ui,sans-serif;font-size:13px;font-weight:600;color:#5F6272">15 min</span></div>
-          <p style="margin:0;font-size:16px;line-height:1.55;text-wrap:pretty">The three brain states: your own state first, then your child’s, then what each state needs.</p>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px 56px;align-items:start;padding-top:28px;border-top:1px solid #DEE3E9">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:flex-end;gap:14px"><span aria-hidden="true" style="font-size:64px;line-height:.82;font-weight:800;letter-spacing:-.04em;color:#1F6FAD">2</span><h3 style="margin:0;font-size:24px;line-height:1.1;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Bring It Together</h3></div>
+          <p style="margin:0;text-wrap:pretty">Rather than throw the parent straight into a role-play scenario, this section offers two real-life situations and guides the parent, step by step, through the processes learned in the Learn section. At each step, the parent receives feedback from a “Coach” character.</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 9px 26px -14px rgba(28,52,104,.30)"><img src="img/beta-11.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Bring It Together: the parent picks Maya’s state, explains it in their own words, and the Coach answers in place." style="display:block;width:100%;height:auto"></div>
-          <div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:19px;font-weight:800;color:#25293C">2 · Bring It Together</span><span style="font-family:Karla,system-ui,sans-serif;font-size:13px;font-weight:600;color:#5F6272">10 min</span></div>
-          <p style="margin:0;font-size:16px;line-height:1.55;text-wrap:pretty">Two new scenes, worked step by step, with the Coach answering each step as it’s written.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end"><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-11.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Bring It Together: the parent picks Maya’s state, explains it in their own words, and the Coach answers in place." style="display:block;width:100%;height:auto"></div><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-12.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Bring It Together: the parent’s typed answer, the four Survival moves, and the Coach’s reply." style="display:block;width:100%;height:auto"></div></div>
+      </div>
+      
+      <div style="display:flex;flex-direction:column;gap:24px;padding-top:28px;border-top:1px solid #DEE3E9">
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:760px">
+          <div style="display:flex;align-items:flex-end;gap:14px"><span aria-hidden="true" style="font-size:64px;line-height:.82;font-weight:800;letter-spacing:-.04em;color:#1F6FAD">3</span><h3 style="margin:0;font-size:24px;line-height:1.1;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Try It Out</h3></div>
+          <p style="margin:0;text-wrap:pretty">Three branching role-play scenarios that allow a parent to have a back-and-forth “talk” with a 5-year-old child character who is in a tough moment. The child responds based on how well the parent is implementing the CD methodology, the Coach gives feedback and suggestions for phrasing if needed, and each scenario comes with a summary screen highlighting where they were strong and where they could improve. No scores given.</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 9px 26px -14px rgba(28,52,104,.30)"><img src="img/beta-14.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Try It Out: a typed conversation with Maya, who answers what the parent says." style="display:block;width:100%;height:auto"></div>
-          <div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:19px;font-weight:800;color:#25293C">3 · Try It Out</span><span style="font-family:Karla,system-ui,sans-serif;font-size:13px;font-weight:600;color:#5F6272">20 min</span></div>
-          <p style="margin:0;font-size:16px;line-height:1.55;text-wrap:pretty">Three conversations with Maya, a five-year-old who responds to what the parent actually types.</p>
-        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,2.6fr) minmax(0,1fr);gap:clamp(14px,2vw,28px);align-items:end"><div style="border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 18px 44px -18px rgba(28,52,104,.34)"><img src="img/beta-14.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Try It Out: a typed conversation with Maya, who answers what the parent says." style="display:block;width:100%;height:auto"></div><div style="border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 18px 44px -18px rgba(28,52,104,.34)"><img src="img/beta-20-phone.webp" width="600" height="1083" decoding="async" loading="lazy" alt="Try It Out on a phone: the conversation becomes a text chat, with Maya’s face on each bubble." style="display:block;width:100%;height:auto"></div></div>
       </div>
     </section>
 
-    <section style="max-width:1120px;margin:0 auto;padding:104px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:48px;align-items:center">
-      <div style="justify-self: center; width: min(100%,356px); background: #F6ECD8; box-shadow: 0 1px 0 #E8D6B0,0 22px 40px -22px rgba(28,52,104,.38); transform: rotate(-2deg); padding: 36px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 14px; min-height: 293px">
-        <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#8A6420">Over my desk</div>
-        <p style="margin: 0; font-family: Kalam, cursive; font-size: 38px; line-height: 1.15; font-weight: 700; letter-spacing: 0; color: #25293C">You first. <br>Then them. <br>Then what their state needs.</p>
-      </div>
-      <div style="max-width:620px;display:flex;flex-direction:column;gap:14px">
-        <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;font-weight:700;color:#8E3A57">One idea, on a Post-it</div>
-        <h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">Every decision had to help it</h2>
-        <p style="margin:0;text-wrap:pretty">When I began the build, I wrote the core parts of the module on a Post-it to hang over my desk. Each part is a learning objective: read your own state and your child’s, meet the need of the state they’re in, and climb one state at a time. After that, a decision stayed only if it helped that idea. If it worked against it, or added nothing, it went.</p>
-        
-      </div>
-    </section>
-
-    <section style="max-width:1120px;margin:0 auto;padding:112px 0 0;display:flex;flex-direction:column;gap:64px">
-      <div style="max-width:680px;display:flex;flex-direction:column;gap:12px">
-        <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;font-weight:700;color:#8E3A57">Core design decisions</div>
-        <h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">Seven calls that shaped it</h2>
-        <p style="margin:0;text-wrap:pretty">From a log of more than a hundred. Each one names what it replaced.</p>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 56px;align-items:center">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:15px;font-weight:800;color:#1F6FAD;letter-spacing:.02em">01</div>
-          <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.015em;color:#25293C;text-wrap:balance">Typed answers, read for moves, never scored</h3>
-          <p style="margin:0;font-size:15px;color:#5F6272"><strong style="color:#25293C;font-weight:600">Instead of</strong> multiple choice and a percentage</p>
-          <p style="margin:0;text-wrap:pretty">Multiple choice tests whether someone recognizes the right answer. Nobody hands a parent four options at 7:40 a.m.; they have to find the words. Learn eases them in with quick “Helpful or hurtful?” checks, then they get two main assessment sections. Everything that counts is typed, and each scene ends Strong, Nearly there, or Not yet, with the moves made and missed named. A number on a parenting answer reads as a verdict on your parenting. The principals who reviewed it put it the way they put it to their staff: “it never ends, and you can’t mess it up.”</p>
+    <section style="margin:72px calc(-1 * clamp(20px,5vw,40px)) 0;padding:60px clamp(20px,5vw,40px) 68px;background:#F1F4F7">
+      <div style="max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:28px">
+      <div style="max-width:680px;display:flex;flex-direction:column;gap:14px"><h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">Learning Design Highlights</h2><p style="margin:0;text-wrap:pretty">No one likes to be told how to parent. This goes for many instructional design situations; we often encounter learners who are reluctant to be there. Parenting is a complex subject with no easy answers, but complex subjects are my specialty. That’s why this module needed an experienced designer:</p></div>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px 56px;align-items:start;padding-top:28px;border-top:1px solid #D3DAE2">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          
+          <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Sensitivity to the learners</h3>
+          <p style="margin:0;text-wrap:pretty">A complex subject needs complex assessments, which meant allowing the parents to type out what they’d actually say. Feedback stays aligned to the methodology, and comes in the form of “Strong”, “Nearly there”, and “Not yet”, rather than numerical scores, so a parent never feels their parenting itself is being judged.</p>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-16.webp" width="1600" height="953" decoding="async" loading="lazy" alt="A Strong result: “She stopped, and nobody lost,” with each move the parent made ticked." style="display:block;width:100%;height:auto"></div>
-          <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-17.webp" width="1600" height="953" decoding="async" loading="lazy" alt="A Not yet result: “The clock won this one,” naming the move to start with next time." style="display:block;width:100%;height:auto"></div>
-        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end"><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-16.webp" width="1600" height="953" decoding="async" loading="lazy" alt="A Strong result: “She stopped, and nobody lost,” with each move the parent made ticked." style="display:block;width:100%;height:auto"></div><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-17.webp" width="1600" height="953" decoding="async" loading="lazy" alt="A Not yet result: “The clock won this one,” naming the move to start with next time." style="display:block;width:100%;height:auto"></div></div>
       </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 56px;align-items:center">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:15px;font-weight:800;color:#1F6FAD;letter-spacing:.02em">02</div>
-          <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.015em;color:#25293C;text-wrap:balance">Rules, not a language model, read the answers</h3>
-          <p style="margin:0;font-size:15px;color:#5F6272"><strong style="color:#25293C;font-weight:600">Instead of</strong> AI scoring</p>
-          <p style="margin:0;text-wrap:pretty">An AI model could read meaning and nuance better. But the module promises that nothing a parent types leaves their device. The rules read order as well as content: calm down, make it safe, and only then explain. The cost showed up in the first test as a false Not yet, and I widened what the rules accept rather than switching. An opt-in AI Coach is planned for version 2.</p>
-        </div>
-        <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-12.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Bring It Together: the parent’s typed answer, the four Survival moves, and the Coach’s reply." style="display:block;width:100%;height:auto"></div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 56px;align-items:center">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:15px;font-weight:800;color:#1F6FAD;letter-spacing:.02em">03</div>
-          <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.015em;color:#25293C;text-wrap:balance">Maya answers what you actually say</h3>
-          <p style="margin:0;font-size:15px;color:#5F6272"><strong style="color:#25293C;font-weight:600">Instead of</strong> a fixed script</p>
-          <p style="margin:0;text-wrap:pretty">In Try It Out, Maya’s state moves with each reply. Heated words drop her a state; naming her feeling lifts her one. She climbs one state at a time, so the third objective is something the parent does, not something they’re told.</p>
-        </div>
-        <div style="display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1fr);gap:14px;align-items:end"><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-13.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Try It Out: Maya calms as the parent names her feeling and gives two options." style="display:block;width:100%;height:auto"></div><div style="border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-20-phone.webp" width="600" height="1083" decoding="async" loading="lazy" alt="Try It Out on a phone: the conversation becomes a text chat, with Maya’s face on each bubble." style="display:block;width:100%;height:auto"></div></div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 56px;align-items:center">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:15px;font-weight:800;color:#1F6FAD;letter-spacing:.02em">04</div>
-          <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.015em;color:#25293C;text-wrap:balance">Help that doesn’t do the work for you</h3>
-          <p style="margin:0;font-size:15px;color:#5F6272"><strong style="color:#25293C;font-weight:600">Instead of</strong> hints on hand from the start</p>
-          <p style="margin:0;text-wrap:pretty">“Words to try” only opens after the parent’s first line, which is always their own, and they follow Maya’s state. A Strong built from the cards keeps its band, with a nudge to try it in your own words. Picking a phrase shows you understand it. Writing your own shows you can use it, and is the more transferable skill being learned.</p>
-        </div>
-        <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-15.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Words to try: three Executive State cards, one previewed in the reply field." style="display:block;width:100%;height:auto"></div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 56px;align-items:center">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:15px;font-weight:800;color:#1F6FAD;letter-spacing:.02em">05</div>
-          <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.015em;color:#25293C;text-wrap:balance">A safety check before anything is scored</h3>
-          <p style="margin:0;font-size:15px;color:#5F6272"><strong style="color:#25293C;font-weight:600">Instead of</strong> scoring whatever is typed</p>
-          <p style="margin:0;text-wrap:pretty">Ask parents what they’d really say, and some will tell you something no practice module should grade. It could be a real red flag, or maybe just a parent letting off steam. But either way, every answer passes a safety check first. If it fires, nothing is scored or saved, and the parent sees a short response written for that situation. Each one acknowledges what they said without assessing it.</p>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px 56px;align-items:start;padding-top:28px;border-top:1px solid #D3DAE2">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          
+          <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Safety checks</h3>
+          <p style="margin:0;text-wrap:pretty">Some parents will use the open-ended text entry to vent, and some may honestly say something dangerous. So every answer must first pass a safety check. If it’s triggered, nothing is scored or saved, and the parent sees a message about how to get help.</p>
         </div>
         <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-21b-safety.webp" width="1600" height="953" decoding="async" loading="lazy" alt="A safety response in Bring It Together: “I’d grab her arm and twist it” is set aside, not scored, with the National Parent Helpline and a way back to the question." style="display:block;width:100%;height:auto"></div>
       </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 56px;align-items:center">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:15px;font-weight:800;color:#1F6FAD;letter-spacing:.02em">06</div>
-          <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.015em;color:#25293C;text-wrap:balance">Rebuilding Learn after one test</h3>
-          <p style="margin:0;font-size:15px;color:#5F6272"><strong style="color:#25293C;font-weight:600">Instead of</strong> patching the screens she stumbled on</p>
-          <p style="margin:0;text-wrap:pretty">The first parent spent thirty minutes in Learn working out what it was for. I set the old structure aside, my own draft included, and rebuilt it around the three brain states, the spine the program itself uses, with every screen tagged to the learning objective it serves.</p>
-        </div>
-        <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-07.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Learn, Part 3: your child’s state, with Maya’s pose and the question each state asks." style="display:block;width:100%;height:auto"></div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 56px;align-items:center">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:15px;font-weight:800;color:#1F6FAD;letter-spacing:.02em">07</div>
-          <h3 style="margin:0;font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.015em;color:#25293C;text-wrap:balance">Assess only what Learn teaches, by the same name</h3>
-          <p style="margin:0;font-size:15px;color:#5F6272"><strong style="color:#25293C;font-weight:600">Instead of</strong> a rubric that drifted from the lessons</p>
-          <p style="margin:0;text-wrap:pretty">Before beta, I audited Learn against both assessments and closed every gap. Learn’s mini-checks practice the same moves, by the same names, that the typed answers are read for. A terms ledger makes sure each term is taught once, before its first use, and means the same thing everywhere it’s tested.</p>
-        </div>
-        <div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-19-helpful-check.webp" width="1600" height="953" decoding="async" loading="lazy" alt="A Learn check: two lines a parent might say mid-kick, each marked helpful or hurtful, with the Coach’s reply." style="display:block;width:100%;height:auto"></div>
-      </div>
-
-      <p style="margin:0;max-width:680px;text-wrap:pretty">The reasoning for these, and the rest, is in the <a href="decision-record/">Design Decision Record</a>.</p>
-    </section>
-
-    <section style="max-width:1120px;margin:0 auto;padding:112px 0 0;display:flex;flex-direction:column;gap:36px">
-      <div style="max-width:680px;display:flex;flex-direction:column;gap:12px">
-        <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;font-weight:700;color:#8E3A57">Evaluation</div>
-        <h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">Tested with people, and changed by them</h2>
-        <p style="margin:0;text-wrap:pretty">Until the first test, nobody who didn’t already know the material had seen it. The first test failed, plainly, and the plan moved from ADDIE’s order to SAM-style rounds of testing and revising.</p>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:0">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px 32px;padding:28px 0;border-top:1px solid #DEE3E9">
-          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#1F6FAD">5 Oct</div><div style="font-size:19px;font-weight:800;color:#25293C">The first parent</div><div style="font-size:15px;color:#5F6272">Think-aloud, while I watched</div></div>
-          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:13px;font-weight:700;color:#25293C">What she found</div><p style="margin:0;font-size:16px;line-height:1.55;text-wrap:pretty">Thirty minutes in Learn, confused on nearly every screen. A good first answer, marked Not yet. I logged 113 findings, each with her words, my read, and a decision.</p></div>
-          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:13px;font-weight:700;color:#25293C">What changed</div><p style="margin:0;font-size:16px;line-height:1.55;text-wrap:pretty">Learn rebuilt around measurable objectives. Test Your Knowledge, which gave parents a single reply to type, replaced by Bring It Together, which walks them step by step through the processes they just learned.</p></div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px 32px;padding:28px 0;border-top:1px solid #DEE3E9">
-          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#1F6FAD">8 Oct</div><div style="font-size:19px;font-weight:800;color:#25293C">Two principals</div><div style="font-size:15px;color:#5F6272">At a school that uses the program</div></div>
-          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:13px;font-weight:700;color:#25293C">What they found</div><p style="margin:0;font-size:16px;line-height:1.55;text-wrap:pretty">The teaching order was right: the adult’s state, then the child’s, then the state’s need. In all their training on the program they had never seen one that uses interactive role-play scenarios.</p></div>
-          <div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:13px;font-weight:700;color:#25293C">What changed</div><p style="margin:0;font-size:16px;line-height:1.55;text-wrap:pretty">The role-play leads. “Helpful or hurtful?” checks in Learn. A step to read the child’s state from the signs before deciding what to say.</p></div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:12px 32px;padding:28px 0;border-top:1px solid #DEE3E9">
-          <div style="flex:1 1 200px;display:flex;flex-direction:column;gap:4px"><div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#5F6272">From 26 Oct</div><div style="font-size:19px;font-weight:800;color:#25293C">SME review, then beta testing with parents</div><div style="font-size:15px;color:#5F6272">In progress</div></div>
-          <div style="flex:2 1 432px;display:flex;flex-direction:column;gap:4px;min-width:0"><p style="margin:0;font-size:16px;line-height:1.55;text-wrap:pretty">A line-by-line review by a representative of the program, then trusted parents, each with a screen-by-screen feedback form so their notes come back specific enough to act on. What they change goes here.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section style="max-width:1120px;margin:0 auto;padding:112px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:40px 56px;align-items:start">
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;font-weight:700;color:#8E3A57">Accessibility</div>
-        <h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">Audited, then walked with a screen reader</h2>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:18px">
-        <p style="margin:0;text-wrap:pretty"><strong style="color:#25293C">WCAG 2.1 AA</strong>, which covers everything Section 508 requires, on every screen at desktop and phone widths. The failures it found were fixed: a blue just under AA on its tint, links smaller than a fingertip, progress bars too faint to read as controls.</p>
-        <p style="margin:0;text-wrap:pretty"><strong style="color: rgb(37, 41, 60);">VoiceOver, multiple passes</strong>, on an iPhone and a Mac. Each pass revealed issues that would make the module harder to use for blind and low-vision people; all issues were resolved.</p>
-        <p style="margin:0;text-wrap:pretty"><strong style="color:#25293C">Reduced motion.</strong> Every animation has a still version.</p>
-      </div>
-    </section>
-
-    <section style="max-width:1120px;margin:0 auto;padding:112px 0 0;display:flex;flex-direction:column;gap:32px">
-      <div style="max-width:680px;display:flex;flex-direction:column;gap:12px">
-        <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;font-weight:700;color:#8E3A57">How I worked with AI</div>
-        <h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">Twenty years of course design, and new range</h2>
-        <p style="margin:0;text-wrap:pretty">I have twenty years of teaching and course design in higher education, including e-learning, and longer still as a composer, where every commission was a project with a client, a budget, and a deadline. This year I added graphic design, UX, and front-end build. Claude Design built the module to my direction, code included. ChatGPT and Gemini made the images from my prompts. Claude and Gemini drafted first versions of scripts, the way a SME’s notes would, and I checked them against published sources and rewrote them line by line. The module itself uses no AI.</p>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
-        <div style="background:#F1F4F7;border:1px solid #DEE3E9;border-radius:10px;padding:24px 26px;display:flex;flex-direction:column;gap:10px;margin-left:-5px">
-          <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#5F6272">AI did</div>
-          <div style="display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.5">
-            <span>Wrote and debugged the code</span>
-            <span>Drafted first versions of scripts and feedback</span>
-            <span>Built mockups of options when I asked</span>
-            <span>Proofread, and ran the automated accessibility audit (WCAG 2.1 AA)</span>
-          </div>
-        </div>
-        <div style="background:#FFFFFF;border:1px solid #9FC3DF;border-radius:10px;padding:24px 26px;display:flex;flex-direction:column;gap:10px">
-          <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:#1F6FAD">I did</div>
-          <div style="display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.5;color:#25293C">
-            <span>Set the objectives and the assessment design</span>
-            <span>Ran the tests, VoiceOver included, and decided what to do with every finding</span>
-            <span>Chose between options, and turned many down</span>
-            <span>Rewrote the copy line by line, in my own voice</span>
-            <span>Measured every image against a character sheet</span>
+      <div style="display:flex;flex-direction:column;gap:10px;padding-top:28px;border-top:1px solid #D3DAE2">
+        <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Adult learning theory</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:16px 56px;align-items:start">
+          <p style="margin:0;text-wrap:pretty">Design decisions are backed by theory. The learning objectives were crafted using Mager’s three-part objectives with an eye toward pushing the learner further up Bloom’s Taxonomy. Gagné’s Nine Events and Knowles’ andragogy principles helped shape the structure. A few examples:</p>
+          <div style="display:flex;flex-direction:column;border-bottom:1px solid #DEE3E9">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:4px 20px;padding:10px 0;border-top:1px solid #DEE3E9;font-size:16px;line-height:1.55"><div style="font-weight:700;color:#25293C">Gagné: Gain attention</div><div>Opens with a “hook” question</div></div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:4px 20px;padding:10px 0;border-top:1px solid #DEE3E9;font-size:16px;line-height:1.55"><div style="font-weight:700;color:#25293C">Knowles: Experience</div><div>Coach feedback never assumes parental ignorance, always offers encouragement, not judgment</div></div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:4px 20px;padding:10px 0;border-top:1px solid #DEE3E9;font-size:16px;line-height:1.55"><div style="font-weight:700;color:#25293C">Gagné: Provide learning guidance</div><div>In Bring It Together, the Coach leads the parent step by step through a scenario</div></div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:4px 20px;padding:10px 0;border-top:1px solid #DEE3E9;font-size:16px;line-height:1.55"><div style="font-weight:700;color:#25293C">Knowles: Self-concept</div><div>Parents answer in their own words.</div></div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:4px 20px;padding:10px 0;border-top:1px solid #DEE3E9;font-size:16px;line-height:1.55"><div style="font-weight:700;color:#25293C">Gagné: Enhance retention and transfer</div><div>The opening hook comes back as the last role-play scenario, creating a bookend that allows the parent to see how far they’ve come.</div></div>
           </div>
         </div>
       </div>
-      <p style="margin:0;max-width:680px;text-wrap:pretty">What AI couldn’t tell me was whether a screen teaches, or whether a tired parent will stay with it. The first real parent showed me where I’d got that wrong.</p>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px 56px;align-items:start;padding-top:28px;border-top:1px solid #D3DAE2">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          
+          <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">UX/UI design</h3>
+          <p style="margin:0;text-wrap:pretty">Every micro- and macro-decision was run through the framework of Mayer’s multimedia learning principles, as well as UX and graphic design concepts such as cognitive load, chunking, Hick’s Law, the laws of proximity and continuity, and color theory.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end"><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-13.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Try It Out: Maya calms as the parent names her feeling and gives two options." style="display:block;width:100%;height:auto"></div><div style="border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px #DEE3E9,0 14px 36px -16px rgba(28,52,104,.30)"><img src="img/beta-15.webp" width="1600" height="953" decoding="async" loading="lazy" alt="Words to try: three Executive State cards, one previewed in the reply field." style="display:block;width:100%;height:auto"></div></div>
+      </div>
+    </div>
     </section>
 
-    <section style="max-width:1120px;margin:0 auto;padding:112px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:40px 56px;align-items:start">
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;font-weight:700;color:#8E3A57">Next</div>
-        <h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">A post-beta wishlist</h2>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:18px">
-        <p style="margin:0;text-wrap:pretty"><strong style="color:#25293C">Spoken answers.</strong> The parent says it aloud and gets feedback on tone as well as words: practice in the medium the skill is actually used in.</p>
-        <p style="margin:0;text-wrap:pretty"><strong style="color:#25293C">An opt-in AI Coach</strong> that reads meaning and sarcasm the rules miss, with the parent’s consent.</p>
+    <section style="max-width:1120px;margin:0 auto;padding:72px 0 0;display:flex;flex-direction:column;gap:20px">
+      <div style="max-width:680px;display:flex;flex-direction:column;gap:14px"><h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">Design Cycle Highlights</h2><p style="margin:0;text-wrap:pretty">My primary framework was ADDIE, with some iterative ideas borrowed from SAM.</p></div>
+      <div style="display:flex;flex-direction:column;border-bottom:1px solid #DEE3E9">
+        
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:8px 48px;padding:18px 0;border-top:1px solid #DEE3E9" class="tr">
+          <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Analysis, Objectives, Concept</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:680px"><p style="margin:0;text-wrap:pretty">Began with my own experience as a parent. Then, I planned the module out by reversing Kirkpatrick’s Levels of Evaluation to formulate learning objectives and design concepts: results desired, then what behaviors the module could help change, what learning could help with that, and finally what kinds of interaction and visual design busy parents would find engaging.</p></div>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:8px 48px;padding:18px 0;border-top:1px solid #DEE3E9" class="tr">
+          <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Design and Development</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:680px"><p style="margin:0;text-wrap:pretty">Storyboarding with pencil and paper, then Claude Design for wireframing and visual design mockups, coding and debugging; a combination of various LLMs for script drafting and artwork. I edited every line of the script and took the images through days of prompting to get the results I wanted.</p></div>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:8px 48px;padding:18px 0;border-top:1px solid #DEE3E9" class="tr">
+          <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Implementation and Evaluation</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:680px"><p style="margin:0;text-wrap:pretty">First user test with me observing revealed numerous flaws in the flow and comprehension. I flagged 113 areas to address. This led to SAM-style cycles of iteration and re-evaluation that vastly improved the module’s design.</p></div>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:8px 48px;padding:18px 0;border-top:1px solid #DEE3E9" class="tr">
+          <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Accessibility</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:680px"><p style="margin:0;text-wrap:pretty">Audited using WCAG 2.1 AA/Section 508 standards, on every screen at desktop and phone widths. VoiceOver, multiple passes, on an iPhone and a Mac, for blind and low-vision users. Every animation has a still version for users who need reduced motion settings.</p></div>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:8px 48px;padding:18px 0;border-top:1px solid #DEE3E9" class="tr">
+          <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Further Evaluation</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:680px"><p style="margin:0;text-wrap:pretty">The module has been reviewed by two principals from a Conscious Discipline school, and is currently under review by a certified CD instructor. Once the SME review is back, I will implement changes and begin beta testing with 15–20 parents I know personally before opening up the module to the wider school community.</p></div>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:8px 48px;padding:18px 0;border-top:1px solid #DEE3E9" class="tr">
+          <h3 style="margin:0;font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.01em;color:#25293C;text-wrap:balance">Post-Beta Expansion</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:680px"><p style="margin:0;text-wrap:pretty">Will explore opt-in AI models to make the role-play scenarios more fluid, and to evaluate spoken answers, so the coaching can give feedback not just on wording, but on tone. The current feedback model can’t detect, for example, sarcasm, or when heated words are shouted vs. softly spoken.</p></div>
+        </div>
       </div>
     </section>
 
-    <section style="max-width:1120px;margin:0 auto;padding:112px 0 112px;display:flex;flex-direction:column;gap:28px">
-      <div style="max-width:680px;display:flex;flex-direction:column;gap:12px">
-        <div style="font-family:Karla,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:13px;font-weight:700;color:#8E3A57">The working documents</div>
-        <h2 style="margin:0;font-size:clamp(28px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#25293C;text-wrap:balance">For the full read</h2>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:0 40px">
-        <a class="doc" href="decision-record/" style="display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #DEE3E9;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#1F6FAD">Design Decision Record <span aria-hidden="true">→</span></span><span style="font-size:15px;line-height:1.5;color:#5F6272">Every call, what it replaced, and why</span></a>
-        <a class="doc" href="functional-spec/" style="display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #DEE3E9;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#1F6FAD">Functional spec <span aria-hidden="true">→</span></span><span style="font-size:15px;line-height:1.5;color:#5F6272">How the scored parts read an answer</span></a>
-        <a class="doc" href="visual-design/" style="display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #DEE3E9;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#1F6FAD">Visual design <span aria-hidden="true">→</span></span><span style="font-size:15px;line-height:1.5;color:#5F6272">Palette, type, the cast, and the character sheet</span></a>
-        <a class="doc" href="../rise/" style="display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #DEE3E9;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#1F6FAD">Rise 360 sample <span aria-hidden="true">→</span></span><span style="font-size:15px;line-height:1.5;color:#5F6272">A few module elements, rebuilt in a single day with an authoring tool</span></a>
+    <section style="max-width:1120px;margin:0 auto;padding:56px 0 72px;display:flex;flex-direction:column;gap:14px">
+      <h2 style="margin:0;font-size:20px;line-height:1.3;font-weight:800;color:#25293C">Working documents</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:10px 32px;font-size:17px;font-weight:700">
+        <a href="decision-record/">Design Decision Record</a>
+        <a href="functional-spec/">Functional spec</a>
+        <a href="visual-design/">Visual design</a>
       </div>
     </section>
   </main>
 
-  <footer style="background:#1C2030;color:#F4F1EA;padding:80px clamp(20px,5vw,40px) 48px">
+  <footer style="background:#1C2030;color:#F4F1EA;padding:72px clamp(20px,5vw,40px) 48px">
     <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:48px;align-items:center">
       <div style="display:flex;flex-direction:column;gap:18px">
         <h2 style="margin:0;font-size:clamp(32px,4vw,44px);line-height:1.08;font-weight:800;letter-spacing:-.025em;color:#F4F1EA">Try it yourself</h2>
         <p style="margin:0;font-size:18px;line-height:1.55;color:#C3C9D8;text-wrap:pretty">About 45 minutes, on a phone or a laptop. Nothing you type leaves your device.</p>
-        <div style="display:flex"><a class="btn-p" href="../module/" style="background:#1F6FAD;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 24px;border-radius:8px">Open the beta</a></div>
+        <div style="display:flex"><a class="btn-p" href="../module/" style="background:#1F6FAD;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 24px;border-radius:8px">Try the Module</a></div>
       </div>
       <div style="border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px #2F3549,0 24px 60px -20px rgba(70,16,40,.7),0 17px 82px -27px rgba(142,58,87,.35)"><img src="img/beta-18.webp" width="1600" height="953" decoding="async" loading="lazy" alt="The module’s closing screen: “That’s the whole thing.”" style="display:block;width:100%;height:auto"></div>
     </div>
-    <p style="max-width:1120px;margin:64px auto 0;font-size:13px;line-height:1.5;color:#ADB4C6">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.</p>
+    <div style="max-width:1120px;margin:64px auto 0;padding-top:22px;border-top:1px solid #2F3549;display:flex;flex-wrap:wrap;gap:12px 34px;align-items:center">
+      <a class="foot-a" href="mailto:marclemaydesign@gmail.com" style="color:#F4F1EA;text-decoration:none;font-size:18px;font-weight:600;border-bottom:2px solid #1F6FAD;padding-bottom:2px">marclemaydesign@gmail.com</a>
+      <a class="nav" href="../resume.pdf" style="font-family:Karla,system-ui,sans-serif;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase">Resume (PDF)</a>
+      <a class="nav" href="https://www.linkedin.com/in/marclemaydesign" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn" style="display:flex;align-items:center"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false" style="display:block"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+    </div>
+    <p style="max-width:1120px;margin:28px auto 0;font-size:13px;line-height:1.5;color:#ADB4C6">An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.</p>
   </footer>
 </div>
 <script>
