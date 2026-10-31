@@ -6,36 +6,61 @@
 <title>About &mdash; Marc LeMay</title>
 <meta name="description" content="About Marc LeMay, instructional and learning experience designer.">
 <link rel="stylesheet" href="../css/site.css">
-<!-- 30 Oct [MARC]: rebuilt with Marc's own copy. Page-only rules below. -->
+<!-- 30 Oct mock (A+B): glance box with big numbers, row rules removed. 30 Oct [MARC]: rebuilt with Marc's own copy. Page-only rules below. -->
 <style>
 .wrap{container-type:inline-size}
-.hero:has(.about-h1){display:grid;grid-template-columns:minmax(0,1fr) clamp(180px,22cqi,260px);gap:0 clamp(28px,4.5vw,64px);grid-template-rows:auto auto auto 1fr;align-items:start}
+.hero:has(.about-h1){display:grid;grid-template-columns:minmax(0,1fr) clamp(180px,22cqi,260px);gap:0 clamp(28px,4.5vw,64px);grid-template-rows:auto auto auto auto 1fr auto;align-items:start}
 .hero:has(.about-h1) .hero-text{display:contents}
 .hero:has(.about-h1) .about-h1{grid-column:1;grid-row:1;align-self:end}
 .hero:has(.about-h1) .rule,.hero:has(.about-h1) .prose{grid-column:1}
-.hero:has(.about-h1) .about-photo{grid-column:2;grid-row:1/span 4;margin:0;min-width:0}
-.about-photo img{aspect-ratio:4/3;object-fit:cover;object-position:50% 22%}
+.hero:has(.about-h1) .prose{font-size:clamp(19px,1.9vw,26px);line-height:1.45}
+.hero:has(.about-h1) .about-photo{grid-column:2;grid-row:1/span 5;margin:0;min-width:0}
+.hero .sec-edu{display:contents}
+.hero .sec-edu h2{grid-column:1;margin-top:clamp(28px,3.4vw,44px)}
+.sec-edu .glance{grid-column:1}
+.sec-edu .detail{grid-column:1/-1}
+.about-photo img{object-fit:cover;object-position:50% 22%}
 @container (max-width:740px){
   .hero:has(.about-h1){grid-template-columns:minmax(0,1fr) clamp(96px,30cqi,200px);gap:0 clamp(12px,3cqi,24px);align-items:end}
   .hero:has(.about-h1) .about-h1{font-size:clamp(26px,8cqi,48px)}
-  .hero:has(.about-h1) .about-photo{grid-row:1}
-  .hero:has(.about-h1) .about-photo img{aspect-ratio:1/1}
+  .hero:has(.about-h1) .about-photo{grid-row:1/span 3;align-self:end}
+  .hero:has(.about-h1){grid-template-rows:1fr auto auto auto auto auto}
+  .hero:has(.about-h1) .prose{font-size:clamp(16px,4.6cqi,21px);margin-bottom:0}
+  .hero:has(.about-h1) .about-photo img{object-fit:contain}
   .hero:has(.about-h1) .photo-note{display:none}
-  .hero:has(.about-h1) .rule,.hero:has(.about-h1) .prose{grid-column:1/-1}
+  .hero .sec-edu h2,.sec-edu .glance{grid-column:1/-1}
 }
 .sec{margin-top:clamp(48px,6vw,88px)}
-.hero + .sec{margin-top:clamp(28px,3.4vw,44px)}
-.sec h2{margin:0 0 clamp(18px,2.4vw,26px);padding-bottom:14px;border-bottom:1px solid var(--rule);max-width:none}
+.sec h2{margin:0 0 clamp(18px,2.4vw,26px);max-width:none}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,64px);align-items:start}
 .cols h3{margin:0 0 4px;font:700 clamp(17px,1.4vw,20px)/1.3 var(--sans);color:var(--ink)}
 .list{list-style:none;margin:0;padding:0}
-.list li{font:400 clamp(16px,1.25vw,18px)/1.5 var(--sans);color:var(--ink-soft);padding:clamp(11px,1.3vw,15px) 0;border-bottom:1px solid var(--rule);text-wrap:pretty}
-.skills{background:var(--ground-hover);border:1px solid var(--rule);border-radius:8px;padding:clamp(20px,2.6vw,30px) clamp(18px,2.4vw,28px);margin-left:-5px}
+.list li{font:400 clamp(16px,1.25vw,18px)/1.5 var(--sans);color:var(--ink-soft);padding:0;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;text-wrap:pretty}
+.skills{background:#271b2d;border-radius:8px;padding:clamp(20px,2.6vw,30px) clamp(18px,2.4vw,28px);margin-left:-5px}
 .skills h2{font-size:clamp(19px,1.8vw,24px);border:0;padding:0;margin:0 0 14px}
 .skills-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 24px}
 .skills-grid p{margin:0;max-width:none;font-size:clamp(15px,1.15vw,17px);line-height:1.55}
-.skills-k{font-weight:700;color:var(--ink) !important}
+.skills-k{font-weight:700;color:var(--accent) !important}
 @media (max-width:560px){.skills-grid{grid-template-columns:minmax(0,1fr);gap:4px}.skills-grid p:nth-child(3){margin-top:10px}}
+.glance{background:#271b2d;border-radius:8px;padding:clamp(20px,2.6vw,30px) clamp(18px,2.4vw,28px);margin:0 0 clamp(28px,3.4vw,40px) -5px}
+.glance h3{margin:0 0 clamp(14px,1.8vw,20px)}
+.glance ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:clamp(18px,2.4vw,28px) clamp(20px,3vw,36px)}
+.glance li{font:400 clamp(15px,1.15vw,17px)/1.45 var(--sans);color:var(--ink-soft);text-wrap:pretty}
+.glance .num{display:block;font:800 clamp(24px,2.4vw,32px)/1 var(--sans);color:var(--accent);letter-spacing:-.02em;margin-bottom:6px}
+.detail h3{margin:0 0 clamp(12px,1.4vw,16px)}
+.des-row{display:grid;grid-template-columns:clamp(220px,30cqi,360px) minmax(0,600px);gap:0 clamp(28px,4.5vw,64px);align-items:stretch;margin-bottom:clamp(28px,3.4vw,40px)}
+.des-row .glance{margin-bottom:0}
+.des-photo{position:relative;margin:0 0 0 0;border-radius:6px;overflow:hidden;min-height:160px;box-shadow:0 0 0 1px var(--rule),0 12px 30px -14px rgba(0,0,0,.6)}
+.des-photo img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:35% 35%}
+@container (min-width:741px){.des-row .glance ul{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@container (max-width:740px){.des-row{grid-template-columns:minmax(0,1fr);gap:clamp(18px,4cqi,24px)}.des-photo{width:min(55%,220px);aspect-ratio:4/3;min-height:0}}
+.detail > .list{columns:2 340px;column-gap:clamp(24px,4vw,64px)}
+.detail > .list li{break-inside:avoid}
+@container (min-width:741px){
+  .hero:has(.about-h1){grid-template-columns:minmax(0,600px) clamp(220px,30cqi,360px) minmax(0,1fr)}
+  .sec-edu .glance ul{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+.cols.detail{row-gap:0}
 </style>
 </head>
 <body>
@@ -58,74 +83,70 @@
         <p class="prose">My twin passions are education and creative collaboration.</p>
       </div>
       <div class="about-photo">
-        <img src="../img/marc-about.jpg" alt="Marc LeMay" width="900" height="1200">
-        <p class="photo-note">Black Dog Caf&eacute;, Tallahassee</p>
+        <img src="../img/marc-about-fsu.png" alt="Marc LeMay teaching a class at FSU" width="900" height="1007">
       </div>
+
+    <section class="sec sec-edu">
+      <h2>As an Educator</h2>
+      <div class="glance">
+          <ul>
+            <li><span class="num">20</span> years, 6 universities, 1,200+ students</li>
+            <li><span class="num">13</span> courses built from scratch</li>
+            <li><span class="num">500+</span> private students, tailor-made lessons for each of them</li>
+          </ul>
+        </div>
+        <div class="detail">
+          <ul class="list">
+            <li><strong style="color:var(--ink);font-weight:700">Alignment:</strong> all materials driven by learning objectives</li>
+            <li><strong style="color:var(--ink);font-weight:700">Assessments test deep engagement, not just memorization:</strong> analytical writing and creative projects, rather than exams</li>
+            <li><strong style="color:var(--ink);font-weight:700">Translating complex theoretical material</strong> into digestible, engaging learning, especially for learners who come to the material skeptical</li>
+            <li><strong style="color:var(--ink);font-weight:700">Strong public-facing communication skills</strong>, which carry into instructional design, learning facilitation, and AI prompting</li>
+            <li><strong style="color:var(--ink);font-weight:700">Appreciation for gray areas:</strong> real knowledge production often involves addressing multiple conflicting ideas at once</li>
+            <li><strong style="color:var(--ink);font-weight:700">Accessibility and LMS Management:</strong> eight courses moved fully online during the pandemic, plus five more taught as hybrids; recorded and captioned video lectures, tracked engagement analytics, and authored quizzes and discussion boards in Canvas and D2L Brightspace</li>
+          </ul>
+        </div>
+    </section>
     </div>
 
     <section class="sec">
-      <h2>As an Educator</h2>
-      <div class="cols">
-        <div>
-          <h3>At a glance</h3>
-          <ul class="list">
-            <li>20 years, 6 universities, more than 1,200 students</li>
-            <li>13 courses built from scratch</li>
-            <li>Consistent 4–5 out of 5 on student evaluations</li>
-            <li>8 courses moved online in D2L Brightspace (18 course runs, 2020–2022): recorded and captioned video lectures, authored quizzes and discussion boards, and tracked engagement analytics</li>
-            <li>MOOC content contributor and public lecturer for two opera premieres by Opera Philadelphia</li>
-            <li>Tailor-made private lessons to over 500 students, adults and children</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Teaching Philosophy and Style</h3>
-          <ul class="list">
-            <li>Close alignment with learning objectives</li>
-            <li>Assessments designed to test deep engagement, not just memorization: mostly analytical writing and creative projects, rather than exams</li>
-            <li>Translating complex theoretical material into digestible, engaging learning, especially for learners who come to the material skeptical</li>
-            <li>Strong public-facing communication skills, which carry into instructional design, learning facilitation, and AI prompting</li>
-            <li>Appreciation for gray areas: real knowledge production often involves addressing multiple conflicting ideas at once</li>
+      <h2>As a Creator</h2>
+      <div class="des-row">
+        <figure class="des-photo"><img src="../img/marc-studio-2012.jpg" alt="Marc LeMay reading a score at a rehearsal of one of his orchestra pieces, 2012" width="900" height="702" loading="lazy"></figure>
+        <div class="glance">
+          <ul>
+            <li><span class="num">25</span> years as a composer, arranger, songwriter, and sound designer</li>
+            <li><span class="num">33</span> contemporary classical pieces composed, many on commission, across a variety of instrumentations</li>
+            <li><span class="num">30</span> plays (music and/or sound design), 3 film scores, 2 albums (orchestral arrangements)</li>
           </ul>
         </div>
       </div>
-    </section>
-
-    <section class="sec">
-      <h2>As a Designer</h2>
-      <div class="cols">
-        <div>
-          <h3>At a glance</h3>
-          <ul class="list">
-            <li>25 years as a composer, arranger, songwriter, and sound designer</li>
-            <li>33 contemporary classical pieces composed, many on commission, across a variety of instrumentations</li>
-            <li>30 plays (music and/or sound design), 3 film scores, 2 albums (orchestral arrangements)</li>
-            <li>8 large multimedia collaboration projects</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Design Skills</h3>
+        <div class="detail">
           <ul class="list">
             <li><strong style="color:var(--ink);font-weight:700">Constant adaptation to new technology:</strong> engraving software, digital audio workstations, synthesizers, and much more.</li>
             <li><strong style="color:var(--ink);font-weight:700">Big picture:</strong> envisioning the structure of an entire piece before any note is written, crafting flow from section to section that is both logical and engaging</li>
             <li><strong style="color:var(--ink);font-weight:700">Micro-decisions:</strong> thousands of details, each decided to work in the moment and align with the piece’s aesthetic goals, just as every aspect of my learning modules aligns with their learning objectives</li>
           </ul>
         </div>
-      </div>
     </section>
 
     <section class="sec">
       <h2>As a Business Professional</h2>
-      <div class="cols">
+      <div class="glance">
+          <ul>
+            <li><span class="num">350</span> students whose curricula I oversaw as Director of Undergraduate Studies</li>
+            <li><span class="num">27</span> individualized graduate-level music theory comprehensive exams devised and and conducted</li>
+            <li><span class="num">9</span> aspiring professionals mentored through capstone projects, recitals, and career applications</li>
+            <li><span class="num">8</span> large multimedia projects created in collaboration with other artists</li>
+          </ul>
+        </div>
+      <div class="cols detail">
         <ul class="list">
-          <li><strong style="color:var(--ink);font-weight:700">Project management:</strong> every piece has been a project with stakeholders whose needs I have to meet, including delivering finished work on time and to spec</li>
+          <li><strong style="color:var(--ink);font-weight:700">Project management:</strong> every commissioned piece is a project with stakeholders whose needs I have to meet, including delivering finished work on time and to spec</li>
           <li><strong style="color:var(--ink);font-weight:700">Creative collaboration:</strong> my favorite part of any design project; I’ve worked with dozens of visual artists, choreographers, dancers, theatre artists, filmmakers, and other creative professionals. I love being part of a team working toward the same goal</li>
         </ul>
         <div>
-          <h3>Leadership</h3>
           <ul class="list">
-            <li>As Director of Undergraduate Studies at GSU, I oversaw the curricula for 350 students and 40 full-time faculty, and chaired curriculum committees</li>
-            <li>Also at GSU, as one of four College of the Arts fellows on the university’s Quality Enhancement Plan, I reported assessment data from five course sections and audited curricula against career-readiness competencies</li>
-            <li>As faculty at GSU, I designed and conducted 27 individualized music theory comprehensive exams for graduate students, and mentored 9 aspiring professionals about to hit the field through their capstone projects, graduate recitals, and graduate school and job applications</li>
+            <li><strong style="color:var(--ink);font-weight:700">Leadership:</strong> besides my role as Director of Undergraduate Studies, I also reported assessment data from five course sections and audited curricula against career-readiness competencies as one of four GSU College of the Arts fellows on the university’s Quality Enhancement Plan</li>
           </ul>
         </div>
       </div>
