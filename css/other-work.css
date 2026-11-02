@@ -25,8 +25,8 @@ a:hover{color:var(--accent)}
 /* Uppercase labels: citron on plum, as on Home (since 7 Oct). */
 .fact-label,.note-move,.slide-num{color:var(--accent)}
 
-/* Slides sit on a flat panel of lighter plum: one shape, no stroke, no shadow. */
-.slide-frame{background:#5a4560;border:0;aspect-ratio:auto;padding:12px;box-sizing:border-box}
+/* Slides float in a soft plum glow, as the module write-up hero does (2 Nov; was a flat lighter-plum panel). */
+.slide-frame{background:transparent;border:0;aspect-ratio:auto;padding:0;border-radius:10px;overflow:hidden;box-shadow:0 24px 60px -20px rgba(0,0,0,.55),0 10px 70px -18px rgba(142,58,87,.55)}
 .slide-frame img{height:auto}
 /* No rule above each slide row: the space between rows separates them. */
 .slide-row{border-top:0}
