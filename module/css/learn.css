@@ -144,8 +144,8 @@
 .ln-br-left{flex:none;width:170px;display:flex;flex-direction:column;align-items:center;gap:12px}
 .ln-circ{width:170px;height:170px;border-radius:50%;background:var(--tint);box-shadow:inset 0 0 0 1.5px #BFD3E6;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .ln-circ-dot{width:34%;height:34%;border-radius:50%;background:var(--action);scale:1;transition:scale 1s ease-in-out}
-.ln-circ[data-phase="in"] .ln-circ-dot{scale:2.94;transition-duration:4.2s}
-.ln-circ[data-phase="out"] .ln-circ-dot{scale:1;transition-duration:4.2s}
+.ln-circ[data-phase="in"] .ln-circ-dot{scale:2.94;transition-duration:2.8s}
+.ln-circ[data-phase="out"] .ln-circ-dot{scale:1;transition-duration:7.1s}
 .ln-circ-cap{margin:0;min-height:1.5em;font-weight:600;font-size:16px;color:var(--ink);text-align:center}
 .ln-br-left .btn{width:100%;white-space:normal;line-height:1.25}
 .ln-br-fig{flex:none;position:relative;width:110px}
@@ -332,3 +332,143 @@
   #lrn-41 .ln-col>.eyebrow,#lrn-43 .ln-col>.eyebrow,#lrn-45 .ln-col>.eyebrow,
   #lrn-41 h1.screen-title,#lrn-43 h1.screen-title,#lrn-45 h1.screen-title{padding-right:76px}
 }
+
+
+/* ---- 2 Nov [MARC]: Learn navigation (mockups 1a and 1c) ---- */
+.sub-nav{flex:none;display:flex;gap:4px;padding:0 34px;border-bottom:1px solid var(--hair);background:var(--surface,#F6F8FA);overflow-x:auto;scrollbar-width:none}
+.sub-nav::-webkit-scrollbar{display:none}
+.sub-nav[hidden]{display:none}
+.sub-tab{flex:none;display:flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;border:0;border-bottom:2px solid transparent;background:none;font:500 14px 'Work Sans',sans-serif;color:var(--muted);white-space:nowrap;cursor:pointer}
+.sub-tab[data-seen]::after{content:'\2713';font-size:12px;color:var(--muted)}
+.sub-tab[aria-current]{color:var(--action);border-bottom-color:var(--action);font-weight:600}
+@media (hover:hover){.sub-tab:not([aria-current]):hover{color:var(--ink)}}
+@media (max-width:640px){.sub-nav{padding:0 12px}.sub-tab{font-size:13.5px;padding:0 8px}}
+@media (min-width:1000px){
+  .sub-nav{padding-left:max(38px,calc((100% - 1216px) / 2 + 38px));padding-right:max(38px,calc((100% - 1216px) / 2 + 38px))}
+  .sub-tab{font-size:15px;min-height:48px}
+}
+
+/* Part 4: the climb, in the sub-nav bar at every width (2 Nov [MARC]). */
+.sub-nav[data-climb]{align-items:center;gap:0;padding-top:8px;padding-bottom:8px}
+.climb-node{flex:none;display:flex;align-items:center;gap:10px;min-height:44px;padding:4px 6px;border:0;border-radius:10px;background:none;text-align:left;cursor:pointer;font-family:'Work Sans',sans-serif}
+.climb-node[aria-current]{flex:0 1 auto;min-width:0}
+.climb-dot{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:inset 0 0 0 1.5px var(--hair)}
+.climb-dot img{width:26px;height:auto;display:block}
+.climb-node[data-k="all"] .climb-dot{width:14px;height:14px;margin:0 4px;box-shadow:inset 0 0 0 1.5px #7D8695}
+.climb-node[data-passed] .climb-dot{box-shadow:inset 0 0 0 2px #6A93BA}
+.climb-node[aria-current] .climb-dot{background:var(--tint);box-shadow:inset 0 0 0 2.5px var(--action)}
+.climb-node[data-k="all"][aria-current] .climb-dot{background:var(--action)}
+.climb-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.climb-name{font:500 13.5px/1.25 'Work Sans',sans-serif;color:var(--muted);white-space:nowrap}
+.climb-node[data-passed] .climb-name::after{content:' \2713'}
+.climb-node[aria-current] .climb-name{color:var(--action);font-weight:600}
+.climb-moves{display:flex;flex-wrap:wrap;gap:0 6px;font:400 13px/1.35 'Work Sans',sans-serif;color:var(--body)}
+.climb-moves span+span::before{content:'\00B7';margin-right:6px;color:var(--muted)}
+.climb-moves .new{animation:climbIn .5s ease-out both}
+@keyframes climbIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media (hover:hover){.climb-node[data-to]:hover .climb-name,.climb-link[data-to]:hover{color:var(--ink)}}  /* only what goes somewhere reacts */
+.climb-link{flex:1 1 28px;min-width:22px;max-width:110px;height:2px;margin:0 6px 0 2px;position:relative;color:#9FB0C2;background:currentColor;border-radius:1px}
+.climb-link::after{content:'';position:absolute;right:-1px;top:50%;width:7px;height:7px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:translateY(-50%) rotate(45deg)}
+.climb-link[data-passed]{color:var(--action)}
+/* 2 Nov [MARC]: the rail is a map, not a shortcut. The link to the next state
+   (and that state) appear and become clickable only once every move on this
+   screen is open. */
+.climb-node{cursor:default}
+.climb-node[data-to]{cursor:pointer}
+.climb-link[data-next]{visibility:hidden;color:var(--action)}
+.climb-link[data-next][data-to]{visibility:visible;cursor:pointer;animation:climbIn .5s ease-out both}
+.climb-link[data-to]::before{content:'';position:absolute;inset:-14px -4px}
+@keyframes climbNudge{0%,100%{right:-1px}50%{right:-6px}}
+@media (prefers-reduced-motion:reduce){.climb-link[data-next]::after,.climb-moves .new{animation:none}}
+@media (max-width:640px){
+  .sub-nav[data-climb]{padding-top:6px;padding-bottom:6px}
+  .climb-node:not([aria-current]) .climb-txt{display:none}
+  .climb-node{padding:4px 2px}
+  .climb-dot{width:32px;height:32px}
+  .climb-dot img{width:23px}
+  .climb-link{min-width:14px;margin:0 5px 0 1px}
+}
+@media (min-width:1000px){
+  .climb-dot{width:42px;height:42px}
+  .climb-dot img{width:31px}
+  .climb-name{font-size:15px}
+  .climb-moves{font-size:14px}
+}
+.ln-then[hidden]{display:none}  /* .ln-narrow's display:flex outranked [hidden] */
+.ln-then h2.screen-title{margin:0;font-size:28px;line-height:1.15;font-weight:600;letter-spacing:-.01em}
+.ln-morning[data-lit] h2.screen-title{color:var(--bookend-ink)}
+@media (min-width:1000px){.ln-then h2.screen-title{font-size:40px}}
+
+/* 2 Nov [MARC], mockup 4b: 3.2's yes sits on the Survival card. */
+.ln-pickstate{position:relative}
+.ln-pickstate[data-yes]::after{content:'\2713';position:absolute;top:-9px;right:-7px;width:30px;height:30px;border-radius:50%;background:#1E6B3A;color:#fff;display:grid;place-items:center;font:600 16px/1 'Work Sans',sans-serif}
+
+
+/* ---- 2 Nov [MARC]: the stairs, 1.2 and 1.3 (mockups 5b + 6) ---- */
+.st-intro{display:grid;position:relative;z-index:3}
+.st-intro>.st-own{grid-area:1/1;display:flex;flex-direction:column;align-items:flex-start;gap:22px;min-width:0}
+.st-own>*{margin:0}
+.st-shadow{visibility:hidden;pointer-events:none}
+.stairs{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:40px;align-items:start;margin-top:-50px}
+.st-col{display:flex;flex-direction:column;min-width:0}
+.st-col[data-k="surv"]{padding-top:110px}
+.st-col[data-k="emo"]{padding-top:55px}
+.st-head{display:flex;flex-direction:column;align-items:center}
+.st-spot{width:66%;aspect-ratio:1/1;margin-bottom:2px}
+.st-short{display:none}
+.st-box{padding:14px 18px 16px;border-radius:14px;background:var(--k-tint);display:flex;flex-direction:column;gap:6px;opacity:0;translate:0 6px;transition:opacity .6s ease .6s,translate .6s ease .6s}
+.st-box[data-seen="yes"]{opacity:1;translate:0 0}
+.st-box h2{margin:0;font:600 17px/1.25 'Work Sans',sans-serif;color:var(--k-ink)}
+.st-box p{margin:0;font-size:16px;line-height:1.5;color:var(--body);text-wrap:pretty}
+.st-box strong{color:var(--k-ink);font-weight:600}
+.st-trav{position:absolute;padding:0;border:0;background:none;cursor:pointer;transition:left 1s ease-in-out,top 1s ease-in-out;z-index:2}
+.st-trav img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;opacity:0}
+.st-ghost{position:absolute;z-index:1;cursor:pointer;display:block;object-fit:contain;opacity:0;pointer-events:none}
+/* Until the first paint places them, nothing in the stairs shows (the first-visit blip). */
+.stairs:not([data-ready]) .st-trav,.stairs:not([data-ready]) .st-ghost{visibility:hidden}
+.st-ghost[hidden]{display:none}
+.st-arrow{position:absolute;width:48px;height:48px;margin:-24px 0 0 -24px;padding:0;border:0;background:none;color:var(--action);cursor:pointer;z-index:4;opacity:0;pointer-events:none;transition:opacity .3s}
+.st-arrow[data-on="yes"]{opacity:1;pointer-events:auto}
+.st-arrow>span{display:block;width:48px;height:48px;transform:rotate(var(--rot,150deg))}
+.st-arrow>span>span{display:block;font:500 36px/48px 'Work Sans',sans-serif;text-align:center;animation:stNudge 3.2s ease-in-out 1s infinite}
+@keyframes stNudge{0%,16%,100%{transform:translateX(0)}8%{transform:translateX(7px)}}
+.st-trav:focus-visible,.st-arrow:focus-visible{outline:3px solid var(--action);outline-offset:4px;border-radius:12px}
+.stairs[data-instant],.stairs[data-instant] *{transition:none!important}
+@media (prefers-reduced-motion:reduce){.stairs *{transition:none!important;animation:none!important}}
+@media (min-width:1000px){
+  .st-intro>.st-own{gap:24px}
+  .st-box{padding:18px 22px 20px}
+  .st-box h2{font-size:20px}
+  .st-box p{font-size:18px}
+  .st-arrow>span>span{font-size:42px}
+}
+@media (max-width:759px){
+  .st-shadow{display:none}
+  .stairs{margin-top:-10px;column-gap:20px;row-gap:10px}
+  .st-col{display:contents}
+  .st-head{grid-row:1}
+  .st-col[data-k="surv"] .st-head{grid-column:1;padding-top:36px}
+  .st-col[data-k="emo"] .st-head{grid-column:2;padding-top:18px}
+  .st-col[data-k="exec"] .st-head{grid-column:3}
+  .st-spot{width:74px}
+  .st-short{display:block;margin-top:4px;font:600 13px/1.2 'Work Sans',sans-serif;color:var(--k-ink)}
+  .st-box{grid-column:1/-1;transition:none;translate:none;animation:stIn .6s ease both}
+  .st-box[data-seen="no"]{display:none}
+  .st-col[data-k="exec"] .st-box{grid-row:2}
+  .st-col[data-k="emo"] .st-box{grid-row:3}
+  .st-col[data-k="surv"] .st-box{grid-row:4}
+}
+@keyframes stIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* 2 Nov [MARC]: on wide screens the splits (1.1, 2.1, 3.1) read Survival left,
+   Executive right, the same map as the stairs. Stacked (phone), Executive stays on top. */
+@media (min-width:1000px){
+  .ln-states>[data-k="surv"]{order:1}
+  .ln-states>[data-k="emo"]{order:2}
+  .ln-states>[data-k="exec"]{order:3}
+}
+
+/* 2 Nov [MARC]: Part 4 rail, plain lines until Part 4 is done; then arrows. */
+.climb-link:not([data-open])::after{display:none}
+.climb-link:not([data-open]){color:#C3CCD6}
+.climb-link[data-open]{visibility:visible;color:var(--action);cursor:pointer}

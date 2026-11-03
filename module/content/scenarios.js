@@ -93,7 +93,7 @@ window.CDAH_SCENES = {
       surv: [
         { what: 'Make It Safe',      say: 'I won\u2019t let you kick the couch. I\u2019m right here.' },
         { what: 'Describe the Scene', say: 'You\u2019re face-down in the cushion, and your feet are kicking.' },
-        { what: 'Breathe Together',  say: 'I\u2019m taking a slow breath. Breathe with me if you want.' } ],
+        { what: 'Breathe Together',  say: 'I\u2019m taking a slow breath. Breathe with me.' } ],
       emo: [
         { what: 'Name the Feeling',  say: 'It\u2019s really hard to stop when you\u2019re almost done.' },
         { what: 'Give Two Options',  say: 'The tablet is going off now. You can pause it or save it. You pick.' } ],
@@ -236,7 +236,7 @@ window.CDAH_SCENES = {
       surv: [
         { what: 'Make It Safe',      say: 'I won\u2019t let you kick my seat. I\u2019m right here.' },
         { what: 'Describe the Scene', say: 'Your feet are kicking hard, and your face is all scrunched up.' },
-        { what: 'Breathe Together',  say: 'I\u2019m taking a big breath. Want to do your school breath with me?' } ],
+        { what: 'Breathe Together',  say: 'I\u2019m taking a big breath. Let\u2019s do a school breath together.' } ],
       emo: [
         { what: 'Name the Feeling',  say: 'You were hoping it\u2019d be Grandma today. That\u2019s a big disappointment.' },
         { what: 'Give Two Options',  say: 'Your buckle goes on before we drive. Do you want to click it yourself, or should I? You pick.' } ],
@@ -374,7 +374,7 @@ window.CDAH_SCENES = {
       surv: [
         { what: 'Make It Safe',      say: 'I won\u2019t let you kick. I\u2019m right here.' },
         { what: 'Describe the Scene', say: 'Your shoe went flying, and your feet are kicking hard.' },
-        { what: 'Breathe Together',  say: 'I\u2019m taking a big belly breath. Show me your school breath?' } ],
+        { what: 'Breathe Together',  say: 'I\u2019m taking a big belly breath. Breathe with me.' } ],
       emo: [
         { what: 'Name the Feeling',  say: 'Those shoes feel really weird right now.' },
         { what: 'Give Two Options',  say: 'Shoes go on before the bus comes. Left one first or right one first? You pick.' } ],

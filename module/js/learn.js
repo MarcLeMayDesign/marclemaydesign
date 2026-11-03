@@ -244,13 +244,129 @@
   }
   var reels = $$('[data-ln-reel]').map(reel);
 
+  /* ---- the stairs (1.2 the drop, 1.3 the way back up) -----------------
+     2 Nov [MARC], mockups 5b + 6. Survival left and lowest, Executive right
+     and highest. On arrival only the starting state shows (box and brain).
+     The button, the brain, or the blue arrow moves the brain one step; it
+     crossfades into the next state's image as it travels, and that state's
+     box fades in as it lands. Untouched, it carries on: 1s of travel, then
+     1s plus 0.17s a word of the new caption. At the end it lingers 2s, then
+     the other two brains come out from behind and return to their places
+     (2.8s). The arrow appears only once the brain is in place. Reduced
+     motion: the same steps, without the movement. */
+
+  function stairs(root) {
+    var kind = root.getAttribute('data-stairs'), sec = root.closest('section'), drop = kind === 'drop';
+    var START = drop ? 2 : 0, END = drop ? 0 : 2, DIR = drop ? -1 : 1;
+    var cols = ['surv', 'emo', 'exec'].map(function (k) { return $('.st-col[data-k="' + k + '"]', root); });
+    var spots = cols.map(function (c) { return $('.st-spot', c); }), boxes = cols.map(function (c) { return $('.st-box', c); });
+    var trav = $('[data-st-trav]', root), timgs = $$('img', trav), ghosts = $$('.st-ghost', root), arrow = $('[data-st-arrow]', root);
+    var btn = $('[data-st-go]', sec), L0 = btn.textContent, RUN = drop ? 'Dropping...' : 'Stepping up...';
+    /* Marc's settings from the mockup (2 Nov): angle, distance, lift. */
+    var A = drop ? { deg: 150, dist: 24, lift: -42 } : { deg: 335, dist: 30, lift: 6 };
+    var st, timers = [];
+    function later(ms, fn) { timers.push(setTimeout(fn, ms)); }
+    function clear() { timers.forEach(clearTimeout); timers = []; }
+    function fresh() { st = { cur: START, prev: null, acur: START, arrow: true, running: false, done: false, ghosts: 'none', seen: [START === 0, START === 1, START === 2] }; }
+    function pos(i) { var s = spots[i]; return { x: s.offsetLeft, y: s.offsetTop, s: s.offsetWidth }; }
+    function words(i) { return boxes[i].querySelector('p').textContent.split(/\s+/).length; }
+    function paint() {
+      if (sec.hidden) return;
+      var p = pos(st.cur);
+      trav.style.left = p.x + 'px'; trav.style.top = p.y + 'px'; trav.style.width = trav.style.height = p.s + 'px';
+      timgs.forEach(function (im, i) {
+        if (i === st.cur) { im.style.opacity = 1; im.style.zIndex = 2; im.style.transition = 'opacity 1.6s linear'; }
+        else if (i === st.prev) { im.style.opacity = 0; im.style.zIndex = 1; im.style.transition = 'opacity 0s linear 1.6s'; }
+        else { im.style.opacity = 0; im.style.zIndex = 0; im.style.transition = 'none'; }
+      });
+      boxes.forEach(function (b, i) { b.setAttribute('data-seen', st.seen[i] ? 'yes' : 'no'); });
+      ghosts.forEach(function (g, i) {
+        var home = st.ghosts === 'spread', q = home ? pos(i) : pos(END);
+        g.hidden = i === END;
+        g.style.left = q.x + 'px'; g.style.top = q.y + 'px'; g.style.width = g.style.height = q.s + 'px';
+        g.style.opacity = home ? 1 : 0; g.style.pointerEvents = home ? 'auto' : 'none';
+        g.style.transition = home ? 'left 2.8s cubic-bezier(.3,0,.2,1),top 2.8s cubic-bezier(.3,0,.2,1),opacity 1s' : 'none';
+      });
+      var a = pos(st.acur), k = a.s >= 120 ? a.s / 210 : 0.6, rad = A.deg * Math.PI / 180;
+      var reach = a.s / 2 + A.dist * k + 18 * Math.max(k, 0.6);
+      arrow.style.left = (a.x + a.s / 2 + Math.cos(rad) * reach) + 'px';
+      arrow.style.top = (a.y + a.s / 2 + Math.sin(rad) * reach + A.lift * k) + 'px';
+      arrow.style.setProperty('--rot', A.deg + 'deg');
+      var on = st.cur !== END && !st.done && st.arrow;
+      arrow.setAttribute('data-on', on ? 'yes' : 'no'); arrow.tabIndex = on ? 0 : -1;
+      var label = st.running ? RUN : L0 + (st.done ? ' again' : '');
+      btn.textContent = label; trav.setAttribute('aria-label', label);
+    }
+    function announce(i) { say(boxes[i].querySelector('h2').textContent + '. ' + boxes[i].querySelector('p').textContent); }
+    function finish(wait) {
+      if (st.ghosts !== 'none') return;
+      clear();
+      later(wait, function () { st.ghosts = 'gather'; paint(); });
+      later(wait + 60, function () { st.ghosts = 'spread'; paint(); });
+      later(wait + 60 + 2800, function () { st.done = true; st.running = false; paint(); save(kv(kind, true)); });
+    }
+    function step() {
+      if (st.cur === END || st.done) return;
+      clear();
+      var cur = st.cur + DIR;
+      st.prev = st.cur; st.cur = cur; st.arrow = false; st.seen[cur] = true; st.running = true;
+      paint(); announce(cur);
+      if (cur !== END) {
+        later(1000, function () { st.arrow = true; st.acur = cur; paint(); });
+        later(1000 + 1000 + 170 * words(cur), step);
+      } else finish(3000);
+    }
+    function start() {
+      if (!st.done && st.ghosts !== 'none') return;  /* already spreading: let it finish */
+      H.tap();
+      if (st.done) {  /* travel back with the arrow hidden, pause, then go */
+        clear(); var was = st.cur; fresh();
+        st.prev = was; st.running = true; st.arrow = false; paint();
+        later(1000, function () { st.arrow = true; paint(); });
+        later(2200, step);
+      } else if (st.cur === END) finish(0);
+      else step();
+    }
+    function idle() {
+      clear(); fresh();
+      root.setAttribute('data-instant', '');
+      paint(); void root.offsetWidth;
+      root.removeAttribute('data-instant');
+      if (!sec.hidden) root.setAttribute('data-ready', '');
+    }
+    btn.addEventListener('click', start);
+    trav.addEventListener('click', start);
+    ghosts.forEach(function (g) { g.addEventListener('click', start); });
+    arrow.addEventListener('click', function () { H.tap(); step(); });
+    window.addEventListener('resize', function () { root.setAttribute('data-instant', ''); paint(); void root.offsetWidth; root.removeAttribute('data-instant'); });
+    window.addEventListener('hashchange', clear);
+    fresh();
+    return { idle: idle };
+  }
+  var stairSets = {};
+  $$('[data-stairs]').forEach(function (r) { stairSets[r.closest('section').id] = stairs(r); });
+  /* Desktop: 1.2 and 1.3 each carry a hidden copy of the other's intro, so both
+     intros take the taller height and the Survival brain sits in exactly the
+     same spot on both screens [MARC]. Phones skip it (css). */
+  (function () {
+    var a = $('#lrn-12 .st-intro'), b = $('#lrn-13 .st-intro');
+    if (!a || !b) return;
+    function ghost(dst, src) {
+      var c = $('.st-own', src).cloneNode(true);
+      c.className = 'st-own st-shadow'; c.setAttribute('aria-hidden', 'true'); c.setAttribute('inert', '');
+      $$('[data-st-go],[id]', c).forEach(function (n) { n.removeAttribute('data-st-go'); n.removeAttribute('id'); });
+      dst.appendChild(c);
+    }
+    ghost(a, b); ghost(b, a);
+  })();
+
   /* ---- 2.2 the self-read --------------------------------------------- */
 
   var T22 = {
     fight: 'That\u2019s the Survival State: your body getting ready to fight. It\u2019s the most common drop at 7:40 a.m., and the one to watch out for first.',
     freeze: 'That\u2019s the Survival State too. Freeze (surrender) is giving up to make it stop. It\u2019s quieter than fight, but it\u2019s the same drop.',
     emo: 'That\u2019s the Emotional State. Taking it personally is the clue: \u2018on purpose\u2019 is a story your feelings are telling you, not what\u2019s going on in her brain.',
-    exec: 'That\u2019s the Executive State: you can still think and wonder. If that\u2019s you, good. Under this much stress, most of us drop at least one state.'
+    exec: 'That\u2019s the Executive State: you can still think and wonder. If that\u2019s you, good. Under this much pressure, most of us drop at least one state.'
   };
   function paint22(anim) {
     var v = L().p22, fb = $('[data-ln-fb22]');
@@ -277,10 +393,14 @@
   /* ---- 3.2 Maya's state, and the clue -------------------------------- */
 
   function t32(s, c) {
-    if (!s || !c) return '';
+    /* 2 Nov [MARC], mockup 4b: the state is answered first, on its own. A wrong
+       state gets the Coach at once; Survival gets its yes, then the clue question,
+       whose lines speak only about the clue. */
+    if (!s) return '';
+    if (s === 'surv' && !c) return '';
     if (s === 'surv' && c === 'body') return 'Yes. Her body told you. The throw and the kick are her fight response, and fight is the Survival State. Her words alone could have been Emotional.';
-    if (s === 'surv' && c === 'words') return 'Right state. But look at her body, not just her words. \u2018I\u2019m not going\u2019 could be Emotional. The throw and the kick are a fight response, and fight is Survival.';
-    if (s === 'surv') return 'Right state. Being late is your stress, though, not her signal. Her body is the clue: the throw and the kick are her fight response.';
+    if (s === 'surv' && c === 'words') return 'But look at her body, not just her words. \u2018I\u2019m not going\u2019 could be Emotional. The throw and the kick are a fight response, and fight is Survival.';
+    if (s === 'surv') return 'Being late is your stress, not her signal. Her body is the clue: the throw and the kick are her fight response.';
     if (s === 'emo') return 'Her words could be Emotional, but her body says more. The throw and the kick are her fight response. That\u2019s the Survival State.';
     return 'Not yet. A child who\u2019s ready to think can talk it through. Throwing and kicking are a fight response: the Survival State.';
   }
@@ -289,15 +409,16 @@
     $$('[data-ln-s32]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-ln-s32') === s ? 'true' : 'false'); });
     $$('[data-ln-c32]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-ln-c32') === c ? 'true' : 'false'); });
     var wasHidden = clues.hidden;
-    clues.hidden = !s;
-    if (anim && wasHidden && s) fade(clues, 300);
+    clues.hidden = s !== 'surv';
+    $$('[data-ln-s32]').forEach(function (b) { if (b.getAttribute('data-ln-s32') === 'surv' && s === 'surv') b.setAttribute('data-yes', ''); else b.removeAttribute('data-yes'); });
+    if (anim && wasHidden && s === 'surv') fade(clues, 300);
     var t = t32(s, c);
     fb.hidden = !t;
     $('[data-ln-t32]').textContent = t;
     $('[data-ln-c32img]').src = 'assets/img/' + (s === 'surv' && c === 'body' ? 'coach-encouraging-sticker.png' : 'coach-thinking-sticker.png');
     if (anim && t) fade(fb, 320);
   }
-  $$('[data-ln-s32]').forEach(function (b) { b.addEventListener('click', function () { H.tap(); save({ s32: b.getAttribute('data-ln-s32') }); paint32(true); reveal(L().c32 ? $('[data-ln-fb32]') : $('[data-ln-clues]')); }); });
+  $$('[data-ln-s32]').forEach(function (b) { b.addEventListener('click', function () { H.tap(); save({ s32: b.getAttribute('data-ln-s32') }); paint32(true); var l2 = L(); reveal(l2.s32 === 'surv' && !l2.c32 ? $('[data-ln-clues]') : $('[data-ln-fb32]')); }); });
   $$('[data-ln-c32]').forEach(function (b) { b.addEventListener('click', function () { H.tap(); save({ c32: b.getAttribute('data-ln-c32') }); paint32(true); reveal($('[data-ln-fb32]')); }); });
 
   /* ---- 2.3 breathe with me --------------------------------------------
@@ -316,7 +437,7 @@
     if (!root) return { reset: function () {} };
     var circ = $('[data-ln-circ]', root), word = $('[data-ln-word]', root), btn = $('[data-ln-br]', root);
     var poses = $$('[data-ln-poses] img', root), idleLabel = btn.textContent, timers = [], on = false;
-    var BR = 4200, ALT = ['An overwhelmed parent.', 'A parent, less tense now.', 'A parent, steadier.', 'A calm, smiling parent.'];
+    var BR_IN = 2800, BR_OUT = 7100, BR = BR_IN + BR_OUT, ALT = ['An overwhelmed parent.', 'A parent, less tense now.', 'A parent, steadier.', 'A calm, smiling parent.'];
     var fig = $('[data-ln-poses]', root);
     function soft() { fig.removeAttribute('data-blur'); void fig.offsetWidth; fig.setAttribute('data-blur', 'yes'); }
     function pose(n) { poses.forEach(function (p, i) { p.setAttribute('data-on', i === n ? 'yes' : 'no'); p.alt = i === n ? ALT[i] : ''; }); if (fig) fig.setAttribute('data-gl', String(n)); }
@@ -332,20 +453,20 @@
     function start() {
       stop(false); instant(function () { pose(0); });
       on = true; H.tap(); btn.textContent = 'Stop';
-      root.style.setProperty('--br-x', (BR * 2) + 'ms');
-      root.style.setProperty('--br-h', BR + 'ms');
+      root.style.setProperty('--br-x', BR + 'ms');  /* 2 Nov (Nicole): out is twice as long as in */
       for (var n = 0; n < 6; n++) (function (n) {
         timers.push(setTimeout(function () {
           var inb = n % 2 === 0;
+          root.style.setProperty('--br-h', (inb ? BR_IN : BR_OUT) + 'ms');
           circ.setAttribute('data-phase', inb ? 'in' : 'out');
           fig.setAttribute('data-rise', inb ? 'in' : 'out');
           if (inb) soft();
           word.textContent = inb ? 'Breathe in\u2026' : 'Breathe out\u2026';
           if (inb) pose(n / 2 + 1);
           if (inb) say('Breathe in. ' + (n / 2 + 1) + ' of 3.'); else say('And out.');
-        }, n * BR));
+        }, Math.ceil(n / 2) * BR_IN + Math.floor(n / 2) * BR_OUT));
       })(n);
-      timers.push(setTimeout(function () { stop(true); }, 6 * BR));
+      timers.push(setTimeout(function () { stop(true); }, 3 * BR));
     }
     btn.addEventListener('click', function () { if (on) reset(); else start(); });
     circ.addEventListener('click', function () { if (!on) start(); });
@@ -382,6 +503,7 @@
         var go = function () {
           save(kv(key, k + 1));
           paint(true);
+          document.dispatchEvent(new CustomEvent('cdah:steps'));  /* the Part 4 rail unlocks the next state */
           fade(steps[k], 420);
           if (arrows[k + 1]) fade(arrows[k + 1], 320, 260);
           var next = arrows[k + 1] || $('[data-ln-after="' + key + '"]');
@@ -398,6 +520,19 @@
   }
   var stepSets = $$('[data-ln-steps]').map(makeSteps);
 
+  /* 2 Nov [MARC]: 4.1's and 4.3's 7:40 check waits until the parent has reached
+     the bottom of the moves: all open, and the Coach after them scrolled into
+     view. Hidden again on each arrival, so a revisit reads the moves first. */
+  $$('[data-ln-then]').forEach(function (t) {
+    var key = t.getAttribute('data-ln-then'), sec = t.closest('section');
+    var coach = sec.querySelector('[data-ln-after="' + key + '"]');
+    if (!coach || !window.IntersectionObserver) { t.hidden = false; return; }
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting && t.hidden && !coach.hidden && !sec.hidden) { t.hidden = false; fade(t, 600, 250); } });
+    }, { root: document.getElementById('stage'), threshold: 0.5 }).observe(coach);
+    (window.CDAH_AFTER_SHOW = window.CDAH_AFTER_SHOW || []).push(function (id) { if (id === sec.id) t.hidden = true; });
+  });
+
   /* ---- 4.2 / 4.4 helpful or hurtful ---------------------------------- */
 
   var LINES = {
@@ -407,7 +542,7 @@
     ],
     '44': [
       ['Why are you so upset? They\u2019re just shoes.', 'hurt', 'A why-question asks her to reason, and she can\u2019t yet. \u2018Just shoes\u2019 tells her the feeling is wrong.'],
-      ['Those shoes feel all wrong today. Do I get you?', 'help', 'It names the feeling and checks in. That answers \u2018Am I still loved?\u2019 with yes.']
+      ['Those shoes feel all wrong today.', 'help', 'It names the feeling, and answers \u2018Am I still loved?\u2019 with a yes.']
     ]
   };
   $$('[data-ln-lines]').forEach(function (host) {
@@ -468,12 +603,15 @@
   }
   $$('[data-ln-morning]').forEach(function (p) { p.setAttribute('data-lit', 'yes'); });
 
+  window.CDAH_PARTS_DONE = function () { return parts(); };  /* the Part 4 rail (app.js) */
+
   /* ---- arrival, restart ---------------------------------------------- */
 
   function paintAll() {
     paintHome();
     Object.keys(splits).forEach(function (k) { splits[k].paint(); });
     reels.forEach(function (r) { r.idle(); });
+    Object.keys(stairSets).forEach(function (k) { stairSets[k].idle(); });
     paint22(); paint32(); paintLines(); breathe.reset();
     stepSets.forEach(function (s) { s.paint(false); });
     paintBars();
@@ -485,10 +623,9 @@
     paintBars();
     if (id === 'lrn-10') paintHome();
     if (splits[id]) splits[id].paint();
-    if (id === 'lrn-12') reels[0].idle();
-    if (id === 'lrn-13') reels[1].idle();
+    if (stairSets[id]) stairSets[id].idle();
     if (id === 'lrn-23') breathe.reset();
-    if (/^lrn-(22|32|42|44)$/.test(id)) morning(id);
+    if (/^lrn-(22|32)$/.test(id)) morning(id);
   });
   document.addEventListener('cdah:restart', paintAll);
   paintAll();

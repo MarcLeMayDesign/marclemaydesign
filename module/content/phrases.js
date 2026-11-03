@@ -60,8 +60,8 @@ window.CDAH_PHRASES = {
 
     { id: "breathe", title: "Breathe Together", note: "When words won\u2019t reach, breathe first and let them follow.",
       cards: [
-        { say: "Show me your school breath. I\u2019ll copy you.",
-          school: "Children often learn several calming breaths in class. Being the one who teaches it helps them do it." },
+        { say: "Let\u2019s do a school breath together.",
+          school: "Children often learn several calming breaths in class." },
         { say: "I\u2019m going to breathe slowly. Join me when you\u2019re ready.",
           school: "Teachers often breathe first and let the class follow, without asking anyone to calm down." },
         { say: "Hand on your tummy. Let\u2019s make it go up\u2026 and down.",
@@ -70,15 +70,15 @@ window.CDAH_PHRASES = {
           school: "Short pictures like this one are common in class, because a five-year-old can hold onto them." }
       ] },
 
-    { id: "feeling", title: "Name the Feeling", note: "Name it and check. There\u2019s no such thing as a wrong feeling.",
+    { id: "feeling", title: "Name the Feeling", note: "Name it. There\u2019s no such thing as a wrong feeling.",
       cards: [
-        { say: "You\u2019re really disappointed.",
+        { say: "You seem disappointed.",
           school: "Your child is learning names for feelings in class, so this is a word they already know." },
         { say: "You were almost finished. That's so frustrating, I get it.",
           school: "Feeling first, problem second is the order your child hears all day." },
         { say: "You wish you could stay up. And it\u2019s still bedtime.",
           school: "Your child is used to hearing that being understood and getting a yes are two different things." },
-        { say: "It\u2019s okay to be mad. I\u2019m right here.",
+        { say: "It\u2019s okay to feel angry. I\u2019m right here.",
           school: "In many classrooms every feeling is allowed. The limits are on what we do with it." }
       ] },
 
@@ -89,7 +89,7 @@ window.CDAH_PHRASES = {
           school: "Choices get a class through transitions all day. Your child is practiced at picking one." },
         { say: "It\u2019s bedtime. Pajamas first or teeth first?",
           school: "Teachers often offer the order rather than the whether. The thing still happens." },
-        { say: "You can carry your backpack, or I can. You decide.",
+        { say: "You can carry your backpack, or I can. Which do you choose?",
           school: "Small jobs and small choices help a child feel capable, and they get a lot of both at school." },
         { say: "We\u2019re leaving now. You pick how, or I can pick. Which one?",
           school: "If a child won\u2019t choose, the adult chooses calmly. The limit holds either way." }

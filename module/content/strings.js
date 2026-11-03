@@ -10,6 +10,12 @@
    Screen content arrives in its own files as each section is built:
    principles.js, quiz.js, scenarios.js, phrases.js, glossary.js, safety.js. */
 
+/* 2 Nov [MARC]: Describe the Scene also accepts mirroring (Nicole's review).
+   Whole words, as the matchers use them; no bare "like this" ("I don't like this"). */
+window.CDAH_MIRROR = ['mirror', 'mirroring', 'mirror it', 'mirror back', 'demonstrate', 'demonstrating', 'imitate', 'imitating',
+  'copy her', 'copying her', 'copy his', 'copying him', 'copy their', 'copying their', 'make my face', 'my face like',
+  'same face', 'like hers', 'like his', 'like theirs', 'is like this', 'are like this', 'going like this', 'doing this'];
+
 window.CDAH_STRINGS = {
 
   productName: "Conscious Discipline at Home",

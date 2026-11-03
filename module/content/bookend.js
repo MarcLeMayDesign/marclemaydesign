@@ -62,7 +62,7 @@ window.CDAH_BOOKEND = {
       accept: ['i see', 'i can see your', 'i notice', 'your face', 'your hands', 'your feet', 'your legs',
                'your fists', 'your body', 'your shoe', 'youre kicking', 'you are kicking', 'youre crying',
                'you are crying', 'youre screaming', 'you are screaming', 'you threw', 'you kicked', 'went flying',
-               'on the rug', 'on the floor', 'tears'] },
+               'on the rug', 'on the floor', 'tears'].concat(window.CDAH_MIRROR || []) },
     { id: 'connect', name: 'Name the Feeling',
       accept: ['you dont want', 'you really dont', 'you hate', 'you dont like', 'hard', 'tough',
                'i know', 'i can see', 'i get it', 'i understand', 'i hear you', 'feel', 'feeling',

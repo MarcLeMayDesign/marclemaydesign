@@ -98,6 +98,7 @@
   var SECTION_HOME = { learn: 'lrn-10', check: 'scr-200', practice: 'scr-300' };
   var elStatus = document.getElementById('headStatus');
   var elProg   = document.getElementById('headProg');
+  var elSubNav = document.getElementById('subNav');
   var btnAbout = document.getElementById('aboutBtn');
   var btnHelp  = document.getElementById('helpBtn');
   var btnBack  = document.getElementById('navBack');
@@ -127,6 +128,8 @@
   function indexOf(id) { return ids.indexOf(id); }
 
   function show(id, opts) {
+    /* 2 Nov [MARC]: 4.2 and 4.4 moved under 4.1 and 4.3; old saved places land there. */
+    if (id === 'lrn-42') id = 'lrn-41'; else if (id === 'lrn-44') id = 'lrn-43';
     var i = indexOf(id);
     if (i === -1) { i = 0; id = ids[0]; }
 
@@ -321,7 +324,90 @@
       } else elProg.appendChild(i2);
     }
     elProg.hidden = steps === 0;
+    paintSubNav(el);
   }
+
+  /* 2 Nov [MARC], mockup 1a: in Learn Parts 1–3, a row under the header names
+     the part's screens (their own titles, no numbers) and goes to each. The
+     header's four part pills stay as they are. Part 4 has the climb rail instead. */
+  function paintSubNav(el) {
+    var m = /^lrn-([1-4])[1-9]$/.exec(el.id);
+    elSubNav.innerHTML = '';
+    elSubNav.hidden = !m;
+    elSubNav.removeAttribute('data-climb');
+    elSubNav.setAttribute('aria-label', 'Screens in this part');
+    if (!m) return;
+    if (m[1] === '4') { paintClimb(el); return; }
+    var seen = S.get().visited || [], cur = null;
+    screens.forEach(function (s) {
+      if (!new RegExp('^lrn-' + m[1] + '[1-9]$').test(s.id)) return;
+      var t = s.getAttribute('data-tab') || (s.querySelector('h1.screen-title') || {}).textContent || s.id;
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'sub-tab'; b.textContent = t.trim();
+      b.setAttribute('data-to', s.id);
+      if (s.id === el.id) { b.setAttribute('aria-current', 'page'); cur = b; }
+      else if (seen.indexOf(s.id) !== -1) b.setAttribute('data-seen', 'yes');
+      elSubNav.appendChild(b);
+    });
+    if (cur) requestAnimationFrame(function () {
+      var l = cur.offsetLeft - 18, r = cur.offsetLeft + cur.offsetWidth + 18 - elSubNav.clientWidth;
+      if (elSubNav.scrollLeft > l) elSubNav.scrollLeft = l; else if (elSubNav.scrollLeft < r) elSubNav.scrollLeft = r;
+    });
+  }
+  /* 2 Nov [MARC]: Part 4's climb, in the same bar at every width, left to right
+     = bottom to top. Arrows on the line give the direction. Brain images only,
+     no state glow. (Move names on the rail: tried and cut, 2 Nov [MARC], too crowded.) */
+  var CLIMB = [
+    { k: 'surv', name: 'Survival', img: 'brain-stem.png', go: 'lrn-41' },
+    { k: 'emo', name: 'Emotional', img: 'brain-limbic.png', go: 'lrn-43' },
+    { k: 'exec', name: 'Executive', img: 'brain-prefrontal.png', go: 'lrn-45' },
+    { k: 'all', name: 'The whole picture', img: '', go: 'lrn-46' }
+  ];
+  function paintClimb(el) {
+    elSubNav.setAttribute('data-climb', '');
+    elSubNav.setAttribute('aria-label', 'Part 4, from the bottom state up');
+    var at = 0;
+    CLIMB.forEach(function (n, i) { if (n.go === el.id) at = i; });
+    /* 2 Nov [MARC]: the rail is a map that opens as the parent climbs. A state's
+       moves all open → the arrow to the next state appears, and both go there.
+       Part 4 done → everything goes. */
+    var pd = window.CDAH_PARTS_DONE && window.CDAH_PARTS_DONE(), reach = 0;
+    if (pd && pd[3]) reach = CLIMB.length - 1;
+    else for (var r = 0; r < CLIMB.length - 1; r++) {
+      var sc = document.getElementById(CLIMB[r].go), stp = sc && sc.querySelector('[data-ln-steps]');
+      var full = stp && stp.querySelectorAll('.ln-step').length === stp.querySelectorAll('.ln-step:not([hidden])').length;
+      if (!full) break;
+      reach = r + 1;
+    }
+    CLIMB.forEach(function (n, i) {
+      var goes = i !== at && i <= reach;
+      if (i > 0) {
+        var lk = document.createElement('span');
+        lk.className = 'climb-link'; lk.setAttribute('aria-hidden', 'true');
+        if (i <= at) lk.setAttribute('data-passed', '');
+        if (i <= reach) lk.setAttribute('data-open', '');
+        if (i <= reach && i !== at) lk.setAttribute('data-to', n.go);
+
+        elSubNav.appendChild(lk);
+      }
+      var b = document.createElement(goes ? 'button' : 'span');
+      if (goes) { b.type = 'button'; b.setAttribute('data-to', n.go); }
+      b.className = 'climb-node'; b.setAttribute('data-k', n.k);
+      if (i === at) b.setAttribute('aria-current', 'step'); else if (i < at) b.setAttribute('data-passed', '');
+      b.innerHTML = '<span class="climb-dot">' + (n.img ? '<img src="assets/img/' + n.img + '" alt="">' : '') + '</span>' +
+        '<span class="climb-txt"><span class="climb-name">' + n.name + '</span></span>';
+      b.setAttribute('aria-label', n.name + (i < at ? ', done' : goes ? ', next' : ''));
+      elSubNav.appendChild(b);
+    });
+  }
+  document.addEventListener('cdah:steps', function () { var el = document.getElementById(current); if (el) paintSubNav(el); });
+  elSubNav.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-to]');
+    var to = b && b.getAttribute('data-to');
+    if (to && to !== current && indexOf(to) !== -1) { H.tap(); show(to); }
+  });
+
+
 
   /* Learn is two paths, Assess and Act, and SCR-110 is a chooser between
      them. Each path card lists its screens and ticks the ones read. Read state

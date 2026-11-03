@@ -59,7 +59,9 @@
   var COMP = ['breath', 'breathe', 'calm', 'myself', 'compose', 'pause', 'count'];
   var SAFE = ['wont let', 'stop', 'throw', 'dirt', 'safe', 'hands', 'hold', 'step back', 'out of range', 'away from', 'block', 'limit', 'move back'];
   var THREAT = ['no playground', 'leaving without', 'punish', 'time out', 'timeout', 'consequence', 'no more', 'take away', 'lost', 'never again', 'next time we wont'];
-  var DESC = ['i see', 'i can see', 'i notice', 'youre on the', 'you are on the', 'on the ground', 'your hands', 'your face', 'your fists', 'your feet', 'your legs', 'youre throwing', 'you are throwing', 'youre crying', 'youre so mad', 'you are so mad', 'hands are full', 'describe'];
+  var DESC = ['i see', 'i can see', 'i notice', 'youre on the', 'you are on the', 'on the ground', 'your hands', 'your face', 'your fists', 'your feet', 'your legs', 'youre throwing', 'you are throwing', 'youre crying', 'youre so mad', 'you are so mad', 'hands are full', 'describe',
+    /* 2 Nov [MARC]: BIT answers are narrated ("I'd…"), so mirroring in the third person too. */
+    'her face', 'her body', 'her hands', 'her feet', 'my face', 'my own face', 'show her what'].concat(window.CDAH_MIRROR || []);
   var BREA = ['breathe together', 'breathe with', 'breath with', 'breathing with', 'with me', 'school breath', 'belly breath', 'smell the flower', 'blow out', 'in and out'];
   /* "Describing what you see" etc. for the Coach's credit line. */
   function extras(t) {
@@ -210,7 +212,7 @@
            ['Make It Safe', 'Stop anything dangerous. State only the limit that stops it.'],
            ['Describe the Scene', 'Calmly say what you see, without judgment.'],
            ['Breathe Together', 'Breathe slowly, and invite them to breathe with you.']],
-    emo:  [['Name the Feeling', 'Name it and check, instead of asking what or why. There\u2019s no wrong feeling.'],
+    emo:  [['Name the Feeling', 'Name it, instead of asking what or why. There\u2019s no wrong feeling.'],
            ['Give Two Options', 'Two positive ways out, both within your stated limit. They choose the how, not the limit.']],
     exec: [['The Missing Skill', 'Teach a safe way to handle the problem, now that they can learn.'],
            ['Limits for Next Time', 'A limit that helps next time, said while they can hear it.'],

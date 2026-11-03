@@ -33,7 +33,8 @@
            'im right here', 'i am right here', 'im here', 'right here with you', 'im not going anywhere', 'stay close'],
     describe: ['i see', 'i can see your', 'i notice', 'youre on the', 'you are on the', 'your face', 'your hands', 'your feet',
                'your legs', 'your fists', 'your body', 'your shoe', 'youre kicking', 'you are kicking', 'youre crying', 'you are crying',
-               'youre screaming', 'you are screaming', 'youre shaking', 'you threw', 'you kicked', 'face down', 'tears'],
+               'youre screaming', 'you are screaming', 'youre shaking', 'you threw', 'you kicked', 'face down', 'tears',
+               /* 2 Nov [MARC]: mirroring, after Nicole */].concat(window.CDAH_MIRROR || []),
     breathe: ['breathe', 'breath', 'breathing', 'in and out', 'smell the flower', 'blow out', 'belly'],
     /* 20 Oct [MARC]: sharp lines every scene treats as lost composure. */
     breaks: ['shut up', 'stupid', 'brat', 'knock it off', 'cut it out', 'whats wrong with you',
