@@ -7,9 +7,9 @@
 <meta name="description" content="A short module for parents and caregivers of kindergarten students. Nothing you type leaves your own device.">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;575;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/module.css?v=20261021e">
-<link rel="stylesheet" href="css/learn.css?v=20261021e">
-<link rel="stylesheet" href="css/bit.css?v=20261021e">
+<link rel="stylesheet" href="css/module.css?v=20261102h">
+<link rel="stylesheet" href="css/learn.css?v=20261102h">
+<link rel="stylesheet" href="css/bit.css?v=20261102h">
 </head>
 <body>
 
@@ -25,6 +25,9 @@
     <button class="head-about head-help" id="helpBtn" type="button" data-tip="Help: glossary and phrases" aria-label="Help: what the words mean, and words for a hard moment">?</button>
     <button class="head-about head-info" id="aboutBtn" type="button" data-tip="About this module" aria-label="About this module, and your saved place">i</button>
   </header>
+
+  <!-- 2 Nov [MARC], mockup 1a: Learn Parts 1–3 name their screens here; each goes there. Painted in app.js. -->
+  <nav class="sub-nav" id="subNav" aria-label="Screens in this part" hidden></nav>
 
   <div class="resume" id="resumeStrip" hidden>
     <p>You were partway through. Your answers are still here.</p>
@@ -51,7 +54,7 @@
     <section class="screen cover" id="scr-000" data-theme="dark" hidden>
       <div class="cover-grid">
         <div class="cover-text">
-          <p class="eyebrow plum">For parents of kindergarteners</p>
+          <p class="eyebrow plum">Made by a parent, for parents</p>
           <h1 class="cover-title">Conscious Discipline at Home</h1>
           <p class="screen-body">About forty-five minutes, in as many sittings as you like. What you write stays on this device.</p>
           <div class="cover-go"><button class="btn cover-begin" id="coverBegin" type="button">Begin module</button></div>
@@ -116,8 +119,9 @@
          now live on COVER (and the disclaimer in the About panel). -->
     <section class="screen" id="scr-099" data-theme="dark" hidden>
       <h1 class="screen-title">Conscious Discipline at Home</h1>
-      <!-- Trimmed to one paragraph per the 1c mockup [MARC, 2 Oct]. -->
-      <p class="screen-body">The approach your child&rsquo;s school uses every day, brought home. Made by a parent, for parents. Nothing is graded, and nothing is reported to the school.</p>
+      <!-- 2 Nov [MARC]: two paragraphs, after Melanie asked how school and home fit (mockup 2a). -->
+      <p class="screen-body">The approach your child&rsquo;s school uses every day, brought home. At school, their whole day is built around it: the culture, the daily rituals, and their behavioral development.</p>
+      <p class="screen-body">But what happens when they get home? This module helps you understand what&rsquo;s happening at school, so you can reinforce it at home. Nothing is graded, and nothing is reported to the school.</p>
       <!-- SCR-099 option 1c, picked by Marc 2 Oct: one row per section, each section's figure in a circle of its color. -->
       <nav class="lenses casts" aria-label="The three sections">
         <a class="lens cast" data-cast="learn" href="#lrn-10">
@@ -198,7 +202,7 @@
             <div class="ln-state-txt">
               <h2>The Executive State</h2>
               <p>The higher-reasoning parts of the brain are active. Here we can think rationally, solve problems, and learn new skills.</p>
-              <p class="ln-skill"><strong>Skillset:</strong> seeing more than one side, making reasonable choices, thinking critically about our own actions, setting long-term goals.</p>
+              <p class="ln-skill"><strong>Skillset:</strong> making reasonable choices, seeing more than one side, thinking critically about our own actions, setting long-term goals.</p>
             </div>
           </article>
           <article class="ln-state" data-k="emo">
@@ -207,7 +211,7 @@
             <div class="ln-state-txt">
               <h2>The Emotional State</h2>
               <p>Emotions are in control, and rational thinking is almost impossible. It draws on mental models learned through our upbringing and experience, rather than conscious thought.</p>
-              <p class="ln-skill"><strong>Skillset:</strong> unconsciously accessing long-term memory, feeling emotions.</p>
+              <p class="ln-skill"><strong>Skillset:</strong> unconsciously accessing long-term memory, feeling emotions, assigning blame and making judgments.</p>
             </div>
           </article>
           <article class="ln-state" data-k="surv">
@@ -215,7 +219,7 @@
             <img src="assets/img/brain-stem.png" alt="The brain, with the brain stem at the base colored red.">
             <div class="ln-state-txt">
               <h2>The Survival State</h2>
-              <p>The oldest parts of the brain, working below awareness to keep us safe. Under stress, the brain drops here.</p>
+              <p>The oldest parts of the brain, working below awareness to keep us safe. Under threat, the brain drops here.</p>
               <p class="ln-skill"><strong>Skillset:</strong> fight, flight, or freeze (surrender). Nothing else.</p>
             </div>
           </article>
@@ -228,77 +232,68 @@
          (19 Oct, Marc): one segment per state, the current one fills, any
          segment jumps there. -->
     <section class="screen" id="lrn-12" data-section="learn" data-status="Part 1 of 4" data-steps="4" data-step="1" hidden>
-      <div class="ln-split ln-split-even">
-        <div class="ln-col">
+      <!-- 2 Nov [MARC], mockups 5b + 6: the stairs. Survival left and lowest, Executive right and highest.
+           One brain travels the stairs; js/learn.js, "the stairs". -->
+      <div class="st-intro">
+        <div class="st-own">
           <p class="eyebrow plum">Part 1 &middot; The three brain states model</p>
           <h1 class="screen-title">The drop</h1>
-          <p class="screen-body">Under stress, anyone can drop a state, and it can happen fast, especially if you are at low capacity.</p>
-          <p class="screen-body">Capacity is your store of emotional and social energy. Yours can drain after a long day at work, or unbroken hours of childcare. Your child&rsquo;s can drain just from holding it together all day at school.</p>
-          <p class="screen-body ln-motion-only"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the animation to see what triggers a drop in each brain state.</p>
+          <p class="screen-body">Anyone can drop a state, and it can happen fast, especially if you are at low capacity. Capacity is your store of emotional and social energy. Yours can drain after a long day at work, or unbroken hours of childcare. Your child&rsquo;s can drain just from holding it together all day at school.</p>
+          <p class="screen-body"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the button or brain below to see what triggers a drop in each brain state.</p>
+          <button class="btn" type="button" data-st-go>Show the drop</button>
         </div>
-        <div class="ln-reel-wrap" data-ln-reel="drop">
-          <div class="ln-reel" role="region" aria-label="The drop, from the Executive State down to the Survival State" tabindex="0">
-            <div class="ln-pane" data-k="exec">
-              <img src="assets/img/brain-prefrontal.png" alt="">
-              <h2>The Executive State</h2>
-              <p class="ln-pane-t">At rest, you are calm and composed, ready to think and learn.</p>
-              <span class="ln-pane-arrow" aria-hidden="true">&darr;</span>
-            </div>
-            <div class="ln-pane" data-k="emo">
-              <img src="assets/img/brain-limbic.png" alt="">
-              <h2>The Emotional State</h2>
-              <p class="ln-pane-t"><strong>Drops to Emotional when:</strong> you feel unloved, left out, misunderstood, or frustrated; you&rsquo;re going through a hard transition; or you&rsquo;re running low on capacity.</p>
-              <span class="ln-pane-arrow" aria-hidden="true">&darr;</span>
-            </div>
-            <div class="ln-pane" data-k="surv">
-              <img src="assets/img/brain-stem.png" alt="">
-              <h2>The Survival State</h2>
-              <p class="ln-pane-t"><strong>Drops to Survival when:</strong> you experience a real threat, or even an irritation that feels like one, or your capacity has run out.</p>
-            </div>
-          </div>
-          <div class="ln-reel-bar">
-            <button class="btn" type="button" data-ln-play>Show the drop</button>
-            <div class="ln-segs" data-ln-segs role="group" aria-label="Jump to a state"></div>
-          </div>
-          <p class="ln-reel-hint" data-ln-hint hidden>Or scroll inside the box to read each state again.</p>
+      </div>
+      <div class="stairs" data-stairs="drop" role="group" aria-label="The drop, from the Executive State down to the Survival State">
+        <div class="st-col" data-k="surv">
+          <div class="st-head"><div class="st-spot"></div><span class="st-short" aria-hidden="true">Survival</span></div>
+          <div class="st-box" data-seen="no"><h2>The Survival State</h2><p><strong>Drops to Survival when:</strong> you experience a real threat, or even an irritation that feels like one, or your capacity has run out.</p></div>
         </div>
+        <div class="st-col" data-k="emo">
+          <div class="st-head"><div class="st-spot"></div><span class="st-short" aria-hidden="true">Emotional</span></div>
+          <div class="st-box" data-seen="no"><h2>The Emotional State</h2><p><strong>Drops to Emotional when:</strong> you feel unloved, left out, misunderstood, or frustrated; you&rsquo;re going through a hard transition; or you&rsquo;re running low on capacity.</p></div>
+        </div>
+        <div class="st-col" data-k="exec">
+          <div class="st-head"><div class="st-spot"></div><span class="st-short" aria-hidden="true">Executive</span></div>
+          <div class="st-box" data-seen="no"><h2>The Executive State</h2><p>At rest, you are calm and composed, ready to think and learn.</p></div>
+        </div>
+        <button class="st-trav" type="button" data-st-trav><img src="assets/img/brain-stem.png" alt=""><img src="assets/img/brain-limbic.png" alt=""><img src="assets/img/brain-prefrontal.png" alt=""></button>
+        <img class="st-ghost" src="assets/img/brain-stem.png" alt="">
+        <img class="st-ghost" src="assets/img/brain-limbic.png" alt="">
+        <img class="st-ghost" src="assets/img/brain-prefrontal.png" alt="">
+        <button class="st-arrow" type="button" data-st-arrow aria-label="Next state" tabindex="-1"><span><span>&rarr;</span></span></button>
       </div>
     </section>
 
     <section class="screen" id="lrn-13" data-section="learn" data-status="Part 1 of 4" data-steps="4" data-step="1" hidden>
-      <div class="ln-split ln-split-even">
-        <div class="ln-col">
+      <!-- 2 Nov [MARC], mockups 5b + 6: the stairs. Survival left and lowest, Executive right and highest.
+           One brain travels the stairs; js/learn.js, "the stairs". -->
+      <div class="st-intro">
+        <div class="st-own">
           <p class="eyebrow plum">Part 1 &middot; The three brain states model</p>
           <h1 class="screen-title">The way back up</h1>
           <p class="screen-body">The drop can skip straight to the bottom. The rise can&rsquo;t. Our brains need different things at each state in order to step their way back up.</p>
-          <p class="screen-body ln-motion-only"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the animation to see what triggers a rise from a brain state to the one above it.</p>
+          <p class="screen-body"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the button or brain below to see what triggers a rise from a brain state to the one above it.</p>
+          <button class="btn" type="button" data-st-go>Show the way up</button>
         </div>
-        <div class="ln-reel-wrap" data-ln-reel="rise">
-          <div class="ln-reel" role="region" aria-label="The way back up, from the Survival State to the Executive State" tabindex="0">
-            <div class="ln-pane" data-k="exec">
-              <img src="assets/img/brain-prefrontal.png" alt="">
-              <h2>The Executive State</h2>
-              <p class="ln-pane-t"><strong>Problem Solving:</strong> now you&rsquo;re ready to listen, think, and learn. This is where limits and new skills can land.</p>
-            </div>
-            <div class="ln-pane" data-k="emo">
-              <span class="ln-pane-arrow up" aria-hidden="true">&uarr;</span>
-              <img src="assets/img/brain-limbic.png" alt="">
-              <h2>The Emotional State</h2>
-              <p class="ln-pane-t"><strong>Connection:</strong> while in this state, empathy, breathing together, and naming your feelings help you connect with others and with your higher brain functions, moving you up into the Executive State.</p>
-            </div>
-            <div class="ln-pane" data-k="surv">
-              <span class="ln-pane-arrow up" aria-hidden="true">&uarr;</span>
-              <img src="assets/img/brain-stem.png" alt="">
-              <h2>The Survival State</h2>
-              <p class="ln-pane-t"><strong>Safety:</strong> until you feel physically and emotionally safe, you can&rsquo;t process emotions, understand a limit or a consequence, and you can&rsquo;t learn. A sense of safety allows your brain to move up and start feeling emotion.</p>
-            </div>
-          </div>
-          <div class="ln-reel-bar">
-            <button class="btn" type="button" data-ln-play>Show the way up</button>
-            <div class="ln-segs" data-ln-segs role="group" aria-label="Jump to a state"></div>
-          </div>
-          <p class="ln-reel-hint" data-ln-hint hidden>Or scroll inside the box to read each state again.</p>
+      </div>
+      <div class="stairs" data-stairs="rise" role="group" aria-label="The way back up, from the Survival State to the Executive State">
+        <div class="st-col" data-k="surv">
+          <div class="st-head"><div class="st-spot"></div><span class="st-short" aria-hidden="true">Survival</span></div>
+          <div class="st-box" data-seen="no"><h2>The Survival State</h2><p><strong>Safety:</strong> until you feel physically and emotionally safe, you can&rsquo;t process emotions, understand a limit or a consequence, and you can&rsquo;t learn. A sense of safety allows your brain to move up and start feeling emotion.</p></div>
         </div>
+        <div class="st-col" data-k="emo">
+          <div class="st-head"><div class="st-spot"></div><span class="st-short" aria-hidden="true">Emotional</span></div>
+          <div class="st-box" data-seen="no"><h2>The Emotional State</h2><p><strong>Connection:</strong> while in this state, empathy, breathing together, and naming your feelings help you connect with others and with your higher brain functions, moving you up into the Executive State.</p></div>
+        </div>
+        <div class="st-col" data-k="exec">
+          <div class="st-head"><div class="st-spot"></div><span class="st-short" aria-hidden="true">Executive</span></div>
+          <div class="st-box" data-seen="no"><h2>The Executive State</h2><p><strong>Problem Solving:</strong> now you&rsquo;re ready to listen, think, and learn. This is where limits and new skills can land.</p></div>
+        </div>
+        <button class="st-trav" type="button" data-st-trav><img src="assets/img/brain-stem.png" alt=""><img src="assets/img/brain-limbic.png" alt=""><img src="assets/img/brain-prefrontal.png" alt=""></button>
+        <img class="st-ghost" src="assets/img/brain-stem.png" alt="">
+        <img class="st-ghost" src="assets/img/brain-limbic.png" alt="">
+        <img class="st-ghost" src="assets/img/brain-prefrontal.png" alt="">
+        <button class="st-arrow" type="button" data-st-arrow aria-label="Next state" tabindex="-1"><span><span>&rarr;</span></span></button>
       </div>
       <p class="gate ln-bridge">Next: how to recognize your own brain state in a tough moment.</p>
     </section>
@@ -374,8 +369,8 @@
         <div class="ln-col">
           <p class="eyebrow plum">Part 2 &middot; Your state first</p>
           <h1 class="screen-title">Composure</h1>
-          <p class="screen-body">Composure is self-regulation, and it starts with you. You need to be back in your own Executive State before you can help your child reach theirs. Without composure, nothing else lands.</p>
-          <p class="screen-body">It starts with one deep breath, from the diaphragm: in for a few seconds, then out for a few. It&rsquo;s the quickest way to bring your reasoning back online. Your child learns these kinds of breaths at school, and practices them every day.</p>
+          <p class="screen-body">Composure is self-regulation, and it starts with you. Getting back to your Executive State before you help your child is key. Without composure, nothing else lands.</p>
+          <p class="screen-body">It starts with one deep breath, from the diaphragm: in for a couple of seconds, then slowly out. It&rsquo;s the quickest way to bring your reasoning back online. Your child learns these kinds of breaths at school, and practices them every day.</p>
         </div>
         <div class="ln-breathe" data-ln-breathe>
           <div class="ln-br-left">
@@ -397,7 +392,7 @@
     <section class="screen" id="lrn-31" data-section="learn" data-status="Part 3 of 4" data-steps="4" data-step="3" hidden>
       <p class="eyebrow plum">Part 3 &middot; Your child&rsquo;s state</p>
       <h1 class="screen-title">Your child&rsquo;s state</h1>
-      <p class="screen-body">Reading your child&rsquo;s state starts with empathy: understanding, without judgment. You&rsquo;re looking for what they feel, not trying to stop it. Each state shows up in a child in its own way, and each one is asking a question. Read below to see signs and behaviors to look for to figure out your child&rsquo;s state.</p>
+      <p class="screen-body">Noticing your child&rsquo;s state starts with empathy: understanding, without judgment. You&rsquo;re looking for what they feel, not trying to stop it. Each state shows up in a child in its own way, and each one is asking a question. Read below to see signs and behaviors to look for to figure out your child&rsquo;s state.</p>
       <div class="ln-brain ln-who ln-who-child" data-ln-brain="split31">
         <button class="ln-brain-all" type="button" data-ln-split aria-label="Show how each state shows up in a child"><img src="assets/img/state-child-ready.png" alt=""></button>
         <span class="ln-brain-cue" data-ln-split aria-hidden="true"><span class="say-fine">Click</span><span class="say-touch">Tap</span> the child to see how each state shows up</span>
@@ -408,7 +403,7 @@
             <div class="ln-state-txt">
               <h2>The Executive State</h2>
               <p class="ln-ask">&ldquo;What can I learn?&rdquo;</p>
-              <p>A calm body and voice. Not necessarily a happy voice, but one ready to listen, ready to talk about what happened, and hear your side.</p>
+              <p>A calm body and voice. Not necessarily a happy voice, but one ready to listen, ready to talk about what happened, and able to problem-solve.</p>
             </div>
           </article>
           <article class="ln-state" data-k="emo">
@@ -454,7 +449,7 @@
           <button class="ln-pickstate" type="button" aria-pressed="false" data-ln-s32="exec" data-k="exec"><img src="assets/img/brain-prefrontal.png" alt=""><span>Executive</span></button>
         </div>
         <div class="ln-stack" data-ln-clues hidden>
-          <p class="ln-q" id="ln32c">What told you?</p>
+          <p class="ln-q ln-yes" id="ln32c">Yes, that&rsquo;s right! What told you?</p>
           <div class="ln-choices" role="group" aria-labelledby="ln32c">
             <button class="ln-choice" type="button" aria-pressed="false" data-ln-c32="words">What she screamed</button>
             <button class="ln-choice" type="button" aria-pressed="false" data-ln-c32="body">The throw and the kick</button>
@@ -487,9 +482,9 @@
             <button class="ln-arrow" type="button" data-ln-go aria-label="Show move 2 of 4" hidden><i aria-hidden="true"></i></button>
             <div class="ln-step" hidden><p class="ln-step-k">Move 2 of 4</p><h2>Make It Safe</h2><p>A limit is the line around what&rsquo;s OK. Stop anything that is physically dangerous, and state only limits that keep the danger from continuing: &ldquo;I won&rsquo;t let you kick.&rdquo;</p></div>
             <button class="ln-arrow" type="button" data-ln-go aria-label="Show move 3 of 4" hidden><i aria-hidden="true"></i></button>
-            <div class="ln-step" hidden><p class="ln-step-k">Move 3 of 4</p><h2>Describe the Scene</h2><p>Calmly say what&rsquo;s going on with your child&rsquo;s body and words. No judgment here, just say what you see. This is the first step to connection, and you might be surprised at how well this disarms your child and makes them feel seen: &ldquo;I see your face is all in a scowl, you&rsquo;re crying, and your legs are in the air.&rdquo;</p></div>
+            <div class="ln-step" hidden><p class="ln-step-k">Move 3 of 4</p><h2>Describe the Scene</h2><p>Calmly say what&rsquo;s going on with your child&rsquo;s body and words, or mirror it back to them. No judgment here, just say or demonstrate what you see. This is the first step to connection, and you might be surprised at how well this disarms your child and makes them feel seen: &ldquo;I see your face is all in a scowl, you&rsquo;re crying, and your legs are in the air.&rdquo;</p></div>
             <button class="ln-arrow" type="button" data-ln-go aria-label="Show move 4 of 4" hidden><i aria-hidden="true"></i></button>
-            <div class="ln-step" hidden><p class="ln-step-k">Move 4 of 4</p><h2>Breathe Together</h2><p>Ask your child to teach you a deep belly breath they learned at school, then do it together. If they&rsquo;re not quite ready for that, keep breathing yourself, and encourage them through your actions to breathe with you.</p></div>
+            <div class="ln-step" hidden><p class="ln-step-k">Move 4 of 4</p><h2>Breathe Together</h2><p>Do one of your child&rsquo;s deep belly breaths with them. If they&rsquo;re not quite ready for that, keep breathing yourself, and encourage them through your actions to breathe with you.</p></div>
           </div>
           <aside class="coach-says ln-coach" data-ln-after="st41" hidden>
             <img class="coach-fig" src="assets/img/coach-encouraging.png" alt="" width="56" height="84">
@@ -498,13 +493,10 @@
         </div>
         <figure class="ln-fig"><img src="assets/img/scene-breathing.png" alt="A parent and child breathing together."></figure>
       </div>
-    </section>
-
-    <section class="screen ln-check" id="lrn-42" data-section="learn" data-status="Part 4 of 4" data-steps="4" data-step="4" hidden>
-      <div class="ln-narrow">
-        <p class="eyebrow plum">Part 4 &middot; Back to 7:40 a.m.</p>
+      <!-- 2 Nov [MARC]: the 7:40 check sits under the moves; it appears once the parent scrolls to the Coach at the end of them (was its own screen). -->
+      <div class="ln-narrow ln-then" data-ln-then="st41" hidden>
         <div class="ln-morning" data-ln-morning>
-          <h1 class="screen-title">Back to 7:40 a.m.: mid-kick</h1>
+          <h2 class="screen-title">Back to 7:40 a.m.: mid-kick</h2>
           <p class="screen-body">Say you&rsquo;ve taken a breath, and she&rsquo;s still kicking. Here are two lines a parent might say next. Is each one helpful or hurtful?</p>
           <div class="ln-lines" data-ln-lines="42"></div>
         </div>
@@ -520,7 +512,7 @@
           <p class="screen-body">In the Emotional State, your child may seem calmer. But now their brain is being controlled by their emotions, and their brain is asking, &ldquo;Am I still loved?&rdquo; Those big feelings are going to get in the way of any kind of self-reflection or lessons we want to teach. So here, they need connection. They need to feel understood, know that they are loved, and that they have a say in what happens next. <span class="say-fine">Click</span><span class="say-touch">Tap</span> below to see a couple ways to create that connection.</p>
           <div class="ln-steps" data-ln-steps="st43" data-k="emo">
             <button class="ln-arrow" type="button" data-ln-go aria-label="Show move 1 of 2"><i aria-hidden="true"></i></button>
-            <div class="ln-step" hidden><p class="ln-step-k">Move 1 of 2</p><h2>Name the Feeling</h2><p>Instead of asking what they feel, or why they&rsquo;re upset, name it and check: &ldquo;You&rsquo;re trying to tell me the shoes feel wrong, and I&rsquo;m not hearing you. It must be frustrating to feel that way. Do I get you?&rdquo;</p><p>This is a quick way to show that you empathize and aren&rsquo;t judging them. There&rsquo;s no such thing as a &ldquo;wrong&rdquo; feeling. Naming the feeling shows them that it&rsquo;s okay to be feeling it.</p></div>
+            <div class="ln-step" hidden><p class="ln-step-k">Move 1 of 2</p><h2>Name the Feeling</h2><p>Instead of asking what they feel, or why they&rsquo;re upset, name it: &ldquo;You&rsquo;re trying to tell me the shoes feel wrong, and I&rsquo;m not hearing you. It must be frustrating to feel that way.&rdquo;</p><p>This is a quick way to show that you empathize and aren&rsquo;t judging them. There&rsquo;s no such thing as a &ldquo;wrong&rdquo; feeling. Naming the feeling shows them that it&rsquo;s okay to be feeling it.</p></div>
             <button class="ln-arrow" type="button" data-ln-go aria-label="Show move 2 of 2" hidden><i aria-hidden="true"></i></button>
             <div class="ln-step" hidden><p class="ln-step-k">Move 2 of 2</p><h2>Give Two Options</h2><p>Two positive ways out, both within your stated limit. They get a say in how they move forward, but don&rsquo;t get to move the limit: &ldquo;We still have to catch that bus. Sneakers or boots? You pick.&rdquo;</p></div>
           </div>
@@ -531,13 +523,10 @@
         </div>
         <figure class="ln-fig"><img src="assets/img/shift-two-options.png" alt="A parent holding out two pairs of shoes."></figure>
       </div>
-    </section>
-
-    <section class="screen ln-check" id="lrn-44" data-section="learn" data-status="Part 4 of 4" data-steps="4" data-step="4" hidden>
-      <div class="ln-narrow">
-        <p class="eyebrow plum">Part 4 &middot; Back to 7:40 a.m.</p>
+      <!-- 2 Nov [MARC]: the 7:40 check sits under the moves; it appears once the parent scrolls to the Coach at the end of them (was its own screen). -->
+      <div class="ln-narrow ln-then" data-ln-then="st43" hidden>
         <div class="ln-morning" data-ln-morning>
-          <h1 class="screen-title">Back to 7:40 a.m.: the sobbing</h1>
+          <h2 class="screen-title">Back to 7:40 a.m.: the sobbing</h2>
           <p class="screen-body">She&rsquo;s stopped kicking and is crying on the rug. Here are two lines a parent might say. Is each one helpful or hurtful?</p>
           <div class="ln-lines" data-ln-lines="44"></div>
         </div>
@@ -1060,25 +1049,25 @@
   </div>
 </div>
 
-<script src="content/strings.js?v=20261021e"></script>
-<script src="content/principles.js?v=20261021e"></script>
-<script src="content/safety.js?v=20261021e"></script>
-<script src="content/scenarios.js?v=20261021e"></script>
-<script src="content/bookend.js?v=20261021e"></script>
-<script src="content/phrases.js?v=20261021e"></script>
-<script src="content/glossary.js?v=20261021e"></script>
-<script src="js/board.js?v=20261021e"></script>
-<script src="js/state.js?v=20261021e"></script>
-<script src="js/haptics.js?v=20261021e"></script>
-<script src="js/fx.js?v=20261021e"></script>
-<script src="js/principles.js?v=20261021e"></script>
-<script src="js/safety.js?v=20261021e"></script>
-<script src="js/matcher.js?v=20261021e"></script>
-<script src="js/roleplay.js?v=20261021e"></script>
-<script src="js/app.js?v=20261021e"></script>
-<script src="js/phrases.js?v=20261021e"></script>
-<script src="js/glossary.js?v=20261021e"></script>
-<script src="js/learn.js?v=20261021e"></script>
-<script src="js/bit.js?v=20261021e"></script>
+<script src="content/strings.js?v=20261102h"></script>
+<script src="content/principles.js?v=20261102h"></script>
+<script src="content/safety.js?v=20261102h"></script>
+<script src="content/scenarios.js?v=20261102h"></script>
+<script src="content/bookend.js?v=20261102h"></script>
+<script src="content/phrases.js?v=20261102h"></script>
+<script src="content/glossary.js?v=20261102h"></script>
+<script src="js/board.js?v=20261102h"></script>
+<script src="js/state.js?v=20261102h"></script>
+<script src="js/haptics.js?v=20261102h"></script>
+<script src="js/fx.js?v=20261102h"></script>
+<script src="js/principles.js?v=20261102h"></script>
+<script src="js/safety.js?v=20261102h"></script>
+<script src="js/matcher.js?v=20261102h"></script>
+<script src="js/roleplay.js?v=20261102h"></script>
+<script src="js/app.js?v=20261102h"></script>
+<script src="js/phrases.js?v=20261102h"></script>
+<script src="js/glossary.js?v=20261102h"></script>
+<script src="js/learn.js?v=20261102h"></script>
+<script src="js/bit.js?v=20261102h"></script>
 </body>
 </html>
