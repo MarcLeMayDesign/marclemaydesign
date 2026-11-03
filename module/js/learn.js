@@ -261,7 +261,8 @@
     var cols = ['surv', 'emo', 'exec'].map(function (k) { return $('.st-col[data-k="' + k + '"]', root); });
     var spots = cols.map(function (c) { return $('.st-spot', c); }), boxes = cols.map(function (c) { return $('.st-box', c); });
     var trav = $('[data-st-trav]', root), timgs = $$('img', trav), ghosts = $$('.st-ghost', root), arrow = $('[data-st-arrow]', root);
-    var btn = $('[data-st-go]', sec), L0 = btn.textContent, RUN = drop ? 'Dropping...' : 'Stepping up...';
+    var btn = $('[data-st-go]', sec), L0 = btn.textContent, RUN = drop ? 'Dropping' : 'Stepping up';
+    var DOTS = '<span class="st-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span>', shown = null;
     /* Marc's settings from the mockup (2 Nov): angle, distance, lift. */
     var A = drop ? { deg: 150, dist: 24, lift: -42 } : { deg: 335, dist: 30, lift: 6 };
     var st, timers = [];
@@ -294,8 +295,9 @@
       arrow.style.setProperty('--rot', A.deg + 'deg');
       var on = st.cur !== END && !st.done && st.arrow;
       arrow.setAttribute('data-on', on ? 'yes' : 'no'); arrow.tabIndex = on ? 0 : -1;
-      var label = st.running ? RUN : L0 + (st.done ? ' again' : '');
-      btn.textContent = label; trav.setAttribute('aria-label', label);
+      var label = st.running ? RUN + '...' : L0 + (st.done ? ' again' : '');
+      if (label !== shown) { if (st.running) btn.innerHTML = RUN + DOTS; else btn.textContent = label; shown = label; }
+      trav.setAttribute('aria-label', label);
     }
     function announce(i) { say(boxes[i].querySelector('h2').textContent + '. ' + boxes[i].querySelector('p').textContent); }
     function finish(wait) {
@@ -310,15 +312,35 @@
       clear();
       var cur = st.cur + DIR;
       st.prev = st.cur; st.cur = cur; st.arrow = false; st.seen[cur] = true; st.running = true;
-      paint(); announce(cur);
+      paint(); announce(cur); fit({ i: cur });  /* each new box comes into view as it lands */
       if (cur !== END) {
         later(1000, function () { st.arrow = true; st.acur = cur; paint(); });
         later(1000 + 1000 + 170 * words(cur), step);
       } else finish(3000);
     }
+    /* 3 Nov [MARC]: on a phone the boxes stack below the brains, so the first press
+       scrolls down just enough that the last box (Survival on the drop) will be in
+       view, without pushing the brains off the top. */
+    function fit(box) {
+      var stage = document.getElementById('stage');
+      if (!stage || window.innerWidth > 759) return;
+      var sr = stage.getBoundingClientRect(), r = root.getBoundingClientRect(), bottom;
+      if (box) bottom = boxes[box.i].getBoundingClientRect().bottom;
+      else {  /* the first press: as far as the page can go now */
+        var was = boxes.map(function (b) { return b.getAttribute('data-seen'); });
+        boxes.forEach(function (b) { b.setAttribute('data-seen', 'yes'); });
+        bottom = root.getBoundingClientRect().bottom;
+        boxes.forEach(function (b, i) { b.setAttribute('data-seen', was[i]); });
+      }
+      var d = Math.min(bottom + 16 - sr.bottom, r.top - sr.top - 8);
+      if (d <= 0) return;
+      var fx = window.CDAH_FX, rm = fx && fx.reduced && fx.reduced();
+      stage.scrollTo({ top: stage.scrollTop + d, behavior: rm ? 'auto' : 'smooth' });
+    }
     function start() {
       if (!st.done && st.ghosts !== 'none') return;  /* already spreading: let it finish */
       H.tap();
+      if (!st.running) fit();
       if (st.done) {  /* travel back with the arrow hidden, pause, then go */
         clear(); var was = st.cur; fresh();
         st.prev = was; st.running = true; st.arrow = false; paint();

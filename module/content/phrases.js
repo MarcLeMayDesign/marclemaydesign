@@ -24,7 +24,7 @@ window.CDAH_PHRASES = {
   print: "Print the phrase cards",                                    // NEW 1 Oct
   printTitle: "Words for a hard moment",                              // NEW
   printNote: "Cut along the dashed lines. Keep one where the hard moments happen: the fridge, the car, by the front door.", // NEW
-  printFoot: "Conscious Discipline at Home \u00b7 An independent learning project. Not affiliated with, endorsed by, or reviewed by Conscious Discipline or Loving Guidance, Inc.",
+  printFoot: "Conscious Discipline at Home \u00b7 An independent learning project. Not affiliated with Conscious Discipline or Loving Guidance, Inc., but reviewed by a Certified Conscious Discipline Instructor.",
 
   moves: [
     { id: "composure", title: "Compose Yourself", note: "Say these to yourself, before you say anything to your child.",

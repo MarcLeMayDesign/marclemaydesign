@@ -356,7 +356,7 @@
 .climb-dot img{width:26px;height:auto;display:block}
 .climb-node[data-k="all"] .climb-dot{width:14px;height:14px;margin:0 4px;box-shadow:inset 0 0 0 1.5px #7D8695}
 .climb-node[data-passed] .climb-dot{box-shadow:inset 0 0 0 2px #6A93BA}
-.climb-node[aria-current] .climb-dot{background:var(--tint);box-shadow:inset 0 0 0 2.5px var(--action)}
+.climb-node[aria-current] .climb-dot{background:var(--k-tint,var(--tint));box-shadow:inset 0 0 0 2.5px var(--k-dot,var(--action))}  /* 3 Nov [MARC]: in the state's own color */
 .climb-node[data-k="all"][aria-current] .climb-dot{background:var(--action)}
 .climb-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
 .climb-name{font:500 13.5px/1.25 'Work Sans',sans-serif;color:var(--muted);white-space:nowrap}
@@ -409,14 +409,16 @@
 .st-intro>.st-own{grid-area:1/1;display:flex;flex-direction:column;align-items:flex-start;gap:22px;min-width:0}
 .st-own>*{margin:0}
 .st-shadow{visibility:hidden;pointer-events:none}
-.stairs{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:40px;align-items:start;margin-top:-50px}
+.stairs{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:40px;align-items:start;margin-top:-46px}  /* Marc's mockup tweak: -46 desktop, -10 phone */
+.st-own p.screen-body{max-width:none}  /* 3 Nov [MARC]: wide intro, as in the mockup, so the stairs sit higher */
+.st-own .btn{flex:none}
 .st-col{display:flex;flex-direction:column;min-width:0}
 .st-col[data-k="surv"]{padding-top:110px}
 .st-col[data-k="emo"]{padding-top:55px}
 .st-head{display:flex;flex-direction:column;align-items:center}
 .st-spot{width:66%;aspect-ratio:1/1;margin-bottom:2px}
 .st-short{display:none}
-.st-box{padding:14px 18px 16px;border-radius:14px;background:var(--k-tint);display:flex;flex-direction:column;gap:6px;opacity:0;translate:0 6px;transition:opacity .6s ease .6s,translate .6s ease .6s}
+.st-box{padding:14px 18px 16px;border-radius:14px;background:var(--k-tint);display:flex;flex-direction:column;gap:6px;opacity:0;translate:0 16px;transition:opacity .9s ease .6s,translate .9s cubic-bezier(.2,.7,.3,1) .6s}
 .st-box[data-seen="yes"]{opacity:1;translate:0 0}
 .st-box h2{margin:0;font:600 17px/1.25 'Work Sans',sans-serif;color:var(--k-ink)}
 .st-box p{margin:0;font-size:16px;line-height:1.5;color:var(--body);text-wrap:pretty}
@@ -443,7 +445,7 @@
   .st-arrow>span>span{font-size:42px}
 }
 @media (max-width:759px){
-  .st-shadow{display:none}
+  .st-intro>.st-shadow{display:none}  /* .st-intro>.st-own outranked it: the hidden copy set the height on phones */
   .stairs{margin-top:-10px;column-gap:20px;row-gap:10px}
   .st-col{display:contents}
   .st-head{grid-row:1}
@@ -452,13 +454,19 @@
   .st-col[data-k="exec"] .st-head{grid-column:3}
   .st-spot{width:74px}
   .st-short{display:block;margin-top:4px;font:600 13px/1.2 'Work Sans',sans-serif;color:var(--k-ink)}
-  .st-box{grid-column:1/-1;transition:none;translate:none;animation:stIn .6s ease both}
+  .st-box{grid-column:1/-1;transition:none;translate:none;animation:stIn .9s cubic-bezier(.2,.7,.3,1) .6s both}
   .st-box[data-seen="no"]{display:none}
   .st-col[data-k="exec"] .st-box{grid-row:2}
   .st-col[data-k="emo"] .st-box{grid-row:3}
   .st-col[data-k="surv"] .st-box{grid-row:4}
 }
-@keyframes stIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes stIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+/* 3 Nov [MARC]: the dots in “Dropping...” pulse while it runs. */
+.st-dots span{animation:stDot 1.2s ease-in-out infinite}
+.st-dots span:nth-child(2){animation-delay:.2s}
+.st-dots span:nth-child(3){animation-delay:.4s}
+@keyframes stDot{0%,60%,100%{opacity:.25}30%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.st-dots span{animation:none}}
 
 /* 2 Nov [MARC]: on wide screens the splits (1.1, 2.1, 3.1) read Survival left,
    Executive right, the same map as the stairs. Stacked (phone), Executive stays on top. */
