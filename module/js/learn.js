@@ -6,7 +6,7 @@
      s32, c32                   3.2 state + clue (Part 3)
      h { '42-0': 'help', … }    4.2 + 4.4 lines (Part 4 = all four)
      st41, st43, st45           4.1 / 4.3 / 4.5 moves shown (a count)
-   Reduced motion: the splits, the reels and the steps all land in their end
+   Reduced motion: the splits, the stairs, and the steps all land in their end
    state without moving; nothing is lost but the motion. */
 
 (function () {
@@ -129,120 +129,6 @@
   var splits = {};
   $$('[data-ln-brain]').forEach(function (r) { splits[r.closest('section').id] = makeSplit(r); });
 
-  /* ---- 1.2 the drop, 1.3 the way back up -------------------------------
-     A box with one pane per state, stacked top to bottom. Playing glides
-     from pane to pane and each pane's words fade in as it arrives. Each
-     pane holds for reading time (1.8s plus 45ms a character). The bar beside
-     the button (19 Oct, Marc; the old SCR-112 bar) has one segment per
-     state: the current one fills, and any segment jumps there. The button
-     pauses and resumes. After a full play the box scrolls freely. Reduced
-     motion: no box, the three panes sit in a column, all visible. */
-
-  function reel(wrap) {
-    var kind = wrap.getAttribute('data-ln-reel');
-    var box = $('.ln-reel', wrap), panes = $$('.ln-pane', box);
-    var btn = $('[data-ln-play]', wrap), segs = $('[data-ln-segs]', wrap);
-    var hint = $('[data-ln-hint]', wrap) || {};
-    var order = kind === 'drop' ? [0, 1, 2] : [2, 1, 0];
-    var label = btn.textContent, raf = 0, i = -1, t = 0, last = 0, paused = false, from = 0, GLIDE = 1500;
-    var fills = order.map(function (p, n) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'ln-seg';
-      b.setAttribute('aria-label', panes[p].querySelector('h2').textContent);
-      b.innerHTML = '<span><i></i></span>';
-      /* 19 Oct (Marc): a click lands the playhead where it hits the segment,
-         not at the segment's start. Keyboard: the start. */
-      b.addEventListener('click', function (e) {
-        H.tap();
-        var r = b.getBoundingClientRect();
-        go(n, e.detail && r.width ? Math.max(0, Math.min(0.98, (e.clientX - r.left) / r.width)) : 0);
-      });
-      segs.appendChild(b);
-      return b.querySelector('i');
-    });
-    function y(n) { return panes[order[n]].offsetTop; }
-    function show(p, on) { panes[p].setAttribute('data-shown', on ? 'yes' : 'no'); }
-    function hold(n) { return 1800 + panes[order[n]].querySelector('.ln-pane-t').textContent.length * 45; }
-    function len(n) { return (n ? GLIDE : 0) + hold(n); }
-    function ease(k) { return k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
-    function paintSegs(done) {
-      fills.forEach(function (f, s) { f.style.width = (done || s < i ? 100 : s === i ? Math.min(100, t / len(i) * 100) : 0) + '%'; });
-    }
-    function frame(now) {
-      if (!last) last = now;
-      if (!paused) t += now - last;
-      last = now;
-      if (i > 0 || from !== y(0)) {
-        var g = i > 0 ? GLIDE : 600, k = Math.min(1, t / g);
-        box.scrollTop = from + (y(i) - from) * ease(k);
-        if (k >= 0.55 && panes[order[i]].getAttribute('data-shown') !== 'yes') {
-          show(order[i], true);
-          say(panes[order[i]].querySelector('h2').textContent + '. ' + panes[order[i]].querySelector('.ln-pane-t').textContent);
-        }
-      }
-      if (t >= len(i)) {
-        if (i + 1 >= order.length) { finish(); return; }
-        i++; t = 0; from = box.scrollTop;
-      }
-      paintSegs(false);
-      raf = requestAnimationFrame(frame);
-    }
-    function go(n, f) {
-      cancelAnimationFrame(raf);
-      box.setAttribute('data-state', 'locked');
-      if (i < 0) { panes.forEach(function (p, j) { show(j, j === order[0]); }); box.scrollTop = y(0); }
-      from = box.scrollTop; i = n; t = (f || 0) * len(n); last = 0; paused = false;
-      if (n === 0) show(order[0], true);
-      for (var s = n + 1; s < order.length; s++) show(order[s], false);
-      segs.setAttribute('data-on', 'yes');
-      hint.hidden = true;
-      btn.textContent = 'Pause';
-      raf = requestAnimationFrame(frame);
-    }
-    function finish() {
-      cancelAnimationFrame(raf); i = -1; t = 0; paused = false;
-      save(kv(kind, true));
-      box.setAttribute('data-state', 'free');
-      paintSegs(true);
-      btn.textContent = 'Play again';
-      hint.hidden = false;
-    }
-    function idle() {
-      cancelAnimationFrame(raf); i = -1; t = 0; paused = false;
-      var played = !!L()[kind];
-      if (reduced()) { box.setAttribute('data-state', 'still'); panes.forEach(function (p, j) { show(j, true); }); btn.hidden = true; segs.hidden = true; hint.hidden = true; if (!played) save(kv(kind, true)); return; }
-      box.setAttribute('data-state', played ? 'free' : 'locked');
-      panes.forEach(function (p, j) { show(j, played || j === order[0]); });
-      box.scrollTop = y(0);
-      btn.textContent = played ? 'Play again' : label;
-      segs.setAttribute('data-on', played ? 'yes' : 'no');
-      hint.hidden = !played;
-      paintSegs(played);
-    }
-    btn.addEventListener('click', function () {
-      if (i < 0) { H.tap(); go(0); return; }
-      paused = !paused;
-      btn.textContent = paused ? 'Resume' : 'Pause';
-    });
-    box.addEventListener('click', function () { if (box.getAttribute('data-state') === 'locked' && i < 0) go(0); });
-    /* 21 Oct [MARC]: the arrow in a pane is a control too: it starts the
-       reel, or once it has played, moves to the next pane. */
-    $$('.ln-pane-arrow', box).forEach(function (ar) {
-      ar.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var st = box.getAttribute('data-state');
-        if (st === 'locked' && i < 0) { H.tap(); go(0); return; }
-        if (st === 'free') {
-          var pane = ar.closest('.ln-pane'), nx = pane && pane.nextElementSibling;
-          if (nx) { H.tap(); box.scrollTo({ top: nx.offsetTop, behavior: reduced() ? 'auto' : 'smooth' }); }
-        }
-      });
-    });
-    box.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && box.getAttribute('data-state') === 'locked' && i < 0) { e.preventDefault(); go(0); } });
-    window.addEventListener('hashchange', function () { if (i >= 0) idle(); });
-    return { idle: idle };
-  }
-  var reels = $$('[data-ln-reel]').map(reel);
 
   /* ---- the stairs (1.2 the drop, 1.3 the way back up) -----------------
      2 Nov [MARC], mockups 5b + 6. Survival left and lowest, Executive right
@@ -632,7 +518,6 @@
   function paintAll() {
     paintHome();
     Object.keys(splits).forEach(function (k) { splits[k].paint(); });
-    reels.forEach(function (r) { r.idle(); });
     Object.keys(stairSets).forEach(function (k) { stairSets[k].idle(); });
     paint22(); paint32(); paintLines(); breathe.reset();
     stepSets.forEach(function (s) { s.paint(false); });

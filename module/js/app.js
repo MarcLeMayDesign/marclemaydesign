@@ -95,7 +95,7 @@
   var elDot    = document.getElementById('headDot');
   var elSub    = document.getElementById('headSub');
   /* The section name in the header goes to that section's opening screen. */
-  var SECTION_HOME = { learn: 'lrn-10', check: 'scr-200', practice: 'scr-300' };
+  var SECTION_HOME = { learn: 'lrn-10', check: 'bit-00', practice: 'scr-300' };
   var elStatus = document.getElementById('headStatus');
   var elProg   = document.getElementById('headProg');
   var elSubNav = document.getElementById('subNav');
@@ -254,18 +254,18 @@
     var f = from.id, t = to.id;
     if (t === 'scr-099' && f === 'scr-100') return 'grand';
     if (t === 'scr-099') return (f === 'scr-000' || f === 'scr-400' || f === 'lrn-46' || f === 'scr-209') ? 'big' : 'normal';
-    if (f === 'scr-110' && t === 'scr-200') return 'big';
+    if (f === 'scr-110' && t === 'bit-00') return 'big';
     /* Learn AD2 (15 Oct): into Learn and out of it are big; a new part is half. */
     if (f === 'scr-099' && t === 'lrn-10') return 'big';
-    if ((f === 'lrn-46' || f === 'lrn-10') && t === 'scr-200') return 'big';
+    if ((f === 'lrn-46' || f === 'lrn-10') && t === 'bit-00') return 'big';
     var LP = { 'lrn-11': 1, 'lrn-21': 2, 'lrn-31': 3, 'lrn-41': 4 };
     if (LP[t] && /^lrn-/.test(f) && f.charAt(4) !== t.charAt(4)) return 'half';
     /* Moderately big (Marc, 2 Oct): phrase cards in and out, the opening screens, a section's last screen → its close. */
     if (f === 'scr-500' || t === 'scr-500') return 'half';
     if (f === 'scr-000' && t === 'scr-100') return 'half';
     if ((f === 'scr-125' && t === 'scr-130') || (f === 'scr-201' && t === 'scr-209')) return 'half';
-    if (f === 'scr-099' && (t === 'scr-110' || t === 'scr-200' || t === 'scr-300')) return 'big';
-    if ((f === 'scr-130' && t === 'scr-200') || (f === 'scr-209' && t === 'scr-300')) return 'big';
+    if (f === 'scr-099' && (t === 'scr-110' || t === 'bit-00' || t === 'scr-300')) return 'big';
+    if ((f === 'scr-130' && t === 'bit-00') || (f === 'scr-209' && t === 'scr-300')) return 'big';
     if (t === 'scr-304' && from.getAttribute('data-section') === 'practice') return 'big';
     if (f === 'scr-304' && t === 'scr-400') return 'big';
     return 'normal';
