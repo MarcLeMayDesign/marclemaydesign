@@ -4,140 +4,239 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Marc LeMay — instructional design</title>
-<meta name="description" content="Marc LeMay, Instructional Design and Learning Experience Specialist.">
-<link rel="stylesheet" href="css/site.css?v=20261022">
-<!-- 30 Oct [MARC]: rebuilt with Marc's own copy. Page-only rules below. -->
+<meta name="description" content="Marc LeMay, instructional designer: eLearning, curriculum, and assessment design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700;800&amp;display=swap">
+<!-- 14 Nov [MARC]: one-page Home (Work, About, Contact), built from Home D - One Page.dc.html. Write-up palette; dark hero, Contact, and footer. /about and /contact redirect here (_redirects). -->
 <style>
-.hero:has(.home-h1) .hero-portrait{margin-top:clamp(6px,1vw,12px)}
-.home-h1{font-size:clamp(32px,3.8vw,54px)}
-.work-list{margin-top:clamp(24px,3.4vw,44px)}
-.work-row{padding:clamp(14px,1.8vw,22px) 14px}
-.work-title{font-size:clamp(21px,2.4vw,32px)}
-.work-note{margin-top:6px;font-size:clamp(15px,1.1vw,17px)}
-.work-head span{flex:0 0 auto}
-.work-head{color:var(--ink-mid)}
-.wrap{container-type:inline-size}
-@container (max-width:740px){
-  .hero{display:grid;grid-template-columns:minmax(0,1fr) clamp(84px,27cqi,200px);gap:0 clamp(12px,3cqi,24px);align-items:end}
-  .hero-text{display:contents}
-  .home-h1{grid-column:1;grid-row:1;margin:0;font-size:clamp(22px,7.6cqi,52px)}
-  .hero:has(.home-h1) .hero-portrait{grid-column:2;grid-row:1;margin:0;min-width:0}
-  .hero .rule,.hero .lede{grid-column:1/-1}
-}
-.why{margin-top:clamp(48px,6vw,88px)}
-.why h2{margin:0 0 1rem}
-.why ol{margin:0 0 1rem;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px;counter-reset:why}
-.why li{counter-increment:why;display:grid;grid-template-columns:32px minmax(0,1fr);gap:4px;color:var(--ink-soft);max-width:62ch}
-.why li::before{content:counter(why);font:800 21px/1.3 var(--sans);color:var(--accent)}
-.work-thumb{flex:0 0 clamp(120px,15vw,190px);align-self:center;aspect-ratio:16/10;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px var(--rule),0 12px 30px -14px rgba(0,0,0,.6)}
-.work-thumb img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left;transition:transform .2s ease}
-a.work-row:hover .work-thumb img{transform:scale(1.04)}
-.work-thumb-empty{display:flex;align-items:center;justify-content:center;box-shadow:none;border:1px dashed #4a3350;font:600 12px/1.2 var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
-.work-row .work-tag{align-self:center;min-width:92px;text-align:right}
-@container (max-width:600px){.work-thumb{order:-1;flex-basis:100%;max-width:260px}.work-thumb-empty{aspect-ratio:auto;padding:10px 0}}
-.why .prose{margin-bottom:1rem}
-.want{margin-top:clamp(28px,3.4vw,44px)}
-.more{margin-top:clamp(20px,2.4vw,28px);font-weight:600}
-main .more a{text-decoration:none;border-bottom:0}
-.more a:hover{text-decoration:underline}
+html{scroll-behavior:smooth}
+body{margin:0;background:#25293C}
+a{color:inherit;text-decoration:none}
+[hidden]{display:none !important}
+:focus-visible{outline:2px solid #1F6FAD;outline-offset:3px}
+button:disabled{opacity:.7;cursor:default}
+[data-h="0"]:hover{color:var(--ink,#fff) !important;text-decoration:underline !important;text-underline-offset:5px !important}
+[data-h="1"]:hover{background:var(--hover,#EFE8EF) !important;box-shadow:-14px 0 0 var(--hover,#EFE8EF),14px 0 0 var(--hover,#EFE8EF) !important}
+[data-h="2"]:hover{color:var(--accent,#8E3A57) !important;text-decoration-color:currentColor !important}
+[data-h="3"]:hover{background:var(--btnh,#8E3A57) !important}
+[data-h="4"]:hover{color:var(--accent,#cbe45a) !important}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div style="min-height:100vh;font-family:'Source Sans 3',system-ui,sans-serif;font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased">
+<div style="--head:'Libre Franklin',system-ui,sans-serif;--body:'Libre Franklin',system-ui,sans-serif;--hw:700;--ls:-.025em">
+<div style="font-family:var(--body,'Source Sans 3',system-ui,sans-serif)">
 
-  <header class="site-head">
-    <a class="site-name" href="./">Marc LeMay</a>
-    <nav class="site-nav">
-      <a href="#work" aria-current="page">Work</a>
-      <a href="about/">About</a>
-      <a href="contact/">Contact</a>
-    </nav>
-  </header>
-
-  <main>
-    <div class="hero">
-      <div class="hero-text">
-        <h1 class="home-h1">Instructional Design and Learning Experience Specialist</h1>
-        <hr class="rule">
-        <p class="lede">Hi! I’m Marc LeMay, a designer with over two decades of experience crafting learning for adults and developing large-scale projects. I specialize in teaching the reluctant. Learners often come to me skeptical, but leave with new perspectives on the material, motivated by my passion for making complex subjects digestible and engaging.</p>
+  <div data-screen-label="Hero" style="--bg:#25293C;--ink:#ffffff;--soft:#D5D9E3;--muted:#AEB4C4;--line:#3A4057;--hover:#2C3146;--fill:#30354A;--accent:#8CC0E8;--field:#4A5068;--btn:#1F6FAD;--btnh:#2B80C2;background:#25293C;color:#ffffff;box-shadow:0 1px 0 #25293C;padding-top:clamp(16px,2.4vw,32px);padding-bottom:clamp(28px,3.2vw,44px)">
+  <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+    <header style="display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:baseline;margin-bottom:clamp(24px,3vw,40px)">
+      <a href="#" style="font-size:18px;font-weight:700;color:var(--ink,#fff)">Marc LeMay</a>
+      <nav style="display:flex;flex-wrap:wrap;gap:8px clamp(18px,2.6vw,36px);font-size:17px;font-weight:600">
+        <a href="#work" style="color:var(--soft,#d6cbd9);padding:6px 0" data-h="0">Work</a>
+        <a href="#about" style="color:var(--soft,#d6cbd9);padding:6px 0" data-h="0">About</a>
+        <a href="#contact" style="color:var(--soft,#d6cbd9);padding:6px 0" data-h="0">Contact</a>
+      </nav>
+    </header>
+    <div style="display:flex;flex-wrap:wrap;gap:32px clamp(24px,4.5vw,64px);align-items:center">
+      <div style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:clamp(20px,2.6vw,32px)">
+        <h1 style="margin:0;font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);font-size:clamp(34px,4.2vw,60px);line-height:1.05;letter-spacing:var(--ls,-.015em);max-width:18ch;text-wrap:balance;color:var(--ink,#fff)">Instructional Design and Learning Experience Specialist</h1>
+        
+          <p style="margin:0;font-size:clamp(17px,1.5vw,22px);line-height:1.55;color:var(--soft,#d6cbd9);max-width:36em;text-wrap:pretty">Hi! I’m Marc LeMay, a designer with over two decades of experience crafting learning for adults and developing large-scale creative projects. I specialize in making complex subjects digestible and engaging, especially for reluctant learners. Music theory students and busy parents often come to me skeptical, but leave with new perspectives on the material.</p>
+        
+        
       </div>
-      <div class="hero-portrait">
-        <img src="img/marc.png" alt="Marc LeMay" width="900" height="699">
+      <div style="flex:0 0 clamp(160px,22vw,280px)">
+        
+          <img src="img/marc-cutout.webp" alt="Marc LeMay" width="760" height="876" style="display:block;width:100%;height:auto;filter:drop-shadow(0 12px 34px rgba(142,58,87,.38))">
+        
+        
       </div>
     </div>
+  </div>
+  </div>
 
-    <section id="work" class="work-list">
-      <div class="work-head"><span>Selected work</span></div>
-
-      <a class="work-row" href="module-write-up/">
-        <span class="work-num">01</span>
-        <span class="work-body">
-          <span class="work-title">Conscious Discipline at Home</span>
-          <span class="work-note">A free, self-paced eLearning module for busy parents that introduces them to a framework for de-escalation used by their children’s schools. Science-backed lessons, with assessments that ask the parents to type what they would actually say in real-life scenarios.</span>
+  <section id="work" data-screen-label="Selected work">
+    <div style="--bg:#F1F4F7;--ink:#25293C;--soft:#3B3E4C;--muted:#5F6272;--line:#D3DAE2;--hover:#E8EDF2;--fill:#E4E9EF;--accent:#1F6FAD;--field:#9FC3DF;--btn:#25293C;--btnh:#1F6FAD;background:#F1F4F7;color:#25293C;box-shadow:0 1px 0 #F1F4F7;padding-top:clamp(24px,2.8vw,40px);padding-bottom:clamp(12px,1.4vw,18px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+      <h2 style="margin:0;font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);font-size:clamp(28px,3vw,42px);line-height:1.1;letter-spacing:var(--ls,-.015em);color:var(--ink,#241A28)">Selected work</h2>
+    </div>
+    </div>
+    <div style="--bg:#F1F4F7;--ink:#25293C;--soft:#3B3E4C;--muted:#5F6272;--line:#D3DAE2;--hover:#E8EDF2;--fill:#E4E9EF;--accent:#1F6FAD;--field:#9FC3DF;--btn:#25293C;--btnh:#1F6FAD;background:#F1F4F7;color:#25293C;box-shadow:0 1px 0 #F1F4F7;padding-top:0;padding-bottom:clamp(32px,3.6vw,52px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:clamp(6px,1vw,12px)">
+      <a href="module-write-up/" style="display:flex;flex-wrap:wrap;gap:16px clamp(24px,4.5vw,64px);align-items:flex-start;padding:clamp(10px,1.4vw,16px) 0;border-radius:4px;transition:background .15s ease,box-shadow .15s ease" data-h="1">
+        <span style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);font-size:clamp(22px,2.3vw,32px);line-height:1.15;letter-spacing:var(--ls,-.015em);color:var(--ink,#241A28);text-wrap:balance">Conscious Discipline at Home</span>
+          <span style="font-size:clamp(16px,1.2vw,18px);line-height:1.55;color:var(--soft,#463A4B);text-wrap:pretty">A free, self-paced eLearning module for busy parents that introduces them to a framework for de-escalation used by their children’s schools. Science-backed lessons, with assessments that ask the parents to type what they would actually say in real-life scenarios.</span>
+          <span style="font-size:16px;font-weight:700;color:var(--accent,#8E3A57)">Write-up →</span>
         </span>
-        <span class="work-thumb"><img src="module-write-up/img/beta-03.webp" alt="" loading="lazy"></span>
-        <span class="work-tag">Write-up &rarr;</span>
+        <span style="flex:0 0 clamp(170px,30vw,340px);aspect-ratio:2/1;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px var(--line,#E2D9E3)">
+          <img src="img/thumb-module.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover">
+        </span>
       </a>
-
-      <a class="work-row" href="rise/">
-        <span class="work-num">02</span>
-        <span class="work-body">
-          <span class="work-title">Rise 360 sample module</span>
-          <span class="work-note">Parts of the Conscious Discipline module rebuilt in an authoring tool, along with an account of where the tool fell short.</span>
+      <a href="rise/" style="display:flex;flex-wrap:wrap;gap:16px clamp(24px,4.5vw,64px);align-items:flex-start;padding:clamp(10px,1.4vw,16px) 0;border-radius:4px;transition:background .15s ease,box-shadow .15s ease" data-h="1">
+        <span style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);font-size:clamp(22px,2.3vw,32px);line-height:1.15;letter-spacing:var(--ls,-.015em);color:var(--ink,#241A28);text-wrap:balance">Rise 360 sample module</span>
+          <span style="font-size:clamp(16px,1.2vw,18px);line-height:1.55;color:var(--soft,#463A4B);text-wrap:pretty">Parts of the Conscious Discipline module rebuilt in an authoring tool, along with an account of where the tool fell short.</span>
+          <span style="font-size:16px;font-weight:700;color:var(--accent,#8E3A57)">Write-up →</span>
         </span>
-        <span class="work-thumb"><img src="img/rise/theme-panel.png" alt="" loading="lazy"></span>
-        <span class="work-tag">Write-up &rarr;</span>
+        <span style="flex:0 0 clamp(170px,30vw,340px);aspect-ratio:2/1;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px var(--line,#E2D9E3)">
+          <img src="img/thumb-rise.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover">
+        </span>
       </a>
-
-      <a class="work-row" href="other-work/">
-        <span class="work-num">03</span>
-        <span class="work-body">
-          <span class="work-title">Sequencing a graduate course</span>
-          <span class="work-note">Sample slides from a graduate-level music theory course I taught, showing how I sequence a lecture: open with exploratory questions, learn the methods, then use the methods to answer the questions.</span>
+      <a href="other-work/" style="display:flex;flex-wrap:wrap;gap:16px clamp(24px,4.5vw,64px);align-items:flex-start;padding:clamp(10px,1.4vw,16px) 0;border-radius:4px;transition:background .15s ease,box-shadow .15s ease" data-h="1">
+        <span style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);font-size:clamp(22px,2.3vw,32px);line-height:1.15;letter-spacing:var(--ls,-.015em);color:var(--ink,#241A28);text-wrap:balance">Sequencing a graduate course</span>
+          <span style="font-size:clamp(16px,1.2vw,18px);line-height:1.55;color:var(--soft,#463A4B);text-wrap:pretty">Sample slides from a graduate-level music theory course I taught, showing how I sequence a lecture: open with exploratory questions, learn the methods, then use the methods to answer the questions.</span>
+          <span style="font-size:16px;font-weight:700;color:var(--accent,#8E3A57)">Slides →</span>
         </span>
-        <span class="work-thumb"><img src="img/slides/46.jpg" alt="" loading="lazy"></span>
-        <span class="work-tag">Slides &rarr;</span>
+        <span style="flex:0 0 clamp(170px,30vw,340px);aspect-ratio:2/1;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px var(--line,#E2D9E3)">
+          <img src="img/thumb-slides.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover">
+        </span>
       </a>
+    </div>
+    </div>
+  </section>
 
-      <div class="work-row pending">
-        <span class="work-num">04</span>
-        <span class="work-body">
-          <span class="work-title">Gamified learning for front-line workers</span>
-          <span class="work-note">A short, playable module for busy staff that uses learning to address real problems of profit and loss.</span>
-        </span>
-        <span class="work-thumb work-thumb-empty">In build</span>
-        <span class="work-tag" aria-hidden="true"></span>
+  <section id="about" data-screen-label="About">
+    <div style="--bg:#FAFBFC;--ink:#25293C;--soft:#3B3E4C;--muted:#5F6272;--line:#DEE3E9;--hover:#F1F4F7;--fill:#F1F4F7;--accent:#1F6FAD;--field:#9FC3DF;--btn:#25293C;--btnh:#1F6FAD;background:#FAFBFC;color:#25293C;box-shadow:0 1px 0 #FAFBFC;padding-top:clamp(24px,2.8vw,40px);padding-bottom:clamp(32px,3.6vw,52px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:clamp(40px,4.5vw,64px)">
+
+      <div style="display:flex;flex-direction:column">
+        <div style="display:flex;flex-wrap:wrap;gap:24px clamp(28px,4.5vw,64px);align-items:flex-start;margin-bottom:clamp(28px,3.4vw,40px)">
+          <div style="flex:1 1 340px;min-width:0;max-width:600px;display:flex;flex-direction:column">
+            <div style="margin-bottom:clamp(18px,2.4vw,28px)"><h2 style="margin:0;font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);letter-spacing:var(--ls,-.015em);color:var(--ink,#fff);font-size:clamp(28px,3vw,42px);line-height:1.1">Meet the Designer</h2></div>
+            <p style="margin:0;font-size:clamp(19px,1.9vw,26px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty">My twin passions are education and creative collaboration.</p>
+            <h2 style="margin:clamp(28px,3.4vw,44px) 0 clamp(18px,2.4vw,26px);font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);letter-spacing:var(--ls,-.015em);color:var(--ink,#fff);font-size:clamp(24px,2.6vw,36px);line-height:1.1">As an Educator</h2>
+            <ul style="list-style:none;margin:0 0 0 -5px;padding:clamp(20px,2.6vw,30px) clamp(18px,2.4vw,28px);background:var(--fill,#271b2d);border-radius:8px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));gap:clamp(18px,2.4vw,28px) clamp(20px,3vw,36px)">
+              <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display:block;font-weight:800;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.02em;color:var(--accent,#cbe45a);margin-bottom:6px">20</span>years, 6 universities, 1,200+ students</li>
+              <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display:block;font-weight:800;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.02em;color:var(--accent,#cbe45a);margin-bottom:6px">13</span>courses built from scratch</li>
+              <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display:block;font-weight:800;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.02em;color:var(--accent,#cbe45a);margin-bottom:6px">500+</span>private students, tailor-made lessons for each of them</li>
+            </ul>
+          </div>
+          <figure style="order:-1;flex:0 0 clamp(220px,30vw,360px);margin:0;display:flex;flex-direction:column;gap:8px">
+            <img src="img/marc-about-fsu-shortfade.png" alt="Marc LeMay teaching a class at FSU" width="900" height="1007" style="display:block;width:100%;height:auto;transform:scaleX(-1)">
+            <figcaption style="font-size:15px;line-height:1.4;color:var(--muted,#b79cbd)">Actual action shot of me teaching, FSU 2023</figcaption>
+          </figure>
+        </div>
+        <ul style="list-style:none;margin:0;padding:0;columns:2 340px;column-gap:clamp(24px,4vw,64px)">
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Alignment:</strong> all materials driven by learning objectives</li>
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Assessments test deep engagement, not just memorization:</strong> analytical writing and creative projects, rather than exams</li>
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Translating complex theoretical material</strong> into digestible, engaging learning, especially for learners who come to the material skeptical</li>
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color: var(--ink,#fff); font-weight: 700;">Strong public-facing communication skills</strong>, which carry into instructional design, learning facilitation, and proficiency in communicating with LLMs</li>
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Appreciation for gray areas:</strong> real knowledge production often involves addressing multiple conflicting ideas at once</li>
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Accessibility and LMS management:</strong> eight courses moved fully online during the pandemic, plus five more taught as hybrids; recorded and captioned video lectures, tracked engagement analytics, and authored quizzes and discussion boards in Canvas and D2L Brightspace</li>
+        </ul>
       </div>
-    </section>
+    </div>
+    </div>
+    <div style="--bg:#FAFBFC;--ink:#25293C;--soft:#3B3E4C;--muted:#5F6272;--line:#DEE3E9;--hover:#F1F4F7;--fill:#F1F4F7;--accent:#1F6FAD;--field:#9FC3DF;--btn:#25293C;--btnh:#1F6FAD;background:#FAFBFC;color:#25293C;box-shadow:0 1px 0 #FAFBFC;padding-top:clamp(14px,1.8vw,26px);padding-bottom:clamp(32px,3.6vw,52px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:clamp(40px,4.5vw,64px)">
+      <div style="display:flex;flex-direction:column">
+        <h2 style="margin:0 0 clamp(18px,2.4vw,26px);font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);letter-spacing:var(--ls,-.015em);color:var(--ink,#fff);font-size:clamp(24px,2.6vw,36px);line-height:1.1">As a Creator</h2>
+        <div style="display:flex;flex-wrap:wrap;gap:20px clamp(28px,4.5vw,64px);align-items:stretch;margin-bottom:clamp(28px,3.4vw,40px)">
+          <figure style="order:2;flex:0 0 clamp(220px,30vw,360px);margin:0;display:flex;flex-direction:column;gap:8px">
+            <div style="position:relative;flex:1;min-height:160px;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px var(--line,#35243a),0 8px 20px -12px rgba(0,0,0,.28)">
+              <img src="img/marc-studio-2012.jpg" alt="Marc LeMay reading a score at a rehearsal of one of his orchestra pieces, 2012" width="900" height="702" loading="lazy" style="position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:35% 35%">
+            </div>
+            <figcaption style="font-size:15px;line-height:1.4;color:var(--muted,#b79cbd)">Orchestral reading and recording session, 2012</figcaption>
+          </figure>
+          <ul style="list-style:none;margin:0 0 0 -5px;padding:clamp(20px,2.6vw,30px) clamp(18px,2.4vw,28px);background:var(--fill,#271b2d);border-radius:8px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));gap:clamp(18px,2.4vw,28px) clamp(20px,3vw,36px);flex:1 1 340px;min-width:0;max-width:600px;box-sizing:border-box;align-content:start">
+            <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display:block;font-weight:800;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.02em;color:var(--accent,#cbe45a);margin-bottom:6px">25</span>years as a composer, arranger, songwriter, and sound designer</li>
+            <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display:block;font-weight:800;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.02em;color:var(--accent,#cbe45a);margin-bottom:6px">33</span>contemporary classical pieces composed, many on commission, across a variety of instrumentations</li>
+            <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display:block;font-weight:800;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.02em;color:var(--accent,#cbe45a);margin-bottom:6px">30</span>plays (music and/or sound design), 3 film scores, 2 albums (orchestral arrangements)</li>
+          </ul>
+        </div>
+        <ul style="list-style:none;margin:0;padding:0;columns:2 340px;column-gap:clamp(24px,4vw,64px)">
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color: var(--ink,#fff); font-weight: 700;">Constant adaptation to new technology:</strong> engraving software, digital audio workstations, synthesizers, and much more</li>
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Big picture:</strong> envisioning the structure of an entire piece before any note is written, crafting flow from section to section that is both logical and engaging</li>
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Micro-decisions:</strong> thousands of details, each decided to work in the moment and align with the piece’s aesthetic goals, just as every aspect of my learning modules aligns with their learning objectives<span style="display:block;margin-top:clamp(14px,1.8vw,22px);font-size:16px"><a href="https://marclemaymusic.com" target="_blank" rel="noopener" style="color:var(--muted,#6A5C6E);text-decoration:underline;text-decoration-color:var(--line,#E2D9E3);text-underline-offset:4px" data-h="2">marclemaymusic.com</a></span></li>
+        </ul>
+      </div>
+    </div>
+    </div>
+    <div style="--bg:#FAFBFC;--ink:#25293C;--soft:#3B3E4C;--muted:#5F6272;--line:#DEE3E9;--hover:#F1F4F7;--fill:#F1F4F7;--accent:#1F6FAD;--field:#9FC3DF;--btn:#25293C;--btnh:#1F6FAD;background:#FAFBFC;color:#25293C;box-shadow:0 1px 0 #FAFBFC;padding-top:clamp(14px,1.8vw,26px);padding-bottom:clamp(32px,3.6vw,52px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:clamp(40px,4.5vw,64px)">
+      <div style="display:flex;flex-direction:column">
+        <h2 style="margin:0 0 clamp(18px,2.4vw,26px);font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);letter-spacing:var(--ls,-.015em);color:var(--ink,#fff);font-size:clamp(24px,2.6vw,36px);line-height:1.1">As a Business Professional</h2>
+        <ul style="list-style:none;margin:0 0 0 -5px;padding:clamp(20px,2.6vw,30px) clamp(18px,2.4vw,28px);background:var(--fill,#271b2d);border-radius:8px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));gap:clamp(18px,2.4vw,28px) clamp(20px,3vw,36px);margin-bottom:clamp(28px,3.4vw,40px);grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))">
+          <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display:block;font-weight:800;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.02em;color:var(--accent,#cbe45a);margin-bottom:6px">350</span>students whose curricula I oversaw as Director of Undergraduate Studies</li>
+          <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display: block; font-weight: 800; font-size: clamp(24px, 2.4vw, 32px); line-height: 1; letter-spacing: -0.02em; color: var(--accent,#cbe45a); margin-bottom: 6px;">27</span>individualized graduate-level music theory comprehensive exams devised and conducted</li>
+          <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display:block;font-weight:800;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.02em;color:var(--accent,#cbe45a);margin-bottom:6px">9</span>aspiring professionals mentored through capstone projects, recitals, and career applications</li>
+          <li style="font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--soft,#d6cbd9);text-wrap:pretty"><span style="display:block;font-weight:800;font-size:clamp(24px,2.4vw,32px);line-height:1;letter-spacing:-.02em;color:var(--accent,#cbe45a);margin-bottom:6px">8</span>large multimedia projects created in collaboration with other artists</li>
+        </ul>
+        <ul style="list-style:none;margin:0;padding:0;columns:2 340px;column-gap:clamp(24px,4vw,64px)">
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Project management:</strong> every commissioned piece is a project with stakeholders whose needs I have to meet, including delivering finished work on time and to spec</li>
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Creative collaboration:</strong> my favorite part of any design project; I’ve worked with dozens of visual artists, choreographers, dancers, theatre artists, filmmakers, and other creative professionals. I love being part of a team working toward the same goal</li>
+          <li style="break-inside:avoid;margin:0 0 clamp(12px,1.4vw,16px);max-width:62ch;font-size:clamp(16px,1.25vw,18px);line-height:1.5;color:var(--soft,#d6cbd9);text-wrap:pretty"><strong style="color:var(--ink,#fff);font-weight:700">Leadership:</strong> besides my role as Director of Undergraduate Studies, I also reported assessment data from five course sections and audited curricula against career-readiness competencies as one of four GSU College of the Arts fellows on the university’s Quality Enhancement Plan</li>
+        </ul>
+      </div>
 
-    <section class="why">
-      <div>
-        <h2>Why Instructional Design? Why now?</h2>
-        <p class="prose">I spent more than two decades as a designer and educator in higher ed. I loved teaching: the interactions with students, the thrill of seeing them grow, and the fun and challenge of designing effective learning.</p>
-        <p class="prose">But I’ve encountered two main obstacles to continuing my career in academia:</p>
-        <ol>
-          <li><span>I resigned a full-time faculty position at Georgia State University to support my wife’s academic career at FSU and be the primary caretaker at home. I’d make the same choice again, but both of us building academic careers in one college town hasn’t been sustainable.</span></li>
-          <li><span>The pace and evaluative frameworks of higher ed left me frustrated. My attempts to innovate curricula to make them more learner-centric, technology-forward, and culturally relevant have met a lot of resistance from an entrenched system. And with a culture short on accountability, change is slow and problems remain unfixed.</span></li>
-        </ol>
-        <div class="want">
-        <h2>What I Want Now</h2>
-        <p class="prose">To put my experience and skills to work in a faster-paced environment that is strong on critique and accountability, all with the goal of shipping the best learning experiences possible in the time they’re needed. That is why I am pivoting to full-time instructional design.</p>
-        <p class="prose more"><a href="about/">Find out more →</a></p>
+      <div style="margin-left:-5px;padding:clamp(20px,2.6vw,30px) clamp(18px,2.4vw,28px);background:var(--fill,#271b2d);border-radius:8px;display:flex;flex-direction:column;gap:14px">
+        <h3 style="margin:0;font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);font-size:clamp(19px,1.8vw,24px);line-height:1.2;color:var(--ink,#fff)">Skills and Tools</h3>
+        <div style="display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 24px;font-size:clamp(15px,1.15vw,17px);line-height:1.55;color:var(--soft,#d6cbd9)">
+          <p style="margin:0;font-weight:700;color:var(--accent,#cbe45a)">Design</p>
+          <p style="margin:0">Needs analysis · learning objectives · curriculum and course design · rubric and assessment design · rules-based scoring · scripts and storyboarding · program assessment and reporting · accessibility (Section 508, WCAG 2.1 AA)</p>
+          <p style="margin:0;font-weight:700;color:var(--accent,#cbe45a)">Tools</p>
+          <p style="margin:0">Rise 360 · Microsoft 365 (PowerPoint, advanced; Teams; SharePoint) · Canvas · D2L Brightspace · Figma · HTML, CSS, and JavaScript · Pro Tools · Final Cut Pro · DaVinci Resolve · AI-assisted build and drafting (Claude, ChatGPT, Gemini)</p>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+    </div>
+  </section>
 
-  <footer class="site-foot">
-    <div class="foot-row">
-      <div class="foot-links">
-        <a class="foot-mail" href="mailto:marclemaydesign@gmail.com">marclemaydesign@gmail.com</a>
-        <a class="foot-label" href="resume.pdf">Resume (PDF)</a>
-        <a class="foot-label foot-in" href="https://www.linkedin.com/in/marclemaydesign" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false" style="display:block"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.850 3.37-1.850 3.601 0 4.267 2.370 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
+  <section id="contact" data-screen-label="Contact">
+    <div style="--bg:#25293C;--ink:#ffffff;--soft:#D5D9E3;--muted:#AEB4C4;--line:#3A4057;--hover:#2C3146;--fill:#30354A;--accent:#8CC0E8;--field:#4A5068;--btn:#1F6FAD;--btnh:#2B80C2;background:#25293C;color:#ffffff;box-shadow:0 1px 0 #25293C;padding-top:clamp(24px,2.8vw,40px);padding-bottom:clamp(12px,1.4vw,18px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:clamp(14px,1.8vw,22px)">
+      <h2 style="margin:0;font-family:var(--head,'Source Serif 4',Georgia,serif);font-weight:var(--hw,600);font-size:clamp(28px,3vw,42px);line-height:1.1;letter-spacing:var(--ls,-.015em);color:var(--ink,#241A28)">Contact</h2>
+      <p style="margin:0;max-width:34em;font-size:clamp(17px,1.5vw,21px);line-height:1.5;color:var(--soft,#463A4B);text-wrap:pretty">If you’d like to discuss a project or a position, or you’re a fellow instructional designer who just wants to reach out, let’s connect!</p>
+    </div>
+    </div>
+    <div style="--bg:#25293C;--ink:#ffffff;--soft:#D5D9E3;--muted:#AEB4C4;--line:#3A4057;--hover:#2C3146;--fill:#30354A;--accent:#8CC0E8;--field:#4A5068;--btn:#1F6FAD;--btnh:#2B80C2;background:#25293C;color:#ffffff;box-shadow:0 1px 0 #25293C;padding-top:0;padding-bottom:clamp(32px,3.6vw,52px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-wrap:wrap;gap:40px clamp(24px,4.5vw,64px);align-items:flex-start">
+      <form id="contact-form" action="https://formspree.io/f/xkjggqog" method="POST" style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:18px;max-width:640px">
+        <div style="display:flex;flex-wrap:wrap;gap:18px">
+          <label for="cf-name" style="flex:1 1 220px;display:flex;flex-direction:column;gap:6px;font-size:16px;font-weight:600;color:var(--ink,#241A28)">Your name<input id="cf-name" name="name" type="text" required="required" autocomplete="name" style="font:inherit;font-weight:400;padding:11px 12px;border:1px solid var(--field,#B9A8BC);border-radius:6px;background:#fff;color:#241A28"></label>
+          <label for="cf-email" style="flex:1 1 220px;display:flex;flex-direction:column;gap:6px;font-size:16px;font-weight:600;color:var(--ink,#241A28)">Email<input id="cf-email" name="email" type="email" required="required" autocomplete="email" placeholder="you@company.com" style="font:inherit;font-weight:400;padding:11px 12px;border:1px solid var(--field,#B9A8BC);border-radius:6px;background:#fff;color:#241A28"></label>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:16px;font-weight:600;color:var(--ink,#241A28)"><span>Organization <span style="font-weight:400;color:var(--muted,#6A5C6E)">(optional)</span></span><input id="cf-org" name="organization" type="text" autocomplete="organization" style="font:inherit;font-weight:400;padding:11px 12px;border:1px solid var(--field,#B9A8BC);border-radius:6px;background:#fff;color:#241A28"></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:16px;font-weight:600;color:var(--ink,#241A28)">Message<textarea id="cf-message" name="message" required="required" rows="5" style="font:inherit;font-weight:400;padding:11px 12px;border:1px solid var(--field,#B9A8BC);border-radius:6px;background:#fff;color:#241A28;resize:vertical"></textarea></label>
+        <div style="display:flex;gap:16px;align-items:center">
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center"><button class="send" type="submit" style="font:inherit;font-weight:700;padding:12px 28px;border:0;border-radius:6px;background:var(--btn,#241A28);color:#fff;cursor:pointer" data-h="3">Send</button>
+          <p id="form-error" role="alert" hidden="hidden" style="margin:0;font-size:15px;color:var(--accent)"></p>
+        </div></div>
+      </form>
+      <div id="form-sent" hidden="hidden" style="flex:1 1 340px;min-width:0;max-width:640px;display:flex;flex-direction:column;gap:8px">
+        <h3 style="margin:0;font-family:var(--head);font-weight:var(--hw);font-size:clamp(22px,2.2vw,28px);color:var(--ink)">Sent — thank you!</h3>
+        <p style="margin:0;color:var(--soft)">If it’s urgent, you can email me directly at <a href="mailto:marclemaydesign@gmail.com" style="color:var(--accent);font-weight:600">marclemaydesign@gmail.com</a></p>
       </div>
+      <div style="flex:0 0 clamp(170px,30vw,340px);display:flex;flex-direction:column;gap:24px;font-size:16px;line-height:1.5;color:var(--soft,#463A4B)">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <p style="margin:0;font-weight:700;color:var(--ink,#241A28)">Availability</p>
+          <p style="margin:0;text-wrap:pretty">Open to full-time instructional design roles, remote or Tallahassee-based. Also available for project work.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <p style="margin:0;font-weight:700;color:var(--ink,#241A28)">Where I am</p>
+          <p style="margin:0;text-wrap:pretty">Tallahassee, Florida (EST). Part of each year in London (UK time). Remote from both.</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="--bg:#25293C;--ink:#ffffff;--soft:#D5D9E3;--muted:#AEB4C4;--line:#3A4057;--hover:#2C3146;--fill:#30354A;--accent:#8CC0E8;--field:#4A5068;--btn:#1F6FAD;--btnh:#2B80C2;background:#25293C;color:#ffffff;box-shadow:0 1px 0 #25293C;padding-top:clamp(24px,2.8vw,36px);padding-bottom:clamp(28px,3.2vw,44px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-wrap:wrap;gap:12px clamp(14px,2.6vw,34px);align-items:center">
+      <a href="mailto:marclemaydesign@gmail.com" style="font-size:clamp(15px,1.3vw,18px);font-weight:600;color:var(--ink,#fff);border-bottom:2px solid var(--accent,#cbe45a);padding-bottom:2px">marclemaydesign@gmail.com</a>
+      <a href="resume.pdf" style="font-size:15px;font-weight:600;color:var(--soft,#d6cbd9)" data-h="4">Resume (PDF)</a>
+      <a href="https://www.linkedin.com/in/marclemaydesign" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn" style="display:flex;align-items:center;color:var(--soft,#d6cbd9)" data-h="4"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false" style="display:block"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.850 3.37-1.850 3.601 0 4.267 2.370 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg></a>
     </div>
   </footer>
 
+
 </div>
+</div>
+</div>
+<script src="js/contact.js" defer="defer"></script>
 </body>
 </html>

@@ -5,3 +5,7 @@
 /case-study /module-write-up/ 301
 /case-study/ /module-write-up/ 301
 /case-study/* /module-write-up/:splat 301
+/about /#about 301
+/about/ /#about 301
+/contact /#contact 301
+/contact/ /#contact 301
