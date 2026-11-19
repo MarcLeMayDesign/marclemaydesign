@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Skill: Knowledge Check Generator — Marc LeMay</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="A Claude Skill that writes scenario-based multiple-choice questions, with feedback for every option, from a learning module or training document.">
+<!-- 19 Nov [MARC]: built from Skill Page - Writing Screen.dc.html. Marc's words placed exactly; flags in Proofreading Flags - Skill Page.dc.html. Home rules. Self-contained (no site.css). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#25293C}
+a{color:inherit;text-decoration:none}
+a:hover{color:#1F6FAD}
+:focus-visible{outline:2px solid #1F6FAD;outline-offset:3px}
+[data-h="0"]:hover{color:#fff !important;text-decoration:underline !important;text-underline-offset:5px !important}
+[data-h="4"]:hover{color:#8CC0E8 !important}
+[data-h="6"]:hover{background:#2B80C2 !important;color:#fff !important}
+section a:hover{color:#25293C !important}
+</style>
+</head>
+<body>
+<div style="min-height:100vh;font-family:'Libre Franklin',system-ui,sans-serif;font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;color:#25293C">
+
+  <div data-screen-label="Hero" style="background:#25293C;color:#fff;padding-top:clamp(16px,2.4vw,32px);padding-bottom:clamp(36px,4.4vw,60px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+      <header style="display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:baseline;margin-bottom:clamp(32px,4vw,56px)">
+        <a href="../../" style="font-size:18px;font-weight:700;color:#fff">Marc LeMay</a>
+        <nav style="display:flex;flex-wrap:wrap;gap:8px clamp(18px,2.6vw,36px);font-size:17px;font-weight:600">
+          <a href="../../#work" aria-current="page" style="color:#fff;padding:6px 0" data-h="0">Work</a>
+          <a href="../../#about" style="color:#D5D9E3;padding:6px 0" data-h="0">About</a>
+          <a href="../../#contact" style="color:#D5D9E3;padding:6px 0" data-h="0">Contact</a>
+        </nav>
+      </header>
+      <div style="display:flex;flex-direction:column;gap:clamp(18px,2.2vw,28px);max-width:760px">
+        <h1 style="margin:0;font-weight:700;font-size:clamp(34px,4.2vw,60px);line-height:1.05;letter-spacing:-.025em;text-wrap:balance;color:#fff">Claude Skill: Knowledge Check Generator</h1>
+        <p style="margin:0;font-size:clamp(17px,1.5vw,22px);line-height:1.55;color:#D5D9E3;text-wrap:pretty">This Claude Skill allows course designers to generate multiple-choice assessment questions from a learning module or training document. Each question is scenario-based, single-task specific, and includes constructive feedback for each answer option. I wrote the rules and tested it on three different sources, including OneStream’s own product documentation. To try it, download the .zip file below and upload it to Claude’s Skills section.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="knowledge-check-generator.zip" download style="font-weight:700;font-size:17px;padding:12px 20px;background:#1F6FAD;color:#fff;border-radius:4px" data-h="6">Download the Skill (.zip)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section data-screen-label="Testing" style="background:#FAFBFC;padding:clamp(40px,5vw,72px) 0">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:clamp(18px,2.4vw,26px)">
+      <h2 style="margin:0;font-weight:700;font-size:clamp(28px,3vw,42px);line-height:1.1;letter-spacing:-.025em;color:#25293C">How I tested it</h2>
+      <p style="margin:0;max-width:40em;color:#3B3E4C;text-wrap:pretty">The first test, using OneStream’s Modern Browser Experience Guide (POV section, pp. 62–64), included a few instances of drift. The biggest issue was that one wrong answer option was defensibly correct. To fix it, I added a rule that scenarios can only use what the source says.</p>
+      <p style="margin:0;max-width:40em;color:#3B3E4C;">The second test, using my Conscious Discipline module (<a href="https://marclemaydesign.com/module/" style="color:#1F6FAD;text-decoration:underline;text-underline-offset:3px">marclemaydesign.com/<wbr>module/</a>), was a strong run. Some of the feedback responses drifted slightly from my example in the kinds of feedback openers given (mine were only “Correct”, “Not quite”, and “You’re close”; Claude also generated some like “You’re close in spirit” and “Good instinct”). I found this drift to be acceptable, given the tone fit the feel of the module well.</p>
+      <p style="margin:0;max-width:40em;color:#3B3E4C;text-wrap:pretty">The third test used OSHA’s Heat-Related Illnesses and First Aid fact sheet as a source. The first run found that the Skill rule regarding not using verbatim wording in correct answers was bent in all three of the sample questions: Claude stayed too close to the source wording. Since this would allow a learner to too easily skim the answer options for wording they encountered before, it required a fix in the Skill’s Steps: I added in the “Correct answer” step an instruction to check for this and rephrase if it found the wording was too close.</p>
+      <p style="margin:0;max-width:40em;color:#3B3E4C;text-wrap:pretty">Still to fix: in Tests 1 and 3, a key word in a scenario was shared only with the correct answer, which went against the Skill’s rules.</p>
+    </div>
+  </section>
+
+  <section data-screen-label="File" style="background:#F1F4F7;padding:clamp(40px,5vw,72px) 0">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:clamp(18px,2.4vw,26px)">
+      <h2 style="margin:0;font-weight:700;font-size:clamp(28px,3vw,42px);line-height:1.1;letter-spacing:-.025em;color:#25293C">See the full SKILL.md file below</h2>
+      <pre style="margin:0 0 0 -5px;padding:clamp(18px,2.4vw,28px);background:#fff;border:1px solid #DEE3E9;border-radius:8px;font-family:ui-monospace,Menlo,monospace;font-size:14px;line-height:1.55;color:#25293C;white-space:pre-wrap;word-break:break-word">---
+name: knowledge-check-generator
+description: This skill generates multiple-choice assessment questions from a provided source, such as a learning module or instructional document. Each question includes answer options (four by default), with feedback given for each. Use when user types "write a quiz", "generate a quiz", "create some questions", "make a knowledge check", "generate multiple-choice", and similar phrases. Do not use for reviewing existing questions.
+---
+
+&lt;!-- An independent learning project. Not affiliated with Conscious Discipline or Loving Guidance, Inc., but reviewed by a Certified Conscious Discipline Instructor.
+Content adapted from Conscious Discipline www.ConsciousDiscipline.com 800-842-2846 --&gt;
+
+# Knowledge Check Generator
+
+Generates multiple-choice questions that focus on assessing how a learner uses critical thinking to solve a task, rather than assessing based on rote recall. Feedback for each option gives the learner a clear sense of where they are strong and where they might need to review the materials before moving on. This helps the course designer generate questions that can easily be dropped into a learning module.
+
+## Inputs
+- Source document or module; if no source given, ask for it
+- Who the learners are; if no information on learners given, infer from the source and say what you assumed
+- What are the overall learning objectives; if none given, infer from the source and say what you assumed
+- Goal or task of the specific question; if not given, take the tasks from the source and learning objectives
+- How many answer options per question; if no number is specified, default to four answer options
+- How many questions are needed; if no number is specified, start by generating three and follow up to ask the user how many more they'd like
+
+Ask for everything missing in one message.
+
+## Steps
+1. Pull from the source the tasks it teaches a learner to do
+2. Choose the most important tasks, one per question (see Inputs for how many); generate one scenario per task. If there are fewer tasks than the number of questions requested in Inputs, repeat the most important tasks across multiple questions, with a new scenario each time
+3. Write the question stem
+4. Write the correct answer: it should be tied to a specific line or lines from the source; check each correct answer with its source line; if the wording matches, rephrase it
+5. Write other answer options: wrong answer options should come from real mistakes or misunderstandings a learner might make, not just something false
+6. Write feedback for each answer option
+7. Check each question against the question and feedback rules and fix any that break a rule before reporting. Check especially for a key word shared by the scenario or stem and only the correct answer
+
+## Question rules
+- No "all/none of the above" options allowed: these are a multiple-choice cheat that doesn't test real learning
+- No negative stems (NOT, EXCEPT) or double negatives: each stem should guide the learner, not force them to think in negations
+- Each question tests only a single task: this helps make each question pointed and direct, and aligns with the purpose
+- Each question approaches the task in a way that requires the learner to think critically or solve a problem scenario, rather than rely on rote recall: rote recall is the lowest level on Bloom's taxonomy of learning; we want to test higher levels of critical thinking; this is also in keeping with Knowles's Andragogy Principle regarding problem-centered learning
+- Stems should not share a key word with only the right option: learners can match words instead of using the source
+- Scenarios must only use what the source says: an added detail can make a wrong answer defensibly correct
+- Correct answers should not be copied verbatim from the learning module: this makes a correct answer more like rote recall
+- Vary the letter position of the correct answer so there is no clear pattern: a clear pattern lets learners guess
+- Options should be roughly the same length: an option that is much shorter or longer than the others can stand out as obviously correct
+- Options should be worded in similar structures and tenses: so that no single option stands out as obviously different
+- Wrong answers should be realistic options, and not deliberately obfuscating: don't insult the learner's intelligence, rather challenge them to really think through each option
+- Stems must be written as complete sentences, but answers can be fragments: this is simply to make the questions flow better
+- Questions must be written in plain language: to avoid overly confusing jargon or obfuscating language
+- Questions must not be deliberately misleading: the goal is not to trick the learner, rather challenge them to think through the task realistically
+- Only one option can be defensibly correct: two right answers make the question unfair, and the learner can't show what they know
+
+## Feedback rules
+- Each option must have its own feedback: this is in keeping with a number of adult learning principles, including the ARCS model's Confidence and Satisfaction, as well as Gagné's "Provide Feedback" event
+- Feedback should be drawn only from the source material, and not state anything that the source does not say: this helps keep the learning objectives, the learning itself, and the assessments aligned
+- Wrong-answer feedback names the error, provides warm constructive critique, and points back to where in the module the learner could review to understand the feedback better; this aids in Gagné's "Enhance retention and transfer" event
+- Right-answer feedback says "Correct", and follows up warmly with an explanation of why it is correct; this aids in Gagné's "Enhance retention and transfer" event
+
+## Output format
+- A preamble that states anything assumed from the Inputs process
+- Per question: scenario, stem, answer options (listed with capital letters), correct answer letter, feedback for each option (labeled by its letter, 1-3 sentences only), and the verbatim source line it tests
+- Nothing else: no summary, no notes on how the generated questions and feedback connect to the question and feedback rules; except a preamble, if needed, and a prompt to ask the user if and how many more questions they would like, and for anything they'd like to change
+
+## Example
+Source: https://marclemaydesign.com/module/#lrn-11, https://marclemaydesign.com/module/#lrn-12, https://marclemaydesign.com/module/#lrn-31
+Source lines: 
+- The Survival State: The oldest parts of the brain, working below awareness to keep us safe. Under threat, the brain drops here. Skillset: fight, flight, or freeze (surrender). Nothing else.
+- The Emotional State: Emotions are in control, and rational thinking is almost impossible. It draws on mental models learned through our upbringing and experience, rather than conscious thought. Skillset: unconsciously accessing long-term memory, feeling emotions, assigning blame and making judgments
+- Anyone can drop a state, and it can happen fast, especially if you are at low capacity. Capacity is your store of emotional and social energy. Yours can drain after a long day at work, or unbroken hours of childcare. Your child’s can drain just from holding it together all day at school.
+- The Survival State: Drops to Survival when: you experience a real threat, or even an irritation that feels like one, or your capacity has run out.
+- Noticing your child’s state starts with empathy: understanding, without judgment. You’re looking for what they feel, not trying to stop it. Each state shows up in a child in its own way, and each one is asking a question. Read below to see signs and behaviors to look for to figure out your child’s state. The Survival State “Am I safe?” Fight: hitting, kicking, biting, screaming, tantrums. Flight: running off, hiding. Freeze: going limp, crying, giving up, or going along without taking anything in. 
+- The Emotional State “Am I loved?” This one shows up mostly in words. Blaming, name-calling, “you never,” denying it happened, pulling away from you.
+
+You are in the grocery store with your five-year-old after a long day at school. He's begging for candy, and when you say "no," he lashes out at the nearest item: a jar of pickles. It smashes to the ground, and he flees down the aisle, screaming "It's not fair!!"
+
+What brain state is your child in, and what clues helped you determine that?
+A. Emotional State: he's telling you his feelings and yelling
+B. Survival State: he's being physically violent and running away
+C. Emotional State: he's tired after a long day of school
+D. Survival State: he's annoyed at not getting any candy
+
+Correct Answer Letter: B
+
+Feedback:
+A: You're close. He is expressing some feelings, but in the Emotional State, feelings are usually expressed with words. The screaming is a fight response. Consider checking the signs of each brain state again.
+B: Correct. Survival State puts the child into fight-or-flight mode: smashing the pickles is a fight response, running down the aisle is the flight.
+C: Not quite. While low capacity after a long day can contribute to a drop in brain state, it's a cause of a drop, not a sign of what state your child is in. Consider checking the signs of each brain state again.
+D: You're close. It is Survival State, but annoyance isn't sufficient alone to suggest Survival State; it could simply be a response from the Emotional State. Consider checking the signs of Survival State again.</pre>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="background:#25293C;color:#fff;padding-top:clamp(24px,2.8vw,36px);padding-bottom:clamp(28px,3.2vw,44px)">
+    <div style="box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.5;color:#D5D9E3;max-width:48em">
+        <p style="margin:0">An independent learning project. Not affiliated with Conscious Discipline or Loving Guidance, Inc., but reviewed by a Certified Conscious Discipline Instructor.</p>
+        <p style="margin:0">Content adapted from Conscious Discipline www.ConsciousDiscipline.com 800-842-2846</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px clamp(14px,2.6vw,34px);align-items:center">
+        <a href="mailto:marclemaydesign@gmail.com" style="font-size:clamp(15px,1.3vw,18px);font-weight:600;color:#fff;border-bottom:2px solid #8CC0E8;padding-bottom:2px">marclemaydesign@gmail.com</a>
+        <a href="../../resume.pdf" style="font-size:15px;font-weight:600;color:#D5D9E3" data-h="4">Resume (PDF)</a>
+        <a href="https://www.linkedin.com/in/marclemaydesign" target="_blank" rel="noopener" style="font-size:15px;font-weight:600;color:#D5D9E3" data-h="4">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
